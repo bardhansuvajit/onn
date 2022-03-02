@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+// common & user guard
+Route::prefix('user')->name('user.')->group(function() {
+    Route::middleware(['guest:web'])->group(function() {
+        Route::view('/register', 'auth.register')->name('register');
+        Route::post('/create', 'User\UserController@create')->name('create');
+        Route::view('/login', 'auth.login')->name('login');
+        Route::post('/check', 'User\UserController@check')->name('check');
+    });
+
+    Route::middleware(['auth:web'])->group(function() {
+        Route::view('/home', 'user.home')->name('home');
+    });
+});
+
+// admin guard
+Route::prefix('admin')->name('admin.')->group(function() {
+    Route::middleware(['guest:admin'])->group(function() {
+        Route::view('/login', 'admin.auth.login')->name('login');
+        Route::post('/check', 'Admin\AdminController@check')->name('login.check');
+    });
+
+    Route::middleware(['auth:admin'])->group(function() {
+        // dashboard
+        Route::view('/home', 'admin.home')->name('home');
+
+        // category
+        Route::prefix('category')->name('category.')->group(function() {
+            Route::get('/', 'Admin\CategoryController@index')->name('index');
+            Route::post('/store', 'Admin\CategoryController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\CategoryController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\CategoryController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\CategoryController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\CategoryController@destroy')->name('delete');
+        });
+
+        // sub-category
+        Route::prefix('subcategory')->name('subcategory.')->group(function() {
+            Route::get('/', 'Admin\SubCategoryController@index')->name('index');
+            Route::post('/store', 'Admin\SubCategoryController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\SubCategoryController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\SubCategoryController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\SubCategoryController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\SubCategoryController@destroy')->name('delete');
+        });
+
+        // collection
+        Route::prefix('collection')->name('collection.')->group(function() {
+            Route::get('/', 'Admin\CollectionController@index')->name('index');
+            Route::post('/store', 'Admin\CollectionController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\CollectionController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\CollectionController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\CollectionController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\CollectionController@destroy')->name('delete');
+        });
+
+        // coupon
+        Route::prefix('coupon')->name('coupon.')->group(function() {
+            Route::get('/', 'Admin\CouponController@index')->name('index');
+            Route::post('/store', 'Admin\CouponController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\CouponController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\CouponController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\CouponController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\CouponController@destroy')->name('delete');
+        });
+
+        // customer
+        Route::prefix('customer')->name('customer.')->group(function() {
+            Route::get('/', 'Admin\UserController@index')->name('index');
+            Route::post('/store', 'Admin\UserController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\UserController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\UserController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\UserController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\UserController@destroy')->name('delete');
+        });
+
+        // product
+        Route::prefix('product')->name('product.')->group(function() {
+            Route::get('/list', 'Admin\ProductController@index')->name('index');
+            Route::get('/create', 'Admin\ProductController@create')->name('create');
+            Route::post('/store', 'Admin\ProductController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\ProductController@show')->name('view');
+            Route::get('/{id}/edit', 'Admin\ProductController@edit')->name('edit');
+            Route::post('/{id}/update', 'Admin\ProductController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\ProductController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\ProductController@destroy')->name('delete');
+        });
+    });
+});
+
+Route::get('/home', 'HomeController@index')->name('home');
