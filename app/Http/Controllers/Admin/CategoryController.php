@@ -12,7 +12,7 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    private CategoryInterface $categoryRepository;
+    // private CategoryInterface $categoryRepository;
 
     public function __construct(CategoryInterface $categoryRepository) 
     {
