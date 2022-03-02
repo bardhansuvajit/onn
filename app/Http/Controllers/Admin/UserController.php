@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    private UserInterface $userRepository;
+    // private UserInterface $userRepository;
 
     public function __construct(UserInterface $userRepository) 
     {

@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class CouponController extends Controller
 {
-    private CouponInterface $couponRepository;
+    // private CouponInterface $couponRepository;
 
     public function __construct(CouponInterface $couponRepository) 
     {

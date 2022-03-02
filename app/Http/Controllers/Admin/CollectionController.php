@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class CollectionController extends Controller
 {
-    private CollectionInterface $collectionRepository;
+    // private CollectionInterface $collectionRepository;
 
     public function __construct(CollectionInterface $collectionRepository) 
     {

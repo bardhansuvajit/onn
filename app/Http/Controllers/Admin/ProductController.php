@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    private ProductInterface $productRepository;
+    // private ProductInterface $productRepository;
 
     public function __construct(ProductInterface $productRepository) 
     {

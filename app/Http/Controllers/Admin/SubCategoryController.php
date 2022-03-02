@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class SubCategoryController extends Controller
 {
-    private SubcategoryInterface $SubcategoryRepository;
+    // private SubcategoryInterface $SubcategoryRepository;
 
     public function __construct(SubcategoryInterface $SubcategoryRepository) 
     {
