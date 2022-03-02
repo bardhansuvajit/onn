@@ -23,8 +23,8 @@ class CreateCouponsTable extends Migration
             $table->bigInteger('max_time_of_use');
             $table->bigInteger('max_time_one_can_use');
             $table->bigInteger('no_of_usage')->default(0);
-            $table->timestamp('start_date');
-            $table->timestamp('end_date');
+            $table->string('start_date');
+            $table->string('end_date');
             $table->tinyInteger('status')->comment('1: active, 0: inactive')->default(1);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
