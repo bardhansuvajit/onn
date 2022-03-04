@@ -42,6 +42,8 @@
 
                 <li class="{{ ( request()->is('admin/customer*') ) ? 'active' : '' }}"><a href="{{ route('admin.customer.index') }}"><i class="fi fi-br-database"></i> <span>Customer</span></a></li>
 
+                <li class="{{ ( request()->is('admin/address*') ) ? 'active' : '' }}"><a href="{{ route('admin.address.index') }}"><i class="fi fi-br-database"></i> <span>Address</span></a></li>
+
                 <li class="{{ ( request()->is('admin/product*') ) ? 'active' : '' }}">
                     <a href="#"><i class="fi fi-br-cube"></i> <span>Product</span></a>
                     <ul>
@@ -49,6 +51,11 @@
                         <li class="{{ ( request()->is('admin/product/create*') ) ? 'active' : '' }}"><a href="{{ route('admin.product.create') }}">Add New</a></li>
                     </ul>
                 </li>
+
+                <li class="{{ ( request()->is('admin/faq*') ) ? 'active' : '' }}"><a href="{{ route('admin.faq.index') }}"><i class="fi fi-br-database"></i> <span>FAQ</span></a></li>
+
+                <li class="{{ ( request()->is('admin/settings*') ) ? 'active' : '' }}"><a href="{{ route('admin.settings.index') }}"><i class="fi fi-br-database"></i> <span>Settings</span></a></li>
+
             </ul>
         </nav>
         <div class="nav__footer">
@@ -107,5 +114,7 @@
     -->
     <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
     <script type="text/javascript" src="{{ asset('admin/js/custom.js') }}"></script>
+
+    @yield('script')
 </body>
 </html>

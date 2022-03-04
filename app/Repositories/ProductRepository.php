@@ -5,10 +5,18 @@ namespace App\Repositories;
 use App\Interfaces\ProductInterface;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\ProductImage;
 use App\Models\SubCategory;
 use App\Models\Collection;
+use App\Models\Color;
+use App\Models\Size;
+use App\Models\ProductColor;
+use App\Models\ProductColorSize;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class ProductRepository implements ProductInterface 
 {
@@ -34,86 +42,178 @@ class ProductRepository implements ProductInterface
         return Collection::all();
     }
 
+    public function colorList() 
+    {
+        return Color::all();
+    }
+
+    public function sizeList() 
+    {
+        return Size::all();
+    }
+
     public function listById($id) 
     {
         return Product::findOrFail($id);
     }
 
-    public function create(array $data) 
+    public function listImagesById($id) 
     {
-        $collectedData = collect($data);
-        $newEntry = new Product;
-        $newEntry->cat_id = $collectedData['cat_id'];
-        $newEntry->sub_cat_id = $collectedData['sub_cat_id'];
-        $newEntry->collection_id = $collectedData['collection_id'];
-        $newEntry->name = $collectedData['name'];
-        $newEntry->short_desc = $collectedData['short_desc'];
-        $newEntry->desc = $collectedData['desc'];
-        $newEntry->price = $collectedData['price'];
-        $newEntry->offer_price = $collectedData['offer_price'];
-
-        // slug generate
-        $slug = \Str::slug($collectedData['name'], '-');
-        $slugExistCount = Product::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
-
-        $newEntry->slug = $slug;
-        $newEntry->meta_title = $collectedData['meta_title'];
-        $newEntry->meta_desc = $collectedData['meta_desc'];
-        $newEntry->meta_keyword = $collectedData['meta_keyword'];
-        $newEntry->style_no = $collectedData['style_no'];
-
-        $upload_path = "uploads/product/";
-        $image = $collectedData['image'];
-        $imageName = time().".".$image->getClientOriginalName();
-        $image->move($upload_path, $imageName);
-        $uploadedImage = $imageName;
-        $newEntry->image = $upload_path.$uploadedImage;
-
-        $newEntry->save();
-
-        return $newEntry;
+        return ProductImage::where('product_id', $id)->get();
     }
 
-    public function update($id, array $newDetails) 
+    public function create(array $data) 
     {
-        $updatedEntry = Product::findOrFail($id);
-        $collectedData = collect($newDetails); 
-        if (!empty($collectedData['cat_id'])) $updatedEntry->cat_id = $collectedData['cat_id'];
-        if (!empty($collectedData['sub_cat_id'])) $updatedEntry->sub_cat_id = $collectedData['sub_cat_id'];
-        if (!empty($collectedData['collection_id'])) $updatedEntry->collection_id = $collectedData['collection_id'];
-        $updatedEntry->name = $collectedData['name'];
-        $updatedEntry->short_desc = $collectedData['short_desc'];
-        $updatedEntry->desc = $collectedData['desc'];
-        $updatedEntry->price = $collectedData['price'];
-        $updatedEntry->offer_price = $collectedData['offer_price'];
+        DB::beginTransaction();
 
-        // slug generate
-        $slug = \Str::slug($collectedData['name'], '-');
-        $slugExistCount = Product::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+        try {
+            $collectedData = collect($data);
+            $newEntry = new Product;
+            $newEntry->cat_id = $collectedData['cat_id'];
+            $newEntry->sub_cat_id = $collectedData['sub_cat_id'];
+            $newEntry->collection_id = $collectedData['collection_id'];
+            $newEntry->name = $collectedData['name'];
+            $newEntry->short_desc = $collectedData['short_desc'];
+            $newEntry->desc = $collectedData['desc'];
+            $newEntry->price = $collectedData['price'];
+            $newEntry->offer_price = $collectedData['offer_price'];
+            $newEntry->meta_title = $collectedData['meta_title'];
+            $newEntry->meta_desc = $collectedData['meta_desc'];
+            $newEntry->meta_keyword = $collectedData['meta_keyword'];
+            $newEntry->style_no = $collectedData['style_no'];
 
-        $updatedEntry->slug = $slug;
-        $updatedEntry->meta_title = $collectedData['meta_title'];
-        $updatedEntry->meta_desc = $collectedData['meta_desc'];
-        $updatedEntry->meta_keyword = $collectedData['meta_keyword'];
-        $updatedEntry->style_no = $collectedData['style_no'];
+            // slug generate
+            $slug = \Str::slug($collectedData['name'], '-');
+            $slugExistCount = Product::where('slug', $slug)->count();
+            if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+            $newEntry->slug = $slug;
 
-        if (isset($newDetails['image'])) {
-            // delete old image
-            unlink($updatedEntry->image);
-
+            // main image handling
             $upload_path = "uploads/product/";
             $image = $collectedData['image'];
             $imageName = time().".".$image->getClientOriginalName();
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
-            $updatedEntry->image = $upload_path.$uploadedImage;
+            $newEntry->image = $upload_path.$uploadedImage;
+            $newEntry->save();
+
+            // multiple image upload handling
+            if (isset($data['product_images'])) {
+                $multipleImageData = [];
+                foreach ($data['product_images'] as $imagekey => $imagevalue) {
+                    $imageName = mt_rand().'-'.time().".".$image->getClientOriginalName();
+                    $imagevalue->move($upload_path, $imageName);
+                    $image_path = $upload_path.$imageName;
+                    $multipleImageData[] = [
+                        'product_id' => $newEntry->id,
+                        'image' => $image_path
+                    ];
+                }
+                if(count($multipleImageData) > 0) ProductImage::insert($multipleImageData);
+            }
+
+            // check color & size
+            // dd($data['color'], $data['size']);
+
+            if ( !empty($data['color']) && !empty($data['size']) ) {
+                $multipleColorData = [];
+
+                foreach ($data['color'] as $colorKey => $colorValue) {
+                    $multipleColorData[] = [
+                        'product_id' => $newEntry->id,
+                        'color' => $colorValue,
+                    ];
+                }
+
+                foreach ($data['size'] as $sizeKey => $sizeValue) {
+                    $multipleColorData[$sizeKey]['size'] = $sizeValue;
+                }
+
+                // dd($multipleColorData);
+
+                ProductColorSize::insert($multipleColorData);
+
+            }
+
+            DB::commit();
+            return $newEntry;
+        } catch (\Throwable $th) {
+            // throw $th;
+            DB::rollback();
         }
+    }
 
-        $updatedEntry->save();
+    public function update($id, array $newDetails) 
+    {
+        // dd($newDetails);
 
-        return $updatedEntry;
+        DB::beginTransaction();
+
+        try {
+            $upload_path = "uploads/product/";
+            $updatedEntry = Product::findOrFail($id);
+            // dd($updatedEntry);
+            $collectedData = collect($newDetails); 
+            if (!empty($collectedData['cat_id'])) $updatedEntry->cat_id = $collectedData['cat_id'];
+            if (!empty($collectedData['sub_cat_id'])) $updatedEntry->sub_cat_id = $collectedData['sub_cat_id'];
+            if (!empty($collectedData['collection_id'])) $updatedEntry->collection_id = $collectedData['collection_id'];
+            $updatedEntry->name = $collectedData['name'];
+            $updatedEntry->short_desc = $collectedData['short_desc'];
+            $updatedEntry->desc = $collectedData['desc'];
+            $updatedEntry->price = $collectedData['price'];
+            $updatedEntry->offer_price = $collectedData['offer_price'];
+
+            // slug generate
+            $slug = \Str::slug($collectedData['name'], '-');
+            $slugExistCount = Product::where('slug', $slug)->count();
+            if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+
+            $updatedEntry->slug = $slug;
+            $updatedEntry->meta_title = $collectedData['meta_title'];
+            $updatedEntry->meta_desc = $collectedData['meta_desc'];
+            $updatedEntry->meta_keyword = $collectedData['meta_keyword'];
+            $updatedEntry->style_no = $collectedData['style_no'];
+
+            if (isset($newDetails['image'])) {
+                // delete old image
+                if (Storage::exists($updatedEntry->image)) unlink($updatedEntry->image);
+
+                $image = $collectedData['image'];
+                $imageName = time().".".$image->getClientOriginalName();
+                $image->move($upload_path, $imageName);
+                $uploadedImage = $imageName;
+                $updatedEntry->image = $upload_path.$uploadedImage;
+            }
+
+            $updatedEntry->save();
+
+            // multiple image upload handling
+            if (isset($newDetails['product_images'])) {
+                $multipleImageData = [];
+                foreach ($newDetails['product_images'] as $imagekey => $imagevalue) {
+                    $imageName = mt_rand().'-'.time().".".$image->getClientOriginalName();
+                    $imagevalue->move($upload_path, $imageName);
+                    $image_path = $upload_path.$imageName;
+                    $multipleImageData[] = [
+                        'product_id' => $id,
+                        'image' => $image_path
+                    ];
+                }
+
+                // dd($multipleImageData);
+
+                if(count($multipleImageData) > 0) {
+                    ProductImage::insert($multipleImageData);
+                }
+            }
+            // dd('out');
+
+            DB::commit();
+            return $updatedEntry;
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollback();
+        }
     }
 
     public function toggle($id){
@@ -129,5 +229,10 @@ class ProductRepository implements ProductInterface
     public function delete($id) 
     {
         Product::destroy($id);
+    }
+
+    public function deleteSingleImage($id) 
+    {
+        ProductImage::destroy($id);
     }
 }

@@ -19,4 +19,8 @@ class Product extends Model
     public function collection() {
         return $this->belongsTo('App\Models\Collection', 'collection_id', 'id');
     }
+
+    public function colorSize() {
+        return $this->hasMany('App\Models\ProductColorSize', 'product_id', 'id');
+    }
 }

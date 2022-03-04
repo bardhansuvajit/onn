@@ -8,9 +8,20 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="card shadow-sm">
+                    <div class="card-header">Main image</div>
                     <div class="card-body">
                         <div class="w-100 product__thumb">
                             <label for="thumbnail"><img id="output" src="{{ asset($data->image) }}"/></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-header">More images</div>
+                    <div class="card-body">
+                        <div class="w-100 product__thumb">
+                        @foreach($images as $index => $singleImage)
+                            <label for="thumbnail"><img id="output" src="{{ asset($singleImage->image) }}" class="img-thumbnail mb-3"/></label>
+                        @endforeach
                         </div>
                     </div>
                 </div>
@@ -24,6 +35,41 @@
                         <div class="form-group mb-3">
                             <p><span class="text-muted">Category : </span>{{$data->category->name}} | <span class="text-muted">Sub-category : </span>{{$data->subCategory->name}} | <span class="text-muted">Collection : </span>{{$data->collection->name}}</p>
                         </div>
+                        @if ($data->colorSize)
+                            <hr>
+                            <div class="d-flex">
+                            @php
+                            $uniqueColors = [];
+
+                            // custom function multi-dimensional in_array
+                            function in_array_r($needle, $haystack, $strict = false) {
+                                foreach ($haystack as $item) {
+                                    if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
+                                        return true;
+                                    }
+                                }
+                                return false;
+                            }
+
+                            foreach ($data->colorSize as $variantKey => $variantValue) {
+                                if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+
+                                $uniqueColors[] = [
+                                    'id' => $variantValue->colorDetails->id,
+                                    'code' => $variantValue->colorDetails->code,
+                                    'name' => $variantValue->colorDetails->name,
+                                    'size' => array()
+                                ];
+                            }
+
+                            // echo '<pre>';print_r($uniqueColors);
+
+                            foreach($uniqueColors as $colorCode) {
+                                echo '<div style="text-align:center;height: 70px;width: 40px;margin-right: 20px;"><div class="btn btn-sm rounded-circle" style="background-color: '.$colorCode['code'].';height: 40px;width: 40px;"></div><p class="small text-muted mb-0 mt-2">'.ucwords($colorCode['name']).'</p></div>';
+                            }
+                            @endphp
+                            </div>
+                        @endif
                         <hr>
                         <div class="form-group mb-3">
                             <h4>

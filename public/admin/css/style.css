@@ -481,3 +481,9 @@ footer {
 	line-height: 33px;
 	margin-bottom: 10px;
 }
+.product-img-remove {
+	position: absolute;
+    top: -7px;
+    right: -5px;
+    border-radius: 50%;
+}

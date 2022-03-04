@@ -124,6 +124,7 @@
                 <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>
             </tr>
             @empty
+            <tr><td colspan="100%" class="small text-muted">No data found</td></tr>
             @endforelse
         </tbody>
     </table>

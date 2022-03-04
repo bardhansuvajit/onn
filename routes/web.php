@@ -104,9 +104,40 @@ Route::prefix('admin')->name('admin.')->group(function() {
             Route::post('/store', 'Admin\ProductController@store')->name('store');
             Route::get('/{id}/view', 'Admin\ProductController@show')->name('view');
             Route::get('/{id}/edit', 'Admin\ProductController@edit')->name('edit');
-            Route::post('/{id}/update', 'Admin\ProductController@update')->name('update');
+            Route::patch('/{id}/update', 'Admin\ProductController@update')->name('update');
             Route::get('/{id}/status', 'Admin\ProductController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\ProductController@destroy')->name('delete');
+            Route::get('/{id}/image/delete', 'Admin\ProductController@destroySingleImage')->name('image.delete');
+        });
+
+        // address
+        Route::prefix('address')->name('address.')->group(function() {
+            Route::get('/', 'Admin\AddressController@index')->name('index');
+            Route::post('/store', 'Admin\AddressController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\AddressController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\AddressController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\AddressController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\AddressController@destroy')->name('delete');
+        });
+
+        // faq
+        Route::prefix('faq')->name('faq.')->group(function() {
+            Route::get('/', 'Admin\FaqController@index')->name('index');
+            Route::post('/store', 'Admin\FaqController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\FaqController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\FaqController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\FaqController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\FaqController@destroy')->name('delete');
+        });
+
+        // settings
+        Route::prefix('settings')->name('settings.')->group(function() {
+            Route::get('/', 'Admin\SettingsController@index')->name('index');
+            Route::post('/store', 'Admin\SettingsController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\SettingsController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\SettingsController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\SettingsController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\SettingsController@destroy')->name('delete');
         });
     });
 });

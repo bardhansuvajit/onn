@@ -44,7 +44,7 @@ class UserRepository implements UserInterface
     public function update($id, array $newDetails) 
     {
         $updatedEntry = User::findOrFail($id);
-        $collectedData = collect($newDetails); 
+        $collectedData = collect($newDetails);
         $updatedEntry->fname = $collectedData['fname'];
         $updatedEntry->lname = $collectedData['lname'];
         $updatedEntry->mobile = $collectedData['mobile'];
