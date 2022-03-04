@@ -45,7 +45,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     Route::middleware(['auth:admin'])->group(function() {
         // dashboard
-        Route::view('/home', 'admin.home')->name('home');
+        Route::get('/home', 'Admin\AdminController@home')->name('home');
 
         // category
         Route::prefix('category')->name('category.')->group(function() {

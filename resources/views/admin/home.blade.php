@@ -8,8 +8,8 @@
         <div class="col-sm-3">
             <div class="card home__card bg-gradient-danger">
                 <div class="card-body">
-                    <h4>Weekly Orders <i class="fi fi-br-box-alt"></i></h4>
-                    <h2>3,000</h2>
+                    <h4>No of Customer <i class="fi fi-br-box-alt"></i></h4>
+                    <h2>{{$data->users}}</h2>
                 </div>
             </div>
         </div>
@@ -17,8 +17,8 @@
         <div class="col-sm-3">
             <div class="card home__card bg-gradient-info">
                 <div class="card-body">
-                    <h4>Weekly Sales <i class="fi fi-br-chart-histogram"></i></h4>
-                    <h2>&#8377; 23,000</h2>
+                    <h4>Category <i class="fi fi-br-chart-histogram"></i></h4>
+                    <h2>{{$data->category}}</h2>
                 </div>
             </div>
         </div>
@@ -26,8 +26,8 @@
         <div class="col-sm-3">
             <div class="card home__card bg-gradient-success">
                 <div class="card-body">
-                    <h4>Visitors Online <i class="fi fi-br-user"></i></h4>
-                    <h2>&#8377; 23,000</h2>
+                    <h4>Subcategory <i class="fi fi-br-user"></i></h4>
+                    <h2>{{$data->subcategory}}</h2>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <div class="card home__card bg-gradient-secondary">
                 <div class="card-body">
                     <h4>No of Product <i class="fi fi-br-cube"></i></h4>
-                    <h2>500</h2>
+                    <h2>{{$data->products->count()}}</h2>
                 </div>
             </div>
         </div>
@@ -56,91 +56,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="text-center column-thumb">
-                            <img src="images/polo_tshirt_front.png">
-                        </td>
-                        <td>
-                            Polo t-Shirt
-                            <div class="row__action">
-                                <a href="#">Edit</a>
-                                <a href="#">View</a>
-                                <a href="#">Active</a>
-                                <a href="#" class="text-danger">Delete</a>
-                            </div>
-                        </td>
-                        <td>NC 422</td>
-                        <td>T-Shirt</td>
-                        <td>Rs. 450</td>
-                    </tr>
-                    <tr>
-                        <td class="text-center column-thumb">
-                            <img src="images/polo_tshirt_front.png">
-                        </td>
-                        <td>
-                            Polo t-Shirt
-                            <div class="row__action">
-                                <a href="#">Edit</a>
-                                <a href="#">View</a>
-                                <a href="#">Deactive</a>
-                                <a href="#" class="text-danger">Delete</a>
-                            </div>
-                        </td>
-                        <td>NC 422</td>
-                        <td>T-Shirt</td>
-                        <td>Rs. 450</td>
-                    </tr>
-                    <tr>
-                        <td class="text-center column-thumb">
-                            <img src="images/polo_tshirt_front.png">
-                        </td>
-                        <td>
-                            Polo t-Shirt
-                            <div class="row__action">
-                                <a href="#">Edit</a>
-                                <a href="#">View</a>
-                                <a href="#">Active</a>
-                                <a href="#" class="text-danger">Delete</a>
-                            </div>
-                        </td>
-                        <td>NC 422</td>
-                        <td>T-Shirt</td>
-                        <td>Rs. 450</td>
-                    </tr>
-                    <tr>
-                        <td class="text-center column-thumb">
-                            <img src="images/polo_tshirt_front.png">
-                        </td>
-                        <td>
-                            Polo t-Shirt
-                            <div class="row__action">
-                                <a href="#">Edit</a>
-                                <a href="#">View</a>
-                                <a href="#">Deactive</a>
-                                <a href="#" class="text-danger">Delete</a>
-                            </div>
-                        </td>
-                        <td>NC 422</td>
-                        <td>T-Shirt</td>
-                        <td>Rs. 450</td>
-                    </tr>
-                    <tr>
-                        <td class="text-center column-thumb">
-                            <img src="images/polo_tshirt_front.png">
-                        </td>
-                        <td>
-                            Polo t-Shirt
-                            <div class="row__action">
-                                <a href="#">Edit</a>
-                                <a href="#">View</a>
-                                <a href="#">Active</a>
-                                <a href="#" class="text-danger">Delete</a>
-                            </div>
-                        </td>
-                        <td>NC 422</td>
-                        <td>T-Shirt</td>
-                        <td>Rs. 450</td>
-                    </tr>
+                    @foreach ($data->products as $product)
+                        <tr>
+                            <td class="text-center column-thumb">
+                                <img src="{{asset($product->image)}}">
+                            </td>
+                            <td>
+                                <p style="height: 42px;overflow: hidden;text-overflow: ellipsis;margin-bottom: 0;">{{$product->name}}</p>
+                                <div class="row__action">
+                                    <a href="{{ route('admin.product.edit', $product->id) }}">Edit</a>
+                                    <a href="{{ route('admin.product.view', $product->id) }}">View</a>
+                                </div>
+                            </td>
+                            <td>{{$product->style_no}}</td>
+                            <td>{{$product->category->name}}</td>
+                            <td>Rs. {{$product->offer_price}}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -155,48 +87,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>#ONNOR54321</td>
-                        <td>20 May 2022</td>
-                        <td>&#8377; 650</td>
-                        <td><span class="badge bg-info">New</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ONNOR54321</td>
-                        <td>20 May 2022</td>
-                        <td>&#8377; 650</td>
-                        <td><span class="badge bg-info">New</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ONNOR54321</td>
-                        <td>20 May 2022</td>
-                        <td>&#8377; 650</td>
-                        <td><span class="badge bg-danger">cancel</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ONNOR54321</td>
-                        <td>20 May 2022</td>
-                        <td>&#8377; 650</td>
-                        <td><span class="badge bg-warning">Process</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ONNOR54321</td>
-                        <td>20 May 2022</td>
-                        <td>&#8377; 650</td>
-                        <td><span class="badge bg-success">Delivered</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ONNOR54321</td>
-                        <td>20 May 2022</td>
-                        <td>&#8377; 650</td>
-                        <td><span class="badge bg-success">Delivered</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ONNOR54321</td>
-                        <td>20 May 2022</td>
-                        <td>&#8377; 650</td>
-                        <td><span class="badge bg-success">Delivered</span></td>
-                    </tr>
+                    @foreach ($data->orders as $order)
+                        @php
+                            switch($order->status) {
+                                case 1:
+                                    $status = 'New';
+                                    break;
+                                case 2:
+                                    $status = 'Confirmed';
+                                    break;
+                                case 3:
+                                    $status = 'Shipped';
+                                    break;
+                                case 4:
+                                    $status = 'Delivered';
+                                    break;
+                                case 5:
+                                    $status = 'Cancelled';
+                                    break;
+                            }
+                        @endphp
+                        <tr>
+                            <td>{{$order->id}}</td>
+                            <td>{{date('j M Y g:i A', strtotime($order->created_at))}}</td>
+                            <td>Rs {{$order->final_amount}}</td>
+                            <td><span class="badge bg-info">{{ $status }}</span></td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
