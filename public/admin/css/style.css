@@ -152,6 +152,14 @@ body, html {
 .main__nav ul li:hover a {
 	color: #fff;
 }
+.main__nav > ul > li > a.parent {
+	background: url(../images/chevron-right.svg) center right 20px no-repeat;
+	background-size: 16px;
+}
+.main__nav > ul > li.active > a.parent, .main__nav > ul > li:hover > a.parent {
+	background: url(../images/chevron-down.svg) center right 20px no-repeat;
+	background-size: 16px;
+}
 .main__nav ul li.active a {
 	color: #fff;
 }
