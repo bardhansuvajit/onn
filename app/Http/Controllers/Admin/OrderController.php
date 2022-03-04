@@ -20,7 +20,18 @@ class OrderController extends Controller
 
     public function index(Request $request) 
     {
-        $data = $this->orderRepository->listAll();
+        if (!empty($request->status)) {
+            $data = $this->orderRepository->listByStatus($request->status);
+        } else {
+            $data = $this->orderRepository->listAll();
+        }
+
+        return view('admin.order.index', compact('data'));
+    }
+
+    public function indexStatus(Request $request, $status) 
+    {
+        $data = $this->orderRepository->listByStatus($status);
         return view('admin.order.index', compact('data'));
     }
 

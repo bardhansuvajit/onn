@@ -24,6 +24,11 @@ class OrderRepository implements OrderInterface
         return Order::findOrFail($id);
     }
 
+    public function listByStatus($status) 
+    {
+        return Order::where('status', $status)->get();
+    }
+
     public function create(array $data) 
     {
         DB::beginTransaction();
