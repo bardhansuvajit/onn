@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Interfaces\ProductInterface;
 use App\Models\Product;
+use App\Models\ProductColorSize;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -73,6 +74,26 @@ class ProductController extends Controller
         $data = $this->productRepository->listById($id);
         $images = $this->productRepository->listImagesById($id);
         return view('admin.product.detail', compact('data', 'images'));
+    }
+
+    public function size(Request $request)
+    {
+        $productId = $request->productId;
+        $colorId = $request->colorId;
+
+        $data = ProductColorSize::where('product_id', $productId)->where('color', $colorId)->get();
+
+        $resp = [];
+
+        foreach ($data as $dataKey => $dataValue) {
+            $resp[] = [
+                'variationId' => $dataValue->id,
+                'sizeId' => $dataValue->size,
+                'sizeName' => $dataValue->sizeDetails->name
+            ];
+        }
+
+        return response()->json(['error' => false, 'data' => $resp]);
     }
 
     public function edit(Request $request, $id)

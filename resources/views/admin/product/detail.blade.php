@@ -35,9 +35,8 @@
                         <div class="form-group mb-3">
                             <p><span class="text-muted">Category : </span>{{$data->category->name}} | <span class="text-muted">Sub-category : </span>{{$data->subCategory->name}} | <span class="text-muted">Collection : </span>{{$data->collection->name}}</p>
                         </div>
+
                         @if ($data->colorSize)
-                            <hr>
-                            <div class="d-flex">
                             @php
                             $uniqueColors = [];
 
@@ -58,18 +57,25 @@
                                     'id' => $variantValue->colorDetails->id,
                                     'code' => $variantValue->colorDetails->code,
                                     'name' => $variantValue->colorDetails->name,
-                                    'size' => array()
                                 ];
                             }
 
                             // echo '<pre>';print_r($uniqueColors);
 
+                            echo '<hr><div class="d-flex">';
+
                             foreach($uniqueColors as $colorCode) {
-                                echo '<div style="text-align:center;height: 70px;width: 40px;margin-right: 20px;"><div class="btn btn-sm rounded-circle" style="background-color: '.$colorCode['code'].';height: 40px;width: 40px;"></div><p class="small text-muted mb-0 mt-2">'.ucwords($colorCode['name']).'</p></div>';
+                                echo '<div onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="text-align:center;height: 70px;width: 40px;margin-right: 20px;"><div class="btn btn-sm rounded-circle" style="background-color: '.$colorCode['code'].';height: 40px;width: 40px;"></div><p class="small text-muted mb-0 mt-2">'.ucwords($colorCode['name']).'</p></div>';
                             }
+
+                            echo '</div>';
+
+                            echo '<p class="small text-dark">Tap on color to get sizes</p>';
+
+                            echo '<div id="sizeContainer"></div>';
                             @endphp
-                            </div>
-                        @endif
+                        @endif 
+                        
                         <hr>
                         <div class="form-group mb-3">
                             <h4>
@@ -125,4 +131,32 @@
         </div>
     </form>
 </section>
+@endsection
+
+@section('script')
+    <script>
+        function sizeCheck(productId, colorId) {
+            $.ajax({
+                url : '{{route("admin.product.size")}}',
+                method : 'POST',
+                data : {'_token' : '{{csrf_token()}}', productId : productId, colorId : colorId},
+                success : function(result) {
+                    if (result.error === false) {
+                        let content = '<div class="btn-group" role="group" aria-label="Basic radio toggle button group">';
+
+                        $.each(result.data, (key, val) => {
+                            content += `<input type="radio" class="btn-check" name="productSize" id="productSize${val.sizeId}" autocomplete="off"><label class="btn btn-outline-primary px-4" for="productSize${val.sizeId}">${val.sizeName}</label>`;
+                        })
+
+                        content += '</div>';
+
+                        $('#sizeContainer').html(content);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // toastFire('danger', 'Something Went wrong');
+                }
+            });
+        }
+    </script>
 @endsection

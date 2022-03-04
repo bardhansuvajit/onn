@@ -103,6 +103,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
             Route::get('/create', 'Admin\ProductController@create')->name('create');
             Route::post('/store', 'Admin\ProductController@store')->name('store');
             Route::get('/{id}/view', 'Admin\ProductController@show')->name('view');
+            Route::post('/size', 'Admin\ProductController@size')->name('size');
             Route::get('/{id}/edit', 'Admin\ProductController@edit')->name('edit');
             Route::patch('/{id}/update', 'Admin\ProductController@update')->name('update');
             Route::get('/{id}/status', 'Admin\ProductController@status')->name('status');
