@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('page', 'Products')
+@section('page', 'Order')
 
 @section('content')
 <section>
@@ -20,7 +20,7 @@
                 <input type="search" name="" class="form-control" placeholder="Search here..">
                 </div>
                 <div class="col-auto">
-                <button type="submit" class="btn btn-outline-danger btn-sm">Search Product</button>
+                <button type="submit" class="btn btn-outline-danger btn-sm">Search</button>
                 </div>
             </div>
             </form>
@@ -80,17 +80,14 @@
         <thead>
         <tr>
             <th class="check-column">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault"></label>
-            </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault"></label>
+                </div>
             </th>
-            <th class="text-center"><i class="fi fi-br-picture"></i></th>
             <th>Name</th>
-            <th>Style No.</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Date</th>
+            <th>Amount</th>
+            <th>Order time</th>
             <th>Status</th>
         </tr>
         </thead>
@@ -102,26 +99,29 @@
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault"></label>
                 </div>
-                </td>
-                <td class="text-center column-thumb">
-                    <img src="{{ asset($item->image) }}">
-                </td>
                 <td>
-                    {{$item->name}}
+                    <p class="small text-dark mb-1">{{$item->fname.' '.$item->lname}}</p>
+                    <p class="small text-muted mb-0">{{$item->email.' | '.$item->mobile}}</p>
                     <div class="row__action">
-                        <a href="{{ route('admin.product.edit', $item->id) }}">Edit</a>
-                        <a href="{{ route('admin.product.view', $item->id) }}">View</a>
-                        <a href="{{ route('admin.product.status', $item->id) }}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</a>
-                        <a href="{{ route('admin.product.delete', $item->id) }}" class="text-danger">Delete</a>
+                        <a href="{{ route('admin.order.view', $item->id) }}">View</a>
                     </div>
                 </td>
-                <td>{{$item->style_no}}</td>
-                <td>{{$item->category->name}} > {{$item->subCategory->name}} <br> {{$item->collection->name}}</td>
                 <td>
-                    <small> <del>{{$item->price}}</del> </small> Rs. {{$item->offer_price}}
+                    <p class="small text-muted mb-1">Rs {{$item->final_amount}}</p>
                 </td>
-                <td>Published<br/>{{date('j M Y', strtotime($item->created_at))}}</td>
-                <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>
+                <td>
+                    <p class="small">{{date('j M Y g:i A', strtotime($item->created_at))}}</p>
+                </td>
+                <td>
+                    <p class="small text-muted mb-2">{{$item->shipping_address.' | '.$item->shipping_landmark.' | '.$item->shipping_pin.' | '.$item->shipping_city.' | '.$item->shipping_state.' | '.$item->shipping_country}}</p>
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <a href="{{ route('admin.order.status', [$item->id, 1]) }}" type="button" class="btn btn-outline-primary btn-sm {{($item->status == 1) ? 'active' : ''}}">New</a>
+                        <a href="{{ route('admin.order.status', [$item->id, 2]) }}" type="button" class="btn btn-outline-primary btn-sm {{($item->status == 2) ? 'active' : ''}}">Confirm</a>
+                        <a href="{{ route('admin.order.status', [$item->id, 3]) }}" type="button" class="btn btn-outline-primary btn-sm {{($item->status == 3) ? 'active' : ''}}">Shipped</a>
+                        <a href="{{ route('admin.order.status', [$item->id, 4]) }}" type="button" class="btn btn-outline-success btn-sm {{($item->status == 4) ? 'active' : ''}}">Delivered</a>
+                        <a href="{{ route('admin.order.status', [$item->id, 5]) }}" type="button" class="btn btn-outline-danger btn-sm {{($item->status == 5) ? 'active' : ''}}">Cancelled</a>
+                    </div>
+                </td>
             </tr>
             @empty
             <tr><td colspan="100%" class="small text-muted">No data found</td></tr>

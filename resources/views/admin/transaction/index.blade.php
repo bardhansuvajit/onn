@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('page', 'Products')
+@section('page', 'Transaction')
 
 @section('content')
 <section>
@@ -20,7 +20,7 @@
                 <input type="search" name="" class="form-control" placeholder="Search here..">
                 </div>
                 <div class="col-auto">
-                <button type="submit" class="btn btn-outline-danger btn-sm">Search Product</button>
+                <button type="submit" class="btn btn-outline-danger btn-sm">Search</button>
                 </div>
             </div>
             </form>
@@ -80,17 +80,16 @@
         <thead>
         <tr>
             <th class="check-column">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault"></label>
-            </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault"></label>
+                </div>
             </th>
-            <th class="text-center"><i class="fi fi-br-picture"></i></th>
-            <th>Name</th>
-            <th>Style No.</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Date</th>
+            <th>User</th>
+            <th>Transaction</th>
+            <th>Order</th>
+            <th>Amount</th>
+            <th>Datetime</th>
             <th>Status</th>
         </tr>
         </thead>
@@ -102,25 +101,25 @@
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault"></label>
                 </div>
-                </td>
-                <td class="text-center column-thumb">
-                    <img src="{{ asset($item->image) }}">
-                </td>
                 <td>
-                    {{$item->name}}
+                    <p class="small text-dark mb-1">{{$item->userDetails->fname.' '.$item->userDetails->lname}}</p>
+                    <p class="small text-muted mb-0">{{$item->userDetails->email.' | '.$item->userDetails->mobile}}</p>
                     <div class="row__action">
-                        <a href="{{ route('admin.product.edit', $item->id) }}">Edit</a>
-                        <a href="{{ route('admin.product.view', $item->id) }}">View</a>
-                        <a href="{{ route('admin.product.status', $item->id) }}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</a>
-                        <a href="{{ route('admin.product.delete', $item->id) }}" class="text-danger">Delete</a>
+                        <a href="{{ route('admin.transaction.view', $item->id) }}">View</a>
                     </div>
                 </td>
-                <td>{{$item->style_no}}</td>
-                <td>{{$item->category->name}} > {{$item->subCategory->name}} <br> {{$item->collection->name}}</td>
                 <td>
-                    <small> <del>{{$item->price}}</del> </small> Rs. {{$item->offer_price}}
+                    {{$item->transaction}}
                 </td>
-                <td>Published<br/>{{date('j M Y', strtotime($item->created_at))}}</td>
+                <td>
+                    <a href="{{ route('admin.order.view', $item->orderDetails->id) }}" class="badge bg-primary text-decoration-none">View Order</a>
+                </td>
+                <td>
+                    <p class="small text-muted mb-1">Rs {{$item->amount}}</p>
+                </td>
+                <td>
+                    <p class="small">{{date('j M Y g:i A', strtotime($item->created_at))}}</p>
+                </td>
                 <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>
             </tr>
             @empty

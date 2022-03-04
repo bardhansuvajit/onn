@@ -487,3 +487,8 @@ footer {
     right: -5px;
     border-radius: 50%;
 }
+.single-line {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

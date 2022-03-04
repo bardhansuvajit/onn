@@ -140,6 +140,21 @@ Route::prefix('admin')->name('admin.')->group(function() {
             Route::get('/{id}/status', 'Admin\SettingsController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\SettingsController@destroy')->name('delete');
         });
+
+        // order
+        Route::prefix('order')->name('order.')->group(function() {
+            Route::get('/', 'Admin\OrderController@index')->name('index');
+            Route::post('/store', 'Admin\OrderController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\OrderController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\OrderController@update')->name('update');
+            Route::get('/{id}/status/{status}', 'Admin\OrderController@status')->name('status');
+        });
+
+        // transaction
+        Route::prefix('transaction')->name('transaction.')->group(function() {
+            Route::get('/', 'Admin\TransactionController@index')->name('index');
+            Route::get('/{id}/view', 'Admin\TransactionController@show')->name('view');
+        });
     });
 });
 

@@ -8,7 +8,8 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="search__filter">
+
+                    {{-- <div class="search__filter">
                         <div class="row align-items-center justify-content-between">
                             <div class="col">
                                 <ul>
@@ -31,6 +32,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="filter">
                         <div class="row align-items-center justify-content-between">
                         <div class="col">
@@ -52,7 +54,8 @@
                             <p>{{$data->count()}} Items</p>
                         </div>
                         </div>
-                    </div>
+                    </div> --}}
+
                     <table class="table">
                         <thead>
                             <tr>

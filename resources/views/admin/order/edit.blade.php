@@ -1,10 +1,10 @@
 @extends('admin.layouts.app')
 
-@section('page', 'Edit Product')
+@section('page', 'Edit Order')
 
 @section('content')
 <section>
-    <form method="PATCH" action="{{ route('admin.product.update', $data->id) }}" enctype="multipart/form-data">
+    <form method="PATCH" action="{{ route('admin.order.update', $data->id) }}" enctype="multipart/form-data">
     @csrf
     {{-- @method('PATCH') --}}
         <div class="row">
@@ -43,28 +43,14 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <input type="text" name="name" placeholder="Add Product Title" class="form-control" value="{{$data->name}}">
+                    <input type="text" name="name" placeholder="Add Title" class="form-control" value="{{$data->name}}">
                     @error('name') <p class="small text-danger">{{ $message }}</p> @enderror
                 </div>
-
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        Product Short Description
-                    </div>
-                    <div class="card-body">
-                        <textarea id="product_short_des" name="short_desc">{{$data->short_desc}}</textarea>
-                        @error('short_desc') <p class="small text-danger">{{ $message }}</p> @enderror
-                    </div>
-                </div>
-
-                <div class="form-group mb-3">
-                    <textarea id="product_des" name="desc">{{$data->desc}}</textarea>
-                    @error('desc') <p class="small text-danger">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="card shadow-sm">
                 <div class="card-header">
-                    Product data
+                    data
                 </div>
                 <div class="card-body pt-0">
                     <div class="admin__content">
@@ -186,57 +172,14 @@
                 </div>
                 <div class="card shadow-sm">
                     <div class="card-header">
-                        Product Image
+                        Image
                     </div>
                     <div class="card-body">
-                        <div class="w-100 product__thumb">
-                            <label for="thumbnail"><img id="output" src="{{ asset($data->image) }}"/></label>
-                            @error('image') <p class="small text-danger">{{ $message }}</p> @enderror
-                        </div>
-                        <input type="file" id="thumbnail" accept="image/*" name="image" onchange="loadFile(event)" class="d-none">
-                        <script>
-                            var loadFile = function(event) {
-                                var output = document.getElementById('output');
-                                output.src = URL.createObjectURL(event.target.files[0]);
-                                output.onload = function() {
-                                URL.revokeObjectURL(output.src) // free memory
-                                }
-                            };
-                        </script>
-                    </div>
-                </div>
-                <div class="card shadow-sm">
-                    <div class="card-header">More images</div>
-                    <div class="card-body">
-                        <input type="file" accept="image/*" name="product_images[]" class="mb-3" multiple>
-                        @error('product_images') <p class="small text-danger">{{ $message }}</p> @enderror
-                        <div class="w-100 product__thumb">
-                        @foreach($images as $index => $singleImage)
-                            <label for="thumbnail" class="position-relative">
-                                <img id="output" src="{{ asset($singleImage->image) }}" class="img-thumbnail mb-3"/>
-                                <a href="{{ route('admin.product.image.delete', $singleImage->id) }}" class="btn btn-sm btn-danger product-img-remove" title="Remove this image">&times;</a>
-                            </label>
-                        @endforeach
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </form>
 </section>
-@endsection
-
-@section('script')
-    <script>
-        ClassicEditor
-        .create( document.querySelector( '#product_des' ) )
-        .catch( error => {
-            console.error( error );
-        });
-        ClassicEditor
-        .create( document.querySelector( '#product_short_des' ) )
-        .catch( error => {
-            console.error( error );
-        });
-    </script>
 @endsection

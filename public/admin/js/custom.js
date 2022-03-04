@@ -23,13 +23,3 @@ $('.main__nav a').filter(function(){
     return this.href==url;
 }).parent().addClass('active');
 
-ClassicEditor
-.create( document.querySelector( '#product_des' ) )
-.catch( error => {
-    console.error( error );
-});
-ClassicEditor
-.create( document.querySelector( '#product_short_des' ) )
-.catch( error => {
-    console.error( error );
-});

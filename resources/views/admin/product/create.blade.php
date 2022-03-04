@@ -292,6 +292,17 @@
 
 @section('script')
 <script>
+    ClassicEditor
+    .create( document.querySelector( '#product_des' ) )
+    .catch( error => {
+        console.error( error );
+    });
+    ClassicEditor
+    .create( document.querySelector( '#product_short_des' ) )
+    .catch( error => {
+        console.error( error );
+    });
+
     $(document).on('click','.addNewTime',function(){
 		var thisClickedBtn = $(this);
 		thisClickedBtn.removeClass(['addNewTime','btn-success']);

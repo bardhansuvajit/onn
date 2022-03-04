@@ -11,6 +11,8 @@ use App\Interfaces\ProductInterface;
 use App\Interfaces\AddressInterface;
 use App\Interfaces\FaqInterface;
 use App\Interfaces\SettingsInterface;
+use App\Interfaces\OrderInterface;
+use App\Interfaces\TransactionInterface;
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\SubcategoryRepository;
@@ -21,6 +23,8 @@ use App\Repositories\ProductRepository;
 use App\Repositories\AddressRepository;
 use App\Repositories\FaqRepository;
 use App\Repositories\SettingsRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\TransactionRepository;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -42,6 +46,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(AddressInterface::class, AddressRepository::class);
         $this->app->bind(FaqInterface::class, FaqRepository::class);
         $this->app->bind(SettingsInterface::class, SettingsRepository::class);
+        $this->app->bind(OrderInterface::class, OrderRepository::class);
+        $this->app->bind(TransactionInterface::class, TransactionRepository::class);
     }
 
     /**
