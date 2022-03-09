@@ -74,7 +74,7 @@
 
                             echo '<div id="sizeContainer"></div>';
                             @endphp
-                        @endif 
+                        @endif
                         
                         <hr>
                         <div class="form-group mb-3">

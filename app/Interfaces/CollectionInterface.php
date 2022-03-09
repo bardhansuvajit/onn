@@ -10,10 +10,26 @@ interface CollectionInterface
     public function getAllCollections();
 
     /**
+     * This method is to fetch list of all sizes
+     */
+    public function getAllSizes();
+
+    /**
+     * This method is to fetch list of all colors
+     */
+    public function getAllColors();
+
+    /**
      * This method is to get collection details by id
      * @param str $collectionId
      */
     public function getCollectionById($collectionId);
+
+    /**
+     * This method is to get collection details by slug
+     * @param str $slug
+     */
+    public function getCollectionBySlug($slug);
 
     /**
      * This method is to create collection

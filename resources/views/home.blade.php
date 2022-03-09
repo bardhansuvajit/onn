@@ -1,7 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+
+@if (Auth::guard('web')->check())
+    <script>window.location = "{{route('front.user.profile')}}"</script>
+@else
+    <script>window.location = "{{route('front.home')}}"</script>
+@endif
+
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

@@ -10,7 +10,10 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-2">
+                            <p>Thumbnail</p>
                             <img src="{{ asset($data->image_path) }}" alt="" style="height: 100px" class="mr-4">
+                            <p>Banner</p>
+                            <img src="{{ asset($data->banner_image) }}" alt="" style="height: 100px" class="mr-4">
                         </div>
                         <div class="col-md-10">
                             <h3>{{ $data->name }}</h3>
@@ -55,6 +58,25 @@
                                 </script>
                             </div>
                             @error('image_path') <p class="small text-danger">{{ $message }}</p> @enderror
+                        </div>
+                        <div class="card">
+                            <div class="card-header p-0 mb-3">Banner Image <span class="text-danger">*</span></div>
+                            <div class="card-body p-0">
+                                <div class="w-100 product__thumb">
+                                    <label for="banner"><img id="bannerOutput" src="{{ asset($data->banner_image) }}" /></label>
+                                </div>
+                                <input type="file" name="banner_image" id="banner" accept="image/*" onchange="loadBanner(event)" class="d-none">
+                                <script>
+                                    let loadBanner = function(event) {
+                                        let output = document.getElementById('bannerOutput');
+                                        output.src = URL.createObjectURL(event.target.files[0]);
+                                        output.onload = function() {
+                                            URL.revokeObjectURL(output.src) // free memory
+                                        }
+                                    };
+                                </script>
+                            </div>
+                            @error('banner_image') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-sm btn-danger">Update Collection</button>

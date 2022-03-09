@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->string('ip');
 
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id')->default(0);
             $table->string('fname', 100)->nullable();
             $table->string('lname', 100)->nullable();
             $table->string('email', 100)->nullable();

@@ -5,36 +5,86 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/', function () {
-    return view('welcome');
+Route::name('front.')->group(function() {
+    // home
+    Route::get('/', 'Front\FrontController@index')->name('home');
+
+    // category detail
+    Route::name('category.')->group(function() {
+        Route::get('/category/{slug}', 'Front\CategoryController@detail')->name('detail');
+    });
+
+    // collection detail
+    Route::name('collection.')->group(function() {
+        Route::get('/collection/{slug}', 'Front\CollectionController@detail')->name('detail');
+    });
+
+    // product detail
+    Route::name('product.')->group(function() {
+        Route::get('/product/{slug}', 'Front\ProductController@detail')->name('detail');
+    });
+
+    // cart
+    Route::prefix('cart')->name('cart.')->group(function() {
+        Route::get('/', 'Front\CartController@viewByIp')->name('index');
+        Route::post('/add', 'Front\CartController@add')->name('add');
+        Route::get('/delete/{id}', 'Front\CartController@delete')->name('delete');
+        Route::get('/quantity/{id}/{type}', 'Front\CartController@qtyUpdate')->name('quantity');
+    });
+
+    // checkout/ order
+    Route::prefix('checkout')->name('checkout.')->group(function() {
+        Route::get('/', 'Front\CheckoutController@index')->name('index');
+        Route::post('/store', 'Front\CheckoutController@store')->name('store');
+        Route::view('/complete', 'front.checkout.complete')->name('complete');
+    });
+
+    Route::middleware(['guest:web'])->group(function() {
+        // user login & registration
+        Route::prefix('user/')->name('user.')->group(function() {
+            Route::view('/register', 'front.auth.register')->name('register');
+            Route::post('/create', 'Front\UserController@create')->name('create');
+            Route::view('/login', 'front.auth.login')->name('login');
+            Route::post('/check', 'Front\UserController@check')->name('check');
+        });
+    });
+
+    Route::middleware(['auth:web'])->group(function() {
+        Route::prefix('user/')->name('user.')->group(function() {
+            Route::view('profile', 'front.profile.index')->name('profile');
+            Route::view('manage', 'front.profile.edit')->name('manage');
+            Route::post('manage/update', 'Front\UserController@updateProfile')->name('manage.update');
+            Route::post('password/update', 'Front\UserController@updatePassword')->name('password.update');
+            Route::get('order', 'Front\UserController@order')->name('order');
+            Route::get('coupon', 'Front\UserController@coupon')->name('coupon');
+            Route::get('address', 'Front\UserController@address')->name('address');
+            Route::view('address/add', 'front.profile.address-add')->name('address.add');
+            Route::post('address/add', 'Front\UserController@addressCreate')->name('address.create');
+        });
+    });
 });
+
+// Route::view('/login', 'home')->name('login');
 
 Auth::routes();
 
 // common & user guard
-Route::prefix('user')->name('user.')->group(function() {
-    Route::middleware(['guest:web'])->group(function() {
-        Route::view('/register', 'auth.register')->name('register');
-        Route::post('/create', 'User\UserController@create')->name('create');
-        Route::view('/login', 'auth.login')->name('login');
-        Route::post('/check', 'User\UserController@check')->name('check');
-    });
+// Route::prefix('user')->name('user.')->group(function() {
+//     Route::middleware(['guest:web'])->group(function() {
+//         Route::view('/register', 'front.auth.register')->name('register');
+//         Route::post('/create', 'Front\UserController@create')->name('create');
+//         Route::view('/login', 'auth.login')->name('login');
+//         Route::post('/check', 'Front\UserController@check')->name('check');
+//     });
 
-    Route::middleware(['auth:web'])->group(function() {
-        Route::view('/home', 'user.home')->name('home');
-    });
-});
+//     Route::middleware(['auth:web'])->group(function() {
+//         Route::view('/home', 'user.home')->name('home');
+//     });
+// });
 
 // admin guard
 Route::prefix('admin')->name('admin.')->group(function() {
@@ -105,7 +155,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
             Route::get('/{id}/view', 'Admin\ProductController@show')->name('view');
             Route::post('/size', 'Admin\ProductController@size')->name('size');
             Route::get('/{id}/edit', 'Admin\ProductController@edit')->name('edit');
-            Route::patch('/{id}/update', 'Admin\ProductController@update')->name('update');
+            Route::post('/{id}/update', 'Admin\ProductController@update')->name('update');
             Route::get('/{id}/status', 'Admin\ProductController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\ProductController@destroy')->name('delete');
             Route::get('/{id}/image/delete', 'Admin\ProductController@destroySingleImage')->name('image.delete');

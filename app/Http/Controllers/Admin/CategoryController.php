@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\CategoryInterface;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
+// use Illuminate\Support\Str;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -30,18 +29,10 @@ class CategoryController extends Controller
         $request->validate([
             "name" => "required|string|max:255",
             "description" => "nullable|string",
-            "image_path" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000"
+            "image_path" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000",
+            "banner_image" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000"
         ]);
 
-        // generate slug
-        $slug = Str::slug($request->name, '-');
-        $slugExistCount = Category::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
-
-        // send slug
-        request()->merge(['slug' => $slug]);
-
-        // $params = $request->only(['name', 'description', 'image_path', 'slug']);
         $params = $request->except('_token');
 
         $categoryStore = $this->categoryRepository->createCategory($params);
@@ -66,16 +57,9 @@ class CategoryController extends Controller
         $request->validate([
             "name" => "required|string|max:255",
             "description" => "nullable|string",
-            "image_path" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000"
+            "image_path" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000",
+            "banner_image" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000"
         ]);
-
-        // generate slug
-        $slug = Str::slug($request->name, '-');
-        $slugExistCount = Category::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
-
-        // send slug
-        request()->merge(['slug' => $slug]);
 
         $params = $request->except('_token');
 

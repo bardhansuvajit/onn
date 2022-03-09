@@ -4,7 +4,7 @@
 
 @section('content')
 <section>
-    <form method="PATCH" action="{{ route('admin.product.update', $data->id) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('admin.product.update', $data->id) }}" enctype="multipart/form-data">
     @csrf
     {{-- @method('PATCH') --}}
         <div class="row">

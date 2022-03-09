@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
+use App\Models\Category;
+use App\Models\Collection;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view::composer('*', function($view) {
+            // categories
+            $categoryExists = Schema::hasTable('categories');
+            if ($categoryExists) {
+                $categories = Category::where('status', 1)->get();
+            }
+
+            // collections
+            $collectionExists = Schema::hasTable('collections');
+            if ($collectionExists) {
+                $collections = Collection::where('status', 1)->get();
+            }
+
+            view()->share('categories', $categories);
+            view()->share('collections', $collections);
+        });
     }
 }

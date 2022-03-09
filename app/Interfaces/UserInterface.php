@@ -10,4 +10,8 @@ interface UserInterface
     public function update($id, array $data);
     public function toggle($id);
     public function delete($id);
+    public function addressById($id);
+    public function addressCreate(array $data);
+    public function updateProfile(array $data);
+    public function updatePassword(array $data);
 }

@@ -10,10 +10,26 @@ interface CategoryInterface
     public function getAllCategories();
 
     /**
+     * This method is to fetch list of all sizes
+     */
+    public function getAllSizes();
+
+    /**
+     * This method is to fetch list of all colors
+     */
+    public function getAllColors();
+
+    /**
      * This method is to get category details by id
      * @param str $categoryId
      */
     public function getCategoryById($categoryId);
+
+    /**
+     * This method is to get category details by slug
+     * @param str $slug
+     */
+    public function getCategoryBySlug($slug);
 
     /**
      * This method is to create category

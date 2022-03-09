@@ -4,8 +4,11 @@ namespace App\Repositories;
 
 use App\Interfaces\CategoryInterface;
 use App\Models\Category;
+use App\Models\Size;
+use App\Models\Color;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 class CategoryRepository implements CategoryInterface 
 {
@@ -16,9 +19,24 @@ class CategoryRepository implements CategoryInterface
         return Category::all();
     }
 
+    public function getAllSizes() 
+    {
+        return Size::all();
+    }
+
+    public function getAllColors() 
+    {
+        return Color::all();
+    }
+
     public function getCategoryById($categoryId) 
     {
         return Category::findOrFail($categoryId);
+    }
+
+    public function getCategoryBySlug($slug) 
+    {
+        return Category::where('slug', $slug)->with('ProductDetails')->first();
     }
 
     public function deleteCategory($categoryId) 
@@ -28,19 +46,32 @@ class CategoryRepository implements CategoryInterface
 
     public function createCategory(array $categoryDetails) 
     {
+        $upload_path = "uploads/category/";
         $collection = collect($categoryDetails);
 
         $category = new Category;
         $category->name = $collection['name'];
         $category->description = $collection['description'];
-        $category->slug = $collection['slug'];
 
-        $upload_path = "uploads/category/";
+        // generate slug
+        $slug = Str::slug($collection['name'], '-');
+        $slugExistCount = Category::where('slug', $slug)->count();
+        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+        $category->slug = $slug;
+
+        // thumb image
         $image = $collection['image_path'];
         $imageName = time().".".$image->getClientOriginalName();
         $image->move($upload_path, $imageName);
         $uploadedImage = $imageName;
         $category->image_path = $upload_path.$uploadedImage;
+
+        // banner image
+        $bannerImage = $collection['banner_image'];
+        $bannerImageName = time().".".$bannerImage->getClientOriginalName();
+        $bannerImage->move($upload_path, $bannerImageName);
+        $uploadedImage = $bannerImageName;
+        $category->banner_image = $upload_path.$uploadedImage;
 
         $category->save();
 
@@ -49,22 +80,35 @@ class CategoryRepository implements CategoryInterface
 
     public function updateCategory($categoryId, array $newDetails) 
     {
+        $upload_path = "uploads/category/";
         $category = Category::findOrFail($categoryId);
         $collection = collect($newDetails); 
-        // dd($newDetails);
 
         $category->name = $collection['name'];
         $category->description = $collection['description'];
-        $category->slug = $collection['slug'];
 
-        if (in_array('image_path', $newDetails)) {
+        // generate slug
+        $slug = Str::slug($collection['name'], '-');
+        $slugExistCount = Category::where('slug', $slug)->count();
+        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+        $category->slug = $slug;
+
+        if (isset($newDetails['image_path'])) {
             // dd('here');
-            $upload_path = "uploads/category/";
             $image = $collection['image_path'];
             $imageName = time().".".$image->getClientOriginalName();
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
             $category->image_path = $upload_path.$uploadedImage;
+        }
+
+        if (isset($newDetails['banner_image'])) {
+            // dd('here');
+            $bannerImage = $collection['banner_image'];
+            $bannerImageName = time().".".$bannerImage->getClientOriginalName();
+            $bannerImage->move($upload_path, $bannerImageName);
+            $uploadedImage = $bannerImageName;
+            $category->banner_image = $upload_path.$uploadedImage;
         }
         // dd('outside');
 

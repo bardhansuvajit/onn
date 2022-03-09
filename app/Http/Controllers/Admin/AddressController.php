@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Interfaces\AddressInterface;
 use App\Models\Address;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
 
 class AddressController extends Controller
 {

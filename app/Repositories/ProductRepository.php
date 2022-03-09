@@ -57,6 +57,18 @@ class ProductRepository implements ProductInterface
         return Product::findOrFail($id);
     }
 
+    public function listBySlug($slug) 
+    {
+        return Product::where('slug', $slug)->with('category', 'subCategory', 'collection', 'colorSize')->first();
+    }
+
+    public function relatedProducts($id) 
+    {
+        $product = Product::findOrFail($id);
+        $cat_id = $product->cat_id;
+        return Product::where('cat_id', $cat_id)->where('id', '!=', $id)->with('category', 'subCategory', 'collection', 'colorSize')->get();
+    }
+
     public function listImagesById($id) 
     {
         return ProductImage::where('product_id', $id)->get();

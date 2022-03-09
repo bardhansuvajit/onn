@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Interfaces\AddressInterface;
 use App\Models\Address;
 use App\User;
-use Illuminate\Support\Facades\Hash;
 
 class AddressRepository implements AddressInterface 
 {
