@@ -49,7 +49,9 @@
                                 <div class="cart-info">
                                     <h4>{{$cartValue->product_name}}</h4>
                                     <h6>Style # OF {{$cartValue->product_style_no}}</h6>
-                                    <p>M, Red</p>
+                                    @if ($cartValue->cartVariationDetails)
+                                        <p>{{$cartValue->cartVariationDetails->sizeDetails->name.', '.ucwords($cartValue->cartVariationDetails->colorDetails->name)}}</p>
+                                    @endif
                                 </div>
                                 <div class="card-meta">
                                     <h4>&#8377;{{$cartValue->offer_price * $cartValue->qty}}</h4>

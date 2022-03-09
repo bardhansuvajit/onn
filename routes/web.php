@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 Route::name('front.')->group(function() {
     // home
     Route::get('/', 'Front\FrontController@index')->name('home');
+    Route::post('/subscribe', 'Front\FrontController@mailSubscribe')->name('subscription');
 
     // category detail
     Route::name('category.')->group(function() {

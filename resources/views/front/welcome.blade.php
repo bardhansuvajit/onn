@@ -55,7 +55,19 @@
             <div class="col-sm-12 mb-0 mb-md-5">
                 <h2><span>Featured <strong>Categories</strong></span></h2>
             </div>
+            @foreach ($category as $categoryKey => $categoryValue)
             <div class="col-4 col-sm-3 col-lg-2">
+                <a href="{{ route('front.category.detail', $categoryValue->slug) }}" class="home-category-single">
+                    <figure>
+                        <img src="{{asset($categoryValue->image_path)}}">
+                    </figure>
+                    <figcaption>
+                        {{$categoryValue->name}}
+                    </figcaption>
+                </a>
+            </div>
+            @endforeach
+            {{-- <div class="col-4 col-sm-3 col-lg-2">
                 <a href="listing.html" class="home-category-single">
                     <figure>
                         <img src="img/catago_2.png">
@@ -174,7 +186,7 @@
                         Sweatshirt
                     </figcaption>
                 </a>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>
@@ -188,7 +200,12 @@
             <div class="col-sm-4 col-md-5 d-none d-md-block">
                 <div class="home-collection__thumb swiper-container">
                     <div class="slider swiper-wrapper">
-                        <div class="home-collection__thumb-single swiper-slide">
+                        @foreach($collections as $collectionKey => $collectionValue)
+                            <div class="home-collection__thumb-single swiper-slide">
+                                <img src="{{asset($collectionValue->image_path)}}"  class="img-fluid">
+                            </div>
+                        @endforeach
+                        {{-- <div class="home-collection__thumb-single swiper-slide">
                             <img src="img/range2.png"  class="img-fluid">
                         </div>
                         <div class="home-collection__thumb-single swiper-slide">
@@ -217,14 +234,19 @@
                         </div>
                         <div class="home-collection__thumb-single swiper-slide">
                             <img src="img/range1.png"  class="img-fluid">
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
             <div class="col-sm-12 col-md-7">
                 <div class="home-collection__thumbs swiper-container">
                     <div class="slider swiper-wrapper">
-                        <div class="home-collection__thumbs-single swiper-slide">
+                        @foreach($collections as $collectionKey => $collectionValue)
+                            <div class="home-collection__thumbs-single swiper-slide">
+                                <h2>{{$collectionValue->name}}<br><strong>Collection</strong></h2>
+                            </div>
+                        @endforeach
+                        {{-- <div class="home-collection__thumbs-single swiper-slide">
                             <h2>Platina<br><strong>Collection</strong></h2>
                         </div>
                         <div class="home-collection__thumbs-single swiper-slide">
@@ -253,13 +275,23 @@
                         </div>
                         <div class="home-collection__thumbs-single swiper-slide">
                             <h2>Winter<br><strong>Collection</strong></h2>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="home-collection__slider swiper-container">
                     <div class="slider swiper-wrapper">
-                        
-                        <div class="home-collection__single swiper-slide">
+                        @foreach($collections as $collectionKey => $collectionValue)
+                            <div class="home-collection__single swiper-slide">
+                                <figure>
+                                    <img src="{{asset($collectionValue->image_path)}}" />
+                                    <figcaption>
+                                        <h3>{{$collectionValue->name}}<br><strong>Collection</strong></h3>
+                                        <p><a href="{{ route('front.collection.detail', $collectionValue->slug) }}">View All Products</a></p>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        @endforeach
+                        {{-- <div class="home-collection__single swiper-slide">
                             <figure>
                                 <img src="img/onn_platina.png" />
                                 <figcaption>
@@ -348,7 +380,7 @@
                                     <p><a href="listing.html">View All Products</a></p>
                                 </figcaption>
                             </figure>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -367,6 +399,30 @@
             <div class="home-product__holder__right">
                 <div class="home-product__slider swiper-container">
                     <div class="slider swiper-wrapper">
+                        @foreach ($products as $productKey => $productValue)
+                            <a href="{{ route('front.product.detail', $productValue->slug) }}" class="home-product__single swiper-slide">
+                                <figure>
+                                    <img src="{{asset($productValue->image)}}" />
+                                </figure>
+                                <figcaption>
+                                    <h4>{{$productValue->name}}</h4>
+                                    <h6>Style # OF {{$productValue->style_no}}</h6>
+                                </figcaption>
+                            </a>
+                        @endforeach
+
+                        {{-- @for ($i = 0; $i < 7; $i++)
+                            <a href="details.html" class="home-product__single swiper-slide">
+                                <figure>
+                                    <img src="img/platina4.png" />
+                                </figure>
+                                <figcaption>
+                                    <h4>DUAL TONE T-SHIRT</h4>
+                                    <h6>Style # OF NC425</h6>
+                                </figcaption>
+                            </a>
+                        @endfor --}}
+
                         <a href="details.html" class="home-product__single swiper-slide">
                             <figure>
                                 <img src="img/dual_tone_tshirt.png" />
@@ -403,7 +459,7 @@
                                 <h6>Style # OF NC425</h6>
                             </figcaption>
                         </a>
-                        <a href="details.html" class="home-product__single swiper-slide">
+                        {{-- <a href="details.html" class="home-product__single swiper-slide">
                             <figure>
                                 <img src="img/socks4.png" />
                             </figure>
@@ -456,7 +512,7 @@
                                 <h4>DUAL TONE T-SHIRT</h4>
                                 <h6>Style # OF NC425</h6>
                             </figcaption>
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
             </div>

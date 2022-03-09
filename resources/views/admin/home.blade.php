@@ -90,25 +90,15 @@
                     @foreach ($data->orders as $order)
                         @php
                             switch($order->status) {
-                                case 1:
-                                    $status = 'New';
-                                    break;
-                                case 2:
-                                    $status = 'Confirmed';
-                                    break;
-                                case 3:
-                                    $status = 'Shipped';
-                                    break;
-                                case 4:
-                                    $status = 'Delivered';
-                                    break;
-                                case 5:
-                                    $status = 'Cancelled';
-                                    break;
+                                case 1:$status = 'New';break;
+                                case 2:$status = 'Confirmed';break;
+                                case 3:$status = 'Shipped';break;
+                                case 4:$status = 'Delivered';break;
+                                case 5:$status = 'Cancelled';break;
                             }
                         @endphp
                         <tr>
-                            <td>{{$order->id}}</td>
+                            <td>#{{$order->order_no}}</td>
                             <td>{{date('j M Y g:i A', strtotime($order->created_at))}}</td>
                             <td>Rs {{$order->final_amount}}</td>
                             <td><span class="badge bg-info">{{ $status }}</span></td>

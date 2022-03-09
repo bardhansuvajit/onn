@@ -18,8 +18,10 @@
                                 <p class="small text-dark mb-0"> <span class="text-muted">Qty : </span> {{$productValue->qty}}</p>
                                 <p class="small text-dark mb-0"> <span class="text-muted">Price : </span> Rs {{$productValue->price}}</p>
                                 <p class="small text-dark mb-0"> <span class="text-muted">Offer price : </span> Rs {{$productValue->offer_price}}</p>
-                                <p class="small text-dark mb-0"> <span class="text-muted">Color : </span> {{ucwords($productValue->productVariationDetails->colorDetails->name)}}</p>
-                                <p class="small text-dark mb-0"> <span class="text-muted">Size : </span> {{strtoupper($productValue->productVariationDetails->sizeDetails->name)}}</p>
+                                @if ($productValue->productVariationDetails)
+                                    <p class="small text-dark mb-0"> <span class="text-muted">Color : </span> {{ucwords($productValue->productVariationDetails->colorDetails->name)}}</p>
+                                    <p class="small text-dark mb-0"> <span class="text-muted">Size : </span> {{strtoupper($productValue->productVariationDetails->sizeDetails->name)}}</p>
+                                @endif
                             </div>
                         @endforeach
                     </div>
@@ -30,12 +32,12 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <a href="{{ route('admin.order.status', [$data->id, 1]) }}" type="button" class="btn btn-outline-primary btn-sm {{($data->status == 1) ? 'active' : ''}}">New</a>
-                            <a href="{{ route('admin.order.status', [$data->id, 2]) }}" type="button" class="btn btn-outline-primary btn-sm {{($data->status == 2) ? 'active' : ''}}">Confirm</a>
-                            <a href="{{ route('admin.order.status', [$data->id, 3]) }}" type="button" class="btn btn-outline-primary btn-sm {{($data->status == 3) ? 'active' : ''}}">Shipped</a>
-                            <a href="{{ route('admin.order.status', [$data->id, 4]) }}" type="button" class="btn btn-outline-success btn-sm {{($data->status == 4) ? 'active' : ''}}">Delivered</a>
-                            <a href="{{ route('admin.order.status', [$data->id, 5]) }}" type="button" class="btn btn-outline-danger btn-sm {{($data->status == 5) ? 'active' : ''}}">Cancelled</a>
-                        </div>
+                        <a href="{{ route('admin.order.status', [$data->id, 1]) }}" type="button" class="btn btn-outline-primary btn-sm {{($data->status == 1) ? 'active' : ''}}">New</a>
+                        <a href="{{ route('admin.order.status', [$data->id, 2]) }}" type="button" class="btn btn-outline-primary btn-sm {{($data->status == 2) ? 'active' : ''}}">Confirm</a>
+                        <a href="{{ route('admin.order.status', [$data->id, 3]) }}" type="button" class="btn btn-outline-primary btn-sm {{($data->status == 3) ? 'active' : ''}}">Shipped</a>
+                        <a href="{{ route('admin.order.status', [$data->id, 4]) }}" type="button" class="btn btn-outline-success btn-sm {{($data->status == 4) ? 'active' : ''}}">Delivered</a>
+                        <a href="{{ route('admin.order.status', [$data->id, 5]) }}" type="button" class="btn btn-outline-danger btn-sm {{($data->status == 5) ? 'active' : ''}}">Cancelled</a>
+                    </div>
                 </div>
             </div>
 
@@ -43,6 +45,7 @@
                 <div class="card-body">
                     <div class="form-group mb-3">
                         <p class="small">Order Time : {{date('j M Y g:i A', strtotime($data->created_at))}}</p>
+                        <h5>#{{$data->order_no}}</h5>
                         <h2>{{$data->fname.' '.$data->lname}}</h2>
                         <p class="small text-dark mb-0"> <span class="text-muted">Email : </span> {{$data->email}}</p>
                         <p class="small text-dark mb-0"> <span class="text-muted">Mobile : </span> {{$data->mobile}}</p>

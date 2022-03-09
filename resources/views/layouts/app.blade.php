@@ -38,7 +38,7 @@
                                 <a href="{{ route('front.home') }}" class="home"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a>
                             </li>
                             <li>
-                                <a href="listing.html">Collection <i class="far fa-angle-down"></i></a>
+                                <a href="{{ route('front.collection.detail', $collections[0]->slug) }}">Collection <i class="far fa-angle-down"></i></a>
                                 <div class="sub-menu mega-menu">
                                     <aside>
                                         <ul>
@@ -53,7 +53,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="listing.html">Categories <i class="far fa-angle-down"></i></a>
+                                <a href="{{ route('front.category.detail', $categories[0]->slug) }}">Categories <i class="far fa-angle-down"></i></a>
                                 <div class="sub-menu mega-menu">
                                     <aside>
                                         <ul>
@@ -88,7 +88,7 @@
                             </li>
                             <li>
                                 <a href="{{route('front.user.login')}}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{{ (Auth::guard('web')->check()) ? '#4caf50' : 'currentColor' }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="{{ (Auth::guard('web')->check()) ? '#c10909' : 'currentColor' }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                                 </a>
                             </li>
                             <li>
@@ -271,13 +271,15 @@
                 <div class="row">
                     <div class="col-md-5 col-lg-5 mb-3 mb-md-0">
                         <div class="newsletter-form">
-                            <form>
+                            <form method="POST" action="{{route('front.subscription')}}">@csrf
                                 <div class="footer-form">
-                                    <input type="email" placeholder="Enter your email address">
+                                    <input type="email" name="email" value="{{old('email')}}" placeholder="Enter your email address">
                                     <button type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                                     </button>
                                 </div>
+                                @error('email') <p class="mb-0 text-white small">{{$message}}</p>@enderror
+                                @if(Session::get('mailSuccess')) <p class="mb-0 text-white small">{{Session::get('mailSuccess')}}</p>@endif
                             </form>
     
                             <div class="footer-block mt-3 mt-md-auto">
@@ -327,7 +329,7 @@
                             <a href="#">Terms & Conditions</a>
                             <a href="#">Privacy Statement</a>
                             <a href="#">Security</a>
-                            <a href="#">Disclaime</a>
+                            <a href="#">Disclaimer</a>
                         </div>
                     </div>
                     <div class="col-md-4">

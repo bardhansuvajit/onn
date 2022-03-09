@@ -14,4 +14,5 @@ interface UserInterface
     public function addressCreate(array $data);
     public function updateProfile(array $data);
     public function updatePassword(array $data);
+    public function orderDetails();
 }

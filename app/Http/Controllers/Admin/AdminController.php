@@ -39,8 +39,8 @@ class AdminController extends Controller
         $data->users = User::count();
         $data->category = Category::count();
         $data->subcategory = SubCategory::count();
-        $data->products = Product::all();
-        $data->orders = Order::all();
+        $data->products = Product::latest('id')->limit(5)->get();
+        $data->orders = Order::latest('id')->limit(5)->get();
         return view('admin.home', compact('data'));
     }
 }

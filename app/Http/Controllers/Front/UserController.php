@@ -57,7 +57,8 @@ class UserController extends Controller
 
     public function order(Request $request)
     {
-        return view('front.profile.order');
+        $data = $this->userRepository->orderDetails();
+        return view('front.profile.order', compact('data'));
     }
 
     public function coupon(Request $request)

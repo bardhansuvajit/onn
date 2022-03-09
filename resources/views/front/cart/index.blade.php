@@ -79,14 +79,18 @@
                     <h4>{{$cartValue->product_name}}</h4>
                     <h6>Style # OF {{$cartValue->product_style_no}}</h6>
                 </div>
-                <div class="cart-item item-attr">
-                    <div class="cart-text">Size</div>
-                    <h4>M</h4>
-                </div>
+                @if ($cartValue->cartVariationDetails)
+                    <div class="cart-item item-attr">
+                        <div class="cart-text">Size</div>
+                        <h4>{{$cartValue->cartVariationDetails->sizeDetails->name}}</h4>
+                    </div>
+                @endif
+                @if ($cartValue->cartVariationDetails)
                 <div class="cart-item item-attr">
                     <div class="cart-text">Colour</div>
-                    <h4>Red</h4>
+                    <h4>{{ucwords($cartValue->cartVariationDetails->colorDetails->name)}}</h4>
                 </div>
+                @endif
                 <div class="cart-item item-price">
                     <div class="cart-text">Price</div>
                     <h4>&#8377;{{$cartValue->offer_price}}</h4>

@@ -100,6 +100,7 @@
                     <label class="form-check-label" for="flexCheckDefault"></label>
                 </div>
                 <td>
+                    <p class="small text-dark mb-1">#{{$item->order_no}}</p>
                     <p class="small text-dark mb-1">{{$item->fname.' '.$item->lname}}</p>
                     <p class="small text-muted mb-0">{{$item->email.' | '.$item->mobile}}</p>
                     <div class="row__action">

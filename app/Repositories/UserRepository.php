@@ -5,11 +5,16 @@ namespace App\Repositories;
 use App\Interfaces\UserInterface;
 use App\User;
 use App\Models\Address;
+use App\Models\Order;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserRepository implements UserInterface 
 {
+    public function __construct() {
+        $this->ip = $_SERVER['REMOTE_ADDR'];
+    }
+
     public function listAll() 
     {
         return User::all();
@@ -125,5 +130,11 @@ class UserRepository implements UserInterface
         } else {
             return false;
         }
+    }
+
+    public function orderDetails() 
+    {
+        $orderData = Order::where('user_id', Auth::guard('web')->user()->id)->orWhere('ip', $this->ip)->latest('id')->get();
+        return $orderData;
     }
 }

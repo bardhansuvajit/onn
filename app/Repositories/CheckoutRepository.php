@@ -91,7 +91,7 @@ class CheckoutRepository implements CheckoutInterface
             $orderProductsNewEntry = OrderProduct::insert($orderProducts);
 
             // remove cart data
-            // $emptyCart = Cart::where('ip', $this->ip)->delete();
+            $emptyCart = Cart::where('ip', $this->ip)->delete();
 
             DB::commit();
             return $order_no;
