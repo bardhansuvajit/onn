@@ -181,23 +181,25 @@
                     </div>
 
                     <h4 class="cart-heading">Billing address</h4>
-
+                    <ul class="checkout-meta mb-2">
                     @if (isset($addressData))
                     @foreach ($addressData as $addressKey => $addressValue)
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="existing_billing_address" id="existing_billing_address.{{$addressValue->id}}" value="{{$addressValue->id}}" {{$addressKey == 0 ? 'checked' : ''}}>
+                        <li><div class="form-check">
+                            <input class="form-check-input" type="radio" name="existing_billing_address" id="existing_billing_address.{{$addressValue->id}}" value="{{$addressValue->id}}"  billing_address="{{$addressValue->address}}" billing_country="{{$addressValue->country ? $addressValue->country.', ' : ''}}" billing_landmark="{{$addressValue->landmark ? $addressValue->landmark.', ' : ''}}" billing_city="{{$addressValue->city}}" billing_state="{{$addressValue->state}}" billing_pin="{{$addressValue->pin}}" {{$addressKey == 0 ? 'checked' : ''}}>
                             <label class="form-check-label" for="existing_billing_address.{{$addressValue->id}}">
                                 <span class="billing_address">{{$addressValue->address}}</span>, 
                                 <span class="billing_country">{{$addressValue->country ? $addressValue->country.', ' : ''}}</span>
                                 <span class="billing_landmark">{{$addressValue->landmark ? $addressValue->landmark.', ' : ''}}</span>, 
                                 <span class="billing_city">{{$addressValue->city}}</span>, 
                                 <span class="billing_state">{{$addressValue->state}}</span>, 
-                                <span class="billing_pin">{{$addressValue->pin}}</span>
+                                <span class="billing_pin" >{{$addressValue->pin}}</span>
                             </label>
-                        </div>
+                        </div></li>
+
                     @endforeach
                     @endif
 
+                    </ul>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -271,8 +273,8 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input class="form-check-input" name="shippingSameAsBilling" type="checkbox" value="1" id="flexCheckDefault" checked>
-                                    <label class="form-check-label" for="flexCheckDefault" >
+                                    <input class="form-check-input" name="shippingSameAsBilling" type="checkbox" value="1" id="shippingaddress" checked>
+                                    <label class="form-check-label" for="shippingaddress" >
                                         Same as Billing Address
                                     </label>
                                 </div>
@@ -281,7 +283,7 @@
                         </div>
                     </div>
 
-                    <div class="row s-add">
+                    <div class="row shipping-address d-none">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="shipping_country" value="{{old('shipping_country')}}" placeholder="Country/Region">

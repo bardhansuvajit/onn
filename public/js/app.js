@@ -649,6 +649,45 @@ var collection__thumb = new Swiper(".login-collection__thumb", {
   },
 });
 
+
+
+new Swiper('.register-collection__thumb', {
+  direction: 'horizontal',
+  loop: true,
+  speed: 2500,
+  freeMode: true,
+  freeModeMomentum: false,
+  freeModeMomentumBounce: false,
+  grabCursor: false,
+  slidesPerView: 4,
+  spaceBetween: 10,
+  centeredSlides: false,
+  allowTouchMove: false,
+  autoplay: {
+    delay: 0,
+    disableOnInteraction: false,
+  },
+  breakpoints: {
+    // when window width is >= 320px
+    320: {
+      slidesPerView: 2,
+    },
+    // when window width is >= 480px
+    480: {
+      slidesPerView: 2,
+    },
+    // when window width is >= 640px
+    640: {
+      slidesPerView: 3,
+    },
+    // when window width is >= 640px
+    1024: {
+      slidesPerView: 4,
+    }
+  }
+});
+
+
 /*------------------------------------------
     = Counter Odometter (virticle)
 -------------------------------------------*/
@@ -973,21 +1012,21 @@ $(document).on('click', '.filter__button', function(){
   $(this).remove();
 });
 
-// var value = 0
-// $(".counter").val(value);
-// $('.increment').on("click", function() {
-//   value = parseInt(value+1);
-//   $(".counter").val(value);
-// });
-// $('.decrement').on("click", function(){
-//   if(value > 0){
-//     value = parseInt(value-1);
-//     $(".counter").val(value);
-//   }else{
-//     value = 0;
-//     $(".counter").val(value);
-//   }
-// });
+var value = 0
+$(".counter").val(value);
+$('.increment').on("click", function() {
+  value = parseInt(value+1);
+  $(".counter").val(value);
+});
+$('.decrement').on("click", function(){
+  if(value > 0){
+    value = parseInt(value-1);
+    $(".counter").val(value);
+  }else{
+    value = 0;
+    $(".counter").val(value);
+  }
+});
 
 
 
@@ -1074,4 +1113,24 @@ $('.filter__close').click(function(e){
   e.preventDefault();
   $('.product__holder').toggleClass('active');
   $('.product__filter').toggleClass('active');
+});
+
+$('#shippingaddress').click(function(){
+  $('.shipping-address').toggleClass('d-none');
+});
+
+
+$('input[name="existing_billing_address"]').click(function(){
+  var billing_city = $(this).attr('billing_city');
+  var billing_state = $(this).attr('billing_state');
+  var billing_country = $(this).attr('billing_country');
+  var billing_address = $(this).attr('billing_address');
+  var billing_pin = $(this).attr('billing_pin');
+  var billing_landmark = $(this).attr('billing_landmark');
+  $("input[name='billing_city']").val(billing_city);
+  $("input[name='billing_state']").val(billing_state);
+  $("input[name='billing_country']").val(billing_country);
+  $("input[name='billing_address']").val(billing_address);
+  $("input[name='billing_pin']").val(billing_pin);
+  $("input[name='billing_landmark']").val(billing_landmark);
 });
