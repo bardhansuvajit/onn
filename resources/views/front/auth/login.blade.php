@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>ONN Total Comfort | @yield('page')</title>
+    <title>ONN Total Comfort | Login</title>
 
     <link rel="icon" href="img/favicon.png" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="{{ asset('css/plugin.css') }}">
@@ -28,150 +28,28 @@
                 </div>
                 <div class="register-collection__thumb swiper-container">
                     <div class="slider swiper-wrapper">
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/round_neck_tshirt.png')}}" />
-                                <h4>Round Neck T-shirt</h4>
-                                <h6>Style # OF NC422</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/v_neck_tshirt.png')}}" />
-                                <h4>V Neck T-shirt</h4>
-                                <h6>Style # OF NC423</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/full_sleeves_rn_tshirt.png')}}" />
-                                <h4>Full Sleeves R/N T-Shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/polo_tshirt.png')}}" />
-                                <h4>Polo T-shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/polo_pocket_tshirt.png')}}" />
-                                <h4>Polo T-shirt With Pocket</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/dual_tone_tshirt.png')}}" />
-                                <h4>Dual Tone T-Shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/printed_tshirt.png')}}" />
-                                <h4>Printed T-Shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/smart_fit_tshirt.png')}}" />
-                                <h4>Smart Fit T-Shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/polo_tshirt_for_her.png')}}" />
-                                <h4>Polo T-Shirt For Her</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/round_neck_tshirt_for_her.png')}}" />
-                                <h4>Round Neck T-Shirt For Her</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
+                        @foreach ($recommendedProducts as $productKey => $productValue)
+                           <a href="{{route('front.product.detail', $productValue->slug)}}" class="register-collection__thumb-single swiper-slide">
+                                <figure>
+                                    <img src="{{asset($productValue->image)}}" />
+                                    <h4>{{$productValue->name}}</h4>
+                                    <h6>Style # OF {{$productValue->style_no}}</h6>
+                                </figure>
+                            </a>
+                        @endforeach
                     </div>
                 </div>
                 <div class="register-collection__thumb swiper-container" dir="rtl">
                     <div class="slider swiper-wrapper">
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/round_neck_tshirt.png')}}" />
-                                <h4>Round Neck T-shirt</h4>
-                                <h6>Style # OF NC422</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/v_neck_tshirt.png')}}" />
-                                <h4>V Neck T-shirt</h4>
-                                <h6>Style # OF NC423</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/full_sleeves_rn_tshirt.png')}}" />
-                                <h4>Full Sleeves R/N T-Shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/polo_tshirt.png')}}" />
-                                <h4>Polo T-shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/polo_pocket_tshirt.png')}}" />
-                                <h4>Polo T-shirt With Pocket</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/dual_tone_tshirt.png')}}" />
-                                <h4>Dual Tone T-Shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/printed_tshirt.png')}}" />
-                                <h4>Printed T-Shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/smart_fit_tshirt.png')}}" />
-                                <h4>Smart Fit T-Shirt</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/polo_tshirt_for_her.png')}}" />
-                                <h4>Polo T-Shirt For Her</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
-                        <a href="details.html" class="register-collection__thumb-single swiper-slide">
-                            <figure>
-                                <img src="{{asset('img/round_neck_tshirt_for_her.png')}}" />
-                                <h4>Round Neck T-Shirt For Her</h4>
-                                <h6>Style # OF NC425</h6>
-                            </figure>
-                        </a>
+                        @foreach ($recommendedProducts as $productKey => $productValue)
+                           <a href="{{route('front.product.detail', $productValue->slug)}}" class="register-collection__thumb-single swiper-slide">
+                                <figure>
+                                    <img src="{{asset($productValue->image)}}" />
+                                    <h4>{{$productValue->name}}</h4>
+                                    <h6>Style # OF {{$productValue->style_no}}</h6>
+                                </figure>
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -180,6 +58,7 @@
                     <div class="register-logo">
                         <a href="{{route('front.home')}}"><img src="{{asset('img/logo.png')}}"></a>
                     </div>
+
                     <h3>Login</h3>
                     <h4>Welcome to ONN</h4>
 
@@ -224,7 +103,6 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/animation.gsap.min.js'></script>
     <script src="{{ asset('node_modules/scrollmagic/scrollmagic/minified/plugins/debug.addIndicators.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    @yield('script')
 </body>
 
 

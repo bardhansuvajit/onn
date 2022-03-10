@@ -47,9 +47,9 @@ Route::name('front.')->group(function() {
     Route::middleware(['guest:web'])->group(function() {
         // user login & registration
         Route::prefix('user/')->name('user.')->group(function() {
-            Route::view('/register', 'front.auth.register')->name('register');
+            Route::get('/register', 'Front\UserController@register')->name('register');
             Route::post('/create', 'Front\UserController@create')->name('create');
-            Route::view('/login', 'front.auth.login')->name('login');
+            Route::get('/login', 'Front\UserController@login')->name('login');
             Route::post('/check', 'Front\UserController@check')->name('check');
         });
     });

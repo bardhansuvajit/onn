@@ -15,6 +15,18 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    public function login(Request $request)
+    {
+        $recommendedProducts = $this->userRepository->recommendedProducts();
+        return view('front.auth.login', compact('recommendedProducts'));
+    }
+
+    public function register(Request $request)
+    {
+        $recommendedProducts = $this->userRepository->recommendedProducts();
+        return view('front.auth.register', compact('recommendedProducts'));
+    }
+
     public function create(Request $request)
     {
         $request->validate([

@@ -6,6 +6,7 @@ use App\Interfaces\UserInterface;
 use App\User;
 use App\Models\Address;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -134,7 +135,13 @@ class UserRepository implements UserInterface
 
     public function orderDetails() 
     {
-        $orderData = Order::where('user_id', Auth::guard('web')->user()->id)->orWhere('ip', $this->ip)->latest('id')->get();
-        return $orderData;
+        $data = Order::where('user_id', Auth::guard('web')->user()->id)->orWhere('ip', $this->ip)->latest('id')->get();
+        return $data;
+    }
+
+    public function recommendedProducts() 
+    {
+        $data = Product::latest('is_best_seller', 'id')->get();
+        return $data;
     }
 }

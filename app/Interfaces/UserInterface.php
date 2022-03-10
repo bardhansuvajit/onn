@@ -15,4 +15,5 @@ interface UserInterface
     public function updateProfile(array $data);
     public function updatePassword(array $data);
     public function orderDetails();
+    public function recommendedProducts();
 }
