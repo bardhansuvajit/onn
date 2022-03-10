@@ -23,12 +23,14 @@ class CreateSizesTable extends Migration
         });
 
         $data = [
+            ['name' => 'XS'],
             ['name' => 'S'],
             ['name' => 'M'],
             ['name' => 'L'],
             ['name' => 'XL'],
             ['name' => '2XL'],
-            ['name' => '3XL']
+            ['name' => '3XL'],
+            ['name' => '4XL']
         ];
 
         DB::table('sizes')->insert($data);

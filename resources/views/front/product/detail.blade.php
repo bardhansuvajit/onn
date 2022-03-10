@@ -28,6 +28,16 @@
     border-color: #c10909;
     color: #fff;
 }
+.product-details__content__holder .product__color li {
+    width: auto;
+    height: 30px;
+    padding: 2px 8px;
+}
+/* .product-details__content__holder .product__color li .color__holder {
+    width: auto;
+    height: 30px;
+    padding: 2px 8px;
+} */
 </style>
 
 <section id="specifications" class="product-details">
@@ -105,13 +115,9 @@
                 }
 
                 echo '<h6>Available Colour</h6><ul class="product__color">';
-
                 foreach($uniqueColors as $colorCode) {
                     echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')">'.ucwords($colorCode['name']).'</li>';
-
-                    // echo '<div onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="text-align:center;height: 70px;width: 40px;margin-right: 20px;"><div class="btn btn-sm rounded-circle" style="background-color: '.$colorCode['code'].';height: 40px;width: 40px;"></div><p class="small text-muted mb-0 mt-2">'.ucwords($colorCode['name']).'</p></div>';
                 }
-
                 echo '</ul>';
 
                 @endphp
@@ -224,4 +230,10 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $('.product__color li').eq(0).addClass('active');
+</script>
 @endsection
