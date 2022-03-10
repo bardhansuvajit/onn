@@ -259,10 +259,10 @@
                         <div class="col">
                             <div class="footer-block">
                                 <ul class="social">
-                                    <li><a href="https://facebook.com/"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://twitter.com/"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://instagram.com/"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://twitter.com/"><i class="fab fa-youtube" aria-hidden="true"></i></a></li>
+                                    <li><a href="{{$settings[9]->content}}"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+                                    <li><a href="{{$settings[10]->content}}"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                                    <li><a href="{{$settings[12]->content}}"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+                                    <li><a href="{{$settings[11]->content}}"><i class="fab fa-youtube" aria-hidden="true"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -293,13 +293,16 @@
                                 <div class="footer-block">
                                     <div class="footer-heading">Quick Links</div>
                                     <ul class="footer-block-menu">
-                                        <li><a href="listing.html">Innerwears</a></li>
+                                        @foreach ($categories as $categoryIndex => $categoryValue)
+                                            <li><a href="{{route('front.category.detail', $categoryValue->slug)}}">{{$categoryValue->name}}</a></li>
+                                        @endforeach
+                                        {{-- <li><a href="listing.html">Innerwears</a></li>
                                         <li><a href="listing.html">Outerwears</a></li>
                                         <li><a href="listing.html">Platina</a></li>
                                         <li><a href="listing.html">Relaxz</a></li>
                                         <li><a href="listing.html">Footkins</a></li>
                                         <li><a href="listing.html">Thermal</a></li>
-                                        <li><a href="listing.html">Winter</a></li>
+                                        <li><a href="listing.html">Winter</a></li> --}}
                                     </ul>
                                 </div>
                             </div>

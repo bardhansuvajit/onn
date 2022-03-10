@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Category;
 use App\Models\Collection;
+use App\Models\Settings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,8 +41,15 @@ class AppServiceProvider extends ServiceProvider
                 $collections = Collection::where('status', 1)->get();
             }
 
+            // settings
+            $settingsExists = Schema::hasTable('settings');
+            if ($settingsExists) {
+                $settings = Settings::where('status', 1)->get();
+            }
+
             view()->share('categories', $categories);
             view()->share('collections', $collections);
+            view()->share('settings', $settings);
         });
     }
 }
