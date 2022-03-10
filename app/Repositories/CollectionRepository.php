@@ -59,16 +59,23 @@ class CollectionRepository implements CollectionInterface
         if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
         $modelDetails->slug = $slug;
 
+        // icon image
+        $image = $collection['icon_path'];
+        $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+        $image->move($upload_path, $imageName);
+        $uploadedImage = $imageName;
+        $modelDetails->icon_path = $upload_path.$uploadedImage;
+
         // thumb image
         $image = $collection['image_path'];
-        $imageName = time().".".$image->getClientOriginalName();
+        $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
         $image->move($upload_path, $imageName);
         $uploadedImage = $imageName;
         $modelDetails->image_path = $upload_path.$uploadedImage;
 
         // banner image
         $bannerImage = $collection['banner_image'];
-        $bannerImageName = time().".".$bannerImage->getClientOriginalName();
+        $bannerImageName = time().".".mt_rand().".".$bannerImage->getClientOriginalName();
         $bannerImage->move($upload_path, $bannerImageName);
         $uploadedImage = $bannerImageName;
         $modelDetails->banner_image = $upload_path.$uploadedImage;
@@ -91,7 +98,7 @@ class CollectionRepository implements CollectionInterface
 
         // if (in_array('image_path', $newDetails)) {
         //     $image = $collection['image_path'];
-        //     $imageName = time().".".$image->getClientOriginalName();
+        //     $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
         //     $image->move($upload_path, $imageName);
         //     $uploadedImage = $imageName;
         //     $modelDetails->image_path = $upload_path.$uploadedImage;
@@ -103,9 +110,17 @@ class CollectionRepository implements CollectionInterface
         if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
         $modelDetails->slug = $slug;
 
+        if (isset($newDetails['icon_path'])) {
+            $image = $collection['icon_path'];
+            $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+            $image->move($upload_path, $imageName);
+            $uploadedImage = $imageName;
+            $modelDetails->icon_path = $upload_path.$uploadedImage;
+        }
+
         if (isset($newDetails['image_path'])) {
             $image = $collection['image_path'];
-            $imageName = time().".".$image->getClientOriginalName();
+            $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
             $modelDetails->image_path = $upload_path.$uploadedImage;
@@ -114,7 +129,7 @@ class CollectionRepository implements CollectionInterface
         if (isset($newDetails['banner_image'])) {
             // dd('here');
             $bannerImage = $collection['banner_image'];
-            $bannerImageName = time().".".$bannerImage->getClientOriginalName();
+            $bannerImageName = time().".".mt_rand().".".$bannerImage->getClientOriginalName();
             $bannerImage->move($upload_path, $bannerImageName);
             $uploadedImage = $bannerImageName;
             $modelDetails->banner_image = $upload_path.$uploadedImage;

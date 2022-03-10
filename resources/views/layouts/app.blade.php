@@ -108,141 +108,22 @@
             <i class="fal fa-times"></i>
         </div>
         <div class="menu__row">
+            @foreach ($collections as $collectionKey => $collectionValue)
             <div class="menu__block">
-                <div class="menu__text">Footkins</div>
+                <div class="menu__text">{{$collectionValue->name}}</div>
                 <div class="menu__links">
                     <ul>
-                        <li><a href="details.html">No Show Socks</a></li>
-                        <li><a href="details.html">Low Show Socks</a></li>
-                        <li><a href="details.html">Ankelt Socks</a></li>
-                        <li><a href="details.html">Ankelt Plated Socks</a></li>
-                        <li><a href="details.html">High Ankelt Half Terry Socks</a></li>
-                        <li><a href="details.html">Crew Normal Socks</a></li>
-                        <li><a href="details.html">Crew Plated Socks</a></li>
-                        <li><a href="details.html">Crew Full Terry Socks</a></li>
-                        <li><a href="details.html">Crew Full Terry Fashion Socks</a></li>
-                        <li><a href="listing.html">View All</a></li>
+                        @foreach ($collectionValue->ProductDetails as $collectionProductKey => $collectionProductValue )
+                            <li><a href="{{ route('front.product.detail', $collectionProductValue->slug) }}">{{$collectionProductValue->name}}</a></li>
+                        @endforeach
+                        <li><a href="{{ route('front.collection.detail', $collectionValue->slug) }}">View All</a></li>
                     </ul>
                 </div>
                 <div class="menu__image">
-                    <img src="img/range4.png">
+                    <img src="{{asset($collectionValue->icon_path)}}">
                 </div>
             </div>
-            <div class="menu__block">
-                <div class="menu__text">Innerwear</div>
-                <div class="menu__links">
-                    <ul>
-                        <li><a href="details.html">Fine Vest</a></li>
-                        <li><a href="details.html">Ribbed Vest</a></li>
-                        <li><a href="details.html">Modern Vest</a></li>
-                        <li><a href="details.html">Fine Vest RN</a></li>
-                        <li><a href="details.html">Fine Vest RNS</a></li>
-                        <li><a href="details.html">Sinker Brief</a></li>
-                        <li><a href="details.html">Sinker Boxer</a></li>
-                        <li><a href="details.html">Fashion Boxer</a></li>
-                        <li><a href="details.html">Bikini Brief</a></li>
-                        <li><a href="listing.html">View All</a></li>
-                    </ul>
-                </div>
-                <div class="menu__image">
-                    <img src="img/range3.png">
-                </div>
-            </div>
-            <div class="menu__block">
-                <div class="menu__text">Acttive</div>
-                <div class="menu__links">
-                    <ul>
-                        <li><a href="details.html">Round Neck T-shirt</a></li>
-                        <li><a href="details.html">V Neck T-shirt</a></li>
-                        <li><a href="details.html">Full Sleeves R/N Neck T-shirt</a></li>
-                        <li><a href="details.html">Polo T-shirt</a></li>
-                        <li><a href="details.html">Polo T-shirt With Pocket</a></li>
-                        <li><a href="details.html">Dual Tone T-shirt</a></li>
-                        <li><a href="details.html">Printed T-shirt</a></li>
-                        <li><a href="details.html">Smart Fit T-shirt</a></li>
-                        <li><a href="details.html">Fashion T-shirt</a></li>
-                        <li><a href="listing.html">View All</a></li>
-                    </ul>
-                </div>
-                <div class="menu__image">
-                    <img src="img/range5.png">
-                </div>
-            </div>
-            <div class="menu__block">
-                <div class="menu__text">Thermal</div>
-                <div class="menu__links">
-                    <ul>
-                        <li><a href="details.html">Half Sleeve R/Neck</a></li>
-                        <li><a href="details.html">Full Sleeve R/Neck</a></li>
-                        <li><a href="details.html">Full Sleeve V/Neck</a></li>
-                        <li><a href="details.html">Full Sleeve Crew Neck</a></li>
-                        <li><a href="details.html">Trouser</a></li>
-                        <li><a href="details.html">3/4th Sleeve U/Neck</a></li>
-                        <li><a href="details.html">Sleeveless Slip</a></li>
-                        <li><a href="listing.html">View All</a></li>
-                    </ul>
-                </div>
-                <div class="menu__image">
-                    <img src="img/range.png">
-                </div>
-            </div>
-            <div class="menu__block">
-                <div class="menu__text">Winter Wear</div>
-                <div class="menu__links">
-                    <ul>
-                        <li><a href="details.html">Printed Sweatshirt</a></li>
-                        <li><a href="details.html">Sweatshirt</a></li>
-                        <li><a href="details.html">Printed Sweatshirt With Hood</a></li>
-                        <li><a href="details.html">Fashion Sweatshirt</a></li>
-                        <li><a href="details.html">Hoodie Jacket</a></li>
-                        <li><a href="details.html">Hi-Neck Jacket</a></li>
-                        <li><a href="details.html">Hi-Neck Half Zip Sweatshirt</a></li>
-                        <li><a href="details.html">Winter Track Pant</a></li>
-                        <li><a href="details.html">Winter Joggers</a></li>
-                        <li><a href="listing.html">View All</a></li>
-                    </ul>
-                </div>
-                <div class="menu__image">
-                    <img src="img/range1.png">
-                </div>
-            </div>
-            <div class="menu__block">
-                <div class="menu__text">Relaxz</div>
-                <div class="menu__links">
-                    <ul>
-                        <li><a href="details.html">Fine Vest</a></li>
-                        <li><a href="details.html">Basic Brief</a></li>
-                        <li><a href="details.html">Brief</a></li>
-                        <li><a href="details.html">Mini Trunk</a></li>
-                        <li><a href="details.html">Long Trunk</a></li>
-                        <li><a href="details.html">Textile Boxer</a></li>
-                        <li><a href="listing.html">View All</a></li>
-                    </ul>
-                </div>
-                <div class="menu__image">
-                    <img src="img/range6.png">
-                </div>
-            </div>
-            <div class="menu__block">
-                <div class="menu__text">Platina</div>
-                <div class="menu__links">
-                    <ul>
-                        <li><a href="details.html">Fine Vest</a></li>
-                        <li><a href="details.html">Fashion Brief</a></li>
-                        <li><a href="details.html">Brief</a></li>
-                        <li><a href="details.html">Mini Trunk</a></li>
-                        <li><a href="details.html">Semi Long</a></li>
-                        <li><a href="details.html">R/Neck T-shirt</a></li>
-                        <li><a href="details.html">Polo T-shirt</a></li>
-                        <li><a href="details.html">Half Pant</a></li>
-                        <li><a href="details.html">Track Pant</a></li>
-                        <li><a href="listing.html">View All</a></li>
-                    </ul>
-                </div>
-                <div class="menu__image">
-                    <img src="img/range2.png">
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 

@@ -59,7 +59,7 @@
             <div class="col-4 col-sm-3 col-lg-2">
                 <a href="{{ route('front.category.detail', $categoryValue->slug) }}" class="home-category-single">
                     <figure>
-                        <img src="{{asset($categoryValue->image_path)}}">
+                        <img src="{{asset($categoryValue->icon_path)}}">
                     </figure>
                     <figcaption>
                         {{$categoryValue->name}}

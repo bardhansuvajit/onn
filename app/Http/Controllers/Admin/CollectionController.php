@@ -30,20 +30,12 @@ class CollectionController extends Controller
         $request->validate([
             "name" => "required|string|max:255",
             "description" => "nullable|string",
-            "image_path" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000"
+            "icon_path" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000",
+            "image_path" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000",
+            "banner_image" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000"
         ]);
 
-        // generate slug
-        $slug = Str::slug($request->name, '-');
-        $slugExistCount = Collection::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
-
-        // send slug
-        request()->merge(['slug' => $slug]);
-
-        // $params = $request->only(['name', 'description', 'image_path', 'slug']);
         $params = $request->except('_token');
-
         $storeData = $this->collectionRepository->createCollection($params);
 
         if ($storeData) {
@@ -66,19 +58,12 @@ class CollectionController extends Controller
         $request->validate([
             "name" => "required|string|max:255",
             "description" => "nullable|string",
-            "image_path" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000"
+            "icon_path" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000",
+            "image_path" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000",
+            "banner_image" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000"
         ]);
 
-        // generate slug
-        $slug = Str::slug($request->name, '-');
-        $slugExistCount = Collection::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
-
-        // send slug
-        request()->merge(['slug' => $slug]);
-
         $params = $request->except('_token');
-
         $storeData = $this->collectionRepository->updateCollection($id, $params);
 
         if ($storeData) {
