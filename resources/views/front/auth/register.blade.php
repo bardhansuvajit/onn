@@ -159,38 +159,38 @@
     </div>
     <div class="register-right">
         <form method="POST"  class="register-block" action="{{route('front.user.create')}}">@csrf
-                <div class="register-logo">
-                    <img src="{{asset('img/logo.png')}}">
-                </div>
-                <h3>Sign Up</h3>
-                <h4>Welcome to ONN</h4>
+            <div class="register-logo">
+                <img src="{{asset('img/logo.png')}}">
+            </div>
+            <h3>Sign Up</h3>
+            <h4>Welcome to ONN</h4>
 
-                <div class="register-card">
-                    <div class="register-group">
-                        <input type="email" class="register-box" name="email" placeholder="Email id" value="{{old('email')}}">
-                        <label class="floating-label">Email id</label>
-                        @error('email') <p class="small text-danger mb-0">{{$message}}</p> @enderror
-                    </div>
-                    <div class="register-group">
-                        <input type="tel" class="register-box" name="mobile" placeholder="Mobile no" value="{{old('mobile')}}">
-                        <label class="floating-label">Mobile no</label>
-                        @error('mobile') <p class="small text-danger mb-0">{{$message}}</p> @enderror
-                    </div>
-                    <div class="register-group">
-                        <input type="password" class="register-box" name="password" placeholder="Password">
-                        <label class="floating-label">Password</label>
-                        @error('password') <p class="small text-danger mb-0">{{$message}}</p> @enderror
-                    </div>
+            <div class="register-card">
+                <div class="register-group">
+                    <input type="email" class="register-box" name="email" placeholder="Email id" value="{{old('email')}}" autofocus>
+                    <label class="floating-label">Email id</label>
+                    @error('email') <p class="small text-danger mb-0">{{$message}}</p> @enderror
                 </div>
+                <div class="register-group">
+                    <input type="tel" class="register-box" name="mobile" placeholder="Mobile no" value="{{old('mobile')}}">
+                    <label class="floating-label">Mobile no</label>
+                    @error('mobile') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                </div>
+                <div class="register-group">
+                    <input type="password" class="register-box" name="password" placeholder="Password">
+                    <label class="floating-label">Password</label>
+                    @error('password') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                </div>
+            </div>
 
-                <div class="row align-items-center">
-                    <div class="col-5">
-                        <a href="#">Login with OTP</a>
-                    </div>
-                    <div class="col-7">
-                        <button type="submit">Sign Up</button>
-                    </div>
+            <div class="row align-items-center">
+                <div class="col-5">
+                    <a href="{{route('front.user.login')}}">Back to Login</a>
                 </div>
+                <div class="col-7">
+                    <button type="submit">Sign Up</button>
+                </div>
+            </div>
         </form>
     </div>
 </section>
