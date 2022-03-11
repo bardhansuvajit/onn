@@ -126,7 +126,7 @@
 														</td>
 														</tr> --}}
 														<tr>
-															<td class="text pb15" style="color:#2e364b; font-family:Arial, sans-serif; font-size:14px; line-height:24px; text-align:left; padding-bottom:12px; font-weight:500;">Dear <span> [NAME OF THE CUSTOMER],<span></td>
+															<td class="text pb15" style="color:#2e364b; font-family:Arial, sans-serif; font-size:14px; line-height:24px; text-align:left; padding-bottom:12px; font-weight:500;">Dear <span> {{$name}},<span></td>
 														</tr>
 														<tr>
 															<td class="text pb15" style="color:#2e364b; font-family:Arial, sans-serif; font-size:14px; line-height:24px; text-align:left; padding-bottom:8px;">Welcome to Onn. Thank you for choosing us. You can browse a large variety of products from different categories :</td>

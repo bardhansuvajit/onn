@@ -66,7 +66,17 @@
 
                     <div class="register-card">
                         <div class="register-group">
-                            <input type="email" class="register-box" name="email" placeholder="Email id" value="{{old('email')}}" autofocus>
+                            <input type="text" class="register-box" name="fname" placeholder="First Name" value="{{old('fname')}}" autofocus>
+                            <label class="floating-label">First Name</label>
+                            @error('fname') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                        </div>
+                        <div class="register-group">
+                            <input type="text" class="register-box" name="lname" placeholder="Last Name" value="{{old('lname')}}">
+                            <label class="floating-label">Last Name</label>
+                            @error('lname') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                        </div>
+                        <div class="register-group">
+                            <input type="email" class="register-box" name="email" placeholder="Email id" value="{{old('email')}}">
                             <label class="floating-label">Email id</label>
                             @error('email') <p class="small text-danger mb-0">{{$message}}</p> @enderror
                         </div>

@@ -30,6 +30,8 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $request->validate([
+            'fname' => 'required|string',
+            'lname' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'mobile' => 'required|integer|digits:10|unique:users,mobile',
             'password' => 'required|string|min:2|max:100',
