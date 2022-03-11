@@ -130,13 +130,13 @@
 											<tr>
 												<td class="p30-15" style="padding: 15px 0px 20px 0px;">
 													<table width="100%" border="0" cellspacing="0" cellpadding="0">
-														<tr>
+														{{-- <tr>
 														<td class="text pb15" style="color:#2e364b; font-family:Arial, sans-serif; font-size:14px; line-height:24px; text-align:left; padding-bottom:12px; font-weight:500;">
 															<span style="color:#2e364b; font-weight:600;">Subject – </span> Order Confirmation 
 														</td>
-														</tr>
+														</tr> --}}
 														<tr>
-															<td class="text pb15" style="color:#2e364b; font-family:Arial, sans-serif; font-size:14px; line-height:24px; text-align:left; padding-bottom:12px; font-weight:500;">Dear <span> [NAME OF THE CUSTOMER],<span></td>
+															<td class="text pb15" style="color:#2e364b; font-family:Arial, sans-serif; font-size:14px; line-height:24px; text-align:left; padding-bottom:12px; font-weight:500;">Dear <span> {{$name}},<span></td>
 														</tr>
 														<tr>
 															<td class="text pb15" style="color:#2e364b; font-family:Arial, sans-serif; font-size:14px; line-height:24px; text-align:left; padding-bottom:8px;">Congratulations on placing your highly valued order with us.</td>
@@ -145,14 +145,14 @@
 															<td class="text pb15" style="color:#2e364b; font-family:Arial, sans-serif; font-size:14px; line-height:24px; text-align:left; padding-bottom:8px;">
 																<ul style="margin: 0 0px 0px 0px; padding: 0; list-style: none;">
 																<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;">
-																	Your Order ID : <b>#ONN9834JH43UOGU98</b>
+																	Your Order No : <b>#{{$orderNo}}</b>
 																</li>
 																<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;">
-																	Value of Order : <b>Rs. 0</b>
+																	Value of Order : <b>Rs. {{$orderAmount}}</b>
 																</li>
-																<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;">
+																{{-- <li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;">
 																	Payment Made : <b>Online/COD</b>
-																</li>
+																</li> --}}
 																</ul>
 															</td>
 														</tr>
@@ -172,12 +172,20 @@
 																	</tr>
 																</thead>
 																<tbody>
-																	<tr>
+																	@foreach ($orderProducts as $orderProductKey => $orderProductValue)
+																		<tr>
+																			<td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400" width="50">{{$orderProductKey + 1}}</td>
+																			<td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">{{$orderProductValue->product_name}}</td>
+																			<td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px;  font-weight:400">{{$orderProductValue->qty}}</td>
+																			<td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">{{$orderProductValue->offer_price}}</td>
+																		</tr>
+																	@endforeach
+																	{{-- <tr>
 																		<td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400" width="50">1</td>
 																		<td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">product name</td>
 																		<td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px;  font-weight:400">12</td>
 																		<td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">Amount</td>
-																	</tr>
+																	</tr> --}}
 																</tbody>
 															</table>
 														</tr>
@@ -219,7 +227,7 @@
 												<td class="p0-15-30" style="padding:15px;">
 													<table width="100%" border="0" cellspacing="0" cellpadding="0">
 														<tr>
-															<td class="text-footer1 pb10" style="color:#ababab; font-family:Arial, sans-serif; font-size:12px; line-height:13px; text-align:left; vertical-align:middle; padding-bottom:5px;">© 2018 Airbound Solutions</td>
+															<td class="text-footer1 pb10" style="color:#ababab; font-family:Arial, sans-serif; font-size:12px; line-height:13px; text-align:left; vertical-align:middle; padding-bottom:5px;">Total Comfort &copy; 2021-{{date('Y')}}</td>
 															
 															<td class="text-footer1 pb10" style="color:#ababab; font-family:Arial, sans-serif; font-size:10px; line-height:13px; text-align:right; vertical-align:middle; padding-bottom:5px;">
 																<a href="{{$settings[9]->content}}" class="margin-right:5px;"><img src="{{asset('./img/social/fb.png')}}"></a>

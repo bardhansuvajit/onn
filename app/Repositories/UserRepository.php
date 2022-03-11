@@ -58,7 +58,6 @@ class UserRepository implements UserInterface
                     'password' => $collectedData['password'],
                     'blade_file' => 'front/mail/register',
                 ];
-
                 SendMail($email_data);
             }
 

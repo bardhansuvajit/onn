@@ -69,7 +69,8 @@ class CheckoutRepository implements CheckoutInterface
             $newEntry->tax_amount = 0;
             $newEntry->discount_amount = 0;
             $newEntry->coupon_code_id = 0;
-            $newEntry->final_amount = $subtotal;
+            $total = $subtotal;
+            $newEntry->final_amount = $total;
 
             $newEntry->save();
 
@@ -89,6 +90,17 @@ class CheckoutRepository implements CheckoutInterface
                 ];
             }
             $orderProductsNewEntry = OrderProduct::insert($orderProducts);
+
+            // send mail
+            $email_data = [
+                'name' => $collectedData['fname'].' '.$collectedData['lname'],
+                'subject' => 'Onn - New order',
+                'orderNo' => $order_no,
+                'orderAmount' => $total,
+                'orderProducts' => $orderProducts,
+                'blade_file' => 'front/mail/order-confirm',
+            ];
+            SendMail($email_data);
 
             // remove cart data
             $emptyCart = Cart::where('ip', $this->ip)->delete();
