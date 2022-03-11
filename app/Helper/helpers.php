@@ -16,6 +16,6 @@ function SendMail($data)
 
     // send mail
     Mail::send($data['blade_file'], $data, function ($message) use ($data) {
-        $message->to($data['email'], $data['name'])->subject($data['subject'])->from('onenesstechsolution@gmail.com', env('APP_NAME'));
+        $message->to($data['email'], $data['name'])->subject($data['subject'])->from('ONN', env('APP_NAME'));
     });
 }
