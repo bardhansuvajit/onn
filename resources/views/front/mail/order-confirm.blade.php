@@ -172,7 +172,7 @@
 																	</tr>
 																</thead>
 																<tbody>
-																	{{$orderProducts}}
+																	{{-- {{$orderProducts}} --}}
 																	{{-- @foreach ($orderProducts as $orderProductKey => $orderProductValue)
 																		<tr>
 																			<td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400" width="50">{{$orderProductKey + 1}}</td>
