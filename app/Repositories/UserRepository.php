@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserInterface 
 {
@@ -28,25 +29,48 @@ class UserRepository implements UserInterface
 
     public function create(array $data) 
     {
-        $collectedData = collect($data);
-        $newEntry = new User;
-        $newEntry->fname = $collectedData['fname'] ?? NULL;
-        $newEntry->lname = $collectedData['lname'] ?? NULL;
-        $newEntry->email = $collectedData['email'];
-        $newEntry->mobile = $collectedData['mobile'];
-        $newEntry->gender = $collectedData['gender'] ?? NULL;
-        $newEntry->password = Hash::make($collectedData['password']);
+        // DB::beginTransaction();
 
-        // $upload_path = "uploads/collection/";
-        // $image = $collectedData['image_path'];
-        // $imageName = time().".".$image->getClientOriginalName();
-        // $image->move($upload_path, $imageName);
-        // $uploadedImage = $imageName;
-        // $newEntry->image_path = $upload_path.$uploadedImage;
+        // try {
+            $collectedData = collect($data);
 
-        $newEntry->save();
+            $full_name = '';
+            if (isset($data['fname'])) {
+                $full_name = $collectedData['fname'].' '.$collectedData['lname'];
+            }
 
-        return $newEntry;
+            $newEntry = new User;
+            $newEntry->fname = $collectedData['fname'] ?? NULL;
+            $newEntry->lname = $collectedData['lname'] ?? NULL;
+            $newEntry->name = $full_name;
+            $newEntry->email = $collectedData['email'];
+            $newEntry->mobile = $collectedData['mobile'];
+            $newEntry->gender = $collectedData['gender'] ?? NULL;
+            $newEntry->password = Hash::make($collectedData['password']);
+
+            $newEntry->save();
+
+            if ($newEntry) {
+                $email_data = [
+                    'name' => $full_name,
+                    'subject' => 'Onn - New registration',
+                    'email' => $collectedData['email'],
+                    'password' => $collectedData['password'],
+                    'blade_file' => 'front/mail/register',
+                ];
+
+                SendMail($email_data);
+            }
+
+            DB::commit();
+
+            return true;
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+
+        //     DB::rollback();
+        //     return false;
+        // }
     }
 
     public function update($id, array $newDetails) 

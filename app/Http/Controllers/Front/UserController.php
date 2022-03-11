@@ -38,15 +38,16 @@ class UserController extends Controller
         $storeData = $this->userRepository->create($request->except('_token'));
 
         if ($storeData) {
-            $credentials = $request->only('email', 'password');
+            // $credentials = $request->only('email', 'password');
  
-            if (Auth::attempt($credentials)) {
-                // return redirect()->intended('home');
-                return redirect()->url('home');
-            }
-            // return redirect()->route('front.user.register');
+            // if (Auth::attempt($credentials)) {
+            //     // return redirect()->intended('home');
+            //     return redirect()->url('home');
+            // }
+
+            return redirect()->route('front.user.register')->with('success', 'Account created successfully');
         } else {
-            return redirect()->route('front.user.register')->withInput($request->all());
+            return redirect()->route('front.user.register')->withInput($request->all())->with('failure', 'Something happened');
         }
     }
 

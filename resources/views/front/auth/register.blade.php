@@ -14,7 +14,7 @@
     <link rel='stylesheet' href='{{ asset('node_modules/lightbox2/dist/css/lightbox.min.css?ver=5.8.2') }}'>
     <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ asset('scss/css/preload.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css') }}" />
+    {{-- <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css') }}" /> --}}
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
@@ -60,6 +60,9 @@
                     </div>
                     <h3>Sign Up</h3>
                     <h4>Welcome to ONN</h4>
+
+                    @if (Session::get('success'))<div class="alert alert-success">{{Session::get('success')}}</div>@endif
+                    @if (Session::get('failure'))<div class="alert alert-danger">{{Session::get('failure')}}</div>@endif
 
                     <div class="register-card">
                         <div class="register-group">

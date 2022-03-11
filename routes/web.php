@@ -68,6 +68,10 @@ Route::name('front.')->group(function() {
             Route::post('address/add', 'Front\UserController@addressCreate')->name('address.create');
         });
     });
+
+    // mail template test
+    Route::view('/mail/1', 'front.mail.register'); 
+    Route::view('/mail/2', 'front.mail.order-confirm'); 
 });
 
 // Route::view('/login', 'home')->name('login');
