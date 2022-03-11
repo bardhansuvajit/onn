@@ -29,7 +29,7 @@
     color: #fff;
 }
 .product-details__content__holder .product__color li {
-    width: auto;
+    width: 30px;
     height: 30px;
     padding: 2px 8px;
 }
@@ -123,7 +123,7 @@
 
                 echo '<h6>Available Colour</h6><ul class="product__color">';
                 foreach($uniqueColors as $colorCode) {
-                    echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'">'.ucwords($colorCode['name']).'</li>';
+                    echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'"></li>';
                 }
                 echo '</ul>';
                 @endphp
