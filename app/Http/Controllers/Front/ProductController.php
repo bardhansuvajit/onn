@@ -7,6 +7,7 @@ use App\Interfaces\ProductInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Product;
+use App\Models\ProductColorSize;
 
 class ProductController extends Controller
 {
@@ -20,13 +21,31 @@ class ProductController extends Controller
         $data = $this->productRepository->listBySlug($slug);
         $images = $this->productRepository->listImagesById($data->id);
         $relatedProducts = $this->productRepository->relatedProducts($data->id);
-        // $sizes = $this->productRepository->getAllSizes();
-        // $colors = $this->productRepository->getAllColors();
 
         if ($data) {
             return view('front.product.detail', compact('data', 'images', 'relatedProducts'));
         } else {
             return view('front.404');
         }
+    }
+
+    public function size(Request $request)
+    {
+        $productId = $request->productId;
+        $colorId = $request->colorId;
+
+        $data = ProductColorSize::where('product_id', $productId)->where('color', $colorId)->get();
+
+        $resp = [];
+
+        foreach ($data as $dataKey => $dataValue) {
+            $resp[] = [
+                'variationId' => $dataValue->id,
+                'sizeId' => $dataValue->size,
+                'sizeName' => $dataValue->sizeDetails->name
+            ];
+        }
+
+        return response()->json(['error' => false, 'data' => $resp]);
     }
 }

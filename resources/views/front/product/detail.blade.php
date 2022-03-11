@@ -33,6 +33,11 @@
     height: 30px;
     padding: 2px 8px;
 }
+.product-details__content__holder .product__color li.active {
+    border-width: 2px;
+    border-color: #000000;
+    color: #fff;
+}
 /* .product-details__content__holder .product__color li .color__holder {
     width: auto;
     height: 30px;
@@ -92,6 +97,8 @@
             <h2>{{$data->name}}</h2>
             <p>{!! $data->short_desc !!}</p>
 
+            {{-- {{dd($data->colorSize)}} --}}
+
             @if (count($data->colorSize) > 0)
                 @php
                 $uniqueColors = [];
@@ -116,24 +123,15 @@
 
                 echo '<h6>Available Colour</h6><ul class="product__color">';
                 foreach($uniqueColors as $colorCode) {
-                    echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')">'.ucwords($colorCode['name']).'</li>';
+                    echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'">'.ucwords($colorCode['name']).'</li>';
                 }
                 echo '</ul>';
-
                 @endphp
-            @endif
 
-            <h6>Available Size</h6>
-            <ul class="product__sizes">
-                <li data-price="575.00" class="active">XS</li>
-                <li data-price="575.00">S</li>
-                <li data-price="575.00">M</li>
-                <li data-price="575.00">L</li>
-                <li data-price="575.00">XL</li>
-                <li data-price="599.00">2XL</li>
-                <li data-price="599.00">3XL</li>
-                <li data-price="599.00">4XL</li>
-            </ul>
+                <h6 id="sizeHead" style="display:none;">Available Size</h6>
+                <p id="colorSelectAlert">Please select a colour first</p>
+                <ul class="product__sizes" id="sizeContainer"></ul>
+            @endif
 
             {{-- <h6>Available Colour</h6>
             <ul class="product__color">
@@ -160,7 +158,19 @@
             </div>
 
             <div class="product__enquire">
-                <form method="POST" action="{{route('front.cart.add')}}">@csrf
+                <form method="POST" action="{{route('front.cart.add')}}" class="d-flex">@csrf
+                    <div class="cart-item item-qty">
+                        <div class="cart-text">Quantity</div>
+                        <div class="qty-box">
+                            <a href="#" class="decrement" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </a>
+                            <input class="counter" type="number" value="1" name="qty">
+                            <a href="#" class="increment" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </a>
+                        </div>
+                    </div>
                     <input type="hidden" name="product_id" value="{{$data->id}}">
                     <input type="hidden" name="product_name" value="{{$data->name}}">
                     <input type="hidden" name="product_style_no" value="{{$data->style_no}}">
@@ -169,8 +179,8 @@
                     <input type="hidden" name="product_variation_id" value="">
                     <input type="hidden" name="price" value="{{$data->price}}">
                     <input type="hidden" name="offer_price" value="{{$data->offer_price}}">
-                    <input type="hidden" name="qty" value="1">
-                    <button type="submit">Add to Cart</button>
+                    {{-- <input type="hidden" name="qty" value="1"> --}}
+                    <button type="submit" id="addToCart__btn" class="@if(count($data->colorSize) > 0) missingVariationSelection @endif">Add to Cart</button>
                 </form>
             </div>
 
@@ -234,6 +244,48 @@
 
 @section('script')
 <script>
-    $('.product__color li').eq(0).addClass('active');
+    // $('.product__color li').eq(0).addClass('active');
+
+    function sizeCheck(productId, colorId) {
+        $.ajax({
+            url : '{{route("front.product.size")}}',
+            method : 'POST',
+            data : {'_token' : '{{csrf_token()}}', productId : productId, colorId : colorId},
+            success : function(result) {
+                if (result.error === false) {
+                    $('#sizeHead').show();
+                    $('#colorSelectAlert').hide();
+                    // $('#addToCart__btn').removeClass('missingVariationSelection');
+                    let content = '';
+                    $.each(result.data, (key, val) => {
+                        // content += `<input type="radio" class="btn-check" name="productSize" id="productSize${val.sizeId}" autocomplete="off"><label class="btn btn-outline-primary px-4" for="productSize${val.sizeId}">${val.sizeName}</label>`;
+
+                        content += `<li data-price="{{$data->offer_price}}" data-id="${val.variationId}">${val.sizeName}</li>`;
+                    })
+
+                    $('#sizeContainer').html(content);
+                }
+            },
+            error: function(xhr, status, error) {
+                // toastFire('danger', 'Something Went wrong');
+            }
+        });
+    }
+
+    // variation selection check
+    $('#addToCart__btn').on('click', function(e) {
+        if ($(this).hasClass('missingVariationSelection')) {
+            e.preventDefault();
+            alert('Select color & size first');
+        }
+    }); 
+
+    // get variation id & load into product_variation_id
+    $(document).on('click', '#sizeContainer li', function(){
+        $('#addToCart__btn').removeClass('missingVariationSelection');
+        var variationId = $(this).attr('data-id');
+        $('input[name="product_variation_id"]').val(variationId);
+        // console.log(variationId);
+    });
 </script>
 @endsection

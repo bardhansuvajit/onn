@@ -27,6 +27,7 @@ Route::name('front.')->group(function() {
     // product detail
     Route::name('product.')->group(function() {
         Route::get('/product/{slug}', 'Front\ProductController@detail')->name('detail');
+        Route::post('/size', 'Front\ProductController@size')->name('size');
     });
 
     // cart

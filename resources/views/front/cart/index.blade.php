@@ -22,6 +22,7 @@
 }
 </style>
 
+@if(count($data) > 0)
 <section class="cart-header mb-3 mb-sm-5">
     <div class="container">
         <div class="row">
@@ -41,7 +42,6 @@
 </section>
 
 <section class="cart-wrapper">
-    @if(count($data) > 0)
     <div class="container">
         @if (Session::get('success'))
         <div class="alert alert-success">{{Session::get('success')}}</div>
@@ -191,10 +191,25 @@
             </div>
         </div>
     </div>
-    @else
-    <div class="container">
-        <p>Your cart is empty</p>
-    </div>
-    @endif
 </section>
+
+@else
+<section class="cart-header mb-3 mb-sm-5"></section>
+<section class="cart-wrapper">
+    <div class="container">
+        <div class="complele-box">
+            <figure>
+                <img src="{{asset('img/empty-cart.png')}}" height="100">
+            </figure>
+            <figcaption>
+                <h2>Your cart is empty</h2>
+                <p>{{Session::get('success')}}</p>
+                <p>Shop now to get 30% OFF.</p>
+                <a href="{{route('front.home')}}">Back to Home</a>
+            </figcaption>
+        </div>
+    </div>
+</section>
+@endif
+
 @endsection

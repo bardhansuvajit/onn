@@ -42,7 +42,7 @@
                 <p>Offer valid upto 15th may</p>
             </div>
             <div class="col-sm-5 offset-sm-1 text-sm-right">
-                <a href="#" class="offer-button">Shop Now</a>
+                <a href="{{ route('front.category.detail', $categories[0]->slug) }}" class="offer-button">Shop Now</a>
             </div>
         </div>
     </div>
