@@ -95,6 +95,7 @@ class CheckoutRepository implements CheckoutInterface
             $email_data = [
                 'name' => $collectedData['fname'].' '.$collectedData['lname'],
                 'subject' => 'Onn - New order',
+                'email' => $collectedData['email'],
                 'orderNo' => $order_no,
                 'orderAmount' => $total,
                 'orderProducts' => $orderProducts,
