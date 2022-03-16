@@ -1018,7 +1018,7 @@ $(document).on('click', '.filter__button', function () {
     $(this).remove();
 });
 
-var value = 0
+var value = 1
 $(".product__enquire .counter").val(value);
 $('.product__enquire .increment').on("click", function() {
   value = parseInt(value+1);
