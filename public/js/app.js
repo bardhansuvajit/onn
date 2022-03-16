@@ -1018,21 +1018,21 @@ $(document).on('click', '.filter__button', function () {
     $(this).remove();
 });
 
-// var value = 0
-// $(".counter").val(value);
-// $('.increment').on("click", function() {
-//   value = parseInt(value+1);
-//   $(".counter").val(value);
-// });
-// $('.decrement').on("click", function(){
-//   if(value > 0){
-//     value = parseInt(value-1);
-//     $(".counter").val(value);
-//   }else{
-//     value = 0;
-//     $(".counter").val(value);
-//   }
-// });
+var value = 0
+$(".product__enquire .counter").val(value);
+$('.product__enquire .increment').on("click", function() {
+  value = parseInt(value+1);
+  $(".product__enquire .counter").val(value);
+});
+$('.product__enquire .decrement').on("click", function(){
+  if(value > 0){
+    value = parseInt(value-1);
+    $(".product__enquire .counter").val(value);
+  }else{
+    value = 0;
+    $(".product__enquire .counter").val(value);
+  }
+});
 
 
 

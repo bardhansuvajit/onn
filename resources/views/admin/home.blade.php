@@ -50,7 +50,7 @@
                     <tr>
                         <th class="text-center"><i class="fi fi-br-picture"></i></th>
                         <th>Name</th>
-                        <th>Style No.</th>
+                        <th>Style</th>
                         <th>Category</th>
                         <th>Price</th>
                     </tr>

@@ -25,12 +25,145 @@ header {
     }
   }
 
+  .menu_area {
+    position: static;
+  }
+
   .main-nav {
     ul {
       li {
         .sub-menu {
           &.mega-menu {
-            width: 600px;
+            width: 100%;
+
+            ul {
+              display: flex;
+              flex-wrap: wrap;
+              width: 100%;
+
+              li {
+                max-width: 20%;
+                flex: 0 0 100%;
+                border-right: 1px solid #ebebeb;
+                padding: 20px 40px;
+
+                &:nth-child(5n) {
+                  border-right: none;
+                }
+
+                &:nth-child(n+6) {
+                  border-top: 1px solid #ebebeb;
+                }
+                &:nth-child(n+7) {
+                  border-top: 1px solid #ebebeb;
+                }
+                &:nth-child(n+8) {
+                  border-top: 1px solid #ebebeb;
+                }
+                &:nth-child(n+9) {
+                  border-top: 1px solid #ebebeb;
+                }
+                &:nth-child(n+10) {
+                  border-top: 1px solid #ebebeb;
+                }
+
+                img {
+                  max-width: 100%;
+                  height: 60px;
+                  object-fit: scale-down;
+                  object-position: center;
+                }
+
+                h5 {
+                  font-size: 12px;
+                  text-transform: uppercase;
+                  font-weight: $font-weight-semibold;
+                }
+
+                &:hover {
+                  color: $black;
+                }
+
+                ul {
+                  display: block;
+
+                  &.mega-drop-menu {
+                    li {
+                      border-bottom: 1px solid #ddd;
+                    }
+                  }
+
+                  li {
+                    display: block;
+                    width: 100%;
+                    max-width: 100%;
+                    border: none;
+                    padding: 0;
+
+                    &:last-child {
+                      border-bottom: none;
+
+                      &:hover {
+                        border: none;
+                      }
+                    }
+
+                    &:hover {
+                      border: none;
+                      border-bottom: 1px solid $secondary;
+                    }
+                    
+                    a {
+                      display: flex;
+                      align-items: center;
+                      text-transform: none;
+                      font-weight: normal;
+                      align-items: center;
+                      padding: 0;
+                      height: 46px;
+                      position: relative;
+                      max-width: 100%;
+                      padding-right: 15px;
+
+                      img {
+                        max-width: 30px;
+                        margin-right: 10px;
+                      }
+
+                      &:after {
+                        display: inline-block;
+                        font-family: 'Font Awesome 5 Pro';
+                        font-weight: 400;
+                        position: absolute;
+                        top: 50%;
+                        right: 0;
+                        left: auto;
+                        content: '\f054';
+                        width: 10px;
+                        height: 10px;
+                        text-align: center;
+                        line-height: 10px;
+                        background: transparent;
+                        transform: translateY(-50%);
+                      }
+                    }
+                  }
+                }
+
+                &:hover {
+                  background: #f5f6f5;
+
+                  a {
+                    color: #1D1F24;
+                  }
+                }
+
+                a {
+                  text-transform: uppercase;
+                  font-size: 12px;
+                }
+              }
+            }
 
             aside {
               max-width: 200px;
@@ -263,7 +396,7 @@ header {
 header {
     width: 100%;
     z-index: 1000;
-    padding: 10px 0;
+    padding: 0;
     transition: all .3s ease;
     z-index: 9;
 
@@ -464,11 +597,11 @@ header {
             font-size: 0;
 
             li {
-                position: relative;
+                position: static;
                 display: inline-block;
                 vertical-align: top;
                 margin-right: 25px;
-                padding: 10px 0;
+                padding: 23px 0;
 
                 &:last-child {
                   margin-right: 0;

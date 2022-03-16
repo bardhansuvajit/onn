@@ -116,7 +116,7 @@
                     </div>
                 </td>
                 <td>{{$item->style_no}}</td>
-                <td>{{$item->category->name}} > {{$item->subCategory->name}} <br> {{$item->collection->name}}</td>
+                <td>{{$item->category ? $item->category->name : ''}} > {{$item->subCategory ? $item->subCategory->name : 'NA'}} <br> {{$item->collection ? $item->collection->name : ''}}</td>
                 <td>
                     <small> <del>{{$item->price}}</del> </small> Rs. {{$item->offer_price}}
                 </td>
