@@ -41,14 +41,14 @@
                             $uniqueColors = [];
 
                             // custom function multi-dimensional in_array
-                            function in_array_r($needle, $haystack, $strict = false) {
+                            /* function in_array_r($needle, $haystack, $strict = false) {
                                 foreach ($haystack as $item) {
                                     if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
                                         return true;
                                     }
                                 }
                                 return false;
-                            }
+                            } */
 
                             foreach ($data->colorSize as $variantKey => $variantValue) {
                                 if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
