@@ -148,7 +148,18 @@
                                 <a href="{{ route('front.category.detail', $categories[0]->slug) }}">Shop <i class="far fa-angle-down"></i></a>
                                 <div class="sub-menu mega-menu">
                                     <ul>
+                                        {{-- {{dd($categoryNavList)}} --}}
+                                        @foreach ($categoryNavList as $categoryNavKey => $categoryNavValue)
                                         <li>
+                                            <h5>{{$categoryNavValue['parent']}}</h5>
+                                            <ul class="mega-drop-menu">
+                                                @foreach ($categoryNavValue['child'] as $childCatKey => $childCatValue)
+                                                    <li><a href="{{ route('front.category.detail', $childCatValue['slug']) }}"><img src="{{asset($childCatValue['sketch_icon'])}}"> {{$childCatValue['name']}}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                        @endforeach
+                                        {{-- <li>
                                             <h5>Innerwear</h5>
                                             <ul class="mega-drop-menu">
                                                 <li><a href="listing.html"><img src="img/005-tank-top.png"> Vest</a></li>
@@ -179,7 +190,7 @@
                                             <ul class="mega-drop-menu">
                                                 <li><a href="listing.html"><img src="img/001-socks.png"> Socks</a></li>
                                             </ul>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 </div>
                             </li>

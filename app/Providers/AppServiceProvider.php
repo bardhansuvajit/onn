@@ -38,8 +38,12 @@ class AppServiceProvider extends ServiceProvider
 
                 foreach ($categories as $catKey => $catValue) {
                     if (in_array_r($catValue->parent, $categoryNavList)) continue;
+
+                    $childCategories = Category::select('slug', 'name', 'sketch_icon')->where('parent', $catValue->parent)->get()->toArray();
+
                     $categoryNavList[] = [
-                        'parent' => $catValue->parent
+                        'parent' => $catValue->parent,
+                        'child' => $childCategories
                     ];
                 }
 
@@ -59,6 +63,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
             view()->share('categories', $categories);
+            view()->share('categoryNavList', $categoryNavList);
             view()->share('collections', $collections);
             view()->share('settings', $settings);
         });

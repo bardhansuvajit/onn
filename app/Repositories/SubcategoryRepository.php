@@ -68,7 +68,8 @@ class SubcategoryRepository implements SubcategoryInterface
         $category->description = $collection['description'];
         $category->slug = $collection['slug'];
 
-        if (in_array('image_path', $newDetails)) {
+        // if (in_array('image_path', $newDetails)) {
+        if (isset($newDetails['image_path'])) {
             // dd('here');
             $upload_path = "uploads/sub-category/";
             $image = $collection['image_path'];
