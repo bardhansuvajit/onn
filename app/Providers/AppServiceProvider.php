@@ -33,6 +33,17 @@ class AppServiceProvider extends ServiceProvider
             $categoryExists = Schema::hasTable('categories');
             if ($categoryExists) {
                 $categories = Category::where('status', 1)->get();
+
+                $categoryNavList = [];
+
+                foreach ($categories as $catKey => $catValue) {
+                    if (in_array_r($catValue->parent, $categoryNavList)) continue;
+                    $categoryNavList[] = [
+                        'parent' => $catValue->parent
+                    ];
+                }
+
+                // dd($categoryNavList);
             }
 
             // collections

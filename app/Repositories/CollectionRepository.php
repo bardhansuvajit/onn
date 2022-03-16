@@ -66,6 +66,13 @@ class CollectionRepository implements CollectionInterface
         $uploadedImage = $imageName;
         $modelDetails->icon_path = $upload_path.$uploadedImage;
 
+        // sketch icon
+        $image = $collection['sketch_icon'];
+        $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+        $image->move($upload_path, $imageName);
+        $uploadedImage = $imageName;
+        $modelDetails->sketch_icon = $upload_path.$uploadedImage;
+
         // thumb image
         $image = $collection['image_path'];
         $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
@@ -116,6 +123,14 @@ class CollectionRepository implements CollectionInterface
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
             $modelDetails->icon_path = $upload_path.$uploadedImage;
+        }
+
+        if (isset($newDetails['sketch_icon'])) {
+            $image = $collection['sketch_icon'];
+            $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+            $image->move($upload_path, $imageName);
+            $uploadedImage = $imageName;
+            $modelDetails->sketch_icon = $upload_path.$uploadedImage;
         }
 
         if (isset($newDetails['image_path'])) {

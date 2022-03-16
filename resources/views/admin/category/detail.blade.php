@@ -9,9 +9,12 @@
             <div class="card">    
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <p>Icon</p>
                             <img src="{{ asset($data->icon_path) }}" alt="" style="height: 100px" class="mr-4">
+                            <hr>
+                            <p>Sketch</p>
+                            <img src="{{ asset($data->sketch_icon) }}" alt="" style="height: 100px" class="mr-4">
                             <hr>
                             <p>Thumbnail</p>
                             <img src="{{ asset($data->image_path) }}" alt="" style="height: 100px" class="mr-4">
@@ -19,8 +22,9 @@
                             <p>Banner</p>
                             <img src="{{ asset($data->banner_image) }}" alt="" style="height: 100px" class="mr-4">
                         </div>
-                        <div class="col-md-10 text-right">
+                        <div class="col-md-6 text-right">
                             <h3>{{ $data->name }}</h3>
+                            <p class="text-muted">{{ $data->parent }}</p>
                             <p class="small">{{ $data->description }}</p>
                         </div>
                     </div>  
@@ -40,12 +44,17 @@
                             @error('name') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group mb-3">
+                            <label class="label-control">Parent <span class="text-danger">*</span> </label>
+                            <input type="text" name="parent" placeholder="" class="form-control" value="{{ $data->parent }}">
+                            @error('parent') <p class="small text-danger">{{ $message }}</p> @enderror
+                        </div>
+                        <div class="form-group mb-3">
                             <label class="label-control">Description </label>
                             <textarea name="description" class="form-control">{{$data->description}}</textarea>
                             @error('description') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="row">
-                            <div class="col-md-4 card">
+                            <div class="col-md-6 card">
                                 <div class="card-header p-0 mb-3">Icon <span class="text-danger">*</span></div>
                                 <div class="card-body p-0">
                                     <div class="w-100 product__thumb">
@@ -64,7 +73,28 @@
                                 </div>
                                 @error('icon_path') <p class="small text-danger">{{ $message }}</p> @enderror
                             </div>
-                            <div class="col-md-4 card">
+                            <div class="col-md-6 card">
+                                <div class="card-header p-0 mb-3">Sketch icon <span class="text-danger">*</span></div>
+                                <div class="card-body p-0">
+                                    <div class="w-100 product__thumb">
+                                        <label for="sketch_icon"><img id="sketchOutput" src="{{ asset($data->sketch_icon) }}" /></label>
+                                    </div>
+                                    <input type="file" name="sketch_icon" id="sketch_icon" accept="image/*" onchange="loadSketch(event)" class="d-none">
+                                    <script>
+                                        var loadSketch = function(event) {
+                                            var sketchOutput = document.getElementById('sketchOutput');
+                                            sketchOutput.src = URL.createObjectURL(event.target.files[0]);
+                                            sketchOutput.onload = function() {
+                                                URL.revokeObjectURL(sketchOutput.src) // free memory
+                                            }
+                                        };
+                                    </script>
+                                </div>
+                                @error('sketch_icon') <p class="small text-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 card">
                                 <div class="card-header p-0 mb-3">Image <span class="text-danger">*</span></div>
                                 <div class="card-body p-0">
                                     <div class="w-100 product__thumb">
@@ -83,7 +113,7 @@
                                 </div>
                                 @error('image_path') <p class="small text-danger">{{ $message }}</p> @enderror
                             </div>
-                            <div class="col-md-4 card">
+                            <div class="col-md-6 card">
                                 <div class="card-header p-0 mb-3">Banner Image <span class="text-danger">*</span></div>
                                 <div class="card-body p-0">
                                     <div class="w-100 product__thumb">

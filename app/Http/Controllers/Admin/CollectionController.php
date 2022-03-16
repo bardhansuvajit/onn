@@ -31,6 +31,7 @@ class CollectionController extends Controller
             "name" => "required|string|max:255",
             "description" => "nullable|string",
             "icon_path" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000",
+            "sketch_icon" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000",
             "image_path" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000",
             "banner_image" => "required|mimes:jpg,jpeg,png,svg,gif|max:10000000"
         ]);
@@ -59,6 +60,7 @@ class CollectionController extends Controller
             "name" => "required|string|max:255",
             "description" => "nullable|string",
             "icon_path" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000",
+            "sketch_icon" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000",
             "image_path" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000",
             "banner_image" => "nullable|mimes:jpg,jpeg,png,svg,gif|max:10000000"
         ]);

@@ -59,13 +59,14 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th class="check-column">
+                                {{-- <th class="check-column">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault"></label>
                                 </div>
-                                </th>
+                                </th> --}}
                                 <th class="text-center"><i class="fi fi-br-picture"></i> Icon</th>
+                                <th class="text-center"><i class="fi fi-br-picture"></i> Sketch</th>
                                 <th class="text-center"><i class="fi fi-br-picture"></i> Thumb</th>
                                 <th class="text-center"><i class="fi fi-br-picture"></i> Banner</th>
                                 <th>Name</th>
@@ -76,14 +77,17 @@
                         <tbody>
                             @forelse ($data as $index => $item)
                             <tr>
-                                <td class="check-column">
+                                {{-- <td class="check-column">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault"></label>
                                     </div>
-                                </td>
+                                </td> --}}
                                 <td class="text-center column-thumb">
                                     <img src="{{ asset($item->icon_path) }}">
+                                </td>
+                                <td class="text-center column-thumb">
+                                    <img src="{{ asset($item->sketch_icon) }}">
                                 </td>
                                 <td class="text-center column-thumb">
                                     <img src="{{ asset($item->image_path) }}">
@@ -124,12 +128,17 @@
                             @error('name') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group mb-3">
+                            <label class="label-control">Parent <span class="text-danger">*</span> </label>
+                            <input type="text" name="parent" placeholder="" class="form-control" value="{{old('parent')}}">
+                            @error('parent') <p class="small text-danger">{{ $message }}</p> @enderror
+                        </div>
+                        <div class="form-group mb-3">
                             <label class="label-control">Description </label>
                             <textarea name="description" class="form-control">{{old('description')}}</textarea>
                             @error('description') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="row">
-                            <div class="col-md-4 card">
+                            <div class="col-md-6 card">
                                 <div class="card-header p-0 mb-3">Icon <span class="text-danger">*</span></div>
                                 <div class="card-body p-0">
                                     <div class="w-100 product__thumb">
@@ -148,7 +157,28 @@
                                 </div>
                                 @error('icon_path') <p class="small text-danger">{{ $message }}</p> @enderror
                             </div>
-                            <div class="col-md-4 card">
+                            <div class="col-md-6 card">
+                                <div class="card-header p-0 mb-3">Sketch icon <span class="text-danger">*</span></div>
+                                <div class="card-body p-0">
+                                    <div class="w-100 product__thumb">
+                                        <label for="sketch_icon"><img id="sketchOutput" src="{{ asset('admin/images/placeholder-image.jpg') }}" /></label>
+                                    </div>
+                                    <input type="file" name="sketch_icon" id="sketch_icon" accept="image/*" onchange="loadSketch(event)" class="d-none">
+                                    <script>
+                                        let loadSketch = function(event) {
+                                            let sketchOutput = document.getElementById('sketchOutput');
+                                            sketchOutput.src = URL.createObjectURL(event.target.files[0]);
+                                            sketchOutput.onload = function() {
+                                                URL.revokeObjectURL(sketchOutput.src) // free memory
+                                            }
+                                        };
+                                    </script>
+                                </div>
+                                @error('sketch_icon') <p class="small text-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 card">
                                 <div class="card-header p-0 mb-3">Thumbnail <span class="text-danger">*</span></div>
                                 <div class="card-body p-0">
                                     <div class="w-100 product__thumb">
@@ -167,7 +197,7 @@
                                 </div>
                                 @error('image_path') <p class="small text-danger">{{ $message }}</p> @enderror
                             </div>
-                            <div class="col-md-4 card">
+                            <div class="col-md-6 card">
                                 <div class="card-header p-0 mb-3">Banner <span class="text-danger">*</span></div>
                                 <div class="card-body p-0">
                                     <div class="w-100 product__thumb">

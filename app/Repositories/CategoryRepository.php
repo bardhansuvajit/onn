@@ -51,6 +51,7 @@ class CategoryRepository implements CategoryInterface
 
         $category = new Category;
         $category->name = $collection['name'];
+        $category->parent = $collection['parent'];
         $category->description = $collection['description'];
 
         // generate slug
@@ -65,6 +66,13 @@ class CategoryRepository implements CategoryInterface
         $image->move($upload_path, $imageName);
         $uploadedImage = $imageName;
         $category->icon_path = $upload_path.$uploadedImage;
+
+        // sketch icon
+        $image = $collection['sketch_icon'];
+        $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+        $image->move($upload_path, $imageName);
+        $uploadedImage = $imageName;
+        $category->sketch_icon = $upload_path.$uploadedImage;
 
         // thumb image
         $image = $collection['image_path'];
@@ -92,6 +100,7 @@ class CategoryRepository implements CategoryInterface
         $collection = collect($newDetails); 
 
         $category->name = $collection['name'];
+        $category->parent = $collection['parent'];
         $category->description = $collection['description'];
 
         // generate slug
@@ -107,6 +116,15 @@ class CategoryRepository implements CategoryInterface
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
             $category->icon_path = $upload_path.$uploadedImage;
+        }
+
+        if (isset($newDetails['sketch_icon'])) {
+            // dd('here');
+            $image = $collection['sketch_icon'];
+            $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+            $image->move($upload_path, $imageName);
+            $uploadedImage = $imageName;
+            $category->sketch_icon = $upload_path.$uploadedImage;
         }
 
         if (isset($newDetails['image_path'])) {

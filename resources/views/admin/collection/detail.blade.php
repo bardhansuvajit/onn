@@ -13,6 +13,9 @@
                             <p>Icon</p>
                             <img src="{{ asset($data->icon_path) }}" alt="" style="height: 100px" class="mr-4">
                             <hr>
+                            <p>Sketch</p>
+                            <img src="{{ asset($data->sketch_icon) }}" alt="" style="height: 100px" class="mr-4">
+                            <hr>
                             <p>Thumbnail</p>
                             <img src="{{ asset($data->image_path) }}" alt="" style="height: 100px" class="mr-4">
                             <hr>
@@ -45,8 +48,8 @@
                             @error('description') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="row">
-                        <div class="col-md-4 card">
-                            <div class="card-header p-0 mb-3">Icon <span class="text-danger">*</span></div>
+                            <div class="col-md-6 card">
+                                <div class="card-header p-0 mb-3">Icon <span class="text-danger">*</span></div>
                                 <div class="card-body p-0">
                                     <div class="w-100 product__thumb">
                                         <label for="icon"><img id="iconOutput" src="{{ asset($data->icon_path) }}" /></label>
@@ -64,7 +67,28 @@
                                 </div>
                                 @error('icon_path') <p class="small text-danger">{{ $message }}</p> @enderror
                             </div>
-                            <div class="col-md-4 card">
+                            <div class="col-md-6 card">
+                                <div class="card-header p-0 mb-3">Sketch Icon <span class="text-danger">*</span></div>
+                                <div class="card-body p-0">
+                                    <div class="w-100 product__thumb">
+                                        <label for="sketch_icon"><img id="outputSketch" src="{{ asset($data->sketch_icon) }}" /></label>
+                                    </div>
+                                    <input type="file" name="sketch_icon" id="sketch_icon" accept="image/*" onchange="loadSketch(event)" class="d-none">
+                                    <script>
+                                        var loadSketch = function(event) {
+                                            var outputSketch = document.getElementById('outputSketch');
+                                            outputSketch.src = URL.createObjectURL(event.target.files[0]);
+                                            outputSketch.onload = function() {
+                                                URL.revokeObjectURL(outputSketch.src) // free memory
+                                            }
+                                        };
+                                    </script>
+                                </div>
+                                @error('sketch_icon') <p class="small text-danger">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 card">
                                 <div class="card-header p-0 mb-3">Image <span class="text-danger">*</span></div>
                                 <div class="card-body p-0">
                                     <div class="w-100 product__thumb">
@@ -83,7 +107,7 @@
                                 </div>
                                 @error('image_path') <p class="small text-danger">{{ $message }}</p> @enderror
                             </div>
-                            <div class="col-md-4 card">
+                            <div class="col-md-6 card">
                                 <div class="card-header p-0 mb-3">Banner Image <span class="text-danger">*</span></div>
                                 <div class="card-body p-0">
                                     <div class="w-100 product__thumb">
