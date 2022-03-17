@@ -18,12 +18,8 @@ class SearchController extends Controller
     {
         $params = $request->except('_token');
 
-        $searchStore = $this->searchRepository->index($params);
+        $data = $this->searchRepository->index($params);
 
-        if ($searchStore) {
-            return redirect()->back()->with('success', $searchStore);
-        } else {
-            return redirect()->back()->with('failure', 'Something happened');
-        }
+        return view('front.search.index', compact('data', 'request'));
     }
 }

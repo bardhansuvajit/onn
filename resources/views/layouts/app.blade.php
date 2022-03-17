@@ -42,48 +42,6 @@
                         <img src="{{ asset('img/logo.png') }}">
                     </a>
                 </div>
-                {{-- <div class="col-auto d-none d-md-block ml-auto">
-                    <nav class="main-nav">
-                        <ul>
-                            <li>
-                                <a href="{{ route('front.home') }}" class="home"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a>
-                            </li>
-                            <li>
-                                <a href="{{ route('front.collection.detail', $collections[0]->slug) }}">Collection <i class="far fa-angle-down"></i></a>
-                                <div class="sub-menu mega-menu">
-                                    <aside>
-                                        <ul>
-                                            @foreach($collections as $collectionKey => $collectionValue)
-                                                <li><a data-src="{{asset($collectionValue->image_path)}}" href="{{ route('front.collection.detail', $collectionValue->slug) }}">{{$collectionValue->name}}</a></li>
-                                            @endforeach
-                                        </ul>
-                                    </aside>
-                                    <content>
-                                        <img src="{{ asset($collections[0]->image_path) }}" id="bgimage"  class="img-fluid">
-                                    </content>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="{{ route('front.category.detail', $categories[0]->slug) }}">Categories <i class="far fa-angle-down"></i></a>
-                                <div class="sub-menu mega-menu">
-                                    <aside>
-                                        <ul>
-                                            @foreach($categories as $categoryKey => $categoryValue)
-                                                <li><a data-src="{{asset($categoryValue->image_path)}}" href="{{ route('front.category.detail', $categoryValue->slug) }}">{{$categoryValue->name}}</a></li>
-                                            @endforeach
-                                        </ul>
-                                    </aside>
-                                    <content>
-                                        <img src="{{ asset($categories[0]->image_path) }}" id="bgimage"  class="img-fluid">
-                                    </content>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="listing.html">Sale</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div> --}}
                 <div class="col-auto d-none d-md-block ml-auto menu_area">
                     <nav class="main-nav">
                         <ul>
@@ -101,56 +59,6 @@
                                             </a>
                                         </li>
                                         @endforeach
-                                        {{-- <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_innerwear.png" />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_outerwear.png" />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_platina.png" />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_relaxz.png" />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_thermal.png" />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_winterlow.png" />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_innerwear.png" />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_innerwear.png" />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_innerwear.png" />
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="listing.html">
-                                                <img src="img/logo_innerwear.png" />
-                                            </a>
-                                        </li> --}}
                                     </ul>
                                 </div>
                             </li>
@@ -170,38 +78,6 @@
                                             </ul>
                                         </li>
                                         @endforeach
-                                        {{-- <li>
-                                            <h5>Innerwear</h5>
-                                            <ul class="mega-drop-menu">
-                                                <li><a href="listing.html"><img src="img/005-tank-top.png"> Vest</a></li>
-                                                <li><a href="listing.html"><img src="img/brief.png"> Brief</a></li>
-                                                <li><a href="listing.html"><img src="img/boxer.png"> Boxer</a></li>
-                                                <li><a href="listing.html"><img src="img/trunk.png"> Trunk</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <h5>Outerwear</h5>
-                                            <ul class="mega-drop-menu">
-                                                <li><a href="listing.html"><img src="img/polo-shirt.png"> T-Shirt</a></li>
-                                                <li><a href="listing.html"><img src="img/track-pant.png"> Track Pants</a></li>
-                                                <li><a href="listing.html"><img src="img/half-pant.png"> Half Pants</a></li>
-                                                <li><a href="listing.html"><img src="img/jogger-pants.png"> Joggers</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <h5>Winter Wear</h5>
-                                            <ul class="mega-drop-menu">
-                                                <li><a href="listing.html"><img src="img/sweatshirt.png"> Sweatshirt</a></li>
-                                                <li><a href="listing.html"><img src="img/jacket.png"> Jacket</a></li>
-                                                <li><a href="listing.html"><img src="img/clothes.png"> Thermal</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <h5>Footkins</h5>
-                                            <ul class="mega-drop-menu">
-                                                <li><a href="listing.html"><img src="img/001-socks.png"> Socks</a></li>
-                                            </ul>
-                                        </li> --}}
                                     </ul>
                                 </div>
                             </li>
@@ -215,7 +91,7 @@
                     <nav class="account-nav">
                         <ul>
                             <li>
-                                <a href="#" id="search_toggle">
+                                <a href="javascript: void(0)" id="search_toggle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                                 </a>
                             </li>

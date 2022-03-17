@@ -15,15 +15,12 @@ class SearchRepository implements SearchInterface
     {
         $collectedData = collect($data);
 
-        $data = Product::
-        where('name', 'like', '%'.$collectedData['query'].'%')->
-        orWhere('slug', 'like', '%'.$collectedData['query'].'%')->
-        orWhere('style_no', 'like', '%'.$collectedData['query'].'%')->
-        orWhere('short_desc', 'like', '%'.$collectedData['query'].'%')->
-        orWhere('desc', 'like', '%'.$collectedData['query'].'%')->
-        get(); 
-
-        // dd($data);
+        $data = Product::where('name', 'like', '%'.$collectedData['query'].'%')
+        ->orWhere('slug', 'like', '%'.$collectedData['query'].'%')
+        ->orWhere('style_no', 'like', '%'.$collectedData['query'].'%')
+        ->orWhere('short_desc', 'like', '%'.$collectedData['query'].'%')
+        ->orWhere('desc', 'like', '%'.$collectedData['query'].'%')
+        ->get();
 
         return $data;
     }

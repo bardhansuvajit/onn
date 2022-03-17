@@ -113,7 +113,10 @@
                         </figure>
                         <figcaption>
                             <h4>{{$collectionProductValue->name}}</h4>
-                            <h5>&#8377;{{$collectionProductValue->offer_price}} - &#8377;{{$collectionProductValue->price}}</h5>
+                            <h5>
+                            &#8377;{{$collectionProductValue->offer_price}} 
+                            {{-- - &#8377;{{$collectionProductValue->price}} --}}
+                            </h5>
                         </figcaption>
                     </a>
                     @empty
@@ -122,7 +125,7 @@
                 </div>
             </div>
             @else
-            <p>Sorry, No products found under {{$data->name}} </p>
+            <p class="mt-5">Sorry, No products found under {{$data->name}} </p>
         </div>
         @endif
     </div>

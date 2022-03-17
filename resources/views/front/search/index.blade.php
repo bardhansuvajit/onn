@@ -1,33 +1,33 @@
 @extends('layouts.app')
 
-@section('page', 'Category')
+@section('page', app('request')->input('query'))
 
 @section('content')
-<section class="listing-header">
+{{-- <section class="listing-header">
     <div class="container">
         <div class="row flex-sm-row-reverse align-items-center">
             <div class="col-sm-6 d-none d-sm-block">
-                <img src="{{ asset($data->banner_image) }}" class="img-fluid">
+                <img src="" class="img-fluid">
             </div>
             <div class="col-sm-6">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('front.home') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Category</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{{$data->name}}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{app('request')->input('query')}}</li>
                     </ol>
                 </nav>
-                <h1>{{ $data->name }}</h1>
+                <h1>{{ app('request')->input('query') }}</h1>
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 
-<section class="listing-block">
+<section class="listing-block mt-5">
     <div class="container">
-        @if (count($data->ProductDetails) > 0)
+        @if (count($data) > 0)
         <div class="listing-block__meta">
-            <div class="filter">
+            <p>Displaying search result for <b>{{app('request')->input('query')}}</b></p>
+            {{-- <div class="filter">
                 <div class="filter__toggle">
                     Filter
                 </div>
@@ -41,11 +41,11 @@
                     <option>Price: Low To High</option>
                     <option>Price: High To Low</option>
                 </select>
-            </div>
+            </div> --}}
         </div>
 
         <div class="product__wrapper">
-            <div class="product__filter">
+            {{-- <div class="product__filter">
                 <div class="product__filter__bar">
                     <div class="filter__close">
                         <i class="fal fa-times"></i>
@@ -102,32 +102,30 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="product__holder">
                 <div class="row">
-                    @forelse($data->ProductDetails as $categoryProductKey => $categoryProductValue)
-                    <a href="{{ route('front.product.detail', $categoryProductValue->slug) }}" class="product__single" data-events data-cat="tshirt">
+                    @foreach($data as $collectionProductKey => $collectionProductValue)
+                    <a href="{{ route('front.product.detail', $collectionProductValue->slug) }}" class="product__single" data-events data-cat="tshirt">
                         <figure>
-                            <img src="{{asset($categoryProductValue->image)}}" />
-                            <h6>{{$categoryProductValue->style_no}}</h6>
+                            <img src="{{asset($collectionProductValue->image)}}" />
+                            <h6>{{$collectionProductValue->style_no}}</h6>
                         </figure>
                         <figcaption>
-                            <h4>{{$categoryProductValue->name}}</h4>
+                            <h4>{{$collectionProductValue->name}}</h4>
                             <h5>
-                            &#8377;{{$categoryProductValue->offer_price}} 
-                            {{-- - &#8377;{{$categoryProductValue->price}} --}}
+                            &#8377;{{$collectionProductValue->offer_price}} 
+                            {{-- - &#8377;{{$collectionProductValue->price}} --}}
                             </h5>
                         </figcaption>
                     </a>
-                    @empty
-                    
-                    @endforelse
+                    @endforeach
                 </div>
             </div>
-            @else
-            <p>Sorry, No products found under {{$data->name}} </p>
         </div>
+        @else
+        <p>Sorry, <b>{{app('request')->input('query')}}</b> returns no result </p>
         @endif
     </div>
 </section> 

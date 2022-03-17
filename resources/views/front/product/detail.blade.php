@@ -38,11 +38,6 @@
     border-color: #000000;
     color: #fff;
 }
-/* .product-details__content__holder .product__color li .color__holder {
-    width: auto;
-    height: 30px;
-    padding: 2px 8px;
-} */
 </style>
 
 <section id="specifications" class="product-details">
@@ -97,19 +92,10 @@
             <h2>{{$data->name}}</h2>
             <p>{!! $data->short_desc !!}</p>
 
-            {{-- {{dd($data->colorSize)}} --}}
 
             @if (count($data->colorSize) > 0)
                 @php
                 $uniqueColors = [];
-
-                // custom function multi-dimensional in_array
-                /* function in_array_r($needle, $haystack, $strict = false) {
-                    foreach ($haystack as $item) {
-                        if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) return true;
-                    }
-                    return false;
-                } */
 
                 foreach ($data->colorSize as $variantKey => $variantValue) {
                     if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
@@ -132,16 +118,6 @@
                 <p id="colorSelectAlert">Please select a colour first</p>
                 <ul class="product__sizes" id="sizeContainer"></ul>
             @endif
-
-            {{-- <h6>Available Colour</h6>
-            <ul class="product__color">
-                <li class="active"><img src="img/details-color.png"></li>
-                <li><img src="img/details-color1.png"></li>
-                <li><img src="img/details-color2.png"></li>
-                <li><img src="img/details-color3.png"></li>
-                <li><img src="img/details-color4.png"></li>
-                <li><img src="img/details-color5.png"></li>
-            </ul> --}}
 
             {{-- <h6>Available Packs</h6>
             <ul class="product__packs">
@@ -211,23 +187,15 @@
                 </figure>
                 <figcaption>
                     <h4>{{$relatedProductValue->name}}</h4>
-                    <h5>&#8377;{{$relatedProductValue->offer_price}} - &#8377;{{$relatedProductValue->price}}</h5>
+                    <h5>
+                        &#8377;{{$relatedProductValue->offer_price}} 
+                        {{-- - &#8377;{{$relatedProductValue->price}} --}}
+                    </h5>
                 </figcaption>
             </a>
             @empty
             <p class="ml-2">Sorry, No related products found </p>
             @endforelse
-
-            {{-- <a href="details.html" class="home-gallary__single" data-events data-cat="tshirt">
-                <figure>
-                    <img src="img/round_neck_tshirt.png" />
-                </figure>
-                <figcaption>
-                    <h4>Round Neck T-shirt</h4>
-                    <h6>Style # OF NC422</h6>
-                </figcaption>
-            </a> --}}
-
         </div>
     </div>
 </section>
