@@ -150,7 +150,14 @@
 <section class="home-sale">
     <div class="home-sale__slider swiper-container">
         <div class="slider swiper-wrapper">
-            <div class="home-sale__single swiper-slide">
+            @foreach ($galleries as $galleryKey => $galleryValue)
+                <div class="home-sale__single swiper-slide">
+                    <figure>
+                        <img src="{{asset($galleryValue->image)}}" />
+                    </figure>
+                </div>
+            @endforeach
+            {{-- <div class="home-sale__single swiper-slide">
                 <figure>
                     <img src="img/gallery.jpg" />
                 </figure>
@@ -179,7 +186,7 @@
                 <figure>
                     <img src="img/gallery6.jpg" />
                 </figure>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>

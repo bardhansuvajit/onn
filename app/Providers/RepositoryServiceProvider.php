@@ -15,6 +15,7 @@ use App\Interfaces\OrderInterface;
 use App\Interfaces\TransactionInterface;
 use App\Interfaces\CartInterface;
 use App\Interfaces\CheckoutInterface;
+use App\Interfaces\GalleryInterface;
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\SubcategoryRepository;
@@ -29,6 +30,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\CartRepository;
 use App\Repositories\CheckoutRepository;
+use App\Repositories\GalleryRepository;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -54,6 +56,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(TransactionInterface::class, TransactionRepository::class);
         $this->app->bind(CartInterface::class, CartRepository::class);
         $this->app->bind(CheckoutInterface::class, CheckoutRepository::class);
+        $this->app->bind(GalleryInterface::class, GalleryRepository::class);
     }
 
     /**

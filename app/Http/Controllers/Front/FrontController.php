@@ -8,6 +8,7 @@ use App\Models\SubscriptionMail;
 use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Product;
+use App\Models\Gallery;
 
 class FrontController extends Controller
 {
@@ -16,7 +17,8 @@ class FrontController extends Controller
         $category = Category::latest('id')->get();
         $collections = Collection::latest('id')->get();
         $products = Product::latest('is_trending', 'id')->get();
-        return view('front.welcome', compact('category', 'collections', 'products'));
+        $galleries = Gallery::latest('id')->get();
+        return view('front.welcome', compact('category', 'collections', 'products', 'galleries'));
     }
 
     public function mailSubscribe(Request $request)

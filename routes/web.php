@@ -78,6 +78,8 @@ Route::name('front.')->group(function() {
 
 Auth::routes();
 
+Route::get('login', 'Front\UserController@login')->name('login');
+
 // common & user guard
 // Route::prefix('user')->name('user.')->group(function() {
 //     Route::middleware(['guest:web'])->group(function() {
@@ -210,6 +212,16 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::prefix('transaction')->name('transaction.')->group(function() {
             Route::get('/', 'Admin\TransactionController@index')->name('index');
             Route::get('/{id}/view', 'Admin\TransactionController@show')->name('view');
+        });
+
+        // gallery
+        Route::prefix('gallery')->name('gallery.')->group(function() {
+            Route::get('/', 'Admin\GalleryController@index')->name('index');
+            Route::post('/store', 'Admin\GalleryController@store')->name('store');
+            Route::get('/{id}/view', 'Admin\GalleryController@show')->name('view');
+            Route::post('/{id}/update', 'Admin\GalleryController@update')->name('update');
+            Route::get('/{id}/status', 'Admin\GalleryController@status')->name('status');
+            Route::get('/{id}/delete', 'Admin\GalleryController@destroy')->name('delete');
         });
     });
 });

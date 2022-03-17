@@ -158,7 +158,7 @@ class UserRepository implements UserInterface
 
     public function orderDetails() 
     {
-        $data = Order::where('user_id', Auth::guard('web')->user()->id)->orWhere('ip', $this->ip)->latest('id')->get();
+        $data = Order::where('email', Auth::guard('web')->user()->email)->latest('id')->get();
         return $data;
     }
 

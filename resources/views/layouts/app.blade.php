@@ -304,13 +304,6 @@
                                         @foreach ($categories as $categoryIndex => $categoryValue)
                                             <li><a href="{{route('front.category.detail', $categoryValue->slug)}}">{{$categoryValue->name}}</a></li>
                                         @endforeach
-                                        {{-- <li><a href="listing.html">Innerwears</a></li>
-                                        <li><a href="listing.html">Outerwears</a></li>
-                                        <li><a href="listing.html">Platina</a></li>
-                                        <li><a href="listing.html">Relaxz</a></li>
-                                        <li><a href="listing.html">Footkins</a></li>
-                                        <li><a href="listing.html">Thermal</a></li>
-                                        <li><a href="listing.html">Winter</a></li> --}}
                                     </ul>
                                 </div>
                             </div>
@@ -319,7 +312,7 @@
                                     <div class="footer-heading">Customer Services</div>
                                     <ul class="footer-block-menu">
                                         <li><a href="#">FAQ</a></li>
-                                        <li><a href="#">My Shopping</a></li>
+                                        <li><a href="{{route('front.user.order')}}">My Shopping</a></li>
                                         <li><a href="#">Shipping & Delivery</a></li>
                                         <li><a href="#">Payment, Voucher & Promotions</a></li>
                                         <li><a href="#">Returns & Refunds</a></li>
