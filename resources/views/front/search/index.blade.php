@@ -22,9 +22,9 @@
     </div>
 </section> --}}
 
+@if (count($data) > 0)
 <section class="listing-block mt-5">
     <div class="container">
-        @if (count($data) > 0)
         <div class="listing-block__meta">
             <p>Displaying search result for <b>{{app('request')->input('query')}}</b></p>
             {{-- <div class="filter">
@@ -124,9 +124,23 @@
                 </div>
             </div>
         </div>
-        @else
-        <p>Sorry, <b>{{app('request')->input('query')}}</b> returns no result </p>
-        @endif
     </div>
 </section> 
+@else
+<section class="cart-header mb-3 mb-sm-5"></section>
+<section class="cart-wrapper">
+    <div class="container">
+        <div class="complele-box">
+            <figure>
+                <img src="{{asset('img/close.svg')}}" height="100">
+            </figure>
+            <figcaption>
+                <h2>OOPS ! <b>{{app('request')->input('query')}}</b> returns no result</h2>
+                <p>Search new query.</p>
+                <a href="{{route('front.home')}}">Back to Home</a>
+            </figcaption>
+        </div>
+    </div>
+</section>
+@endif
 @endsection

@@ -203,7 +203,7 @@
             </figure>
             <figcaption>
                 <h2>Your cart is empty</h2>
-                <p>{{Session::get('success')}}</p>
+                {{-- <p>{{Session::get('success')}}</p> --}}
                 <p>Shop now to get 30% OFF.</p>
                 <a href="{{route('front.home')}}">Back to Home</a>
             </figcaption>
