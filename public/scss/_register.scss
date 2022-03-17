@@ -133,6 +133,20 @@
         max-width: 500px;
         padding: 50px;
 
+        &.full {
+            max-width: 700px;
+
+            .register-group {
+                max-width: 50%;
+                flex: 0 0 50%;
+
+                &.full {
+                    max-width: 100%;
+                    flex: 0 0 100%;
+                }
+            }
+        }
+
         @include media-breakpoint-down(md) {
             padding: 20px 15px;
         }
@@ -188,6 +202,8 @@
         box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.05);
         border-radius: 10px;
         margin-bottom: 30px;
+        display: flex;
+        flex-wrap: wrap;
     }
     &-group {
         padding: 25px 35px 20px;

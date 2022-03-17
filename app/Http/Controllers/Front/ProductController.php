@@ -21,9 +21,10 @@ class ProductController extends Controller
         $data = $this->productRepository->listBySlug($slug);
         $images = $this->productRepository->listImagesById($data->id);
         $relatedProducts = $this->productRepository->relatedProducts($data->id);
+        $wishlistCheck = $this->productRepository->wishlistCheck($data->id);
 
         if ($data) {
-            return view('front.product.detail', compact('data', 'images', 'relatedProducts'));
+            return view('front.product.detail', compact('data', 'images', 'relatedProducts', 'wishlistCheck'));
         } else {
             return view('front.404');
         }

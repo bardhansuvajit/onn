@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Mail;
 
+// $ip = $_SERVER['REMOTE_ADDR'];
+
 // send mail helper
 function SendMail($data)
 {

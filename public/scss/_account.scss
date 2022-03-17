@@ -243,6 +243,29 @@
         font-size: 14px;
         font-weight: 600;
         color: $black;
+
+        .cart_btn {
+            border: none;
+            background: $secondary;
+            color: $white;
+            font-size: 14px;
+            border: none;
+            padding: 10px 20px;
+            font-weight: $font-weight-medium;
+            border-radius: 3px;
+        }
+        .remove_btn {
+            border: none;
+            background: $gray91;
+            color: $primary;
+            font-size: 14px;
+            border: none;
+            padding: 10px 20px;
+            font-weight: $font-weight-medium;
+            border-radius: 3px;
+            display: inline-block;
+            vertical-align: top;
+        }
     }
 }
 .address-card {
@@ -362,5 +385,37 @@
             font-size: 14px;
             line-height: 1.4;
         }
+    }
+}
+
+.cms_context {
+    p {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .faq_heading {
+        font-size: 14px;
+        font-weight: $font-weight-semibold;
+        border: 1px solid #eee;
+        padding: 15px;
+        margin-top: 15px;
+        line-height: 1;
+        cursor: pointer;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &.active {
+            border-bottom: none;
+        }
+    }
+    .faq_content {
+        padding: 10px;
+        border: 1px solid #eee;
+        border-top: none;
+        margin-bottom: 15px;
+        display: none;
     }
 }

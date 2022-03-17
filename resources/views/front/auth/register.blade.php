@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="register-right">
-                <form method="POST"  class="register-block" action="{{route('front.user.create')}}">@csrf
+                <form method="POST"  class="register-block full" action="{{route('front.user.create')}}">@csrf
                     <div class="register-logo">
                         <a href="{{route('front.home')}}"><img src="{{asset('img/logo.png')}}"></a>
                     </div>
@@ -85,7 +85,7 @@
                             <label class="floating-label">Mobile no</label>
                             @error('mobile') <p class="small text-danger mb-0">{{$message}}</p> @enderror
                         </div>
-                        <div class="register-group">
+                        <div class="register-group full">
                             <input type="password" class="register-box" name="password" placeholder="Password">
                             <label class="floating-label">Password</label>
                             @error('password') <p class="small text-danger mb-0">{{$message}}</p> @enderror

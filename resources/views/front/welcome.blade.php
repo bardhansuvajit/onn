@@ -49,7 +49,7 @@
 </section>
 
 <section id="category" class="home-category">
-    <div class="home-category__text">Total Comfort</div>
+    <!-- <div class="home-category__text">Total Comfort</div> -->
     <div class="container">
         <div class="row">
             <div class="col-sm-12 mb-0 mb-md-5">
@@ -74,10 +74,10 @@
 <section id="collection" class="home-collection pb-0">
     <div class="home-collection__before"></div>
     <div class="container pr-0">
-        <div class="home-collection__text">Collections</div>
+        <!-- <div class="home-collection__text">Collections</div> -->
 
         <div class="row align-items-end">
-            <div class="col-sm-4 col-md-5 d-none d-md-block">
+            <!-- <div class="col-sm-4 col-md-5 d-none d-md-block">
                 <div class="home-collection__thumb swiper-container">
                     <div class="slider swiper-wrapper">
                         @foreach($collections as $collectionKey => $collectionValue)
@@ -87,8 +87,8 @@
                         @endforeach
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-12 col-md-7">
+            </div> -->
+            <div class="col-sm-12 col-md-12">
                 <div class="home-collection__thumbs swiper-container">
                     <div class="slider swiper-wrapper">
                         @foreach($collections as $collectionKey => $collectionValue)
@@ -157,36 +157,6 @@
                     </figure>
                 </div>
             @endforeach
-            {{-- <div class="home-sale__single swiper-slide">
-                <figure>
-                    <img src="img/gallery.jpg" />
-                </figure>
-            </div>
-            <div class="home-sale__single swiper-slide">
-                <figure>
-                    <img src="img/gallery2.jpg" />
-                </figure>
-            </div>
-            <div class="home-sale__single swiper-slide">
-                <figure>
-                    <img src="img/gallery3.webp" />
-                </figure>
-            </div>
-            <div class="home-sale__single swiper-slide">
-                <figure>
-                    <img src="img/gallery4.jpg" />
-                </figure>
-            </div>
-            <div class="home-sale__single swiper-slide">
-                <figure>
-                    <img src="img/gallery5.png" />
-                </figure>
-            </div>
-            <div class="home-sale__single swiper-slide">
-                <figure>
-                    <img src="img/gallery6.jpg" />
-                </figure>
-            </div> --}}
         </div>
     </div>
 </section>

@@ -79,8 +79,8 @@
                         <hr>
                         <div class="form-group mb-3">
                             <h4>
-                                <span class="text-muted small"><del>Rs {{$data->price}}</del></span> 
-                                <span class="text-danger">Rs {{$data->offer_price}}</span> 
+                                <span class="text-muted small"><del>Rs {{$data->price}}</del></span>
+                                <span class="text-danger">Rs {{$data->offer_price}}</span>
                             </h4>
                         </div>
                         <hr>

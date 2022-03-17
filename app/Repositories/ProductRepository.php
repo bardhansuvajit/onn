@@ -12,6 +12,7 @@ use App\Models\Color;
 use App\Models\Size;
 use App\Models\ProductColor;
 use App\Models\ProductColorSize;
+use App\Models\Wishlist;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -246,5 +247,12 @@ class ProductRepository implements ProductInterface
     public function deleteSingleImage($id) 
     {
         ProductImage::destroy($id);
+    }
+
+    public function wishlistCheck($productId) 
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $data = Wishlist::where('product_id', $productId)->where('ip', $ip)->first();
+        return $data;
     }
 }

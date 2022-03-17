@@ -1019,19 +1019,17 @@ $(document).on('click', '.filter__button', function () {
 });
 
 var value = 1
+
 $(".product__enquire .counter").val(value);
-$('.product__enquire .increment').on("click", function() {
-  value = parseInt(value+1);
-  $(".product__enquire .counter").val(value);
+$('.product__enquire .increment').on("click", function () {
+    value = parseInt(value + 1);
+    $(".product__enquire .counter").val(value);
 });
-$('.product__enquire .decrement').on("click", function(){
-  if(value > 0){
-    value = parseInt(value-1);
-    $(".product__enquire .counter").val(value);
-  }else{
-    value = 0;
-    $(".product__enquire .counter").val(value);
-  }
+$('.product__enquire .decrement').on("click", function () {
+    if (value > 1) {
+        value = parseInt(value - 1);
+        $(".product__enquire .counter").val(value);
+    }
 });
 
 
@@ -1155,4 +1153,28 @@ $('input[name="existing_billing_address"]').click(function () {
     $("input[name='billing_address']").val(billing_address);
     $("input[name='billing_pin']").val(billing_pin);
     $("input[name='billing_landmark']").val(billing_landmark);
+});
+
+$('#search_toggle').click(function(){
+    $('.search_wrap').toggleClass('active');
+});
+$('.search_close').click(function(){
+    $('.search_wrap').removeClass('active');
+});
+$('.wishlist_btn').click(function(){
+    $(this).toggleClass('active');
+});
+
+jQuery('.faq_content').hide();
+jQuery('.faq_content:first').show();
+jQuery('.faq_heading:first').addClass('active');
+jQuery('.faq_heading').click(function(){
+    if(!jQuery(this).hasClass('active')) {
+        jQuery('.faq_heading.active').removeClass('active');
+        jQuery(this).addClass('active');
+    } else {
+        jQuery(this).removeClass('active');
+    }
+    jQuery(this).next().slideToggle();
+    jQuery('.faq_content').not(jQuery(this).next()).slideUp();
 });

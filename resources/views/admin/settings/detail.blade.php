@@ -29,7 +29,7 @@
                         <h4 class="page__subtitle">Edit</h4>
                         <div class="form-group mb-3">
                             <label class="label-control">Content </label>
-                            <textarea name="content" class="form-control">{{$data->content}}</textarea>
+                            <textarea name="content" id="content" class="form-control">{{$data->content}}</textarea>
                             @error('content') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <div class="form-group">
@@ -41,4 +41,14 @@
         </div>
     </div>
 </section>
+@endsection
+
+@section('script')
+    <script>
+        ClassicEditor
+        .create( document.querySelector( '#content' ) )
+        .catch( error => {
+            console.error( error );
+        });
+    </script>
 @endsection

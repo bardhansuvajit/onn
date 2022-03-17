@@ -7,6 +7,7 @@ use App\User;
 use App\Models\Address;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Wishlist;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -165,6 +166,12 @@ class UserRepository implements UserInterface
     public function recommendedProducts() 
     {
         $data = Product::latest('is_best_seller', 'id')->get();
+        return $data;
+    }
+
+    public function wishlist()
+    {
+        $data = Wishlist::where('ip', $this->ip)->get();
         return $data;
     }
 }

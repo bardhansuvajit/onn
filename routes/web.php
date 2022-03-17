@@ -38,6 +38,13 @@ Route::name('front.')->group(function() {
         Route::get('/quantity/{id}/{type}', 'Front\CartController@qtyUpdate')->name('quantity');
     });
 
+    // wishlist
+    Route::prefix('wishlist')->name('wishlist.')->group(function() {
+        // Route::get('/', 'Front\WishlistController@viewByIp')->name('index');
+        Route::post('/add', 'Front\WishlistController@add')->name('add');
+        Route::get('/delete/{id}', 'Front\WishlistController@delete')->name('delete');
+    });
+
     // checkout/ order
     Route::prefix('checkout')->name('checkout.')->group(function() {
         Route::get('/', 'Front\CheckoutController@index')->name('index');
@@ -45,8 +52,31 @@ Route::name('front.')->group(function() {
         Route::view('/complete', 'front.checkout.complete')->name('complete');
     });
 
+    // faq
+    Route::prefix('faq')->name('faq.')->group(function() {
+        Route::get('/', 'Front\FaqController@index')->name('index');
+    });
+
+    // search
+    Route::prefix('search')->name('search.')->group(function() {
+        Route::get('/', 'Front\SearchController@index')->name('index');
+    });
+
+    // settings contents
+    Route::name('content.')->group(function() {
+        Route::get('/terms-and-conditions', 'Front\ContentController@termDetails')->name('terms');
+        Route::get('/privacy-statement', 'Front\ContentController@privacyDetails')->name('privacy');
+        Route::get('/security', 'Front\ContentController@securityDetails')->name('security');
+        Route::get('/disclaimer', 'Front\ContentController@disclaimerDetails')->name('disclaimer');
+        Route::get('/shipping-and-delivery', 'Front\ContentController@shippingDetails')->name('shipping');
+        Route::get('/payment-voucher-promotion', 'Front\ContentController@paymentDetails')->name('payment');
+        Route::get('/return-policy', 'Front\ContentController@returnDetails')->name('return');
+        Route::get('/refund-policy', 'Front\ContentController@refundDetails')->name('refund');
+        Route::get('/service-and-contact', 'Front\ContentController@serviceDetails')->name('service');
+    });
+
+    // user login & registration - guard
     Route::middleware(['guest:web'])->group(function() {
-        // user login & registration
         Route::prefix('user/')->name('user.')->group(function() {
             Route::get('/register', 'Front\UserController@register')->name('register');
             Route::post('/create', 'Front\UserController@create')->name('create');
@@ -55,6 +85,7 @@ Route::name('front.')->group(function() {
         });
     });
 
+    // profile login & registration - guard
     Route::middleware(['auth:web'])->group(function() {
         Route::prefix('user/')->name('user.')->group(function() {
             Route::view('profile', 'front.profile.index')->name('profile');
@@ -66,6 +97,7 @@ Route::name('front.')->group(function() {
             Route::get('address', 'Front\UserController@address')->name('address');
             Route::view('address/add', 'front.profile.address-add')->name('address.add');
             Route::post('address/add', 'Front\UserController@addressCreate')->name('address.create');
+            Route::get('wishlist', 'Front\UserController@wishlist')->name('wishlist');
         });
     });
 

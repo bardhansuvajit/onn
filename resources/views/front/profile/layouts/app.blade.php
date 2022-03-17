@@ -41,6 +41,7 @@
                         <span>Account</span>
                         <ul>
                             <li><a href="{{route('front.user.manage')}}">Profile</a></li>
+                            <li><a href="{{route('front.user.wishlist')}}">Wishlist</a></li>
                             <li><a href="{{route('front.user.address')}}">Address</a></li>
                             <li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a></li>
                         </ul>

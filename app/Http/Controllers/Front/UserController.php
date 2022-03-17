@@ -154,4 +154,14 @@ class UserController extends Controller
             return redirect()->route('front.user.manage')->withInput($request->all())->with('failure', 'Something happened');
         }
     }
+
+    public function wishlist(Request $request) 
+    {
+        $data = $this->userRepository->wishlist();
+        if ($data) {
+            return view('front.profile.wishlist', compact('data'));
+        } else {
+            return view('front.404');
+        }
+    }
 }

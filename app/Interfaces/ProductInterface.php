@@ -19,4 +19,5 @@ interface ProductInterface
     public function toggle($id);
     public function delete($id);
     public function deleteSingleImage($id);
+    public function wishlistCheck($productId);
 }

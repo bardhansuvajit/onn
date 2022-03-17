@@ -16,6 +16,9 @@ use App\Interfaces\TransactionInterface;
 use App\Interfaces\CartInterface;
 use App\Interfaces\CheckoutInterface;
 use App\Interfaces\GalleryInterface;
+use App\Interfaces\ContentInterface;
+use App\Interfaces\WishlistInterface;
+use App\Interfaces\SearchInterface;
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\SubcategoryRepository;
@@ -31,6 +34,9 @@ use App\Repositories\TransactionRepository;
 use App\Repositories\CartRepository;
 use App\Repositories\CheckoutRepository;
 use App\Repositories\GalleryRepository;
+use App\Repositories\ContentRepository;
+use App\Repositories\WishlistRepository;
+use App\Repositories\SearchRepository;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -57,6 +63,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CartInterface::class, CartRepository::class);
         $this->app->bind(CheckoutInterface::class, CheckoutRepository::class);
         $this->app->bind(GalleryInterface::class, GalleryRepository::class);
+        $this->app->bind(ContentInterface::class, ContentRepository::class);
+        $this->app->bind(WishlistInterface::class, WishlistRepository::class);
+        $this->app->bind(SearchInterface::class, SearchRepository::class);
     }
 
     /**

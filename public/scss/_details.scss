@@ -80,11 +80,11 @@
         &__thumb {
             max-width: 8em;
             float: left;
-            max-height: 50em;
+            height: 50em;
 
             @include media-breakpoint-down(sm) {
                 max-width: 4em;
-                max-height: 20em;
+                height: 20em;
             }
 
             &-single {
@@ -358,6 +358,20 @@
                     }
                 }
 
+                .wishlist_btn {
+                    width: 60px;
+                    height: 60px;
+                    border: none;
+                    margin-left: 5px;
+
+                    &.active {
+                        svg {
+                            fill: $secondary;
+                            stroke: $secondary;
+                        }
+                    }
+                }
+
                 button[type="submit"] {
                     display: inline-flex;
                     vertical-align: top;
@@ -440,4 +454,8 @@
             margin-bottom: 15px;
         }
     }
+}
+
+.swiper-container {
+    overflow: hidden;
 }
