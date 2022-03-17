@@ -154,6 +154,7 @@
                 <div class="menu__links">
                     <ul>
                         @foreach ($collectionValue->ProductDetails as $collectionProductKey => $collectionProductValue )
+                            @php if($collectionProductKey == 5) break; @endphp
                             <li><a href="{{ route('front.product.detail', $collectionProductValue->slug) }}">{{$collectionProductValue->name}}</a></li>
                         @endforeach
                         <li><a href="{{ route('front.collection.detail', $collectionValue->slug) }}">View All</a></li>
