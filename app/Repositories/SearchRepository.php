@@ -21,7 +21,7 @@ class SearchRepository implements SearchInterface
         orWhere('style_no', 'like', '%'.$collectedData['query'].'%')->
         orWhere('short_desc', 'like', '%'.$collectedData['query'].'%')->
         orWhere('desc', 'like', '%'.$collectedData['query'].'%')->
-        get();
+        get(); 
 
         // dd($data);
 
