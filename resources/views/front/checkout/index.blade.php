@@ -344,7 +344,7 @@
 
                             <button type="submit" class="btn checkout-btn">Complete Order</button>
                             OR
-                            <button id="rzp-button1" class="btn checkout-btn">Pay Online </button>
+                            <button type="button" id="rzp-button1" class="btn checkout-btn">Pay Online </button>
                         </div>
                         <div class="col-sm-auto mt-3 mt-sm-0">
                             <a href="{{route('front.cart.index')}}">Return to Cart</a>
