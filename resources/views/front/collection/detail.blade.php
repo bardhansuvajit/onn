@@ -50,55 +50,56 @@
                         <i class="fal fa-times"></i>
                     </div>
                     <div class="row">
-                        <div class="col-6 col-sm-12 mb-3 mb-sm-0">
-                            <h4>Categories</h4>
-                            <ul class="product__filter__bar-list">
-                                @foreach($categories as $categoryKey => $categoryValue)
-                                    <li><label><input type="checkbox" pro-filter="{{$categoryValue->name}}"><i></i> {{$categoryValue->name}}</label></li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="col-6 col-sm-12 mb-3 mb-sm-0">
-                            <h4>Range</h4>
-                            <ul class="product__filter__bar-list">
-                                <li><label><input type="checkbox" pro-filter="Innerwear"><i></i> Innerwear</label></li>
-                                <li><label><input type="checkbox" pro-filter="Outerwear"><i></i> Outerwear</label></li>
-                                <li><label><input type="checkbox" pro-filter="Footkins"><i></i> Footkins</label></li>
-                                <li><label><input type="checkbox" pro-filter="Thermals"><i></i> Thermals</label></li>
-                                <li><label><input type="checkbox" pro-filter="Socks"><i></i> Socks</label></li>
-                                <li><label><input type="checkbox" pro-filter="Winter Wear"><i></i> Winter Wear</label></li>
-                                <li><label><input type="checkbox" pro-filter="Relaxz"><i></i> Relaxz</label></li>
-                            </ul>
-                        </div>
-                        <div class="col-6 col-sm-12 mb-3 mb-sm-0">
-                            <h4>Sizes</h4>
-                            <ul class="product__filter__bar-list">
-                                @foreach($sizes as $sizeKey => $sizeValue)
-                                    <li><label><input type="checkbox" pro-filter="{{$sizeValue->name}}"><i></i> {{$sizeValue->name}}</label></li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="col-6 col-sm-12 mb-3 mb-sm-0">
-                            <h4>Price</h4>
-                            <ul class="product__filter__bar-list">
-                                <li><label><input type="checkbox" pro-filter="&#8377;339 - &#8377;425"><i></i> &#8377;339 - &#8377;425</label></li>
-                                <li><label><input type="checkbox" pro-filter="&#8377;410 - &#8377;450"><i></i> &#8377;410 - &#8377;450</label></li>
-                                <li><label><input type="checkbox" pro-filter="&#8377;499 - &#8377;525"><i></i> &#8377;499 - &#8377;525</label></li>
-                                <li><label><input type="checkbox" pro-filter="&#8377;575 - &#8377;599"><i></i> &#8377;575 - &#8377;599</label></li>
-                                <li><label><input type="checkbox" pro-filter="&#8377;599 - &#8377;625"><i></i> &#8377;599 - &#8377;625</label></li>
-                                <li><label><input type="checkbox" pro-filter="&#8377;590 - &#8377;615"><i></i> &#8377;590 - &#8377;615</label></li>
-                                <li><label><input type="checkbox" pro-filter="&#8377;450 - &#8377;475"><i></i> &#8377;450 - &#8377;475</label></li>
-                                <li><label><input type="checkbox" pro-filter="&#8377;430 - &#8377;450"><i></i> &#8377;430 - &#8377;450</label></li>
-                            </ul>
-                        </div>
-                        <div class="col-12">
-                            <h4>Color</h4>
-                            <ul class="product__filter__bar-list column-2">
-                                @foreach($colors as $colorKey => $colorValue)
-                                    <li><label><input type="checkbox" pro-filter="{{$colorValue->name}}"><i></i> {{ucwords($colorValue->name)}}</label></li>
-                                @endforeach
-                            </ul>
-                        </div>
+                        <form method="GET" action="{{route('front.collection.detail', $data->slug)}}">
+                            <div class="col-12 col-sm-12 mb-3 mb-sm-0">
+                                <h4>Categories</h4>
+                                <ul class="product__filter__bar-list">
+                                    @foreach($categories as $categoryKey => $categoryValue)
+                                        <li><label><input type="checkbox" name="category" value="{{$categoryValue->slug}}" pro-filter="{{$categoryValue->name}}" {{( request()->query('category') == $categoryValue->slug ) ? 'checked' : ''}}><i></i> {{$categoryValue->name}}</label></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="col-12 col-sm-12 mb-3 mb-sm-0">
+                                <h4>Range</h4>
+                                <ul class="product__filter__bar-list">
+                                    @foreach($collections as $collectionKey => $collectionValue)
+                                        <li><label><input type="checkbox" name="collection" value="{{$collectionValue->slug}}" pro-filter="{{$collectionValue->name}}"><i></i> {{$collectionValue->name}}</label></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="col-6 col-sm-12 mb-3 mb-sm-0">
+                                <h4>Sizes</h4>
+                                <ul class="product__filter__bar-list">
+                                    @foreach($sizes as $sizeKey => $sizeValue)
+                                        <li><label><input type="checkbox" pro-filter="{{$sizeValue->name}}"><i></i> {{$sizeValue->name}}</label></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="col-6 col-sm-12 mb-3 mb-sm-0">
+                                <h4>Price</h4>
+                                <ul class="product__filter__bar-list">
+                                    <li><label><input type="checkbox" pro-filter="&#8377;339 - &#8377;425"><i></i> &#8377;339 - &#8377;425</label></li>
+                                    <li><label><input type="checkbox" pro-filter="&#8377;410 - &#8377;450"><i></i> &#8377;410 - &#8377;450</label></li>
+                                    <li><label><input type="checkbox" pro-filter="&#8377;499 - &#8377;525"><i></i> &#8377;499 - &#8377;525</label></li>
+                                    <li><label><input type="checkbox" pro-filter="&#8377;575 - &#8377;599"><i></i> &#8377;575 - &#8377;599</label></li>
+                                    <li><label><input type="checkbox" pro-filter="&#8377;599 - &#8377;625"><i></i> &#8377;599 - &#8377;625</label></li>
+                                    <li><label><input type="checkbox" pro-filter="&#8377;590 - &#8377;615"><i></i> &#8377;590 - &#8377;615</label></li>
+                                    <li><label><input type="checkbox" pro-filter="&#8377;450 - &#8377;475"><i></i> &#8377;450 - &#8377;475</label></li>
+                                    <li><label><input type="checkbox" pro-filter="&#8377;430 - &#8377;450"><i></i> &#8377;430 - &#8377;450</label></li>
+                                </ul>
+                            </div>
+                            <div class="col-12">
+                                <h4>Color</h4>
+                                <ul class="product__filter__bar-list column-2">
+                                    @foreach($colors as $colorKey => $colorValue)
+                                        <li><label><input type="checkbox" pro-filter="{{$colorValue->name}}"><i></i> {{ucwords($colorValue->name)}}</label></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-sm btn-danger">Apply</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

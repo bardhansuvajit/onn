@@ -17,6 +17,7 @@ class CollectionController extends Controller
 
     public function detail(Request $request, $slug)
     {
+        // dd($request->all());
         $data = $this->collectionRepository->getCollectionBySlug($slug);
         $sizes = $this->collectionRepository->getAllSizes();
         $colors = $this->collectionRepository->getAllColors();

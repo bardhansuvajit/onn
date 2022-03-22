@@ -19,7 +19,7 @@ Route::name('front.')->group(function() {
         Route::get('/category/{slug}', 'Front\CategoryController@detail')->name('detail');
     });
 
-    // category detail
+    // sale
     Route::name('sale.')->group(function() {
         Route::get('/sale', 'Front\SaleController@index')->name('index');
     });
