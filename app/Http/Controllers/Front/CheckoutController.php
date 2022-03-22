@@ -34,8 +34,6 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $request->validate([
             'email' => 'required|email|max:255',
             'mobile' => 'required|integer|digits:10',

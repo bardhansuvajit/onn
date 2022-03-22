@@ -7,8 +7,10 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Address;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CheckoutRepository implements CheckoutInterface 
 {
@@ -34,6 +36,7 @@ class CheckoutRepository implements CheckoutInterface
         DB::beginTransaction();
 
         try {
+            // 1 order
             $order_no = "ONN".mt_rand();
             $newEntry = new Order;
             $newEntry->order_no = $order_no;
@@ -74,7 +77,7 @@ class CheckoutRepository implements CheckoutInterface
 
             $newEntry->save();
 
-            // insert cart data into order products
+            // 2 insert cart data into order products
             $orderProducts = [];
             foreach($cartData as $cartValue) {
                 $orderProducts[] = [
@@ -91,7 +94,7 @@ class CheckoutRepository implements CheckoutInterface
             }
             $orderProductsNewEntry = OrderProduct::insert($orderProducts);
 
-            // send mail
+            // 3 send mail
             $email_data = [
                 'name' => $collectedData['fname'].' '.$collectedData['lname'],
                 'subject' => 'Onn - New order',
@@ -101,10 +104,27 @@ class CheckoutRepository implements CheckoutInterface
                 'orderProducts' => $orderProducts,
                 'blade_file' => 'front/mail/order-confirm',
             ];
+
             SendMail($email_data);
 
-            // remove cart data
+            // 4 remove cart data
             $emptyCart = Cart::where('ip', $this->ip)->delete();
+
+            // 5 online payment
+            if (isset($data['razorpay_payment_id'])) {
+                $txnData = new Transaction();
+                $txnData->user_id = Auth::guard('web')->user()->id ?? 0;
+                $txnData->order_id = $newEntry->id;
+                $txnData->transaction = 'TXN_'.strtoupper(Str::random(20));
+                $txnData->online_payment_id = $collectedData['razorpay_payment_id'];
+                $txnData->amount = $total;
+                $txnData->currency = "INR";
+                $txnData->method = "";
+                $txnData->description = "";
+                $txnData->bank = "";
+                $txnData->upi = "";
+                $txnData->save();
+            }
 
             DB::commit();
             return $order_no;

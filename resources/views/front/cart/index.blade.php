@@ -23,20 +23,20 @@
 </style>
 
 @if(count($data) > 0)
-<section class="cart-header mb-3 mb-sm-5">
+<section class="cart-header mt-5 mb-3 mb-sm-5">
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
                 <h4>Shopping Cart</h4>
             </div>
-            <div class="col-sm-9">
+            {{-- <div class="col-sm-9">
                 <ul class="cart-flow">
                     <li class="active"><a href="javascript: void(0)"><span>Cart</span></a></li>
                     <li><a href="javascript: void(0)"><span>Checkout</span></a></li>
-                    {{-- <li><a href="javascript: void(0)"><span>Shipping</span></a></li> --}}
-                    {{-- <li><a href="javascript: void(0)"><span>Payment</span></a></li> --}}
+                    <li><a href="javascript: void(0)"><span>Shipping</span></a></li>
+                    <li><a href="javascript: void(0)"><span>Payment</span></a></li>
                 </ul>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>

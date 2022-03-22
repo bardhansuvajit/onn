@@ -9,20 +9,20 @@
 }
 </style>
 
-<section class="cart-header mb-3 mb-sm-5">
+<section class="cart-header mt-5 mb-3 mb-sm-5">
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
                 <h4>Shopping Checkout</h4>
             </div>
-            <div class="col-sm-9">
+            {{-- <div class="col-sm-9">
                 <ul class="cart-flow">
                     <li class="active"><a href="javascript: void(0)"><span>Cart</span></a></li>
                     <li class="active"><a href="javascript: void(0)"><span>Checkout</span></a></li>
-                    {{-- <li><a href="javascript: void(0)"><span>Shipping</span></a></li> --}}
-                    {{-- <li><a href="javascript: void(0)"><span>Payment</span></a></li> --}}
+                    <li><a href="javascript: void(0)"><span>Shipping</span></a></li>
+                    <li><a href="javascript: void(0)"><span>Payment</span></a></li>
                 </ul>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>
@@ -35,7 +35,7 @@
                     <h4 class="cart-heading">Cart Summary</h4>
                     <ul class="cart-summary">
                         @php
-                            $subTotal = 0;
+                            $subTotal = $grandTotal = 0;
                             $shippingCharges = 0;
                             $taxPercent = 0;
                         @endphp
@@ -49,16 +49,22 @@
                                 <div class="cart-info">
                                     <h4>{{$cartValue->product_name}}</h4>
                                     <h6>Style # OF {{$cartValue->product_style_no}}</h6>
+                                    <p>QTY : {{$cartValue->qty}}
                                     @if ($cartValue->cartVariationDetails)
-                                        <p>{{$cartValue->cartVariationDetails->sizeDetails->name.', '.ucwords($cartValue->cartVariationDetails->colorDetails->name)}}</p>
+                                        | {{$cartValue->cartVariationDetails->sizeDetails->name.', '.ucwords($cartValue->cartVariationDetails->colorDetails->name)}}</p>
                                     @endif
                                 </div>
                                 <div class="card-meta">
-                                    <h4>&#8377;{{$cartValue->offer_price * $cartValue->qty}}</h4>
+                                    <h4>&#8377;{{$cartValue->offer_price}}</h4>
                                 </div>
                             </figcaption>
                         </li>
-                        @php $subTotal += $cartValue->offer_price * $cartValue->qty @endphp
+
+                        @php
+                            $subTotal += $cartValue->offer_price * $cartValue->qty;
+                            $grandTotal = $subTotal;
+                        @endphp
+
                         @endforeach
                     </ul>
                     <div class="w-100">
@@ -121,7 +127,8 @@
                                 Total
                             </div>
                             <div class="cart-total-value">
-                                &#8377;{{$subTotal}}
+                                <input type="hidden" name="grandTotal" value="{{$grandTotal}}">
+                                &#8377;{{$grandTotal}}
                             </div>
                         </div>
                         <div class="cart-total-label mt-3 mb-3">
@@ -330,7 +337,14 @@
 
                     <div class="row align-items-center justify-content-between">
                         <div class="col-sm-auto">
+                            <input type="hidden" name="razorpay_payment_id" value="">
+                            <input type="hidden" name="razorpay_amount" value="">
+                            <input type="hidden" name="razorpay_method" value="">
+                            <input type="hidden" name="razorpay_callback_url" value="">
+
                             <button type="submit" class="btn checkout-btn">Complete Order</button>
+                            OR
+                            <button id="rzp-button1" class="btn checkout-btn">Pay Online </button>
                         </div>
                         <div class="col-sm-auto mt-3 mt-sm-0">
                             <a href="{{route('front.cart.index')}}">Return to Cart</a>
@@ -340,7 +354,5 @@
             </div>
         </form>
     </div>
-    {{-- <div class="container mt-3 mt-sm-5">
-    </div> --}}
 </section>
 @endsection

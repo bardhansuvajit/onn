@@ -82,7 +82,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="listing.html">Sale</a>
+                                <a href="{{route('front.sale.index')}}">Sale</a>
                             </li>
                         </ul>
                     </nav>
@@ -278,6 +278,69 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/animation.gsap.min.js'></script>
     <script src="{{ asset('node_modules/scrollmagic/scrollmagic/minified/plugins/debug.addIndicators.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+        var paymentOptions = {
+            "key": "{{env('RAZORPAY_KEY')}}",
+            "amount": document.querySelector('[name="grandTotal"]').value * 100,
+            "currency": "INR",
+            "name": "{{env('APP_NAME')}}",
+            "description": "Test Transaction",
+            "image": "{{asset('img/logo-square.png')}}",
+            // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response){
+                //console.log(response.request.content.amount);
+
+                $('input[name="razorpay_payment_id"]').val(response.razorpay_payment_id);
+                //$('input[name="razorpay_amount"]').val(response.request.content.amount);
+                //$('input[name="razorpay_method"]').val(response.request.content.method);
+                //$('input[name="razorpay_callback_url"]').val(response.request.content.callback_url);
+
+                $('.checkout-form').submit();
+
+                /* alert(response.razorpay_payment_id);
+                alert(response.razorpay_order_id);
+                alert(response.razorpay_signature) */
+            },
+            // "callback_url": "{{route('front.checkout.store')}}",
+            "prefill": {
+                "name": document.querySelector('[name="fname"]').value+' '+document.querySelector('[name="lname"]').value,
+                "email": document.querySelector('[name="email"]').value,
+                "contact": document.querySelector('[name="mobile"]').value
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+        };
+        var rzp1 = new Razorpay(paymentOptions);
+        rzp1.on('payment.failed', function (response){
+            alert('OOPS ! something happened');
+
+            /* alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id); */
+        });
+        function checkoutDetailsExists() {
+            if ($('input[name="fname"]').val() == "") {
+                alert('Insert first name');
+                return false;
+            } else {
+                return true;
+            }
+        }
+        document.getElementById('rzp-button1').onclick = function(e){
+            if (checkoutDetailsExists()) {
+                rzp1.open();
+            }
+            e.preventDefault();
+        }
+    </script>
+
     @yield('script')
 </body>
 

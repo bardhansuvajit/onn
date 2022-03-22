@@ -19,6 +19,11 @@ Route::name('front.')->group(function() {
         Route::get('/category/{slug}', 'Front\CategoryController@detail')->name('detail');
     });
 
+    // category detail
+    Route::name('sale.')->group(function() {
+        Route::get('/sale', 'Front\SaleController@index')->name('index');
+    });
+
     // collection detail
     Route::name('collection.')->group(function() {
         Route::get('/collection/{slug}', 'Front\CollectionController@detail')->name('detail');
@@ -106,25 +111,15 @@ Route::name('front.')->group(function() {
     Route::view('/mail/2', 'front.mail.order-confirm'); 
 });
 
+// payment routes
+// Route::get('razorpay-payment', [RazorpayPaymentController::class, 'index']);
+// Route::post('razorpay-payment', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
+
 // Route::view('/login', 'home')->name('login');
 
 Auth::routes();
 
 Route::get('login', 'Front\UserController@login')->name('login');
-
-// common & user guard
-// Route::prefix('user')->name('user.')->group(function() {
-//     Route::middleware(['guest:web'])->group(function() {
-//         Route::view('/register', 'front.auth.register')->name('register');
-//         Route::post('/create', 'Front\UserController@create')->name('create');
-//         Route::view('/login', 'auth.login')->name('login');
-//         Route::post('/check', 'Front\UserController@check')->name('check');
-//     });
-
-//     Route::middleware(['auth:web'])->group(function() {
-//         Route::view('/home', 'user.home')->name('home');
-//     });
-// });
 
 // admin guard
 Route::prefix('admin')->name('admin.')->group(function() {
