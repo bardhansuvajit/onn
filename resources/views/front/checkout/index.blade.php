@@ -17,10 +17,10 @@
             </div>
             <div class="col-sm-9">
                 <ul class="cart-flow">
-                    <li class="active"><a href="#"><span>Cart</span></a></li>
-                    <li class="active"><a href="#"><span>Checkout</span></a></li>
-                    {{-- <li><a href="#"><span>Shipping</span></a></li> --}}
-                    {{-- <li><a href="#"><span>Payment</span></a></li> --}}
+                    <li class="active"><a href="javascript: void(0)"><span>Cart</span></a></li>
+                    <li class="active"><a href="javascript: void(0)"><span>Checkout</span></a></li>
+                    {{-- <li><a href="javascript: void(0)"><span>Shipping</span></a></li> --}}
+                    {{-- <li><a href="javascript: void(0)"><span>Payment</span></a></li> --}}
                 </ul>
             </div>
         </div>

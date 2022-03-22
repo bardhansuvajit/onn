@@ -83,6 +83,7 @@
             @if (Session::get('success'))
                 <div class="alert alert-success"> {{Session::get('success')}} </div>
             @endif
+
             @if (Session::get('failure'))
                 <div class="alert alert-danger"> {{Session::get('failure')}} </div>
             @endif
@@ -91,7 +92,6 @@
             {{-- <img src="{{ asset('img/logo_outerwear.png') }}" class="brand__logo"> --}}
             <h2>{{$data->name}}</h2>
             <p>{!! $data->short_desc !!}</p>
-
 
             @if (count($data->colorSize) > 0)
                 @php
@@ -114,9 +114,16 @@
                 echo '</ul>';
                 @endphp
 
-                <h6 id="sizeHead" style="display:none;">Available Size</h6>
-                <p id="colorSelectAlert">Please select a colour first</p>
-                <ul class="product__sizes" id="sizeContainer"></ul>
+                <div class="d-flex justify-content-between">
+                    <h6 id="sizeHead" style="{{$primaryColorSizes ? 'display:block;' : 'display:none;' }}">Available Size</h6>
+                    <a href="javascript: void(0)" data-bs-target="#sizeChartModal" data-bs-toggle="modal">Size chart</a>
+                </div>
+                <p id="colorSelectAlert" style="{{$primaryColorSizes ? 'display:none;' : 'display:block;' }}">Please select a colour first</p>
+                <ul class="product__sizes" id="sizeContainer">
+                    @foreach ($primaryColorSizes as $primaryColorSizesKey => $primaryColorSizesValue)
+                        <li data-price="{{$primaryColorSizesValue->offer_price}}" data-id="{{$primaryColorSizesValue->id}}">{{$primaryColorSizesValue->sizeDetails->name}}</li>
+                    @endforeach
+                </ul>
             @endif
 
             {{-- <h6>Available Packs</h6>
@@ -205,9 +212,24 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h6>DETAILS & SPECIFICATIONS</h6>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body">
             {!! $data->desc !!}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sizeChartModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6>SIZE CHART</h6>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+            {!! $data->size_chart !!}
             </div>
         </div>
     </div>
@@ -227,11 +249,8 @@
                 if (result.error === false) {
                     $('#sizeHead').show();
                     $('#colorSelectAlert').hide();
-                    // $('#addToCart__btn').removeClass('missingVariationSelection');
                     let content = '';
                     $.each(result.data, (key, val) => {
-                        // content += `<input type="radio" class="btn-check" name="productSize" id="productSize${val.sizeId}" autocomplete="off"><label class="btn btn-outline-primary px-4" for="productSize${val.sizeId}">${val.sizeName}</label>`;
-
                         content += `<li data-price="{{$data->offer_price}}" data-id="${val.variationId}">${val.sizeName}</li>`;
                     })
 
@@ -239,7 +258,7 @@
                 }
             },
             error: function(xhr, status, error) {
-                // toastFire('danger', 'Something Went wrong');
+                $('#colorSelectAlert').text('Something Went wrong. Try again');
             }
         });
     }
@@ -258,6 +277,10 @@
         var variationId = $(this).attr('data-id');
         $('input[name="product_variation_id"]').val(variationId);
         // console.log(variationId);
+    });
+
+    $(document).on('click', '.missingVariationSelection', function(){
+        alert('here');
     });
 </script>
 @endsection

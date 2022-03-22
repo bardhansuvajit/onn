@@ -33,7 +33,7 @@
                 <li class="{{ ( request()->is('admin/home*') ) ? 'active' : '' }}"><a href="{{ route('admin.home') }}"><i class="fi fi-br-home"></i> <span>Dashboard</span></a></li>
 
                 <li class="@if(request()->is('admin/category*') || request()->is('admin/subcategory*') || request()->is('admin/collection*')) { {{'active'}} }  @endif">
-                    <a href="#"><i class="fi fi-br-cube"></i> <span>Master</span></a>
+                    <a href="javascript: void(0)"><i class="fi fi-br-cube"></i> <span>Master</span></a>
                     <ul>
                         <li class="{{ ( request()->is('admin/category*') ) ? 'active' : '' }}"><a href="{{ route('admin.category.index') }}"><i class="fi fi-br-database"></i> <span>Category</span></a></li>
 
@@ -44,7 +44,7 @@
                 </li>
 
                 <li class="@if(request()->is('admin/product*') || request()->is('admin/faq*')) { {{'active'}} }  @endif">
-                    <a href="#"><i class="fi fi-br-cube"></i> <span>Product Management</span></a>
+                    <a href="javascript: void(0)"><i class="fi fi-br-cube"></i> <span>Product Management</span></a>
                     <ul>
                         <li class="{{ ( request()->is('admin/product/list*') ) ? 'active' : '' }}"><a href="{{ route('admin.product.index') }}">All Product</a></li>
 
@@ -53,7 +53,7 @@
                 </li>
 
                 <li class="@if(request()->is('admin/order*')) { {{'active'}} }  @endif">
-                    <a href="#"><i class="fi fi-br-cube"></i> <span>Order Management</span></a>
+                    <a href="javascript: void(0)"><i class="fi fi-br-cube"></i> <span>Order Management</span></a>
                     <ul>
                         <li class="{{ ( request()->is('admin/order') ) ? 'active' : '' }}"><a href="{{ route('admin.order.index') }}"><i class="fi fi-br-database"></i> <span>All Orders</span></a></li>
 
@@ -70,7 +70,7 @@
                 </li>
 
                 <li class="@if(request()->is('admin/customer*') || request()->is('admin/address*')) { {{'active'}} }  @endif">
-                    <a href="#"><i class="fi fi-br-cube"></i> <span>Customer Management</span></a>
+                    <a href="javascript: void(0)"><i class="fi fi-br-cube"></i> <span>Customer Management</span></a>
                     <ul>
                         <li class="{{ ( request()->is('admin/customer*') ) ? 'active' : '' }}"><a href="{{ route('admin.customer.index') }}"><i class="fi fi-br-database"></i> <span>Customer</span></a></li>
 
@@ -83,7 +83,7 @@
                 <li class="{{ ( request()->is('admin/transaction*') ) ? 'active' : '' }}"><a href="{{ route('admin.transaction.index') }}"><i class="fi fi-br-database"></i> <span>Online Transactions</span></a></li>
 
                 <li class="@if(request()->is('admin/settings*') || request()->is('admin/faq*') || request()->is('admin/gallery*')) { {{'active'}} }  @endif">
-                    <a href="#"><i class="fi fi-br-cube"></i> <span>Settings</span></a>
+                    <a href="javascript: void(0)"><i class="fi fi-br-cube"></i> <span>Settings</span></a>
                     <ul>
                         <li class="{{ ( request()->is('admin/settings*') ) ? 'active' : '' }}"><a href="{{ route('admin.settings.index') }}"><i class="fi fi-br-database"></i> <span>Site Settings</span></a></li>
 
@@ -108,7 +108,7 @@
                 <li class="{{ ( request()->is('admin/address*') ) ? 'active' : '' }}"><a href="{{ route('admin.address.index') }}"><i class="fi fi-br-database"></i> <span>Address</span></a></li>
 
                 <li class="{{ ( request()->is('admin/product*') ) ? 'active' : '' }}">
-                    <a href="#"><i class="fi fi-br-cube"></i> <span>Product</span></a>
+                    <a href="javascript: void(0)"><i class="fi fi-br-cube"></i> <span>Product</span></a>
                     <ul>
                         <li class="{{ ( request()->is('admin/product/list*') ) ? 'active' : '' }}"><a href="{{ route('admin.product.index') }}">All Product</a></li>
                         <li class="{{ ( request()->is('admin/product/create*') ) ? 'active' : '' }}"><a href="{{ route('admin.product.create') }}">Add New</a></li>
@@ -134,7 +134,7 @@
                     <input type="search" name="" class="form-control header__search" placeholder="Quick Search here">
                 </div>
                 <div class="col-auto ms-auto">
-                    <a href="#" class="notify__bell"><i class="fi fi-br-bell"></i></a>
+                    <a href="javascript: void(0)" class="notify__bell"><i class="fi fi-br-bell"></i></a>
                 </div>
                 <div class="col-auto">
                     <div class="dropdown">

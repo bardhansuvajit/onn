@@ -78,7 +78,8 @@ class UserController extends Controller
 
     public function coupon(Request $request)
     {
-        return view('front.profile.coupon');
+        $data = $this->userRepository->couponList();
+        return view('front.profile.coupon', compact('data'));
     }
 
     public function address(Request $request)

@@ -255,4 +255,15 @@ class ProductRepository implements ProductInterface
         $data = Wishlist::where('product_id', $productId)->where('ip', $ip)->first();
         return $data;
     }
+
+    public function primaryColorSizes($productId)
+    {
+        $primaryColor = ProductColorSize::select('color')->where('product_id', $productId)->first();
+
+        if ($primaryColor) {
+            $sizes = ProductColorSize::where('product_id', $productId)->where('color', $primaryColor->color)->get();
+            return $sizes;
+        }
+        return false;
+    }
 }

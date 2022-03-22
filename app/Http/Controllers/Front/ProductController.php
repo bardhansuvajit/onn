@@ -22,9 +22,10 @@ class ProductController extends Controller
         $images = $this->productRepository->listImagesById($data->id);
         $relatedProducts = $this->productRepository->relatedProducts($data->id);
         $wishlistCheck = $this->productRepository->wishlistCheck($data->id);
+        $primaryColorSizes = $this->productRepository->primaryColorSizes($data->id);
 
         if ($data) {
-            return view('front.product.detail', compact('data', 'images', 'relatedProducts', 'wishlistCheck'));
+            return view('front.product.detail', compact('data', 'images', 'relatedProducts', 'wishlistCheck', 'primaryColorSizes'));
         } else {
             return view('front.404');
         }

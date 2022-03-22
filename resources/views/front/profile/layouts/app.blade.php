@@ -24,33 +24,35 @@
                 </div>
 
                 <ul class="account-list">
-                    <li class="active">
+                    <li class="{{request()->is('user/profile*') ? 'active' : '' }}">
                         <a href="{{route('front.user.profile')}}">Overview</a>
                     </li>
-                    <li>
+                    <li class="{{request()->is('user/order*') ? 'active' : '' }}">
                         <span>Orders</span>
                         <ul><li><a href="{{route('front.user.order')}}">Orders & Returns</a></li></ul>
                     </li>
                     <li>
                         <span>Credits</span>
                         <ul>
-                            <li><a href="{{route('front.user.coupon')}}">Coupons</a></li>
+                            <li class="{{request()->is('user/coupon*') ? 'active' : '' }}"><a href="{{route('front.user.coupon')}}">Coupons</a></li>
                         </ul>
                     </li>
                     <li>
                         <span>Account</span>
                         <ul>
-                            <li><a href="{{route('front.user.manage')}}">Profile</a></li>
-                            <li><a href="{{route('front.user.wishlist')}}">Wishlist</a></li>
-                            <li><a href="{{route('front.user.address')}}">Address</a></li>
+                            <li class="{{request()->is('user/manage*') ? 'active' : '' }}"><a href="{{route('front.user.manage')}}">Profile</a></li>
+                            <li class="{{request()->is('user/wishlist*') ? 'active' : '' }}"><a href="{{route('front.user.wishlist')}}">Wishlist</a></li>
+                            <li class="{{request()->is('user/address*') ? 'active' : '' }}"><a href="{{route('front.user.address')}}">Address</a></li>
                             <li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a></li>
                         </ul>
                     </li>
                     <li>
                         <span>Legal</span>
                         <ul>
-                            <li><a href="#">Terms of Use</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="{{route('front.content.terms')}}">Terms & Conditions</a></li>
+                            <li><a href="{{route('front.content.privacy')}}">Privacy Statement</a></li>
+                            <li><a href="{{route('front.content.security')}}">Security</a></li>
+                            <li><a href="{{route('front.content.disclaimer')}}">Disclaimer</a></li>
                         </ul>
                     </li>
                 </ul>

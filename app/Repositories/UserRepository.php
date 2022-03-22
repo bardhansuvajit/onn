@@ -8,6 +8,7 @@ use App\Models\Address;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Wishlist;
+use App\Models\Coupon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -172,6 +173,12 @@ class UserRepository implements UserInterface
     public function wishlist()
     {
         $data = Wishlist::where('ip', $this->ip)->get();
+        return $data;
+    }
+
+    public function couponList()
+    {
+        $data = Coupon::orderBy('end_date', 'desc')->get();
         return $data;
     }
 }

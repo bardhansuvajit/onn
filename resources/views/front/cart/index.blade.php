@@ -31,10 +31,10 @@
             </div>
             <div class="col-sm-9">
                 <ul class="cart-flow">
-                    <li class="active"><a href="#"><span>Cart</span></a></li>
-                    <li><a href="#"><span>Checkout</span></a></li>
-                    {{-- <li><a href="#"><span>Shipping</span></a></li> --}}
-                    {{-- <li><a href="#"><span>Payment</span></a></li> --}}
+                    <li class="active"><a href="javascript: void(0)"><span>Cart</span></a></li>
+                    <li><a href="javascript: void(0)"><span>Checkout</span></a></li>
+                    {{-- <li><a href="javascript: void(0)"><span>Shipping</span></a></li> --}}
+                    {{-- <li><a href="javascript: void(0)"><span>Payment</span></a></li> --}}
                 </ul>
             </div>
         </div>
@@ -168,7 +168,7 @@
                         <li>
                             <img src="img/delivery-truck.png" />
                             <h5><span>&#8377;60</span> Apply Below order &#8377;499</h5>
-                            <p>See all Shipping charges and policies</p>
+                            <a href="{{route('front.content.shipping')}}">See all Shipping charges and policies</a>
                         </li>
                         <li>
                             <img src="img/coupon.png" />
@@ -177,7 +177,7 @@
                                 <button type="submit">Apply</button>
                             </form>
                             <h5>Apply your coupon</h5>
-                            <p>Get latest coupon from here</p>
+                            <a href="{{route('front.user.coupon')}}">Get latest coupon from here</a>
                         </li>
                     </ul>
                 </div>

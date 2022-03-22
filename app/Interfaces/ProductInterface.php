@@ -20,4 +20,5 @@ interface ProductInterface
     public function delete($id);
     public function deleteSingleImage($id);
     public function wishlistCheck($productId);
+    public function primaryColorSizes($productId);
 }

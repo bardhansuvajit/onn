@@ -1,40 +1,31 @@
 @extends('front.profile.layouts.app')
 
 @section('profile-content')
+<style>
+    .coupon-card.expired > .coupon-head {
+        color: #c1080a40;
+    }
+    .coupon-card.expired > .coupon-content {
+        color: #828487;
+    }
+</style>
+
 <div class="col-sm-7">
     <div class="profile-card">
         <h3>Coupon</h3>
-        
-        <div class="coupon-card">
+
+        @foreach ($data as $couponKey => $couponValue)
+        <div class="coupon-card {{ ($couponValue->end_date < Carbon\Carbon::now()) ? 'expired' : '' }}">
             <div class="coupon-head">
-                50%<br/>OFF
+                &#8377; {{$couponValue->amount}}<br/>OFF
             </div>
             <div class="coupon-content">
-                <h5>On minimum purchase of Rs. 500</h5>
-                <h4>Code: FLIPFLOP100</h4>
-                <h5>Expiry: <strong>MAR 31 2022</strong></h5>
+                <h5>{{$couponValue->name}}</h5>
+                <h4>Code: {{$couponValue->coupon_code}}</h4>
+                <h5>Expiry: <strong>{{date('j F Y', strtotime($couponValue->end_date))}}</strong></h5>
             </div>
         </div>
-        <div class="coupon-card">
-            <div class="coupon-head">
-                50%<br/>OFF
-            </div>
-            <div class="coupon-content">
-                <h5>On minimum purchase of Rs. 500</h5>
-                <h4>Code: FLIPFLOP100</h4>
-                <h5>Expiry: <strong>MAR 31 2022</strong></h5>
-            </div>
-        </div>
-        <div class="coupon-card">
-            <div class="coupon-head">
-                50%<br/>OFF
-            </div>
-            <div class="coupon-content">
-                <h5>On minimum purchase of Rs. 500</h5>
-                <h4>Code: FLIPFLOP100</h4>
-                <h5>Expiry: <strong>MAR 31 2022</strong></h5>
-            </div>
-        </div>
+        @endforeach
     </div>
 
 </div>

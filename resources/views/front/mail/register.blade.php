@@ -97,13 +97,6 @@
 																</table>
 															</th>
 															<th class="column-empty2" width="1" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal; vertical-align:top;"></th>
-															<!--<th class="column" style="font-size:0pt; line-height:0pt; padding:0; margin:0; font-weight:normal;">
-																<table width="100%" border="0" cellspacing="0" cellpadding="0">
-																	<tr>
-																		<td class="text-header" style="color:#838586; font-family:Arial, sans-serif; font-size:12px; line-height:18px; text-align:right;"><a href="#" target="_blank" class="link" style="color:#838586; text-decoration:none;"><span class="link" style="color:#838586; text-decoration:none;">View in browser</span></a></td>
-																	</tr>
-																</table>
-															</th>-->
 														</tr>
 													</table>
 												</td>
@@ -114,9 +107,6 @@
 										<!-- Hero -->
 										
 										<table width="100%" border="0" cellspacing="0" cellpadding="0"  bgcolor="#ffffff" style="padding:0px 20px 0px 20px;">
-											<!--<tr style="margin:20px 0 20px 0;">
-												<td class="fluid-img" style="font-size:0pt; line-height:0pt; text-align:center;"><img src="./img/CC-send_email.png" width="128" height="128" border="0" alt="" style="opacity: 0.75;"/></td>
-											</tr>-->
 											<tr>
 												<td class="p30-15" style="padding: 15px 0px 20px 0px;">
 													<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -137,15 +127,6 @@
 																	@foreach ($collections as $collectionKey => $collectionValue)
 																		<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="{{ route('front.collection.detail', $collectionValue->slug) }}" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">{{$collectionValue->name}}</a></li>
 																	@endforeach
-																	{{-- <li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="#" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">Books</a></li>
-																	<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="#" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">eBooks</a></li>
-																	<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="#" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">eLearning</a></li>
-																	<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="#" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">Mock Tests</a></li>
-																	<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="#" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">Stationery</a></li>
-																	<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="#" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">Forms and Registers</a></li>
-																	<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="#" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">Softwares</a></li>
-																	<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="#" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">I.T. Services</a></li>
-																	<li style="font-size: 14px; font-family: Arial, sans-serif; line-height: 20px; color: #2e364b; margin-bottom: 5px;"><a href="#" style="color: #2e364b; font-family: Arial, sans-serif; list-style:underline;">Compliance Services</a> </li> --}}
 																</ul>
 															</td>
 														</tr> <!--Button-->

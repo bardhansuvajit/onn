@@ -17,4 +17,5 @@ interface UserInterface
     public function orderDetails();
     public function recommendedProducts();
     public function wishlist();
+    public function couponList();
 }
