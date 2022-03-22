@@ -334,10 +334,10 @@
             }
         }
         document.getElementById('rzp-button1').onclick = function(e){
+            e.preventDefault();
             if (checkoutDetailsExists()) {
                 rzp1.open();
             }
-            e.preventDefault();
         }
     </script>
 
