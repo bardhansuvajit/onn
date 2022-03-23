@@ -38,6 +38,29 @@
     border-color: #000000;
     color: #fff;
 }
+.product-details__gallery__thumb {
+    position: relative;
+}
+.thumb_button {
+    width: 100%;
+    height: 24px;
+    padding: 0;
+    background: rgba(255,255,255, 0.5);
+    border: none;
+    text-align: center;
+}
+.top_button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+.buttom_button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+}
 </style>
 
 <section id="specifications" class="product-details">
@@ -52,23 +75,31 @@
             </nav>
             <div class="w-100">
                 <div class="product-details__gallery__thumb swiper-container">
+                    <button type="button" class="thumb_button top_button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                    </button>
                     <div class="slider swiper-wrapper">
                         <div class="product-details__gallery__thumb-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
                         </div>
-                        @foreach($images as $index => $singleImage)
+
+                        @foreach($images as $singleImage)
                             <div class="product-details__gallery__thumb-single swiper-slide">
                                 <img src="{{ asset($singleImage->image) }}" />
                             </div>
                         @endforeach
                     </div>
+                    <button type="button" class="thumb_button buttom_button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
                 </div>
                 <div class="product-details__gallery__slider swiper-container">
                     <div class="slider swiper-wrapper">
                         <div class="product-details__gallery__slider-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
                         </div>
-                        @foreach($images as $index => $singleImage)
+                        
+                        @foreach($images as $singleImage)
                             <div class="product-details__gallery__slider-single swiper-slide">
                                 <img src="{{ asset($singleImage->image) }}" />
                             </div>
@@ -143,7 +174,7 @@
             <div class="product__enquire d-flex">
                 <form method="POST" action="{{route('front.cart.add')}}" class="d-flex">@csrf
                     <div class="cart-item item-qty">
-                        {{-- <div class="cart-text">Quantity</div> --}}
+                        <div class="cart-text">Quantity</div>
                         <div class="qty-box">
                             <a href="javascript: void(0)" class="decrement" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -175,9 +206,8 @@
 
             <h6>Details & Specifications</h6>
             <div class="specification">
-                {!! $data->desc !!}
-                {{-- {!! substr($data->desc, 0, 100) !!} --}}
-                {{-- <h6><a href="javascript: void(0)" data-bs-target="#productDescModal" data-bs-toggle="modal">Read more</a></h6> --}}
+                {!! substr($data->desc, 0, 100) !!}
+                <h6><a href="javascript: void(0)" data-bs-target="#productDescModal" data-bs-toggle="modal">Read more</a></h6>
             </div>
         </div>
     </div>

@@ -588,11 +588,11 @@ new Swiper(".home-productgallery__slider", {
 
 var gallery__slider = new Swiper(".product-details__gallery__slider", {
     direction: "horizontal",
-    loop: true,
+    loop: false,
     speed: 2000,
     grabCursor: true,
     slidesPerView: 1,
-    centeredSlides: false,
+    centeredSlides: true,
     allowTouchMove: true,
     pagination: {
         el: ".bullet",
@@ -606,13 +606,13 @@ var gallery__slider = new Swiper(".product-details__gallery__slider", {
 
 var gallery__thumb = new Swiper(".product-details__gallery__thumb", {
     direction: "vertical",
-    loop: true,
+    loop: false,
     speed: 2000,
-    centeredSlides: false,
-    slidesPerView: 4,
+    freeMode: true,
+    // centeredSlides: true,
+    slidesPerView: 'auto',
     slideToClickedSlide: true,
     spaceBetween: 6,
-    loopedSlides: 50,
     pagination: {
         el: ".bullet",
         clickable: true,
@@ -620,6 +620,10 @@ var gallery__thumb = new Swiper(".product-details__gallery__thumb", {
         renderBullet: function (index, className) {
             return '<span class="' + className + '">' + (index + 1) + "<b><i></i></b></span>";
         },
+    },
+    navigation: {
+      nextEl: ".buttom_button",
+      prevEl: ".top_button",
     },
 });
 
