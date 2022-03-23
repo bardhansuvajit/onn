@@ -25,7 +25,7 @@
 <section class="listing-block">
     <div class="container">
         @if (count($data->ProductDetails) > 0)
-        <div class="listing-block__meta">
+        {{-- <div class="listing-block__meta">
             <div class="filter">
                 <div class="filter__toggle">
                     Filter
@@ -41,7 +41,7 @@
                     <option>Price: High To Low</option>
                 </select>
             </div>
-        </div>
+        </div> --}}
 
         <div class="product__wrapper">
             <div class="product__filter">
@@ -114,8 +114,30 @@
                         <figcaption>
                             <h4>{{$categoryProductValue->name}}</h4>
                             <h5>
-                            &#8377;{{$categoryProductValue->offer_price}} 
-                            {{-- - &#8377;{{$categoryProductValue->price}} --}}
+                            @if (count($categoryProductValue->colorSize) > 0)
+                                @php
+                                    $varArray = [];
+                                    foreach($categoryProductValue->colorSize as $productVariationKey => $productVariationValue) {
+                                        $varArray[] = $productVariationValue->offer_price;
+                                    }
+                                    $bigger = $varArray[0];
+                                    for ($i = 1; $i < count($varArray); $i++) {
+                                        if ($bigger < $varArray[$i]) {
+                                            $bigger = $varArray[$i];
+                                        }
+                                    }
+
+                                    $smaller = $varArray[0];
+                                    for ($i = 1; $i < count($varArray); $i++) {
+                                        if ($smaller > $varArray[$i]) {
+                                            $smaller = $varArray[$i];
+                                        }
+                                    }
+                                @endphp
+                                &#8377;{{$smaller}} - {{$bigger}}
+                            @else
+                                &#8377;{{$categoryProductValue->offer_price}}
+                            @endif
                             </h5>
                         </figcaption>
                     </a>

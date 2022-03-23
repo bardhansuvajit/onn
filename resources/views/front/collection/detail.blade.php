@@ -114,9 +114,34 @@
                         <figcaption>
                             <h4>{{$collectionProductValue->name}}</h4>
                             <h5>
-                            &#8377;{{$collectionProductValue->offer_price}} 
-                            {{-- - &#8377;{{$collectionProductValue->price}} --}}
+                            @if (count($collectionProductValue->colorSize) > 0)
+                                @php
+                                    $varArray = [];
+                                    foreach($collectionProductValue->colorSize as $productVariationKey => $productVariationValue) {
+                                        $varArray[] = $productVariationValue->offer_price;
+                                    }
+                                    $bigger = $varArray[0];
+                                    for ($i = 1; $i < count($varArray); $i++) {
+                                        if ($bigger < $varArray[$i]) {
+                                            $bigger = $varArray[$i];
+                                        }
+                                    }
+
+                                    $smaller = $varArray[0];
+                                    for ($i = 1; $i < count($varArray); $i++) {
+                                        if ($smaller > $varArray[$i]) {
+                                            $smaller = $varArray[$i];
+                                        }
+                                    }
+                                @endphp
+                                &#8377;{{$smaller}} - {{$bigger}}
+                            @else
+                                &#8377;{{$collectionProductValue->offer_price}}
+                            @endif
                             </h5>
+                            {{-- <h5>
+                            &#8377;{{$collectionProductValue->offer_price}} 
+                            </h5> --}}
                         </figcaption>
                     </a>
                     @empty
