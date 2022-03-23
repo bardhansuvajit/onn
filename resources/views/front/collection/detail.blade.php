@@ -55,7 +55,7 @@
                                 <h4>Categories</h4>
                                 <ul class="product__filter__bar-list">
                                     @foreach($categories as $categoryKey => $categoryValue)
-                                        <li><label><input type="checkbox" name="category" value="{{$categoryValue->slug}}" pro-filter="{{$categoryValue->name}}" {{( request()->query('category') == $categoryValue->slug ) ? 'checked' : ''}}><i></i> {{$categoryValue->name}}</label></li>
+                                        <li><label><input type="checkbox" name="category[]" value="{{$categoryValue->slug}}" pro-filter="{{$categoryValue->name}}" {{( request()->query('category') == $categoryValue->slug ) ? 'checked' : ''}}><i></i> {{$categoryValue->name}}</label></li>
                                     @endforeach
                                 </ul>
                             </div>

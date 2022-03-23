@@ -118,17 +118,17 @@
                                 Tax and Others - <strong>{{$taxPercent}}%</strong><br/>
                                 <small>(Inclusive of all taxes)</small>
                             </div>
-                            <div class="cart-total-value">
-
-                            </div>
+                            <div class="cart-total-value"></div>
                         </div>
+                        <div id="appliedCouponHolder"></div>
                         <div class="cart-total">
                             <div class="cart-total-label">
                                 Total
                             </div>
                             <div class="cart-total-value">
+                                <input type="hidden" name="coupon_code_id" value="">
                                 <input type="hidden" name="grandTotal" value="{{$grandTotal}}">
-                                &#8377;{{$grandTotal}}
+                                &#8377;<span id="displayGrandTotal">{{$grandTotal}}</span>
                             </div>
                         </div>
                         {{-- <div class="cart-total-label mt-3 mb-3">
@@ -152,6 +152,25 @@
                                 </div>
                             </li>
                         </ul> --}}
+
+                        {{-- <div class="col-sm-12">
+                            <ul class="cart-summary-list">
+                                <li>
+                                    <img src="img/delivery-truck.png" />
+                                    <h5><span>&#8377;60</span> Apply Below order &#8377;499</h5>
+                                    <a href="{{route('front.content.shipping')}}">See all Shipping charges and policies</a>
+                                </li>
+                                <li>
+                                    <img src="img/coupon.png" />
+                                    <div class="coupon-block">
+                                        <input type="text" class="coupon-text" name="couponText" id="couponText" placeholder="Enter coupon code here">
+                                        <button id="applyCouponBtn">Apply</button>
+                                    </div>
+                                    @error('lname')<p class="small text-danger mb-0 mt-2">{{$message}}</p>@enderror
+                                    <a href="{{route('front.user.coupon')}}" class="d-inline-block mt-2">Get latest coupon from here</a>
+                                </li>
+                            </ul>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -355,4 +374,11 @@
         </form>
     </div>
 </section>
+@endsection
+
+@section('script')
+    <script>
+        // let chekoutAmount = getCookie('checkoutAmount');
+        // alert(chekoutAmount);
+    </script>
 @endsection

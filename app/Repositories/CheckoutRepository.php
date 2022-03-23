@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Address;
+use App\Models\Coupon;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,21 @@ class CheckoutRepository implements CheckoutInterface
     public function addressData()
     {
         return Address::where('user_id', Auth::guard('web')->user()->id)->get();
+    }
+
+    public function couponCheck($coupon_code)
+    {
+        $data = Coupon::where('coupon_code', $coupon_code)->first();
+
+        if($data) {
+            if ($data->end_date < \Carbon\Carbon::now()) {
+                return response()->json(['resp' => 200, 'type' => 'warning', 'message' => 'Coupon expired']);
+            } else {
+                return response()->json(['resp' => 200, 'type' => 'success', 'message' => 'Coupon applied', 'id' => $data->id, 'amount' => $data->amount]);
+            }
+        }
+
+        return response()->json(['resp' => 200, 'type' => 'error', 'message' => 'Invalid coupon code']);
     }
 
     public function create(array $data)

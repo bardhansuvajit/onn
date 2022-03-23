@@ -45,6 +45,7 @@
 <section>
     <div class="row">
         <div class="col-sm-6">
+            <h5>Products List</h5>
             <table class="table">
                 <thead>
                     <tr>
@@ -77,6 +78,7 @@
             </table>
         </div>
         <div class="col-sm-6">
+            <h5>Recent orders</h5>
             <table class="table">
                 <thead>
                     <tr>
@@ -98,7 +100,7 @@
                             }
                         @endphp
                         <tr>
-                            <td>#{{$order->order_no}}</td>
+                            <td><a href="{{ route('admin.order.view', $order->id) }}">#{{$order->order_no}}</a></td>
                             <td>{{date('j M Y g:i A', strtotime($order->created_at))}}</td>
                             <td>Rs {{$order->final_amount}}</td>
                             <td><span class="badge bg-info">{{ $status }}</span></td>

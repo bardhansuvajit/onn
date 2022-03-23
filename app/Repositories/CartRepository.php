@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\CartInterface;
 use App\Models\Cart;
+use App\Models\Coupon;
 
 class CartRepository implements CartInterface 
 {
@@ -11,12 +12,34 @@ class CartRepository implements CartInterface
         $this->ip = $_SERVER['REMOTE_ADDR'];
     }
 
+    public function couponCheck($coupon_code)
+    {
+        $data = Coupon::where('coupon_code', $coupon_code)->first();
+
+        if($data) {
+            if ($data->end_date < \Carbon\Carbon::now()) {
+                return response()->json(['resp' => 200, 'type' => 'warning', 'message' => 'Coupon expired']);
+            } else {
+                // $cartData = Cart::where('ip', $this->ip)->get();
+                // $cartData->
+
+                return response()->json(['resp' => 200, 'type' => 'success', 'message' => 'Coupon applied', 'id' => $data->id, 'amount' => $data->amount]);
+            }
+        }
+
+        return response()->json(['resp' => 200, 'type' => 'error', 'message' => 'Invalid coupon code']);
+        // return $resp;
+    }
+
     public function addToCart(array $data) 
     {
-        // dd($data);
         $collectedData = collect($data);
 
-        $cartExists = Cart::where('product_id', $collectedData['product_id'])->where('ip', $this->ip)->first();
+        if (!empty($data['product_variation_id'])) {
+            $cartExists = Cart::where('product_id', $collectedData['product_id'])->where('product_variation_id', $collectedData['product_variation_id'])->where('ip', $this->ip)->first();
+        } else {
+            $cartExists = Cart::where('product_id', $collectedData['product_id'])->where('ip', $this->ip)->first();
+        }
 
         if ($cartExists) {
             $cartExists->qty = $cartExists->qty + 1;
@@ -64,11 +87,12 @@ class CartRepository implements CartInterface
         if ($type == 'incr') {
             $updatedQty = $qty+1;
         } else {
-            if ($qty == 1) return false;
+            if ($qty == 1) {$resp = 'Minimum quantity is 1';return $resp;}
             $updatedQty = $qty-1;
         }
         $cartData->qty = $updatedQty;
-        $resp = $cartData->save();
+        $cartData->save();
+        $resp = 'Cart updated';
         return $resp;
     }
 }

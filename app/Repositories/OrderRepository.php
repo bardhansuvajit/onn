@@ -16,7 +16,7 @@ class OrderRepository implements OrderInterface
 
     public function listAll() 
     {
-        return Order::all();
+        return Order::latest('id')->get();
     }
 
     public function listById($id) 

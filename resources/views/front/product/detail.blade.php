@@ -143,7 +143,7 @@
             <div class="product__enquire d-flex">
                 <form method="POST" action="{{route('front.cart.add')}}" class="d-flex">@csrf
                     <div class="cart-item item-qty">
-                        <div class="cart-text">Quantity</div>
+                        {{-- <div class="cart-text">Quantity</div> --}}
                         <div class="qty-box">
                             <a href="javascript: void(0)" class="decrement" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -175,8 +175,9 @@
 
             <h6>Details & Specifications</h6>
             <div class="specification">
-                {!! substr($data->desc, 0, 100) !!}
-                <h6><a href="javascript: void(0)" data-bs-target="#productDescModal" data-bs-toggle="modal">Read more</a></h6>
+                {!! $data->desc !!}
+                {{-- {!! substr($data->desc, 0, 100) !!} --}}
+                {{-- <h6><a href="javascript: void(0)" data-bs-target="#productDescModal" data-bs-toggle="modal">Read more</a></h6> --}}
             </div>
         </div>
     </div>

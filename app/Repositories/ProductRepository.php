@@ -72,7 +72,7 @@ class ProductRepository implements ProductInterface
 
     public function listImagesById($id) 
     {
-        return ProductImage::where('product_id', $id)->get();
+        return ProductImage::where('product_id', $id)->latest('id')->get();
     }
 
     public function create(array $data) 

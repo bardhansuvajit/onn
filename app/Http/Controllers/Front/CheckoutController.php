@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\CheckoutInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Http\Response;
-// use App\Models\Checkout;
 
 class CheckoutController extends Controller
 {
@@ -30,6 +28,12 @@ class CheckoutController extends Controller
         } else {
             return redirect()->route('front.cart.index');
         }
+    }
+
+    public function coupon(Request $request)
+    {
+        $couponData = $this->checkoutRepository->couponCheck($request->code);
+        return $couponData;
     }
 
     public function store(Request $request)

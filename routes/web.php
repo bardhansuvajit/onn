@@ -35,14 +35,6 @@ Route::name('front.')->group(function() {
         Route::post('/size', 'Front\ProductController@size')->name('size');
     });
 
-    // cart
-    Route::prefix('cart')->name('cart.')->group(function() {
-        Route::get('/', 'Front\CartController@viewByIp')->name('index');
-        Route::post('/add', 'Front\CartController@add')->name('add');
-        Route::get('/delete/{id}', 'Front\CartController@delete')->name('delete');
-        Route::get('/quantity/{id}/{type}', 'Front\CartController@qtyUpdate')->name('quantity');
-    });
-
     // wishlist
     Route::prefix('wishlist')->name('wishlist.')->group(function() {
         // Route::get('/', 'Front\WishlistController@viewByIp')->name('index');
@@ -50,9 +42,19 @@ Route::name('front.')->group(function() {
         Route::get('/delete/{id}', 'Front\WishlistController@delete')->name('delete');
     });
 
-    // checkout/ order
+    // cart
+    Route::prefix('cart')->name('cart.')->group(function() {
+        Route::get('/', 'Front\CartController@viewByIp')->name('index');
+        Route::post('/coupon', 'Front\CartController@coupon')->name('coupon');
+        Route::post('/add', 'Front\CartController@add')->name('add');
+        Route::get('/delete/{id}', 'Front\CartController@delete')->name('delete');
+        Route::get('/quantity/{id}/{type}', 'Front\CartController@qtyUpdate')->name('quantity');
+    });
+    
+    // checkout
     Route::prefix('checkout')->name('checkout.')->group(function() {
         Route::get('/', 'Front\CheckoutController@index')->name('index');
+        Route::post('/coupon/check', 'Front\CheckoutController@coupon')->name('coupon.check');
         Route::post('/store', 'Front\CheckoutController@store')->name('store');
         Route::view('/complete', 'front.checkout.complete')->name('complete');
     });

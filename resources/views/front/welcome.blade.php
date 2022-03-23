@@ -77,17 +77,6 @@
         <!-- <div class="home-collection__text">Collections</div> -->
 
         <div class="row align-items-end">
-            <!-- <div class="col-sm-4 col-md-5 d-none d-md-block">
-                <div class="home-collection__thumb swiper-container">
-                    <div class="slider swiper-wrapper">
-                        @foreach($collections as $collectionKey => $collectionValue)
-                            <div class="home-collection__thumb-single swiper-slide">
-                                <img src="{{asset($collectionValue->image_path)}}"  class="img-fluid">
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div> -->
             <div class="col-sm-12 col-md-12">
                 <div class="home-collection__thumbs swiper-container">
                     <div class="slider swiper-wrapper">
@@ -103,11 +92,13 @@
                         @foreach($collections as $collectionKey => $collectionValue)
                             <div class="home-collection__single swiper-slide">
                                 <figure>
+                                <a href="{{ route('front.collection.detail', $collectionValue->slug) }}">
                                     <img src="{{asset($collectionValue->image_path)}}" />
                                     <figcaption>
                                         <h3>{{$collectionValue->name}}<br><strong>Collection</strong></h3>
-                                        <p><a href="{{ route('front.collection.detail', $collectionValue->slug) }}">View All Products</a></p>
+                                        <p>View All Products</p>
                                     </figcaption>
+                                </a>
                                 </figure>
                             </div>
                         @endforeach

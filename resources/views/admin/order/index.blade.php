@@ -114,7 +114,7 @@
                     <p class="small">{{date('j M Y g:i A', strtotime($item->created_at))}}</p>
                 </td>
                 <td>
-                    <p class="small text-muted mb-2">{{$item->shipping_address.' | '.$item->shipping_landmark.' | '.$item->shipping_pin.' | '.$item->shipping_city.' | '.$item->shipping_state.' | '.$item->shipping_country}}</p>
+                    <p class="small text-muted mb-2">{{$item->billing_address.' | '.$item->billing_landmark.' | '.$item->billing_pin.' | '.$item->billing_city.' | '.$item->billing_state.' | '.$item->billing_country}}</p>
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                         <a href="{{ route('admin.order.status', [$item->id, 1]) }}" type="button" class="btn btn-outline-primary btn-sm {{($item->status == 1) ? 'active' : ''}}">New</a>
                         <a href="{{ route('admin.order.status', [$item->id, 2]) }}" type="button" class="btn btn-outline-primary btn-sm {{($item->status == 2) ? 'active' : ''}}">Confirm</a>

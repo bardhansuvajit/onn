@@ -149,16 +149,15 @@
                                 Tax and Others - <strong>{{$taxPercent}}%</strong><br/>
                                 <small>(Inclusive of all taxes)</small>
                             </div>
-                            <div class="cart-total-value">
-
-                            </div>
+                            <div class="cart-total-value"></div>
                         </div>
+                        <div id="appliedCouponHolder"></div>
                         <div class="cart-total">
                             <div class="cart-total-label">
                                 Total
                             </div>
                             <div class="cart-total-value">
-                                &#8377;{{$subTotal}}
+                                &#8377;<span id="displayGrandTotal">{{$subTotal}}</span>
                             </div>
                         </div>
                     </div>
@@ -172,14 +171,31 @@
                         </li>
                         <li>
                             <img src="img/coupon.png" />
-                            <form class="coupon-block">
-                                <input type="text" class="coupon-text">
-                                <button type="submit">Apply</button>
-                            </form>
-                            <h5>Apply your coupon</h5>
-                            <a href="{{route('front.user.coupon')}}">Get latest coupon from here</a>
+                            <div class="coupon-block">
+                                <input type="text" class="coupon-text" name="couponText" id="couponText" placeholder="Enter coupon code here">
+                                <button id="applyCouponBtn">Apply</button>
+                            </div>
+                            @error('lname')<p class="small text-danger mb-0 mt-2">{{$message}}</p>@enderror
+                            <a href="{{route('front.user.coupon')}}" class="d-inline-block mt-2">Get latest coupon from here</a>
                         </li>
                     </ul>
+
+                    {{-- <ul class="cart-summary-list">
+                        <li>
+                            <img src="img/delivery-truck.png" />
+                            <h5><span>&#8377;60</span> Apply Below order &#8377;499</h5>
+                            <a href="{{route('front.content.shipping')}}">See all Shipping charges and policies</a>
+                        </li>
+                        <li>
+                            <img src="img/coupon.png" />
+                            <form class="coupon-block" method="post" action="{{route('front.cart.coupon')}}">@csrf
+                                <input type="text" class="coupon-text" name="coupon" id="couponText" placeholder="Enter coupon code here">
+                                <button type="submit" id="applyCouponBtn">Apply</button>
+                            </form>
+                            @error('coupon')<p class="small text-danger mb-0 mt-2">{{$message}}</p>@enderror
+                            <a href="{{route('front.user.coupon')}}" class="d-inline-block mt-2">Get latest coupon from here</a>
+                        </li>
+                    </ul> --}}
                 </div>
             </div>
             <div class="row justify-content-between">
@@ -203,7 +219,6 @@
             </figure>
             <figcaption>
                 <h2>Your cart is empty</h2>
-                {{-- <p>{{Session::get('success')}}</p> --}}
                 <p>Shop now to get 30% OFF.</p>
                 <a href="{{route('front.home')}}">Back to Home</a>
             </figcaption>
@@ -212,4 +227,75 @@
 </section>
 @endif
 
+@endsection
+
+@section('script')
+    <script>
+        // cart page coupon
+        $('#applyCouponBtn').on('click', (e) => {
+            // alert('here');
+            e.preventDefault()
+            let couponCode = $('input[name="couponText"]').val();
+            if (couponCode.length > 0) {
+                $.ajax({
+                    url: '{{ route('front.checkout.coupon.check') }}',
+                    method: 'POST',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        code: couponCode
+                    },
+                    beforeSend: function() {
+                        $('#applyCouponBtn').text('Checking');
+                        // $('#applyCouponBtn').text('Checking').attr('disabled', true);
+                    },
+                    success: function(result) {
+                        // console.log(result);
+
+                        if (result.type == 'success') {
+                            $('#applyCouponBtn').text('APPLIED').css('background', '#c1080a').attr('disabled', true);
+
+                            let beforeCouponValue = parseInt($('#displayGrandTotal').text());
+                            let couponDiscount = parseInt(result.amount);
+                            let discountedGrandTotal = beforeCouponValue - couponDiscount;
+                            $('#displayGrandTotal').text(discountedGrandTotal);
+
+                            /* $('input[name="coupon_code_id"]').val(result.id);
+                            let grandTotal = $('input[name="grandTotal"]').val();
+                            let discountedGrandTotal = parseInt(grandTotal) - parseInt(result.amount);
+                            $('input[name="grandTotal"]').val(discountedGrandTotal);
+                            $('#displayGrandTotal').text(discountedGrandTotal); */
+
+                            let couponContent = `
+                            <div class="cart-total">
+                                <div class="cart-total-label">
+                                    COUPON APPLIED - <strong>${couponCode}</strong><br/>
+                                    <a href="javascript:void(0)" onclick="removeAppliedCoupon(${result.amount})"><small>(Remove this coupon)</small></a>
+                                </div>
+                                <div class="cart-total-value">- ${result.amount}</div>
+                            </div>
+                            `;
+
+                            $('#appliedCouponHolder').html(couponContent);
+                            toastFire(result.type, result.message);
+                        } else {
+                            toastFire(result.type, result.message);
+                            $('#applyCouponBtn').text('Apply');
+                        }
+                    }
+                });
+            }
+        });
+
+        function removeAppliedCoupon(discountedAMount) {
+            $('#appliedCouponHolder').html('');
+            $('input[name="couponText"]').val('');
+            $('#applyCouponBtn').text('Apply').css('background', '#141b4b').attr('disabled', false);
+
+            let grandTotal = $('input[name="grandTotal"]').val();
+            let discountedGrandTotal = parseInt(grandTotal) + parseInt(discountedAMount);
+            $('input[name="grandTotal"]').val(discountedGrandTotal);
+            $('#displayGrandTotal').text(discountedGrandTotal);
+            createCookie('checkoutAmount', discountedGrandTotal, 1);
+        }
+    </script>
 @endsection

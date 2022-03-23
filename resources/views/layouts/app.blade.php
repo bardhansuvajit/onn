@@ -300,10 +300,66 @@
             toastFire('danger', '{{ Session::get('success') }}');
         @endif
 
+        // javascript create cookie
+        function createCookie(name, value, days) {
+            var expires;
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toGMTString();
+            } else {
+                expires = "";
+            }
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+
+        // javascript read cookie
+        function getCookie(c_name) {
+            if (document.cookie.length > 0) {
+                c_start = document.cookie.indexOf(c_name + "=");
+                if (c_start != -1) {
+                    c_start = c_start + c_name.length + 1;
+                    c_end = document.cookie.indexOf(";", c_start);
+                    if (c_end == -1) {
+                        c_end = document.cookie.length;
+                    }
+                    return unescape(document.cookie.substring(c_start, c_end));
+                }
+            }
+            return "";
+        }
+
+        /* let chekoutAmount = getCookie('checkoutAmount');
+        // console.log(chekoutAmount);
+        if (chekoutAmount) {
+            couponApplied(chekoutAmount);
+        }
+
+        // checkout page coupon applied design
+        function couponApplied(amount) {
+            $('input[name="grandTotal"]').val(amount);
+            $('#displayGrandTotal').text(amount);
+
+            let couponContent = `
+            <div class="cart-total">
+                <div class="cart-total-label">
+                    COUPON APPLIED<br/>
+                    <a href="javascript:void(0)" onclick="removeAppliedCoupon(${amount})"><small>(Remove this coupon)</small></a>
+                </div>
+                <div class="cart-total-value">- ${amount}</div>
+            </div>
+            `;
+
+            $('#appliedCouponHolder').html(couponContent);
+        } */
+
+        // let paymentGatewayAmount = chekoutAmount ? parseInt(chekoutAmount) * 100 : document.querySelector('[name="grandTotal"]').value * 100;
+        // let paymentGatewayAmount = parseInt($('#displayGrandTotal').text()) * 100;
+
         // razorpay payment options
         var paymentOptions = {
             "key": "{{env('RAZORPAY_KEY')}}",
-            "amount": document.querySelector('[name="grandTotal"]').value * 100,
+            "amount": parseInt(document.querySelector('[name="grandTotal"]').value) * 100,
             "currency": "INR",
             "name": "{{env('APP_NAME')}}",
             "description": "Test Transaction",
@@ -349,6 +405,7 @@
             alert(response.error.metadata.payment_id); */
         });
 
+        // check details before paying online
         function checkoutDetailsExists() {
             if ($('input[name="fname"]').val() == "") {
                 toastFire('warning', 'Insert first name')
@@ -374,7 +431,7 @@
             } else if ($('input[name="billing_state"]').val() == "") {
                 toastFire('warning', 'Insert billing state')
                 return false;
-            } else if ($('input[name="billing_pin"]').val() == "") {
+            } else if ($('input[name="billing_pin"]').val() == "" && $('input[name="billing_pin"]').val().length == 6) {
                 toastFire('warning', 'Insert billing pincode')
                 return false;
             } else {
@@ -385,6 +442,7 @@
         document.getElementById('rzp-button1').onclick = function(e){
             e.preventDefault();
             if (checkoutDetailsExists()) {
+                let chekoutAmount = getCookie('checkoutAmount');
                 rzp1.open();
             }
         }

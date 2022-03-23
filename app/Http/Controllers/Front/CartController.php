@@ -15,6 +15,19 @@ class CartController extends Controller
         $this->cartRepository = $cartRepository;
     }
 
+    public function coupon(Request $request)
+    {
+        $couponData = $this->cartRepository->couponCheck($request->code);
+        return $couponData;
+
+        // $request->validate([
+        //     'coupon' => 'required'
+        // ]);
+
+        // $couponData = $this->cartRepository->couponCheck($request->coupon);
+        // return redirect()->back()->with('success', $couponData);
+    }
+
     public function add(Request $request) 
     {
         // dd($request->all());
@@ -69,7 +82,7 @@ class CartController extends Controller
         $data = $this->cartRepository->qtyUpdate($id, $type);
 
         if ($data) {
-            return redirect()->route('front.cart.index')->with('success', 'Cart updated');
+            return redirect()->route('front.cart.index')->with('success', $data);
         } else {
             return redirect()->route('front.cart.index')->with('failure', 'Something happened');
         }
