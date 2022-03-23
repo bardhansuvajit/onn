@@ -325,14 +325,25 @@
             alert(response.error.metadata.order_id);
             alert(response.error.metadata.payment_id); */
         });
+
         function checkoutDetailsExists() {
             if ($('input[name="fname"]').val() == "") {
                 alert('Insert first name');
+                return false;
+            } else if ($('input[name="lname"]').val() == "") {
+                alert('Insert last name');
+                return false;
+            } else if ($('input[name="email"]').val() == "") {
+                alert('Insert email address');
+                return false;
+            } else if ($('input[name="mobile"]').val() == "") {
+                alert('Insert mobile number');
                 return false;
             } else {
                 return true;
             }
         }
+
         document.getElementById('rzp-button1').onclick = function(e){
             e.preventDefault();
             if (checkoutDetailsExists()) {

@@ -88,19 +88,19 @@
                                     </label>
                                 </div>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="shipping_method" id="flexRadioDefault2" value="standard_cod">
                                     <label class="form-check-label" for="flexRadioDefault2">
                                         Standard Shipping (Cash on Delivery)
                                     </label>
                                 </div>
-                            </li>
+                            </li> --}}
                             <li>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="shipping_method" id="flexRadioDefault3" value="express_shipping">
                                     <label class="form-check-label" for="flexRadioDefault3">
-                                        Express Shipping
+                                        Express
                                     </label>
                                 </div>
                             </li>
@@ -188,8 +188,9 @@
                     </div>
 
                     <h4 class="cart-heading">Billing address</h4>
-                    <ul class="checkout-meta mb-2">
+
                     @if (isset($addressData))
+                    <ul class="checkout-meta mb-2">
                     @foreach ($addressData as $addressKey => $addressValue)
                         <li><div class="form-check">
                             <input class="form-check-input" type="radio" name="existing_billing_address" id="existing_billing_address.{{$addressValue->id}}" value="{{$addressValue->id}}"  billing_address="{{$addressValue->address}}" billing_country="{{$addressValue->country ? $addressValue->country.', ' : ''}}" billing_landmark="{{$addressValue->landmark ? $addressValue->landmark.', ' : ''}}" billing_city="{{$addressValue->city}}" billing_state="{{$addressValue->state}}" billing_pin="{{$addressValue->pin}}" {{$addressKey == 0 ? 'checked' : ''}}>
@@ -202,11 +203,10 @@
                                 <span class="billing_pin" >{{$addressValue->pin}}</span>
                             </label>
                         </div></li>
-
                     @endforeach
+                    </ul>
                     @endif
 
-                    </ul>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
