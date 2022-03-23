@@ -2,12 +2,14 @@
 
 @section('profile-content')
 <div class="col-sm-7">
-    @if (Session::get('success'))
+
+    {{-- @if (Session::get('success'))
         <div class="alert alert-success"> {{Session::get('success')}} </div>
     @endif
     @if (Session::get('failure'))
         <div class="alert alert-danger"> {{Session::get('failure')}} </div>
-    @endif
+    @endif --}}
+
     <div class="profile-card">
         <form method="POST" action="{{route('front.user.manage.update')}}">@csrf
             <h3>Edit Profile</h3>
@@ -26,13 +28,13 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Email Address" value="{{Auth::guard('web')->user()->email}}" disabled>
+                        <input type="tel" class="form-control" placeholder="Email Address" value="{{Auth::guard('web')->user()->email}}" readonly disabled>
                         <label class="floating-label">Email Address</label>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <input type="tel" class="form-control" placeholder="Mobile No" value="{{Auth::guard('web')->user()->mobile}}" disabled>
+                        <input type="tel" class="form-control" placeholder="Mobile No" value="{{Auth::guard('web')->user()->mobile}}" readonly disabled>
                         <label class="floating-label">Mobile No</label>
                     </div>
                 </div>

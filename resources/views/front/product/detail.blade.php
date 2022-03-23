@@ -80,13 +80,13 @@
     </div>
     <div class="product-details__content">
         <div class="product-details__content__holder">
-            @if (Session::get('success'))
+            {{-- @if (Session::get('success'))
                 <div class="alert alert-success"> {{Session::get('success')}} </div>
             @endif
 
             @if (Session::get('failure'))
                 <div class="alert alert-danger"> {{Session::get('failure')}} </div>
-            @endif
+            @endif --}}
 
             <span class="n_code"># {{$data->style_no}}</span>
             {{-- <img src="{{ asset('img/logo_outerwear.png') }}" class="brand__logo"> --}}

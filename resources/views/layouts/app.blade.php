@@ -277,10 +277,30 @@
     <script src="{{ asset('node_modules/scrollmagic/scrollmagic/minified/ScrollMagic.min.js') }}"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/animation.gsap.min.js'></script>
     <script src="{{ asset('node_modules/scrollmagic/scrollmagic/minified/plugins/debug.addIndicators.min.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script>
+        // sweetalert fires | type = success, error, warning, info, question
+        function toastFire(type = 'success', title, body = '') {
+            Swal.fire({
+                icon: type,
+                title: title,
+                text: body,
+                confirmButtonColor: '#c10909',
+                timer: 5000
+            })
+        }
+
+        // on session toast fires
+        @if (Session::get('success'))
+            toastFire('success', '{{ Session::get('success') }}');
+        @elseif (Session::get('failure'))
+            toastFire('danger', '{{ Session::get('success') }}');
+        @endif
+
+        // razorpay payment options
         var paymentOptions = {
             "key": "{{env('RAZORPAY_KEY')}}",
             "amount": document.querySelector('[name="grandTotal"]').value * 100,
@@ -331,16 +351,31 @@
 
         function checkoutDetailsExists() {
             if ($('input[name="fname"]').val() == "") {
-                alert('Insert first name');
+                toastFire('warning', 'Insert first name')
                 return false;
             } else if ($('input[name="lname"]').val() == "") {
-                alert('Insert last name');
+                toastFire('warning', 'Insert last name')
                 return false;
             } else if ($('input[name="email"]').val() == "") {
-                alert('Insert email address');
+                toastFire('warning', 'Insert email address')
                 return false;
             } else if ($('input[name="mobile"]').val() == "") {
-                alert('Insert mobile number');
+                toastFire('warning', 'Insert mobile number')
+                return false;
+            } else if ($('input[name="billing_country"]').val() == "") {
+                toastFire('warning', 'Insert billing country')
+                return false;
+            } else if ($('input[name="billing_address"]').val() == "") {
+                toastFire('warning', 'Insert billing address')
+                return false;
+            } else if ($('input[name="billing_city"]').val() == "") {
+                toastFire('warning', 'Insert billing city')
+                return false;
+            } else if ($('input[name="billing_state"]').val() == "") {
+                toastFire('warning', 'Insert billing state')
+                return false;
+            } else if ($('input[name="billing_pin"]').val() == "") {
+                toastFire('warning', 'Insert billing pincode')
                 return false;
             } else {
                 return true;

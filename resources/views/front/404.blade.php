@@ -12,7 +12,6 @@
             </figure>
             <figcaption>
                 <h2>Looks like you are lost</h2>
-                <p>{{Session::get('success')}}</p>
                 <p>You can stay here or get back to home.</p>
                 <a href="{{route('front.home')}}">Back to Home</a>
             </figcaption>

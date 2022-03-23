@@ -13,12 +13,12 @@
     <div class="profile-card">
         <h3>Wishlist</h3>
 
-        @if (Session::get('success'))
+        {{-- @if (Session::get('success'))
             <div class="alert alert-success"> {{Session::get('success')}} </div>
         @endif
         @if (Session::get('failure'))
             <div class="alert alert-danger"> {{Session::get('failure')}} </div>
-        @endif
+        @endif --}}
 
         @foreach ($data as $wishlistKey => $wishlistValue)
         <div class="order-card">

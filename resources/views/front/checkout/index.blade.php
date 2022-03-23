@@ -131,7 +131,7 @@
                                 &#8377;{{$grandTotal}}
                             </div>
                         </div>
-                        <div class="cart-total-label mt-3 mb-3">
+                        {{-- <div class="cart-total-label mt-3 mb-3">
                             Payment Method
                         </div>
                         <ul class="checkout-meta mb-2">
@@ -151,7 +151,7 @@
                                     </label>
                                 </div>
                             </li>
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
                 <div class="col-sm-6">

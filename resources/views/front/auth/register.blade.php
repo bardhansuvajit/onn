@@ -58,11 +58,12 @@
                     <div class="register-logo">
                         <a href="{{route('front.home')}}"><img src="{{asset('img/logo.png')}}"></a>
                     </div>
+
                     <h3>Sign Up</h3>
                     <h4>Welcome to ONN</h4>
 
-                    @if (Session::get('success'))<div class="alert alert-success">{{Session::get('success')}}</div>@endif
-                    @if (Session::get('failure'))<div class="alert alert-danger">{{Session::get('failure')}}</div>@endif
+                    {{-- @if (Session::get('success'))<div class="alert alert-success">{{Session::get('success')}}</div>@endif
+                    @if (Session::get('failure'))<div class="alert alert-danger">{{Session::get('failure')}}</div>@endif --}}
 
                     <div class="register-card">
                         <div class="register-group">
@@ -119,8 +120,28 @@
     <script src="{{ asset('node_modules/scrollmagic/scrollmagic/minified/ScrollMagic.min.js') }}"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/animation.gsap.min.js'></script>
     <script src="{{ asset('node_modules/scrollmagic/scrollmagic/minified/plugins/debug.addIndicators.min.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-</body>
 
+    <script>
+        // sweetalert fires | type = success, error, warning, info, question
+        function toastFire(type = 'success', title, body = '') {
+            Swal.fire({
+                icon: type,
+                title: title,
+                text: body,
+                confirmButtonColor: '#c10909',
+                timer: 5000
+            })
+        }
+
+        // on session toast fires
+        @if (Session::get('success'))
+            toastFire('success', '{{ Session::get('success') }}');
+        @elseif (Session::get('failure'))
+            toastFire('danger', '{{ Session::get('success') }}');
+        @endif
+    </script>
+</body>
 
 </html>

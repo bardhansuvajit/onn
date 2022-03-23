@@ -43,12 +43,12 @@
 
 <section class="cart-wrapper">
     <div class="container">
-        @if (Session::get('success'))
+        {{-- @if (Session::get('success'))
         <div class="alert alert-success">{{Session::get('success')}}</div>
         @endif
         @if (Session::get('failure'))
         <div class="alert alert-danger">{{Session::get('failure')}}</div>
-        @endif
+        @endif --}}
 
         <div class="cart-holder">
             <div class="cart-row cart-row--header">
