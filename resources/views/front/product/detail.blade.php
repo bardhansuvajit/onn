@@ -163,12 +163,34 @@
                 <li>Packs of 3</li>
             </ul> --}}
 
-            @php
-            $offer_price = (float) $data->offer_price;
-            @endphp
-
             <div class="product__pricing">
-                <img src="{{ asset('img/wallet.png') }}"> <h3>&#8377; <span class="price_val">{{$offer_price}}</span></h3>
+                <img src="{{ asset('img/wallet.png') }}">
+                <h3>
+                @if (count($data->colorSize) > 0)
+                    @php
+                        $varArray = [];
+                        foreach($data->colorSize as $productVariationKey => $productVariationValue) {
+                            $varArray[] = $productVariationValue->offer_price;
+                        }
+                        $bigger = $varArray[0];
+                        for ($i = 1; $i < count($varArray); $i++) {
+                            if ($bigger < $varArray[$i]) {
+                                $bigger = $varArray[$i];
+                            }
+                        }
+
+                        $smaller = $varArray[0];
+                        for ($i = 1; $i < count($varArray); $i++) {
+                            if ($smaller > $varArray[$i]) {
+                                $smaller = $varArray[$i];
+                            }
+                        }
+                    @endphp
+                    &#8377;<span class="price_val">{{$smaller}} - {{$bigger}}</span>
+                @else
+                    &#8377; <span class="price_val">{{$data->offer_price}}</span>
+                @endif
+                </h3>
             </div>
 
             <div class="product__enquire d-flex">
