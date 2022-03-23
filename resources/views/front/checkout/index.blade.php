@@ -159,28 +159,28 @@
                     <div class="row mb-5">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="fname" value="@auth{{Auth::guard('web')->user()->fname}}@else{{old('fname')}}@endauth" placeholder="First Name">
+                                <input type="text" class="form-control" name="fname" id="checkoutFname" value="@auth{{Auth::guard('web')->user()->fname}}@else{{old('fname')}}@endauth" placeholder="First Name">
                                 <label class="floating-label">First Name</label>
                             </div>
                             @error('fname')<p class="small text-danger mb-0">{{$message}}</p>@enderror
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="lname" value="@auth{{Auth::guard('web')->user()->lname}}@else{{old('lname')}}@endauth" placeholder="Last Name">
+                                <input type="text" class="form-control" name="lname" id="checkoutLname" value="@auth{{Auth::guard('web')->user()->lname}}@else{{old('lname')}}@endauth" placeholder="Last Name">
                                 <label class="floating-label">Last Name</label>
                             </div>
                             @error('lname')<p class="small text-danger mb-0">{{$message}}</p>@enderror
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="email" class="form-control" name="email" placeholder="Enter Your Email Address" value="@auth{{Auth::guard('web')->user()->email}}@else{{old('email')}}@endauth">
+                                <input type="email" class="form-control" name="email" id="checkoutEmail" placeholder="Enter Your Email Address" value="@auth{{Auth::guard('web')->user()->email}}@else{{old('email')}}@endauth">
                                 <label class="floating-label">Enter Your Email Address</label>
                             </div>
                             @error('email')<p class="small text-danger mb-0">{{$message}}</p>@enderror
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <input type="tel" class="form-control" name="mobile" placeholder="Enter Your Contact Number" value="@auth{{Auth::guard('web')->user()->mobile}}@else{{old('mobile')}}@endauth">
+                                <input type="tel" class="form-control" name="mobile" id="checkoutMobile" placeholder="Enter Your Contact Number" value="@auth{{Auth::guard('web')->user()->mobile}}@else{{old('mobile')}}@endauth">
                                 <label class="floating-label">Enter Your Contact Number</label>
                             </div>
                             @error('mobile')<p class="small text-danger mb-0">{{$message}}</p>@enderror
@@ -344,7 +344,7 @@
 
                             <button type="submit" class="btn checkout-btn">Complete Order</button>
                             OR
-                            <button type="button" id="rzp-button1" class="btn checkout-btn">Pay Online </button>
+                            
                         </div>
                         <div class="col-sm-auto mt-3 mt-sm-0">
                             <a href="{{route('front.cart.index')}}">Return to Cart</a>
@@ -353,6 +353,7 @@
                 </div>
             </div>
         </form>
+        <button id="rzp-button1" class="btn checkout-btn">Pay Online</button>
     </div>
 </section>
 @endsection

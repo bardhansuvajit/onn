@@ -305,9 +305,12 @@
             },
             // "callback_url": "{{route('front.checkout.store')}}",
             "prefill": {
-                "name": document.querySelector('[name="fname"]').value+' '+document.querySelector('[name="lname"]').value,
+                "name": $('#checkoutFname').val()+' '+$('#checkoutLname').val(),
+                "email": $('#checkoutEmail').val(),
+                "contact": $('#checkoutMobile').val()
+                /* "name": document.querySelector('[name="fname"]').value+' '+document.querySelector('[name="lname"]').value,
                 "email": document.querySelector('[name="email"]').value,
-                "contact": document.querySelector('[name="mobile"]').value
+                "contact": document.querySelector('[name="mobile"]').value */
             },
             "notes": {
                 "address": "Razorpay Corporate Office"
