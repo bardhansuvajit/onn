@@ -36,7 +36,7 @@ class ProductController extends Controller
         $productId = $request->productId;
         $colorId = $request->colorId;
 
-        $data = ProductColorSize::where('product_id', $productId)->where('color', $colorId)->get();
+        $data = ProductColorSize::where('product_id', $productId)->where('color', $colorId)->latest('id')->get();
 
         $resp = [];
 

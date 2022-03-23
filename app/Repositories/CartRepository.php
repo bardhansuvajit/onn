@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\CartInterface;
 use App\Models\Cart;
 use App\Models\Coupon;
+use App\Models\ProductColorSize;
 
 class CartRepository implements CartInterface 
 {
@@ -53,8 +54,16 @@ class CartRepository implements CartInterface
             $newEntry->product_image = $collectedData['product_image'];
             $newEntry->product_slug = $collectedData['product_slug'];
             $newEntry->product_variation_id = $collectedData['product_variation_id'];
-            $newEntry->price = $collectedData['price'];
-            $newEntry->offer_price = $collectedData['offer_price'];
+
+            if (isset($data['product_variation_id'])) {
+                $productColorSizeData = ProductColorSize::findOrFail($collectedData['product_variation_id']);
+                $newEntry->price = $productColorSizeData->price;
+                $newEntry->offer_price = $productColorSizeData->offer_price;
+            } else {
+                $newEntry->price = $collectedData['price'];
+                $newEntry->offer_price = $collectedData['offer_price'];
+            }
+
             $newEntry->qty = $collectedData['qty'];
             $newEntry->ip = $this->ip;
 

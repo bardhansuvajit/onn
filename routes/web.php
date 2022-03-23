@@ -50,7 +50,7 @@ Route::name('front.')->group(function() {
         Route::get('/delete/{id}', 'Front\CartController@delete')->name('delete');
         Route::get('/quantity/{id}/{type}', 'Front\CartController@qtyUpdate')->name('quantity');
     });
-    
+
     // checkout
     Route::prefix('checkout')->name('checkout.')->group(function() {
         Route::get('/', 'Front\CheckoutController@index')->name('index');
