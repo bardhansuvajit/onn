@@ -343,8 +343,8 @@
                             <input type="hidden" name="razorpay_callback_url" value="">
 
                             <button type="submit" class="btn checkout-btn">Complete Order</button>
-                            OR
-                            
+                            <strong>OR</strong>
+                            <button id="rzp-button1" class="btn checkout-btn">Pay Online</button>
                         </div>
                         <div class="col-sm-auto mt-3 mt-sm-0">
                             <a href="{{route('front.cart.index')}}">Return to Cart</a>
@@ -353,7 +353,6 @@
                 </div>
             </div>
         </form>
-        <button id="rzp-button1" class="btn checkout-btn">Pay Online</button>
     </div>
 </section>
 @endsection
