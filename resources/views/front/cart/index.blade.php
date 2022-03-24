@@ -233,7 +233,6 @@
     <script>
         // cart page coupon
         $('#applyCouponBtn').on('click', (e) => {
-            // alert('here');
             e.preventDefault()
             let couponCode = $('input[name="couponText"]').val();
             if (couponCode.length > 0) {

@@ -594,6 +594,7 @@ var gallery__slider = new Swiper(".product-details__gallery__slider", {
     slidesPerView: 1,
     centeredSlides: true,
     allowTouchMove: true,
+    initialSlide: 2,
     pagination: {
         el: ".bullet",
         clickable: true,
@@ -609,7 +610,8 @@ var gallery__thumb = new Swiper(".product-details__gallery__thumb", {
     loop: false,
     speed: 2000,
     freeMode: true,
-    // centeredSlides: true,
+    initialSlide: 2,
+    centeredSlides: true,
     slidesPerView: 'auto',
     slideToClickedSlide: true,
     spaceBetween: 6,

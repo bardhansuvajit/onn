@@ -149,6 +149,7 @@
         </div>
         <div class="menu__row">
             @foreach ($collections as $collectionKey => $collectionValue)
+            @php if($collectionKey == 0 || $collectionKey == 1 || $collectionKey == 2) continue; @endphp
             <div class="menu__block">
                 <div class="menu__text">{{$collectionValue->name}}</div>
                 <div class="menu__links">
@@ -264,6 +265,7 @@
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
 
     <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/plugin.js') }}"></script>
     <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.js') }}"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -282,6 +284,12 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script>
+        // enable tooltips everywhere
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
         // sweetalert fires | type = success, error, warning, info, question
         function toastFire(type = 'success', title, body = '') {
             Swal.fire({

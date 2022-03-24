@@ -139,8 +139,9 @@
                 }
 
                 echo '<h6>Available Colour</h6><ul class="product__color">';
-                foreach($uniqueColors as $colorCode) {
-                    echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'"></li>';
+                foreach($uniqueColors as $colorCodeKey => $colorCode) {
+                    ($colorCodeKey == 0) ? $activeCLass = 'active' : $activeCLass = '';
+                    echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="'.$activeCLass.'" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
                 }
                 echo '</ul>';
                 @endphp
@@ -228,8 +229,9 @@
 
             <h6>Details & Specifications</h6>
             <div class="specification">
-                {!! substr($data->desc, 0, 100) !!}
-                <h6><a href="javascript: void(0)" data-bs-target="#productDescModal" data-bs-toggle="modal">Read more</a></h6>
+                {!! $data->desc !!}
+                {{-- {!! substr($data->desc, 0, 100) !!} --}}
+                {{-- <h6><a href="javascript: void(0)" data-bs-target="#productDescModal" data-bs-toggle="modal">Read more</a></h6> --}}
             </div>
         </div>
     </div>
@@ -248,8 +250,31 @@
                 <figcaption>
                     <h4>{{$relatedProductValue->name}}</h4>
                     <h5>
-                        &#8377;{{$relatedProductValue->offer_price}} 
-                        {{-- - &#8377;{{$relatedProductValue->price}} --}}
+                    @if (count($relatedProductValue->colorSize) > 0)
+                        @php
+                            $varArray = [];
+                            foreach($relatedProductValue->colorSize as $productVariationKey => $productVariationValue) {
+                                $varArray[] = $productVariationValue->offer_price;
+                            }
+                            $bigger = $varArray[0];
+                            for ($i = 1; $i < count($varArray); $i++) {
+                                if ($bigger < $varArray[$i]) {
+                                    $bigger = $varArray[$i];
+                                }
+                            }
+
+                            $smaller = $varArray[0];
+                            for ($i = 1; $i < count($varArray); $i++) {
+                                if ($smaller > $varArray[$i]) {
+                                    $smaller = $varArray[$i];
+                                }
+                            }
+                        @endphp
+                        &#8377;{{$smaller}} - {{$bigger}}
+                    @else
+                        &#8377;{{$relatedProductValue->offer_price}}
+                    @endif
+                    {{-- &#8377;{{$relatedProductValue->offer_price}}  --}}
                     </h5>
                 </figcaption>
             </a>
@@ -332,8 +357,8 @@
         // console.log(variationId);
     });
 
-    $(document).on('click', '.missingVariationSelection', function(){
+    /* $(document).on('click', '.missingVariationSelection', function(){
         alert('here');
-    });
+    }); */
 </script>
 @endsection

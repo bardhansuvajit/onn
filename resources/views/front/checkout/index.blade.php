@@ -378,7 +378,6 @@
 
 @section('script')
     <script>
-        // let chekoutAmount = getCookie('checkoutAmount');
-        // alert(chekoutAmount);
+        
     </script>
 @endsection

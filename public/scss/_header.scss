@@ -124,7 +124,14 @@ header {
                 img {
                   width: auto;
                   max-width: 100%;
-                  height: 30px;
+                  height: 16px;
+                  object-fit: scale-down;
+                  object-position: center;
+                }
+
+                a {
+                  padding: 20px 0;
+                  text-align: center;
                 }
 
                 h5 {

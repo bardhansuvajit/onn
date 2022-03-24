@@ -6,10 +6,10 @@
 <section class="listing-header">
     <div class="container">
         <div class="row flex-sm-row-reverse align-items-center">
-            <div class="col-sm-6 d-none d-sm-block">
+            <div class="col-sm-3 d-none d-sm-block">
                 <img src="{{ asset($data->banner_image) }}" class="img-fluid">
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-9">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('front.home') }}">Home</a></li>
@@ -25,7 +25,7 @@
 <section class="listing-block">
     <div class="container">
         @if (count($data->ProductDetails) > 0)
-        <div class="listing-block__meta">
+        {{-- <div class="listing-block__meta">
             <div class="filter">
                 <div class="filter__toggle">
                     Filter
@@ -41,7 +41,7 @@
                     <option>Price: High To Low</option>
                 </select>
             </div>
-        </div>
+        </div> --}}
 
         <div class="product__wrapper">
             <div class="product__filter">

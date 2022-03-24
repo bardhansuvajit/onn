@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
             // categories
             $categoryExists = Schema::hasTable('categories');
             if ($categoryExists) {
-                $categories = Category::latest('id')->where('status', 1)->get();
+                $categories = Category::orderBy('position', 'asc')->orderBy('id', 'desc')->where('status', 1)->get();
 
                 $categoryNavList = [];
 
@@ -55,7 +55,7 @@ class AppServiceProvider extends ServiceProvider
             // collections
             $collectionExists = Schema::hasTable('collections');
             if ($collectionExists) {
-                $collections = Collection::latest('id')->where('status', 1)->get();
+                $collections = Collection::orderBy('position', 'asc')->orderBy('id', 'desc')->where('status', 1)->get();
             }
 
             // settings
