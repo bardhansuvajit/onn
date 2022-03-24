@@ -286,11 +286,14 @@
         });
 
         function removeAppliedCoupon(discountedAMount) {
+            // clear applied coupon html
             $('#appliedCouponHolder').html('');
+            // clear coupon text
             $('input[name="couponText"]').val('');
+            // clear coupon button
             $('#applyCouponBtn').text('Apply').css('background', '#141b4b').attr('disabled', false);
 
-            let grandTotal = $('input[name="grandTotal"]').val();
+            let grandTotal = $('#displayGrandTotal').text();
             let discountedGrandTotal = parseInt(grandTotal) + parseInt(discountedAMount);
             $('input[name="grandTotal"]').val(discountedGrandTotal);
             $('#displayGrandTotal').text(discountedGrandTotal);

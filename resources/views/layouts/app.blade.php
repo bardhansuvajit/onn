@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>ONN Total Comfort | @yield('page')</title>
 
-    <link rel="icon" href="img/favicon.png" type="image/png" sizes="16x16">
+    <link rel="icon" href="{{asset('img/favicon.png')}}" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="{{ asset('css/plugin.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/swiper@8.0.7/swiper-bundle.min.css">
     <link rel="stylesheet" href="{{ asset('node_modules/select2/dist/css/select2.min.css') }}">
