@@ -44,7 +44,9 @@ class ProductController extends Controller
             $resp[] = [
                 'variationId' => $dataValue->id,
                 'sizeId' => $dataValue->size,
-                'sizeName' => $dataValue->sizeDetails->name
+                'sizeName' => $dataValue->sizeDetails->name,
+                'price' => $dataValue->price,
+                'offerPrice' => $dataValue->offer_price,
             ];
         }
 

@@ -195,8 +195,8 @@
 
             <div class="product__enquire d-flex">
                 <form method="POST" action="{{route('front.cart.add')}}" class="d-flex">@csrf
-                    <div class="cart-item item-qty">
-                        <div class="cart-text">Quantity</div>
+                    <div class="item-qty mr-1">
+                        <!-- <div class="cart-text">Quantity</div> -->
                         <div class="qty-box">
                             <a href="javascript: void(0)" class="decrement" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -215,7 +215,7 @@
                     <input type="hidden" name="product_variation_id" value="">
                     <input type="hidden" name="price" value="{{$data->price}}">
                     <input type="hidden" name="offer_price" value="{{$data->offer_price}}">
-                    <button type="submit" id="addToCart__btn" class="@if(count($data->colorSize) > 0) missingVariationSelection @endif">Add to Cart</button>
+                    <button type="submit" class="mr-1" id="addToCart__btn" class="@if(count($data->colorSize) > 0) missingVariationSelection @endif"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> <span>Add to Cart</span></button>
                 </form>
 
                 <form method="POST" action="{{route('front.wishlist.add')}}">@csrf
@@ -304,7 +304,7 @@
                     $('#colorSelectAlert').hide();
                     let content = '';
                     $.each(result.data, (key, val) => {
-                        content += `<li data-price="{{$data->offer_price}}" data-id="${val.variationId}">${val.sizeName}</li>`;
+                        content += `<li data-price="${val.offerPrice}" data-id="${val.variationId}">${val.sizeName}</li>`;
                     })
 
                     $('#sizeContainer').html(content);
