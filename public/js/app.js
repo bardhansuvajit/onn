@@ -772,43 +772,43 @@ $('.selected').next().addClass('next');
 $('.slider-content .slider-content-single:first-child').addClass('active');
 
 // slider tab
-$('.slider-tab').slick({
-    infinite: true,
-    slidesToScroll: 3,
-    slidesToShow: 5,
-    variableWidth: true,
-    arrows: true,
-    dots: false,
-    nextArrow: '.slider-next',
-    prevArrow: '.slider-prev',
-    draggable: false,
-    swipe: false,
-    responsive: [{
-            breakpoint: 1400,
-            settings: {
-                slidesToShow: 4,
-                slidesToScroll: 3,
-                variableWidth: true,
-            },
-        },
-        {
-            breakpoint: 767,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3,
-                variableWidth: true,
-            },
-        },
-        {
-            breakpoint: 575,
-            settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
-                variableWidth: true,
-            },
-        },
-    ],
-});
+// $('.slider-tab').slick({
+//     infinite: true,
+//     slidesToScroll: 3,
+//     slidesToShow: 5,
+//     variableWidth: true,
+//     arrows: true,
+//     dots: false,
+//     nextArrow: '.slider-next',
+//     prevArrow: '.slider-prev',
+//     draggable: false,
+//     swipe: false,
+//     responsive: [{
+//             breakpoint: 1400,
+//             settings: {
+//                 slidesToShow: 4,
+//                 slidesToScroll: 3,
+//                 variableWidth: true,
+//             },
+//         },
+//         {
+//             breakpoint: 767,
+//             settings: {
+//                 slidesToShow: 3,
+//                 slidesToScroll: 3,
+//                 variableWidth: true,
+//             },
+//         },
+//         {
+//             breakpoint: 575,
+//             settings: {
+//                 slidesToShow: 2,
+//                 slidesToScroll: 2,
+//                 variableWidth: true,
+//             },
+//         },
+//     ],
+// });
 
 $(document).on('click', '.filter-option .slider-single', function () {
     $('.filter-option .slider-single').removeClass('selected');
