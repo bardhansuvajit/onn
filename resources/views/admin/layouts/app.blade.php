@@ -131,10 +131,10 @@
         <header>
             <div class="row align-items-center">
                 <div class="col-auto">
-                    <input type="search" name="" class="form-control header__search" placeholder="Quick Search here">
+                    {{-- <input type="search" name="" class="form-control header__search" placeholder="Quick Search here"> --}}
                 </div>
                 <div class="col-auto ms-auto">
-                    <a href="javascript: void(0)" class="notify__bell"><i class="fi fi-br-bell"></i></a>
+                    {{-- <a href="javascript: void(0)" class="notify__bell"><i class="fi fi-br-bell"></i></a> --}}
                 </div>
                 <div class="col-auto">
                     <div class="dropdown">

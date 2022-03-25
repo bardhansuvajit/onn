@@ -63,7 +63,7 @@
             </div>
 
             @php
-                $subTotal = 0;
+                $subTotal = $grandTotal = $couponCodeDiscount = 0;
                 $shippingCharges = 0;
                 $taxPercent = 0;
             @endphp
@@ -117,7 +117,17 @@
             </div>
 
             @php
-            $subTotal += $cartValue->offer_price * $cartValue->qty;
+                // subtotal calculation
+                $subTotal += (int) $cartValue->offer_price * $cartValue->qty;
+
+                // coupon code calculation
+                if (!empty($data[0]->coupon_code_id)) {
+                    $couponCodeDiscount = (int) $data[0]->couponDetails->amount;
+                }
+
+                // grand total calculation
+                $grandTotalWithoutCoupon = $subTotal;
+                $grandTotal = $subTotal - $couponCodeDiscount;
             @endphp
 
             @endforeach
@@ -133,7 +143,7 @@
                                 Subtotal
                             </div>
                             <div class="cart-total-value">
-                                &#8377;{{$subTotal}}
+                                &#8377;<span id="subTotalAmount">{{$subTotal}}</span>
                             </div>
                         </div>
                         <div class="cart-total">
@@ -151,13 +161,24 @@
                             </div>
                             <div class="cart-total-value"></div>
                         </div>
-                        <div id="appliedCouponHolder"></div>
+                        <div id="appliedCouponHolder">
+                        @if (!empty($data[0]->coupon_code_id))
+                            <div class="cart-total">
+                                <div class="cart-total-label">
+                                    COUPON APPLIED - <strong>{{$data[0]->couponDetails->coupon_code}}</strong><br/>
+                                    <a href="javascript:void(0)" onclick="removeAppliedCoupon()"><small>(Remove this coupon)</small></a>
+                                </div>
+                                <div class="cart-total-value">- {{$data[0]->couponDetails->amount}}</div>
+                            </div>
+                        @endif
+                        </div>
                         <div class="cart-total">
                             <div class="cart-total-label">
                                 Total
                             </div>
                             <div class="cart-total-value">
-                                &#8377;<span id="displayGrandTotal">{{$subTotal}}</span>
+                                <input type="hidden" value="{{$grandTotalWithoutCoupon}}" name="grandTotalWithoutCoupon">
+                                &#8377;<span id="displayGrandTotal">{{$grandTotal}}</span>
                             </div>
                         </div>
                     </div>
@@ -172,30 +193,18 @@
                         <li>
                             <img src="img/coupon.png" />
                             <div class="coupon-block">
-                                <input type="text" class="coupon-text" name="couponText" id="couponText" placeholder="Enter coupon code here">
-                                <button id="applyCouponBtn">Apply</button>
+                                <input type="text" class="coupon-text" name="couponText" id="couponText" placeholder="Enter coupon code here" value="{{ (!empty($data[0]->coupon_code_id)) ? $data[0]->couponDetails->coupon_code : '' }}" {{ (!empty($data[0]->coupon_code_id)) ? 'disabled' : '' }}>
+                                @if (!empty($data[0]->coupon_code_id))
+                                    <button id="applyCouponBtn" style="background: #c1080a" disabled="true">Applied</button>
+                                @else
+                                    <button id="applyCouponBtn">Apply</button>
+                                @endif
+                                {{-- $('#applyCouponBtn').text('APPLIED').css('background', '#c1080a').attr('disabled', true); --}}
                             </div>
                             @error('lname')<p class="small text-danger mb-0 mt-2">{{$message}}</p>@enderror
                             <a href="{{route('front.user.coupon')}}" class="d-inline-block mt-2">Get latest coupon from here</a>
                         </li>
                     </ul>
-
-                    {{-- <ul class="cart-summary-list">
-                        <li>
-                            <img src="img/delivery-truck.png" />
-                            <h5><span>&#8377;60</span> Apply Below order &#8377;499</h5>
-                            <a href="{{route('front.content.shipping')}}">See all Shipping charges and policies</a>
-                        </li>
-                        <li>
-                            <img src="img/coupon.png" />
-                            <form class="coupon-block" method="post" action="{{route('front.cart.coupon')}}">@csrf
-                                <input type="text" class="coupon-text" name="coupon" id="couponText" placeholder="Enter coupon code here">
-                                <button type="submit" id="applyCouponBtn">Apply</button>
-                            </form>
-                            @error('coupon')<p class="small text-danger mb-0 mt-2">{{$message}}</p>@enderror
-                            <a href="{{route('front.user.coupon')}}" class="d-inline-block mt-2">Get latest coupon from here</a>
-                        </li>
-                    </ul> --}}
                 </div>
             </div>
             <div class="row justify-content-between">
@@ -237,7 +246,7 @@
             let couponCode = $('input[name="couponText"]').val();
             if (couponCode.length > 0) {
                 $.ajax({
-                    url: '{{ route('front.checkout.coupon.check') }}',
+                    url: '{{ route('front.cart.coupon.check') }}',
                     method: 'POST',
                     data: {
                         '_token': '{{ csrf_token() }}',
@@ -253,6 +262,7 @@
                         if (result.type == 'success') {
                             $('#applyCouponBtn').text('APPLIED').css('background', '#c1080a').attr('disabled', true);
 
+                            $('input[name="couponText"]').attr('disabled', true);
                             let beforeCouponValue = parseInt($('#displayGrandTotal').text());
                             let couponDiscount = parseInt(result.amount);
                             let discountedGrandTotal = beforeCouponValue - couponDiscount;
@@ -268,7 +278,7 @@
                             <div class="cart-total">
                                 <div class="cart-total-label">
                                     COUPON APPLIED - <strong>${couponCode}</strong><br/>
-                                    <a href="javascript:void(0)" onclick="removeAppliedCoupon(${result.amount})"><small>(Remove this coupon)</small></a>
+                                    <a href="javascript:void(0)" onclick="removeAppliedCoupon()"><small>(Remove this coupon)</small></a>
                                 </div>
                                 <div class="cart-total-value">- ${result.amount}</div>
                             </div>
@@ -284,20 +294,5 @@
                 });
             }
         });
-
-        function removeAppliedCoupon(discountedAMount) {
-            // clear applied coupon html
-            $('#appliedCouponHolder').html('');
-            // clear coupon text
-            $('input[name="couponText"]').val('');
-            // clear coupon button
-            $('#applyCouponBtn').text('Apply').css('background', '#141b4b').attr('disabled', false);
-
-            let grandTotal = $('#displayGrandTotal').text();
-            let discountedGrandTotal = parseInt(grandTotal) + parseInt(discountedAMount);
-            $('input[name="grandTotal"]').val(discountedGrandTotal);
-            $('#displayGrandTotal').text(discountedGrandTotal);
-            createCookie('checkoutAmount', discountedGrandTotal, 1);
-        }
     </script>
 @endsection

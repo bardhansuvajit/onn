@@ -26,7 +26,7 @@ class OrderRepository implements OrderInterface
 
     public function listByStatus($status) 
     {
-        return Order::where('status', $status)->get();
+        return Order::latest('id')->where('status', $status)->get();
     }
 
     public function create(array $data) 

@@ -186,8 +186,12 @@
                                 $smaller = $varArray[$i];
                             }
                         }
+
+                        $displayPrice = $smaller.' - '.$bigger;
+
+                        if ($smaller == $bigger) $displayPrice = $smaller;
                     @endphp
-                    &#8377;<span class="price_val">{{$smaller}} - {{$bigger}}</span>
+                    &#8377;<span class="price_val">{{$displayPrice}}</span>
                 @else
                     &#8377; <span class="price_val">{{$data->offer_price}}</span>
                 @endif
@@ -269,8 +273,12 @@
                                     $smaller = $varArray[$i];
                                 }
                             }
+
+                            $displayPrice = $smaller.' - '.$bigger;
+
+                            if ($smaller == $bigger) $displayPrice = $smaller;
                         @endphp
-                        &#8377;{{$smaller}} - {{$bigger}}
+                        &#8377;{{$displayPrice}}
                     @else
                         &#8377;{{$relatedProductValue->offer_price}}
                     @endif

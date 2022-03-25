@@ -15,17 +15,16 @@ class CartController extends Controller
         $this->cartRepository = $cartRepository;
     }
 
-    public function coupon(Request $request)
+    public function couponCheck(Request $request)
     {
         $couponData = $this->cartRepository->couponCheck($request->code);
         return $couponData;
+    }
 
-        // $request->validate([
-        //     'coupon' => 'required'
-        // ]);
-
-        // $couponData = $this->cartRepository->couponCheck($request->coupon);
-        // return redirect()->back()->with('success', $couponData);
+    public function couponRemove(Request $request)
+    {
+        $couponData = $this->cartRepository->couponRemove();
+        return $couponData;
     }
 
     public function add(Request $request) 

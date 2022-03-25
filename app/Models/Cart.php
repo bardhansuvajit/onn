@@ -11,4 +11,8 @@ class Cart extends Model
     public function cartVariationDetails() {
         return $this->belongsTo('App\Models\ProductColorSize', 'product_variation_id', 'id');
     }
+
+    public function couponDetails() {
+        return $this->belongsTo('App\Models\Coupon', 'coupon_code_id', 'id');
+    }
 }

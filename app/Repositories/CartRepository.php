@@ -5,7 +5,9 @@ namespace App\Repositories;
 use App\Interfaces\CartInterface;
 use App\Models\Cart;
 use App\Models\Coupon;
+use App\Models\CouponUsage;
 use App\Models\ProductColorSize;
+use Illuminate\Support\Facades\Auth;
 
 class CartRepository implements CartInterface 
 {
@@ -15,21 +17,34 @@ class CartRepository implements CartInterface
 
     public function couponCheck($coupon_code)
     {
-        $data = Coupon::where('coupon_code', $coupon_code)->first();
+        $couponData = Coupon::where('coupon_code', $coupon_code)->first();
 
-        if($data) {
-            if ($data->end_date < \Carbon\Carbon::now()) {
+        if (Auth::guard('web')->user()) {
+            $couponUsageCount = CouponUsage::where('user_id', Auth::guard('web')->user()->id)->orWhere('email', Auth::guard('web')->user()->email)->count();
+        } else {
+            $couponUsageCount = CouponUsage::where('ip', $this->ip)->count();
+        }
+
+        if($couponData) {
+            if ($couponData->end_date < \Carbon\Carbon::now() || $couponData->status == 0) {
                 return response()->json(['resp' => 200, 'type' => 'warning', 'message' => 'Coupon expired']);
+            } elseif ($couponUsageCount == $couponData->max_time_one_can_use || $couponUsageCount > $couponData->max_time_one_can_use) {
+                return response()->json(['resp' => 200, 'type' => 'warning', 'message' => 'You cannot use this coupon anymore']);
             } else {
-                // $cartData = Cart::where('ip', $this->ip)->get();
-                // $cartData->
+                // applied coupon, update in cart
+                $cartData = Cart::where('ip', $this->ip)->update(['coupon_code_id' => $couponData->id]);
 
-                return response()->json(['resp' => 200, 'type' => 'success', 'message' => 'Coupon applied', 'id' => $data->id, 'amount' => $data->amount]);
+                return response()->json(['resp' => 200, 'type' => 'success', 'message' => 'Coupon applied', 'id' => $couponData->id, 'amount' => $couponData->amount, 'coupon_discount' => $couponData->amount]);
             }
         }
 
         return response()->json(['resp' => 200, 'type' => 'error', 'message' => 'Invalid coupon code']);
-        // return $resp;
+    }
+
+    public function couponRemove()
+    {
+        $cartData = Cart::where('ip', $this->ip)->update(['coupon_code_id' => null]);
+        return response()->json(['resp' => 200, 'type' => 'success', 'message' => 'Coupon removed']);
     }
 
     public function addToCart(array $data) 
@@ -75,6 +90,31 @@ class CartRepository implements CartInterface
     public function viewByIp()
     {
         $data = Cart::where('ip', $this->ip)->get();
+
+        // coupon check
+        if (!empty($data[0]->coupon_code_id)) {
+            $coupon_code_id = $data[0]->coupon_code_id;
+            $coupon_code_end_date = $data[0]->couponDetails->end_date;
+            $coupon_code_status = $data[0]->couponDetails->status;
+            $coupon_code_max_usage_for_one = $data[0]->couponDetails->max_time_one_can_use;
+
+            // coupon code validity check
+            if ($coupon_code_end_date < \Carbon\Carbon::now() || $coupon_code_status == 0) {
+                Cart::where('ip', $this->ip)->update(['coupon_code_id' => null]);
+            }
+
+            // coupon code usage check
+            if (Auth::guard('web')->user()) {
+                $couponUsageCount = CouponUsage::where('user_id', Auth::guard('web')->user()->id)->orWhere('email', Auth::guard('web')->user()->email)->count();
+            } else {
+                $couponUsageCount = CouponUsage::where('ip', $this->ip)->count();
+            }
+
+            if ($couponUsageCount == $coupon_code_max_usage_for_one || $couponUsageCount > $coupon_code_max_usage_for_one) {
+                Cart::where('ip', $this->ip)->update(['coupon_code_id' => null]);
+            }
+        }
+
         return $data;
     }
 

@@ -38,6 +38,8 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
+
         $request->validate([
             'email' => 'required|email|max:255',
             'mobile' => 'required|integer|digits:10',
@@ -68,7 +70,7 @@ class CheckoutController extends Controller
         if ($order_no) {
             return redirect()->route('front.checkout.complete')->with('success', 'Order No: '.$order_no);
         } else {
-            return redirect()->back()->with('failure', 'Something happened');
+            return redirect()->back()->with('failure', 'Something happened. Try again.')->withInput($request->all());
         }
     }
 }

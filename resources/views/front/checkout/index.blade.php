@@ -35,7 +35,7 @@
                     <h4 class="cart-heading">Cart Summary</h4>
                     <ul class="cart-summary">
                         @php
-                            $subTotal = $grandTotal = 0;
+                            $subTotal = $grandTotal = $couponCodeDiscount = 0;
                             $shippingCharges = 0;
                             $taxPercent = 0;
                         @endphp
@@ -61,8 +61,20 @@
                         </li>
 
                         @php
-                            $subTotal += $cartValue->offer_price * $cartValue->qty;
-                            $grandTotal = $subTotal;
+                            // $subTotal += $cartValue->offer_price * $cartValue->qty;
+                            // $grandTotal = $subTotal;
+
+                            // subtotal calculation
+                            $subTotal += (int) $cartValue->offer_price * $cartValue->qty;
+
+                            // coupon code calculation
+                            if (!empty($cartData[0]->coupon_code_id)) {
+                                $couponCodeDiscount = (int) $cartData[0]->couponDetails->amount;
+                            }
+
+                            // grand total calculation
+                            $grandTotalWithoutCoupon = $subTotal;
+                            $grandTotal = $subTotal - $couponCodeDiscount;
                         @endphp
 
                         @endforeach
@@ -98,7 +110,7 @@
                             </li> --}}
                             <li>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="shipping_method" id="flexRadioDefault3" value="express_shipping">
+                                    <input class="form-check-input" type="radio" name="shipping_method" id="flexRadioDefault3" value="express">
                                     <label class="form-check-label" for="flexRadioDefault3">
                                         Express
                                     </label>
@@ -120,14 +132,28 @@
                             </div>
                             <div class="cart-total-value"></div>
                         </div>
-                        <div id="appliedCouponHolder"></div>
+                        <div id="appliedCouponHolder">
+                        @if (!empty($cartData[0]->coupon_code_id))
+                            <div class="cart-total">
+                                <div class="cart-total-label">
+                                    COUPON APPLIED - <strong>{{$cartData[0]->couponDetails->coupon_code}}</strong><br/>
+                                    <a href="javascript:void(0)" onclick="removeAppliedCoupon()"><small>(Remove this coupon)</small></a>
+                                </div>
+                                <div class="cart-total-value">- {{$cartData[0]->couponDetails->amount}}</div>
+                            </div>
+                        @endif
+                        </div>
                         <div class="cart-total">
                             <div class="cart-total-label">
                                 Total
                             </div>
-                            <div class="cart-total-value">
+                            {{-- <div class="cart-total-value">
                                 <input type="hidden" name="coupon_code_id" value="">
                                 <input type="hidden" name="grandTotal" value="{{$grandTotal}}">
+                                &#8377;<span id="displayGrandTotal">{{$grandTotal}}</span>
+                            </div> --}}
+                            <div class="cart-total-value">
+                                <input type="hidden" value="{{$grandTotalWithoutCoupon}}" name="grandTotalWithoutCoupon">
                                 &#8377;<span id="displayGrandTotal">{{$grandTotal}}</span>
                             </div>
                         </div>
@@ -378,6 +404,95 @@
 
 @section('script')
     <script>
-        
+        // razorpay payment options
+        var paymentOptions = {
+            "key": "{{env('RAZORPAY_KEY')}}",
+            "amount": parseInt(document.querySelector('[name="grandTotal"]').value) * 100,
+            "currency": "INR",
+            "name": "{{env('APP_NAME')}}",
+            "description": "Test Transaction",
+            "image": "{{asset('img/logo-square.png')}}",
+            // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response){
+                //console.log(response.request.content.amount);
+
+                $('input[name="razorpay_payment_id"]').val(response.razorpay_payment_id);
+                //$('input[name="razorpay_amount"]').val(response.request.content.amount);
+                //$('input[name="razorpay_method"]').val(response.request.content.method);
+                //$('input[name="razorpay_callback_url"]').val(response.request.content.callback_url);
+
+                $('.checkout-form').submit();
+
+                /* alert(response.razorpay_payment_id);
+                alert(response.razorpay_order_id);
+                alert(response.razorpay_signature) */
+            },
+            // "callback_url": "{{route('front.checkout.store')}}",
+            "prefill": {
+                "name": $('#checkoutFname').val()+' '+$('#checkoutLname').val(),
+                "email": $('#checkoutEmail').val(),
+                "contact": $('#checkoutMobile').val()
+                /* "name": document.querySelector('[name="fname"]').value+' '+document.querySelector('[name="lname"]').value,
+                "email": document.querySelector('[name="email"]').value,
+                "contact": document.querySelector('[name="mobile"]').value */
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+        };
+        var rzp1 = new Razorpay(paymentOptions);
+        rzp1.on('payment.failed', function (response){
+            alert('OOPS ! something happened');
+
+            /* alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id); */
+        });
+
+        // check details before paying online
+        function checkoutDetailsExists() {
+            if ($('input[name="fname"]').val() == "") {
+                toastFire('warning', 'Insert first name')
+                return false;
+            } else if ($('input[name="lname"]').val() == "") {
+                toastFire('warning', 'Insert last name')
+                return false;
+            } else if ($('input[name="email"]').val() == "") {
+                toastFire('warning', 'Insert email address')
+                return false;
+            } else if ($('input[name="mobile"]').val() == "") {
+                toastFire('warning', 'Insert mobile number')
+                return false;
+            } else if ($('input[name="billing_country"]').val() == "") {
+                toastFire('warning', 'Insert billing country')
+                return false;
+            } else if ($('input[name="billing_address"]').val() == "") {
+                toastFire('warning', 'Insert billing address')
+                return false;
+            } else if ($('input[name="billing_city"]').val() == "") {
+                toastFire('warning', 'Insert billing city')
+                return false;
+            } else if ($('input[name="billing_state"]').val() == "") {
+                toastFire('warning', 'Insert billing state')
+                return false;
+            } else if ($('input[name="billing_pin"]').val() == "" && $('input[name="billing_pin"]').val().length == 6) {
+                toastFire('warning', 'Insert billing pincode')
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        document.getElementById('rzp-button1').onclick = function(e){
+            e.preventDefault();
+            if (checkoutDetailsExists()) {
+                let chekoutAmount = getCookie('checkoutAmount');
+                rzp1.open();
+            }
+        }
     </script>
 @endsection

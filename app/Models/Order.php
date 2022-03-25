@@ -11,4 +11,8 @@ class Order extends Model
     public function orderProducts() {
         return $this->hasMany('App\Models\OrderProduct', 'order_id', 'id');
     }
+
+    public function couponDetails() {
+        return $this->belongsTo('App\Models\Coupon', 'coupon_code_id', 'id');
+    }
 }

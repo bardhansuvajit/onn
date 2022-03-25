@@ -195,13 +195,15 @@
                 <div class="row">
                     <div class="col-md-5 col-lg-5 mb-3 mb-md-0">
                         <div class="newsletter-form">
-                            <form method="POST" action="{{route('front.subscription')}}">@csrf
+                            <form method="POST" action="{{route('front.subscription')}}" id="joinUsForm">@csrf
+                                <p>Join us for more updates</p>
                                 <div class="footer-form">
                                     <input type="email" name="email" value="{{old('email')}}" placeholder="Enter your email address">
                                     <button type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                                     </button>
                                 </div>
+                                <p class="mt-3" id="joinUsMailResp"></p>
                                 @error('email') <p class="mb-0 text-white small">{{$message}}</p>@enderror
                                 @if(Session::get('mailSuccess')) <p class="mb-0 text-white small">{{Session::get('mailSuccess')}}</p>@endif
                             </form>
@@ -306,36 +308,58 @@
         @if (Session::get('success'))
             toastFire('success', '{{ Session::get('success') }}');
         @elseif (Session::get('failure'))
-            toastFire('danger', '{{ Session::get('success') }}');
+            toastFire('danger', '{{ Session::get('failure') }}');
         @endif
 
-        // javascript create cookie
-        function createCookie(name, value, days) {
-            var expires;
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toGMTString();
-            } else {
-                expires = "";
-            }
-            document.cookie = name + "=" + value + expires + "; path=/";
-        }
+        // button text changes on form submit
+        $('form').on('submit', function(e) {
+            $('button').attr('disabled', true).prop('disabled', 'disabled');
+        });
 
-        // javascript read cookie
-        function getCookie(c_name) {
-            if (document.cookie.length > 0) {
-                c_start = document.cookie.indexOf(c_name + "=");
-                if (c_start != -1) {
-                    c_start = c_start + c_name.length + 1;
-                    c_end = document.cookie.indexOf(";", c_start);
-                    if (c_end == -1) {
-                        c_end = document.cookie.length;
-                    }
-                    return unescape(document.cookie.substring(c_start, c_end));
+        // subscription mail form
+        $('#joinUsForm').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url : $(this).attr('action'),
+                method : $(this).attr('method'),
+                data : {_token : '{{csrf_token()}}',email : $('input[name="email"]').val()},
+                beforeSend : function() {
+                    $('#joinUsMailResp').html('Please wait <i class="fas fa-spinner fa-pulse"></i>');
+                },
+                success : function(result) {
+                    result.resp == 200 ? $icon = '<i class="fas fa-check"></i> ' : $icon = '<i class="fas fa-info-circle"></i> ';
+                    $('#joinUsMailResp').html($icon+result.message);
                 }
-            }
-            return "";
+            });
+        });
+
+        // remove applied coupon option
+        function removeAppliedCoupon() {
+            $.ajax({
+                url: '{{ route('front.cart.coupon.remove') }}',
+                method: 'POST',
+                data: {
+                    '_token': '{{ csrf_token() }}'
+                },
+                beforeSend: function() {
+                    $('#applyCouponBtn').text('Checking');
+                },
+                success: function(result) {
+                    if (result.type == 'success') {
+                        $('#appliedCouponHolder').html('');
+                        $('input[name="couponText"]').val('');
+                        $('#applyCouponBtn').text('Apply').css('background', '#141b4b').attr('disabled', false);
+
+                        let grandTotalWithoutCoupon = $('input[name="grandTotalWithoutCoupon"]').val();
+                        $('#displayGrandTotal').text(grandTotalWithoutCoupon);
+
+                        toastFire(result.type, result.message);
+                    } else {
+                        toastFire(result.type, result.message);
+                        $('#applyCouponBtn').text('Apply');
+                    }
+                }
+            });
         }
 
         /* let chekoutAmount = getCookie('checkoutAmount');
@@ -364,97 +388,6 @@
 
         // let paymentGatewayAmount = chekoutAmount ? parseInt(chekoutAmount) * 100 : document.querySelector('[name="grandTotal"]').value * 100;
         // let paymentGatewayAmount = parseInt($('#displayGrandTotal').text()) * 100;
-
-        // razorpay payment options
-        var paymentOptions = {
-            "key": "{{env('RAZORPAY_KEY')}}",
-            "amount": parseInt(document.querySelector('[name="grandTotal"]').value) * 100,
-            "currency": "INR",
-            "name": "{{env('APP_NAME')}}",
-            "description": "Test Transaction",
-            "image": "{{asset('img/logo-square.png')}}",
-            // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            "handler": function (response){
-                //console.log(response.request.content.amount);
-
-                $('input[name="razorpay_payment_id"]').val(response.razorpay_payment_id);
-                //$('input[name="razorpay_amount"]').val(response.request.content.amount);
-                //$('input[name="razorpay_method"]').val(response.request.content.method);
-                //$('input[name="razorpay_callback_url"]').val(response.request.content.callback_url);
-
-                $('.checkout-form').submit();
-
-                /* alert(response.razorpay_payment_id);
-                alert(response.razorpay_order_id);
-                alert(response.razorpay_signature) */
-            },
-            // "callback_url": "{{route('front.checkout.store')}}",
-            "prefill": {
-                "name": $('#checkoutFname').val()+' '+$('#checkoutLname').val(),
-                "email": $('#checkoutEmail').val(),
-                "contact": $('#checkoutMobile').val()
-                /* "name": document.querySelector('[name="fname"]').value+' '+document.querySelector('[name="lname"]').value,
-                "email": document.querySelector('[name="email"]').value,
-                "contact": document.querySelector('[name="mobile"]').value */
-            },
-            "notes": {
-                "address": "Razorpay Corporate Office"
-            },
-        };
-        var rzp1 = new Razorpay(paymentOptions);
-        rzp1.on('payment.failed', function (response){
-            alert('OOPS ! something happened');
-
-            /* alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id); */
-        });
-
-        // check details before paying online
-        function checkoutDetailsExists() {
-            if ($('input[name="fname"]').val() == "") {
-                toastFire('warning', 'Insert first name')
-                return false;
-            } else if ($('input[name="lname"]').val() == "") {
-                toastFire('warning', 'Insert last name')
-                return false;
-            } else if ($('input[name="email"]').val() == "") {
-                toastFire('warning', 'Insert email address')
-                return false;
-            } else if ($('input[name="mobile"]').val() == "") {
-                toastFire('warning', 'Insert mobile number')
-                return false;
-            } else if ($('input[name="billing_country"]').val() == "") {
-                toastFire('warning', 'Insert billing country')
-                return false;
-            } else if ($('input[name="billing_address"]').val() == "") {
-                toastFire('warning', 'Insert billing address')
-                return false;
-            } else if ($('input[name="billing_city"]').val() == "") {
-                toastFire('warning', 'Insert billing city')
-                return false;
-            } else if ($('input[name="billing_state"]').val() == "") {
-                toastFire('warning', 'Insert billing state')
-                return false;
-            } else if ($('input[name="billing_pin"]').val() == "" && $('input[name="billing_pin"]').val().length == 6) {
-                toastFire('warning', 'Insert billing pincode')
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        document.getElementById('rzp-button1').onclick = function(e){
-            e.preventDefault();
-            if (checkoutDetailsExists()) {
-                let chekoutAmount = getCookie('checkoutAmount');
-                rzp1.open();
-            }
-        }
     </script>
 
     @yield('script')

@@ -45,7 +45,8 @@ Route::name('front.')->group(function() {
     // cart
     Route::prefix('cart')->name('cart.')->group(function() {
         Route::get('/', 'Front\CartController@viewByIp')->name('index');
-        Route::post('/coupon', 'Front\CartController@coupon')->name('coupon');
+        Route::post('/coupon/check', 'Front\CartController@couponCheck')->name('coupon.check');
+        Route::post('/coupon/remove', 'Front\CartController@couponRemove')->name('coupon.remove');
         Route::post('/add', 'Front\CartController@add')->name('add');
         Route::get('/delete/{id}', 'Front\CartController@delete')->name('delete');
         Route::get('/quantity/{id}/{type}', 'Front\CartController@qtyUpdate')->name('quantity');
@@ -54,7 +55,7 @@ Route::name('front.')->group(function() {
     // checkout
     Route::prefix('checkout')->name('checkout.')->group(function() {
         Route::get('/', 'Front\CheckoutController@index')->name('index');
-        Route::post('/coupon/check', 'Front\CheckoutController@coupon')->name('coupon.check');
+        // Route::post('/coupon/check', 'Front\CheckoutController@coupon')->name('coupon.check');
         Route::post('/store', 'Front\CheckoutController@store')->name('store');
         Route::view('/complete', 'front.checkout.complete')->name('complete');
     });

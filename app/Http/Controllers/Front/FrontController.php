@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Product;
 use App\Models\Gallery;
+use Illuminate\Support\Facades\Validator;
 
 class FrontController extends Controller
 {
@@ -23,14 +24,28 @@ class FrontController extends Controller
 
     public function mailSubscribe(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email|unique:subscription_mails'
-        ]);
+        $rules = [
+            'email' => 'required|email'
+        ];
 
-        $mail = new SubscriptionMail();
-        $mail->email = $request->email;
-        $mail->save();
+        $validator = Validator::make($request->all(), $rules);
 
-        return redirect()->back()->with('mailSuccess', 'Mail subscribed successfully');
+        if (!$validator->fails()) {
+            $mailExists = SubscriptionMail::where('email', $request->email)->first();
+            if (empty($mailExists)) {
+                $mail = new SubscriptionMail();
+                $mail->email = $request->email;
+                $mail->save();
+
+                return response()->json(['resp' => 200, 'message' => 'Mail subscribed successfully']);
+            } else {
+                $mailExists->count += 1;
+                $mailExists->save();
+
+                return response()->json(['resp' => 200, 'message' => 'Thank you for showing your interest']);
+            }
+        } else {
+            return response()->json(['resp' => 400, 'message' => $validator->errors()->first()]);
+        }
     }
 }

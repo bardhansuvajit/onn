@@ -133,8 +133,12 @@
                                             $smaller = $varArray[$i];
                                         }
                                     }
+
+                                    $displayPrice = $smaller.' - '.$bigger;
+
+                                    if ($smaller == $bigger) $displayPrice = $smaller;
                                 @endphp
-                                &#8377;{{$smaller}} - {{$bigger}}
+                                &#8377;{{$displayPrice}}
                             @else
                                 &#8377;{{$collectionProductValue->offer_price}}
                             @endif
