@@ -11,7 +11,7 @@ class Category extends Model
 
     protected $fillable = ['name', 'description', 'image_path', 'banner_image', 'slug'];
 
-    public function ProductDetails() {
-        return $this->hasMany('App\Models\Product', 'cat_id', 'id');
+    public function ProductDetails(string $orderBy = 'id', string $order = 'desc') {
+        return $this->hasMany('App\Models\Product', 'cat_id', 'id')->orderBy($orderBy, $order);
     }
 }

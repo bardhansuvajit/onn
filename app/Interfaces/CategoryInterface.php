@@ -39,20 +39,27 @@ interface CategoryInterface
 
     /**
      * This method is to update category details
-     * @param str $categoryId
+     * @param int $categoryId
      * @param arr $newDetails
      */
     public function updateCategory($categoryId, array $newDetails);
 
     /**
      * This method is to toggle category status
-     * @param str $categoryId
+     * @param int $categoryId
      */
     public function toggleStatus($categoryId);
 
     /**
      * This method is to delete category
-     * @param str $categoryId
+     * @param int $categoryId
      */
     public function deleteCategory($categoryId);
+
+    /**
+     * This method is to delete category
+     * @param int $categoryId
+     * @param array $filter
+     */
+    public function productsByCategory(int $categoryId, array $filter = null);
 }

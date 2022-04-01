@@ -63,9 +63,7 @@
             </div>
 
             @php
-                $subTotal = $grandTotal = $couponCodeDiscount = 0;
-                $shippingCharges = 0;
-                $taxPercent = 0;
+                $subTotal = $grandTotal = $couponCodeDiscount = $shippingCharges = $taxPercent = 0;
             @endphp
 
             @foreach($data as $cartKey => $cartValue)
@@ -127,7 +125,7 @@
 
                 // grand total calculation
                 $grandTotalWithoutCoupon = $subTotal;
-                $grandTotal = $subTotal - $couponCodeDiscount;
+                $grandTotal = ($subTotal + $shippingCharges) - $couponCodeDiscount;
             @endphp
 
             @endforeach
@@ -154,13 +152,13 @@
                                 &#8377;{{$shippingCharges}}
                             </div>
                         </div>
-                        <div class="cart-total">
+                        {{-- <div class="cart-total">
                             <div class="cart-total-label">
                                 Tax and Others - <strong>{{$taxPercent}}%</strong><br/>
                                 <small>(Inclusive of all taxes)</small>
                             </div>
                             <div class="cart-total-value"></div>
-                        </div>
+                        </div> --}}
                         <div id="appliedCouponHolder">
                         @if (!empty($data[0]->coupon_code_id))
                             <div class="cart-total">

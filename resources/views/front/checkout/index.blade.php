@@ -35,9 +35,7 @@
                     <h4 class="cart-heading">Cart Summary</h4>
                     <ul class="cart-summary">
                         @php
-                            $subTotal = $grandTotal = $couponCodeDiscount = 0;
-                            $shippingCharges = 0;
-                            $taxPercent = 0;
+                            $subTotal = $grandTotal = $couponCodeDiscount = $shippingCharges = $taxPercent = 0;
                         @endphp
 
                         @foreach ($cartData as $cartKey => $cartValue)
@@ -74,7 +72,8 @@
 
                             // grand total calculation
                             $grandTotalWithoutCoupon = $subTotal;
-                            $grandTotal = $subTotal - $couponCodeDiscount;
+                            $grandTotal = ($subTotal + $shippingCharges) - $couponCodeDiscount;
+                            // $grandTotal = $subTotal - $couponCodeDiscount;
                         @endphp
 
                         @endforeach
@@ -125,13 +124,13 @@
                                 &#8377;{{$shippingCharges}}
                             </div>
                         </div>
-                        <div class="cart-total">
+                        {{-- <div class="cart-total">
                             <div class="cart-total-label">
                                 Tax and Others - <strong>{{$taxPercent}}%</strong><br/>
                                 <small>(Inclusive of all taxes)</small>
                             </div>
                             <div class="cart-total-value"></div>
-                        </div>
+                        </div> --}}
                         <div id="appliedCouponHolder">
                         @if (!empty($cartData[0]->coupon_code_id))
                             <div class="cart-total">
@@ -303,7 +302,7 @@
                         </div>
                     </div>
 
-                    <h4 class="cart-heading">Shipping address</h4>
+                    <h4 class="cart-heading mt-4">Shipping address</h4>
 
                     {{-- @if (isset($addressData))
                     @foreach ($addressData as $addressKey => $addressValue)
@@ -323,11 +322,11 @@
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="form-group">
+                            <div class="form-group mb-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" name="shippingSameAsBilling" type="checkbox" value="1" id="shippingaddress" checked>
+                                    <input class="form-check-input" name="shippingSameAsBilling" type="checkbox" value="1" id="shippingaddress" {{ (old('shippingSameAsBilling') ? '' : 'checked') }}>
                                     <label class="form-check-label" for="shippingaddress" >
-                                        Same as Billing Address
+                                        Same as Billing Address {{old('shippingSameAsBilling')}}
                                     </label>
                                 </div>
                             </div>
@@ -389,7 +388,7 @@
 
                             <button type="submit" class="btn checkout-btn">Complete Order</button>
                             <strong>OR</strong>
-                            <button id="rzp-button1" class="btn checkout-btn">Pay Online</button>
+                            <button type="button" id="rzp-button1" class="btn checkout-btn">Pay Online</button>
                         </div>
                         <div class="col-sm-auto mt-3 mt-sm-0">
                             <a href="{{route('front.cart.index')}}">Return to Cart</a>
@@ -406,10 +405,13 @@
     <script>
         // razorpay payment options
         var paymentOptions = {
-            "key": "{{env('RAZORPAY_KEY')}}",
-            "amount": parseInt(document.querySelector('[name="grandTotal"]').value) * 100,
+            "key": "rzp_test_jIwVtRPfWGhVHO",
+            // "key": "{{env('RAZORPAY_KEY')}}",
+            "amount": '{{intval($grandTotal*100)}}',
+            // "amount": parseInt(document.querySelector('[name="grandTotal"]').value) * 100,
             "currency": "INR",
-            "name": "{{env('APP_NAME')}}",
+            "name": "ONN",
+            // "name": "{{env('APP_NAME')}}",
             "description": "Test Transaction",
             "image": "{{asset('img/logo-square.png')}}",
             // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
@@ -455,32 +457,44 @@
 
         // check details before paying online
         function checkoutDetailsExists() {
+            const mobilelength = $('input[name="mobile"]').val().length
+            console.log(mobilelength)
+
             if ($('input[name="fname"]').val() == "") {
-                toastFire('warning', 'Insert first name')
+                $('input[name="fname"]').css('borderColor', '#c1080a').focus()
+                toastFire('warning', 'Enter first name')
                 return false;
             } else if ($('input[name="lname"]').val() == "") {
-                toastFire('warning', 'Insert last name')
+                $('input[name="lname"]').css('borderColor', '#c1080a').focus()
+                toastFire('warning', 'Enter last name')
                 return false;
             } else if ($('input[name="email"]').val() == "") {
-                toastFire('warning', 'Insert email address')
+                $('input[name="email"]').css('borderColor', '#c1080a').focus()
+                toastFire('warning', 'Enter email address')
                 return false;
-            } else if ($('input[name="mobile"]').val() == "") {
-                toastFire('warning', 'Insert mobile number')
+            } else if ($('input[name="mobile"]').val() == "" || $('input[name="mobile"]').val().length !== 10) {
+                $('input[name="mobile"]').css('borderColor', '#c1080a').focus()
+                toastFire('warning', 'Enter valid 10 digit mobile number')
                 return false;
             } else if ($('input[name="billing_country"]').val() == "") {
-                toastFire('warning', 'Insert billing country')
+                $('input[name="billing_country"]').css('borderColor', '#c1080a').focus()
+                toastFire('warning', 'Enter billing country')
                 return false;
             } else if ($('input[name="billing_address"]').val() == "") {
-                toastFire('warning', 'Insert billing address')
+                $('input[name="billing_address"]').css('borderColor', '#c1080a').focus()
+                toastFire('warning', 'Enter billing address')
                 return false;
             } else if ($('input[name="billing_city"]').val() == "") {
-                toastFire('warning', 'Insert billing city')
+                $('input[name="billing_city"]').css('borderColor', '#c1080a').focus()
+                toastFire('warning', 'Enter billing city')
                 return false;
             } else if ($('input[name="billing_state"]').val() == "") {
-                toastFire('warning', 'Insert billing state')
+                $('input[name="billing_state"]').css('borderColor', '#c1080a').focus()
+                toastFire('warning', 'Enter billing state')
                 return false;
-            } else if ($('input[name="billing_pin"]').val() == "" && $('input[name="billing_pin"]').val().length == 6) {
-                toastFire('warning', 'Insert billing pincode')
+            } else if ($('input[name="billing_pin"]').val() == "" || $('input[name="billing_pin"]').val().length !== 6) {
+                $('input[name="billing_pin"]').css('borderColor', '#c1080a').focus()
+                toastFire('warning', 'Enter valid 6 digit billing pincode')
                 return false;
             } else {
                 return true;
@@ -490,7 +504,7 @@
         document.getElementById('rzp-button1').onclick = function(e){
             e.preventDefault();
             if (checkoutDetailsExists()) {
-                let chekoutAmount = getCookie('checkoutAmount');
+                // let chekoutAmount = getCookie('checkoutAmount');
                 rzp1.open();
             }
         }

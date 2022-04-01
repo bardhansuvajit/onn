@@ -27,4 +27,16 @@ class CategoryController extends Controller
             return view('front.404');
         }
     }
+
+    public function filter(Request $request)
+    {
+        $data = $this->categoryRepository->productsByCategory($request->categoryId, $request->except('_token'));
+        // $data = $request->categoryId;
+
+        if ($data) {
+            return response()->json(['status' => 200, 'message' => 'Products found', 'data' => $data], 200);
+        } else {
+            return response()->json(['status' => 400, 'message' => 'No products found'], 400);
+        }
+    }
 }

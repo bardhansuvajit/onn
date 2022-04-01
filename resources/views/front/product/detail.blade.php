@@ -1,3 +1,8 @@
+@php
+// Illuminate\Support\Facades\DB::table('products')->where('id', $data->id)->update(['view_count' => +1]);
+App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_view_count_updated_at' => \Carbon\Carbon::now()]);
+@endphp
+
 @extends('layouts.app')
 
 @section('page', 'Product detail')

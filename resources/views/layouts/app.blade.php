@@ -198,14 +198,14 @@
                             <form method="POST" action="{{route('front.subscription')}}" id="joinUsForm">@csrf
                                 <p>Join us for more updates</p>
                                 <div class="footer-form">
-                                    <input type="email" name="email" value="{{old('email')}}" placeholder="Enter your email address">
+                                    <input type="email" name="subsEmail" value="" placeholder="Enter your email address">
                                     <button type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                                     </button>
                                 </div>
                                 <p class="mt-3" id="joinUsMailResp"></p>
-                                @error('email') <p class="mb-0 text-white small">{{$message}}</p>@enderror
-                                @if(Session::get('mailSuccess')) <p class="mb-0 text-white small">{{Session::get('mailSuccess')}}</p>@endif
+                                {{-- @error('email') <p class="mb-0 text-white small">{{$message}}</p>@enderror --}}
+                                {{-- @if(Session::get('mailSuccess')) <p class="mb-0 text-white small">{{Session::get('mailSuccess')}}</p>@endif --}}
                             </form>
     
                             <div class="footer-block mt-3 mt-md-auto">
@@ -257,7 +257,7 @@
                     </div>
                     <div class="col-md-4">
                         <p class="copy-right mb-0">
-                            Total Comfort ©2021-2022
+                            Total Comfort &copy; 2021-2022
                         </p>
                     </div>
                 </div>
@@ -322,13 +322,14 @@
             $.ajax({
                 url : $(this).attr('action'),
                 method : $(this).attr('method'),
-                data : {_token : '{{csrf_token()}}',email : $('input[name="email"]').val()},
+                data : {_token : '{{csrf_token()}}',email : $('input[name="subsEmail"]').val()},
                 beforeSend : function() {
                     $('#joinUsMailResp').html('Please wait <i class="fas fa-spinner fa-pulse"></i>');
                 },
                 success : function(result) {
                     result.resp == 200 ? $icon = '<i class="fas fa-check"></i> ' : $icon = '<i class="fas fa-info-circle"></i> ';
                     $('#joinUsMailResp').html($icon+result.message);
+                    $('button').attr('disabled', false);
                 }
             });
         });

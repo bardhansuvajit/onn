@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/home', 'HomeController@index')->name('home');
 
+// website
 Route::name('front.')->group(function() {
     // home
     Route::get('/', 'Front\FrontController@index')->name('home');
@@ -17,6 +16,7 @@ Route::name('front.')->group(function() {
     // category detail
     Route::name('category.')->group(function() {
         Route::get('/category/{slug}', 'Front\CategoryController@detail')->name('detail');
+        Route::post('/category/filter', 'Front\CategoryController@filter')->name('filter');
     });
 
     // sale
@@ -113,12 +113,6 @@ Route::name('front.')->group(function() {
     Route::view('/mail/1', 'front.mail.register'); 
     Route::view('/mail/2', 'front.mail.order-confirm'); 
 });
-
-// payment routes
-// Route::get('razorpay-payment', [RazorpayPaymentController::class, 'index']);
-// Route::post('razorpay-payment', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
-
-// Route::view('/login', 'home')->name('login');
 
 Auth::routes();
 
@@ -255,5 +249,3 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
     });
 });
-
-Route::get('/home', 'HomeController@index')->name('home');

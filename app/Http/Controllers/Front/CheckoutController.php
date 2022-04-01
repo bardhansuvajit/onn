@@ -70,6 +70,7 @@ class CheckoutController extends Controller
         if ($order_no) {
             return redirect()->route('front.checkout.complete')->with('success', 'Order No: '.$order_no);
         } else {
+            $request->shippingSameAsBilling = 0;
             return redirect()->back()->with('failure', 'Something happened. Try again.')->withInput($request->all());
         }
     }
