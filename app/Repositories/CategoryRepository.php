@@ -166,13 +166,21 @@ class CategoryRepository implements CategoryInterface
     public function productsByCategory(int $categoryId, array $filter = null) {
         try {
             $productsQuery = Product::where('cat_id', $categoryId);
+            // $productsQuery = DB::statement('SELECT * FROM `products` WHERE cat_id = '.$categoryId);
 
             // handling collection
             if (isset($filter['collection'])) {
-                // return $filter['collection'];
                 foreach ($filter['collection'] as $collectionKey => $collectionValue) {
-                    $products = $productsQuery->where('collection_id', $collectionValue);
+                    // if (count($filter['collection']) == 1) {
+                    //     $products = $productsQuery->where('collection_id', $collectionValue);
+                    // } else {
+                        // $rawQuery = "(collection_id = '.$collectionValue.' OR )";
+                        $products = $productsQuery->where(function($query) {
+                            $query->orWhere('collection_id', $collectionValue);
+                        });
+                    // }
                 }
+                // $products = $productsQuery->whereRaw("'".$rawQuery."'");
             }
 
             // handling sort by

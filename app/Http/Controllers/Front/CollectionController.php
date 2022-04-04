@@ -28,4 +28,15 @@ class CollectionController extends Controller
             return view('front.404');
         }
     }
+
+    public function filter(Request $request)
+    {
+        $data = $this->collectionRepository->productsByCollection($request->collectionId, $request->except('_token'));
+
+        if ($data) {
+            return response()->json(['status' => 200, 'message' => 'Products found', 'data' => $data], 200);
+        } else {
+            return response()->json(['status' => 400, 'message' => 'No products found'], 400);
+        }
+    }
 }

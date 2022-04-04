@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Product;
 use App\Models\ProductColorSize;
+use App\Models\ProductImage;
 
 class ProductController extends Controller
 {
@@ -37,6 +38,7 @@ class ProductController extends Controller
         $colorId = $request->colorId;
 
         $data = ProductColorSize::where('product_id', $productId)->where('color', $colorId)->orderBy('id')->get();
+        $dataImage = ProductImage::where('product_id', $productId)->where('color_id', $colorId)->orderBy('id')->get();
 
         $resp = [];
 
@@ -50,6 +52,14 @@ class ProductController extends Controller
             ];
         }
 
-        return response()->json(['error' => false, 'data' => $resp]);
+        $respImage = [];
+
+        foreach ($dataImage as $dataKey => $dataValue) {
+            $respImage[] = [
+                'image' => asset($dataValue->image),
+            ];
+        }
+
+        return response()->json(['error' => false, 'data' => $resp, 'images' => $respImage]);
     }
 }

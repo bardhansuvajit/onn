@@ -340,12 +340,25 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 if (result.error === false) {
                     $('#sizeHead').show();
                     $('#colorSelectAlert').hide();
+
+                    // size handling
                     let content = '';
                     $.each(result.data, (key, val) => {
                         content += `<li data-price="${val.offerPrice}" data-id="${val.variationId}">${val.sizeName}</li>`;
                     })
-
+                    $('#addToCart__btn').addClass('missingVariationSelection');
                     $('#sizeContainer').html(content);
+
+                    // color handling
+                    let imgContentThumb = '';
+                    let imgContentSlider = '';
+                    $.each(result.images, (key, val) => {
+                        imgContentThumb += `<div class="product-details__gallery__thumb-single swiper-slide"><img src="${val.image}" /></div>`;
+                        imgContentSlider += `<div class="product-details__gallery__slider-single swiper-slide"><img src="${val.image}" /></div>`;
+                    });
+                    $('.product-details__gallery__thumb .swiper-wrapper').html(imgContentThumb);
+                    $('.product-details__gallery__slider .swiper-wrapper').html(imgContentSlider);
+                    gallery__thumb.reload();
                 }
             },
             error: function(xhr, status, error) {

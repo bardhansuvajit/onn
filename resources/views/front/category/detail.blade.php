@@ -37,12 +37,12 @@ select:focus {
     <div class="container">
         @if (count($data->ProductDetails) > 0)
         <div class="listing-block__meta">
-            <div class="filter">
+            {{-- <div class="filter">
                 <div class="filter__toggle">
                     Filter
                 </div>
                 <div class="filter__data"></div>
-            </div>
+            </div> --}}
             <div class="sorting">
                 Sort By:
                 <select name="orderBy" onclick="productsFetch()">

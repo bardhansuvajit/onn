@@ -3,6 +3,17 @@
 @section('page', 'Collection')
 
 @section('content')
+<style>
+select {
+    border: none;
+    background: transparent;
+}
+select:focus {
+    outline: none;
+    box-shadow: none;
+}
+</style>
+
 <section class="listing-header">
     <div class="container">
         <div class="row flex-sm-row-reverse align-items-center">
@@ -25,23 +36,23 @@
 <section class="listing-block">
     <div class="container">
         @if (count($data->ProductDetails) > 0)
-        {{-- <div class="listing-block__meta">
-            <div class="filter">
+        <div class="listing-block__meta">
+            {{-- <div class="filter">
                 <div class="filter__toggle">
                     Filter
                 </div>
                 <div class="filter__data"></div>
-            </div>
+            </div> --}}
             <div class="sorting">
                 Sort By:
-                <select>
-                    <option>New Arrivals</option>
-                    <option>Best Sellers</option>
-                    <option>Price: Low To High</option>
-                    <option>Price: High To Low</option>
+                <select name="orderBy" onclick="productsFetch()">
+                    <option value="new_arr">New Arrivals</option>
+                    <option value="mst_viw">Most Viewed</option>
+                    <option value="prc_low">Price: Low To High</option>
+                    <option value="prc_hig">Price: High To Low</option>
                 </select>
             </div>
-        </div> --}}
+        </div>
 
         <div class="product__wrapper">
             <div class="product__filter">
@@ -153,10 +164,78 @@
                     @endforelse
                 </div>
             </div>
-            @else
-            <p class="mt-5">Sorry, No products found under {{$data->name}} </p>
         </div>
+        @else
+        <p class="mt-5">Sorry, No products found under {{$data->name}} </p>
         @endif
     </div>
 </section> 
+@endsection
+
+@section('script')
+<script>
+    function productsFetch() {
+        // collection values
+        var collectionArr = [];
+        $('input[name="collection[]"]:checked').each(function(i){
+          collectionArr[i] = $(this).val();
+        });
+
+        $.ajax({
+            url: '{{route("front.collection.filter")}}',
+            method: 'POST',
+            data: {
+                '_token' : '{{ csrf_token() }}',
+                'collectionId' : '{{$data->id}}',
+                'orderBy' : $('select[name="orderBy"]').val(),
+                'collection' : collectionArr,
+            },
+            beforeSend: function() {
+                $loadingSwal = Swal.fire({
+                    title: 'Please wait...',
+                    text: 'We are adjusting the products as per your need!',
+                    showConfirmButton: false,
+                    allowOutsideClick: false
+                    // timer: 1500
+                })
+            },
+            success: function(result) {
+                if (result.status == 200) {
+                    var content = '';
+                    $.each(result.data, function(key, value) {
+                        var url = '{{ route('front.product.detail', ":slug") }}';
+                        url = url.replace(':slug', value.slug);
+
+                        content += `
+                        <a href="${url}" class="product__single" data-events data-cat="tshirt">
+                            <figure>
+                                <img src="{{asset('${value.image}')}}" />
+                                <h6>${value.styleNo}</h6>
+                            </figure>
+                            <figcaption>
+                                <h4>${value.name}</h4>
+                                <h5>&#8377;${value.displayPrice}</h5>
+                            </figcaption>
+                        </a>
+                        `;
+                    });
+
+                    $('.product__holder .row').html(content);
+                    $loadingSwal.close();
+                }
+                // console.log(result);
+            },
+            error: function(result) {
+                $loadingSwal.close()
+                console.log(result);
+                $errorSwal = Swal.fire({
+                    // icon: 'error',
+                    // title: 'We cound not find anything',
+                    text: 'We cound not find anything. Try again with a different filter!',
+                    confirmButtonText: 'Okay'
+                })
+            },
+        });
+    }
+</script>
 @endsection

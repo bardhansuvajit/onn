@@ -31,7 +31,6 @@ class CategoryController extends Controller
     public function filter(Request $request)
     {
         $data = $this->categoryRepository->productsByCategory($request->categoryId, $request->except('_token'));
-        // $data = $request->categoryId;
 
         if ($data) {
             return response()->json(['status' => 200, 'message' => 'Products found', 'data' => $data], 200);

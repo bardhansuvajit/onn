@@ -55,4 +55,11 @@ interface CollectionInterface
      * @param str $collectionId
      */
     public function deleteCollection($collectionId);
+
+    /**
+     * This method is to delete collection
+     * @param int $collectionId
+     * @param array $filter
+     */
+    public function productsByCollection(int $collectionId, array $filter = null);
 }

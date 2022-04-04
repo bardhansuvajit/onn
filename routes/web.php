@@ -27,6 +27,7 @@ Route::name('front.')->group(function() {
     // collection detail
     Route::name('collection.')->group(function() {
         Route::get('/collection/{slug}', 'Front\CollectionController@detail')->name('detail');
+        Route::post('/collection/filter', 'Front\CollectionController@filter')->name('filter');
     });
 
     // product detail
