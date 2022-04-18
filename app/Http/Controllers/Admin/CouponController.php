@@ -51,7 +51,8 @@ class CouponController extends Controller
     public function show(Request $request, $id)
     {
         $data = $this->couponRepository->listById($id);
-        return view('admin.coupon.detail', compact('data'));
+        $usage = $this->couponRepository->usageById($id);
+        return view('admin.coupon.detail', compact('data', 'usage'));
     }
 
     public function update(Request $request, $id)

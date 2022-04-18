@@ -90,6 +90,7 @@
             <th>Style No.</th>
             <th>Category</th>
             <th>Price</th>
+            <th>Sale</th>
             <th>Date</th>
             <th>Status</th>
         </tr>
@@ -119,6 +120,15 @@
                 <td>{{$item->category ? $item->category->name : ''}} > {{$item->subCategory ? $item->subCategory->name : 'NA'}} <br> {{$item->collection ? $item->collection->name : ''}}</td>
                 <td>
                     <small> <del>{{$item->price}}</del> </small> Rs. {{$item->offer_price}}
+                </td>
+                <td>
+                    <a href="{{ route('admin.product.sale', $item->id) }}" class="text-decoration-none">
+                        @if ($item->saleDetails)
+                            <span class="text-success fw-bold"> <i class="fi-br-check"></i> SALE</span>
+                        @else
+                            <span class="text-danger fw-bold single-line"> <i class="fi-br-plus"></i> SALE</span>
+                        @endif
+                    </a>
                 </td>
                 <td>Published<br/>{{date('j M Y', strtotime($item->created_at))}}</td>
                 <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>

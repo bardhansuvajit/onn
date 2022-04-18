@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\CouponInterface;
 use App\Models\Coupon;
+use App\Models\CouponUsage;
 
 class CouponRepository implements CouponInterface 
 {
@@ -15,6 +16,11 @@ class CouponRepository implements CouponInterface
     public function listById($id) 
     {
         return Coupon::findOrFail($id);
+    }
+
+    public function usageById($id) 
+    {
+        return CouponUsage::where('coupon_code_id', $id)->get();
     }
 
     public function create(array $data) 

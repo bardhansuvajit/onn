@@ -10,6 +10,7 @@ use App\Models\SubCategory;
 use App\Models\Collection;
 use App\Models\Color;
 use App\Models\Size;
+use App\Models\Sale;
 use App\Models\ProductColor;
 use App\Models\ProductColorSize;
 use App\Models\Wishlist;
@@ -237,6 +238,18 @@ class ProductRepository implements ProductInterface
         $updatedEntry->save();
 
         return $updatedEntry;
+    }
+
+    public function sale($id){
+        $saleExist = Sale::where('product_id', $id)->first();
+
+        if ($saleExist) {
+            $resp = Sale::where(['product_id' => $id])->delete();
+            return $resp;
+        } else {
+            $resp = Sale::create(['product_id' => $id]);
+            return $resp;
+        }
     }
 
     public function delete($id) 

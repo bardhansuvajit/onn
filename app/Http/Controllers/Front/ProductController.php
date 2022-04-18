@@ -43,21 +43,25 @@ class ProductController extends Controller
         $resp = [];
 
         foreach ($data as $dataKey => $dataValue) {
-            $resp[] = [
-                'variationId' => $dataValue->id,
-                'sizeId' => $dataValue->size,
-                'sizeName' => $dataValue->sizeDetails->name,
-                'price' => $dataValue->price,
-                'offerPrice' => $dataValue->offer_price,
-            ];
+            if ($dataValue->size != 0) {
+                $resp[] = [
+                    'variationId' => $dataValue->id,
+                    'sizeId' => $dataValue->size,
+                    'sizeName' => $dataValue->sizeDetails->name,
+                    'price' => $dataValue->price,
+                    'offerPrice' => $dataValue->offer_price,
+                ];
+            }
         }
 
         $respImage = [];
 
-        foreach ($dataImage as $dataKey => $dataValue) {
-            $respImage[] = [
-                'image' => asset($dataValue->image),
-            ];
+        if ($dataImage) {
+            foreach ($dataImage as $dataKey => $dataValue) {
+                $respImage[] = [
+                    'image' => asset($dataValue->image),
+                ];
+            }
         }
 
         return response()->json(['error' => false, 'data' => $resp, 'images' => $respImage]);

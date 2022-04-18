@@ -23,4 +23,8 @@ class Product extends Model
     public function colorSize() {
         return $this->hasMany('App\Models\ProductColorSize', 'product_id', 'id');
     }
+
+    public function saleDetails() {
+        return $this->hasOne('App\Models\Sale', 'product_id', 'id');
+    }
 }

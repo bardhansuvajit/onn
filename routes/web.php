@@ -190,6 +190,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
             Route::get('/{id}/edit', 'Admin\ProductController@edit')->name('edit');
             Route::post('/{id}/update', 'Admin\ProductController@update')->name('update');
             Route::get('/{id}/status', 'Admin\ProductController@status')->name('status');
+            Route::get('/{id}/sale', 'Admin\ProductController@sale')->name('sale');
             Route::get('/{id}/delete', 'Admin\ProductController@destroy')->name('delete');
             Route::get('/{id}/image/delete', 'Admin\ProductController@destroySingleImage')->name('image.delete');
         });

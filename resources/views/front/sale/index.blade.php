@@ -107,16 +107,43 @@
             <div class="product__holder">
                 <div class="row">
                     @foreach($data as $collectionProductKey => $collectionProductValue)
-                    <a href="{{ route('front.product.detail', $collectionProductValue->slug) }}" class="product__single" data-events data-cat="tshirt">
+                    <a href="{{ route('front.product.detail', $collectionProductValue->productDetails->slug) }}" class="product__single" data-events data-cat="tshirt">
                         <figure>
-                            <img src="{{asset($collectionProductValue->image)}}" />
-                            <h6>{{$collectionProductValue->style_no}}</h6>
+                            <img src="{{asset($collectionProductValue->productDetails->image)}}" />
+                            <h6>{{$collectionProductValue->productDetails->style_no}}</h6>
                         </figure>
                         <figcaption>
-                            <h4>{{$collectionProductValue->name}}</h4>
+                            <h4>{{$collectionProductValue->productDetails->name}}</h4>
                             <h5>
-                            &#8377;{{$collectionProductValue->offer_price}} 
-                            {{-- - &#8377;{{$collectionProductValue->price}} --}}
+                                @if (count($collectionProductValue->productDetails->colorSize) > 0)
+                                    @php
+                                        $varArray = [];
+                                        foreach($collectionProductValue->productDetails->colorSize as $productVariationKey => $productVariationValue) {
+                                            $varArray[] = $productVariationValue->offer_price;
+                                        }
+                                        $bigger = $varArray[0];
+                                        for ($i = 1; $i < count($varArray); $i++) {
+                                            if ($bigger < $varArray[$i]) {
+                                                $bigger = $varArray[$i];
+                                            }
+                                        }
+
+                                        $smaller = $varArray[0];
+                                        for ($i = 1; $i < count($varArray); $i++) {
+                                            if ($smaller > $varArray[$i]) {
+                                                $smaller = $varArray[$i];
+                                            }
+                                        }
+
+                                        $displayPrice = $smaller.' - '.$bigger;
+
+                                        if ($smaller == $bigger) $displayPrice = $smaller;
+                                    @endphp
+                                    &#8377;<span class="price_val">{{$displayPrice}}</span>
+                                @else
+                                    {{-- &#8377; <span class="price_val">{{$data->offer_price}}</span> --}}
+                                    &#8377;{{$collectionProductValue->productDetails->offer_price}}
+                                @endif
                             </h5>
                         </figcaption>
                     </a>

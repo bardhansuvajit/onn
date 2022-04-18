@@ -82,10 +82,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Order No.</th>
-                        <th>Order Date</th>
-                        <th>Order Amount</th>
-                        <th>Order Status</th>
+                        <th>No.</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>

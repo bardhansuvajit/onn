@@ -75,8 +75,8 @@
                     <div class="row mb-3 justify-content-end">
                         <div class="col-md-8">
                             @if ($data->coupon_code_id != 0)
-                            <p class="small text-muted mb-2">Coupon used</p>
-                            <p class="small text-dark mb-0">{{$data->couponDetails->coupon_code}}</p>
+                                <p class="small text-muted mb-2">Coupon used</p>
+                                <a href="{{ route('admin.coupon.view', $data->coupon_code_id) }}" class="small text-primary mb-0">{{$data->couponDetails->coupon_code}}</a>
                             @endif
                         </div>
                         <div class="col-md-4 text-end">

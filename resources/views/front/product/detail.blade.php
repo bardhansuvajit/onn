@@ -145,7 +145,8 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
 
                 echo '<h6>Available Colour</h6><ul class="product__color">';
                 foreach($uniqueColors as $colorCodeKey => $colorCode) {
-                    ($colorCodeKey == 0) ? $activeCLass = 'active' : $activeCLass = '';
+                    $activeCLass = '';
+                    // ($colorCodeKey == 0) ? $activeCLass = 'active' : $activeCLass = '';
                     echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="'.$activeCLass.'" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
                 }
                 echo '</ul>';
@@ -336,8 +337,18 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
             url : '{{route("front.product.size")}}',
             method : 'POST',
             data : {'_token' : '{{csrf_token()}}', productId : productId, colorId : colorId},
+            beforeSend: function() {
+                $loadingSwal = Swal.fire({
+                    title: 'Please wait...',
+                    text: 'We are fetching your details!',
+                    showConfirmButton: false,
+                    // allowOutsideClick: false
+                    // timer: 1500
+                })
+            },
             success : function(result) {
                 if (result.error === false) {
+                    $loadingSwal.close();
                     $('#sizeHead').show();
                     $('#colorSelectAlert').hide();
 
@@ -359,6 +370,14 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                     $('.product-details__gallery__thumb .swiper-wrapper').html(imgContentThumb);
                     $('.product-details__gallery__slider .swiper-wrapper').html(imgContentSlider);
                     gallery__thumb.reload();
+                } else {
+                    $loadingSwal.close();
+
+                    Swal.fire({
+                        title: 'OOPS',
+                        text: 'No images found!',
+                        timer: 1000
+                    })
                 }
             },
             error: function(xhr, status, error) {

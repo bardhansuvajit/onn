@@ -148,6 +148,17 @@ class ProductController extends Controller
         }
     }
 
+    public function sale(Request $request, $id)
+    {
+        $storeData = $this->productRepository->sale($id);
+
+        // if ($storeData) {
+            return redirect()->route('admin.product.index');
+        // } else {
+        //     return redirect()->route('admin.product.create')->withInput($request->all());
+        // }
+    }
+
     public function destroy(Request $request, $id) 
     {
         $this->productRepository->delete($id);

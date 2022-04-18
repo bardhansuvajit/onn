@@ -179,7 +179,7 @@ class CheckoutRepository implements CheckoutInterface
             SendMail($email_data);
 
             // 4 remove cart data
-            // $emptyCart = Cart::where('ip', $this->ip)->delete();
+            $emptyCart = Cart::where('ip', $this->ip)->delete();
 
             // 5 online payment
             if (isset($data['razorpay_payment_id'])) {

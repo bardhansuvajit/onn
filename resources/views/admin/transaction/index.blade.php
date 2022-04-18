@@ -90,7 +90,7 @@
             <th>Order</th>
             <th>Amount</th>
             <th>Datetime</th>
-            <th>Status</th>
+            {{-- <th>Status</th> --}}
         </tr>
         </thead>
         <tbody>
@@ -102,11 +102,15 @@
                     <label class="form-check-label" for="flexCheckDefault"></label>
                 </div>
                 <td>
-                    <p class="small text-dark mb-1">{{$item->userDetails->fname.' '.$item->userDetails->lname}}</p>
-                    <p class="small text-muted mb-0">{{$item->userDetails->email.' | '.$item->userDetails->mobile}}</p>
-                    <div class="row__action">
+                    @if($item->user_id != 0)
+                        <p class="small text-dark mb-1">{{$item->userDetails->fname.' '.$item->userDetails->lname}}</p>
+                        <p class="small text-muted mb-0">{{$item->userDetails->email.' | '.$item->userDetails->mobile}}</p>
+                    @else
+                        <p class="text-danger mb-0">User not logged in</p>
+                    @endif
+                    {{-- <div class="row__action">
                         <a href="{{ route('admin.transaction.view', $item->id) }}">View</a>
-                    </div>
+                    </div> --}}
                 </td>
                 <td>
                     {{$item->transaction}}
@@ -120,7 +124,7 @@
                 <td>
                     <p class="small">{{date('j M Y g:i A', strtotime($item->created_at))}}</p>
                 </td>
-                <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>
+                {{-- <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td> --}}
             </tr>
             @empty
             <tr><td colspan="100%" class="small text-muted">No data found</td></tr>

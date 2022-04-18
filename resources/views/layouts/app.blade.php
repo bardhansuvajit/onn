@@ -348,7 +348,7 @@
                 success: function(result) {
                     if (result.type == 'success') {
                         $('#appliedCouponHolder').html('');
-                        $('input[name="couponText"]').val('');
+                        $('input[name="couponText"]').val('').attr('disabled', false);
                         $('#applyCouponBtn').text('Apply').css('background', '#141b4b').attr('disabled', false);
 
                         let grandTotalWithoutCoupon = $('input[name="grandTotalWithoutCoupon"]').val();

@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Coupon;
 use App\Models\CouponUsage;
 use App\Models\ProductColorSize;
+use App\Models\ProductImage;
 use Illuminate\Support\Facades\Auth;
 
 class CartRepository implements CartInterface 
@@ -53,8 +54,14 @@ class CartRepository implements CartInterface
 
         if (!empty($data['product_variation_id'])) {
             $cartExists = Cart::where('product_id', $collectedData['product_id'])->where('product_variation_id', $collectedData['product_variation_id'])->where('ip', $this->ip)->first();
+
+            $variationDetails = ProductColorSize::findOrFail($data['product_variation_id']);
+            $productImageDetails = ProductImage::where([['product_id', $variationDetails->product_id], ['color_id', $variationDetails->color]])->first();
+
+            $productImage = $productImageDetails->image;
         } else {
             $cartExists = Cart::where('product_id', $collectedData['product_id'])->where('ip', $this->ip)->first();
+            $productImage = $collectedData['product_image'];
         }
 
         if ($cartExists) {
@@ -66,7 +73,7 @@ class CartRepository implements CartInterface
             $newEntry->product_id = $collectedData['product_id'];
             $newEntry->product_name = $collectedData['product_name'];
             $newEntry->product_style_no = $collectedData['product_style_no'];
-            $newEntry->product_image = $collectedData['product_image'];
+            $newEntry->product_image = $productImage;
             $newEntry->product_slug = $collectedData['product_slug'];
             $newEntry->product_variation_id = $collectedData['product_variation_id'];
 
