@@ -9,7 +9,7 @@
             <div class="card">    
                 <div class="card-body">
 
-                    {{-- <div class="search__filter">
+                    <div class="search__filter">
                         <div class="row align-items-center justify-content-between">
                             <div class="col">
                                 <ul>
@@ -19,10 +19,10 @@
                                 </ul>
                             </div>
                             <div class="col-auto">
-                                <form>
+                                <form action="{{ route('admin.category.index') }}" method="GET">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-auto">
-                                        <input type="search" name="" class="form-control" placeholder="Search here..">
+                                        <input type="search" name="term" class="form-control" placeholder="Search here.." id="term" value="{{app('request')->input('term')}}" autocomplete="off">
                                     </div>
                                     <div class="col-auto">
                                         <button type="submit" class="btn btn-outline-danger btn-sm">Search Product</button>
@@ -54,17 +54,17 @@
                             <p>{{$data->count()}} Items</p>
                         </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <table class="table">
                         <thead>
                             <tr>
-                                {{-- <th class="check-column">
+                                <th class="check-column">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault"></label>
                                 </div>
-                                </th> --}}
+                                </th>
                                 <th class="text-center"><i class="fi fi-br-picture"></i> Icon</th>
                                 <th class="text-center"><i class="fi fi-br-picture"></i> Sketch</th>
                                 <th class="text-center"><i class="fi fi-br-picture"></i> Thumb</th>
@@ -77,12 +77,12 @@
                         <tbody>
                             @forelse ($data as $index => $item)
                             <tr>
-                                {{-- <td class="check-column">
+                                <td class="check-column">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                         <label class="form-check-label" for="flexCheckDefault"></label>
                                     </div>
-                                </td> --}}
+                                </td>
                                 <td class="text-center column-thumb">
                                     <img src="{{ asset($item->icon_path) }}">
                                 </td>

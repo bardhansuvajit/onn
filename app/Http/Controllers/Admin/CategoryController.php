@@ -13,18 +13,23 @@ class CategoryController extends Controller
 {
     // private CategoryInterface $categoryRepository;
 
-    public function __construct(CategoryInterface $categoryRepository) 
+    public function __construct(CategoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-        $data = $this->categoryRepository->getAllCategories();
+        if (!empty($request->term)) {
+            $data = $this->categoryRepository->getSearchCategories($request->term);
+        } else {
+            $data = $this->categoryRepository->getAllCategories();
+        }
+
         return view('admin.category.index', compact('data'));
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             "name" => "required|string|max:255",
@@ -89,7 +94,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id) 
+    public function destroy(Request $request, $id)
     {
         $this->categoryRepository->deleteCategory($id);
 
