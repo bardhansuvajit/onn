@@ -179,6 +179,28 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
     <script type="text/javascript" src="{{ asset('admin/js/custom.js') }}"></script>
 
+    <script>
+        // multiple checkbox click to activate remove button
+        // function clickToRemove() {
+        //     if ($('.tap-to-delete').is(':checked')) {
+        //         $('#delete-box button').removeClass('disabled');
+        //     } else {
+        //         $('#delete-box button').addClass('disabled');
+        //     }
+        // }
+
+        // click to select all checkbox
+        function headerCheckFunc() {
+            if ($('#flexCheckDefault').is(':checked')) {
+                $('.tap-to-delete').prop('checked', true);
+                clickToRemove();
+            } else {
+                $('.tap-to-delete').prop('checked', false);
+                clickToRemove();
+            }
+        }
+    </script>
+
     @yield('script')
 </body>
 </html>

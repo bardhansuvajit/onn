@@ -22,6 +22,8 @@ class CategoryController extends Controller
     {
         if (!empty($request->term)) {
             $data = $this->categoryRepository->getSearchCategories($request->term);
+        } elseif (!empty($request->status)) {
+            $data = $this->categoryRepository->getAllCategories($request->status);
         } else {
             $data = $this->categoryRepository->getAllCategories();
         }
@@ -94,10 +96,20 @@ class CategoryController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy($categoryId)
     {
-        $this->categoryRepository->deleteCategory($id);
+        $this->categoryRepository->deleteCategory($categoryId);
 
+        return redirect()->route('admin.category.index');
+    }
+    public function bulkDestroy(Request $request)
+    {
+        // $this->categoryRepository->deleteCategories($request->delete_check);
+
+        $delete_ids = $request->delete_check;
+        foreach ($delete_ids as $index => $delete_id) {
+            Category::where('id', $delete_id)->delete();
+        }
         return redirect()->route('admin.category.index');
     }
 }

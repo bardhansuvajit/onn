@@ -16,9 +16,19 @@ class CategoryRepository implements CategoryInterface
 {
     use UploadAble;
 
-    public function getAllCategories()
+    public function getAllCategories(string $status = null)
     {
-        return Category::all();
+        if ($status == null) {
+            return Category::all();
+        } else {
+            $status == 'active' ? $stat_query = 1 : $stat_query = 0;
+            return Category::where('status', $stat_query)->get();
+        }
+    }
+
+    public function getSearchCategories(string $term)
+    {
+        return Category::where([['name', 'LIKE', '%' . $term . '%']])->get();
     }
 
     public function getAllSizes()
@@ -31,10 +41,6 @@ class CategoryRepository implements CategoryInterface
         return Color::all();
     }
 
-    public function getSearchCategories(string $term)
-    {
-        return Category::where([['name', 'LIKE', '%' . $term . '%']])->get();
-    }
     public function getCategoryById($categoryId)
     {
         return Category::findOrFail($categoryId);
@@ -47,6 +53,7 @@ class CategoryRepository implements CategoryInterface
 
     public function deleteCategory($categoryId)
     {
+
         Category::destroy($categoryId);
     }
 

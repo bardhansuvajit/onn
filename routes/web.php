@@ -8,43 +8,43 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/home', 'HomeController@index')->name('home');
 
 // website
-Route::name('front.')->group(function() {
+Route::name('front.')->group(function () {
     // home
     Route::get('/', 'Front\FrontController@index')->name('home');
     Route::post('/subscribe', 'Front\FrontController@mailSubscribe')->name('subscription');
 
     // category detail
-    Route::name('category.')->group(function() {
+    Route::name('category.')->group(function () {
         Route::get('/category/{slug}', 'Front\CategoryController@detail')->name('detail');
         Route::post('/category/filter', 'Front\CategoryController@filter')->name('filter');
     });
 
     // sale
-    Route::name('sale.')->group(function() {
+    Route::name('sale.')->group(function () {
         Route::get('/sale', 'Front\SaleController@index')->name('index');
     });
 
     // collection detail
-    Route::name('collection.')->group(function() {
+    Route::name('collection.')->group(function () {
         Route::get('/collection/{slug}', 'Front\CollectionController@detail')->name('detail');
         Route::post('/collection/filter', 'Front\CollectionController@filter')->name('filter');
     });
 
     // product detail
-    Route::name('product.')->group(function() {
+    Route::name('product.')->group(function () {
         Route::get('/product/{slug}', 'Front\ProductController@detail')->name('detail');
         Route::post('/size', 'Front\ProductController@size')->name('size');
     });
 
     // wishlist
-    Route::prefix('wishlist')->name('wishlist.')->group(function() {
+    Route::prefix('wishlist')->name('wishlist.')->group(function () {
         // Route::get('/', 'Front\WishlistController@viewByIp')->name('index');
         Route::post('/add', 'Front\WishlistController@add')->name('add');
         Route::get('/delete/{id}', 'Front\WishlistController@delete')->name('delete');
     });
 
     // cart
-    Route::prefix('cart')->name('cart.')->group(function() {
+    Route::prefix('cart')->name('cart.')->group(function () {
         Route::get('/', 'Front\CartController@viewByIp')->name('index');
         Route::post('/coupon/check', 'Front\CartController@couponCheck')->name('coupon.check');
         Route::post('/coupon/remove', 'Front\CartController@couponRemove')->name('coupon.remove');
@@ -54,7 +54,7 @@ Route::name('front.')->group(function() {
     });
 
     // checkout
-    Route::prefix('checkout')->name('checkout.')->group(function() {
+    Route::prefix('checkout')->name('checkout.')->group(function () {
         Route::get('/', 'Front\CheckoutController@index')->name('index');
         // Route::post('/coupon/check', 'Front\CheckoutController@coupon')->name('coupon.check');
         Route::post('/store', 'Front\CheckoutController@store')->name('store');
@@ -62,17 +62,17 @@ Route::name('front.')->group(function() {
     });
 
     // faq
-    Route::prefix('faq')->name('faq.')->group(function() {
+    Route::prefix('faq')->name('faq.')->group(function () {
         Route::get('/', 'Front\FaqController@index')->name('index');
     });
 
     // search
-    Route::prefix('search')->name('search.')->group(function() {
+    Route::prefix('search')->name('search.')->group(function () {
         Route::get('/', 'Front\SearchController@index')->name('index');
     });
 
     // settings contents
-    Route::name('content.')->group(function() {
+    Route::name('content.')->group(function () {
         Route::get('/terms-and-conditions', 'Front\ContentController@termDetails')->name('terms');
         Route::get('/privacy-statement', 'Front\ContentController@privacyDetails')->name('privacy');
         Route::get('/security', 'Front\ContentController@securityDetails')->name('security');
@@ -85,8 +85,8 @@ Route::name('front.')->group(function() {
     });
 
     // user login & registration - guard
-    Route::middleware(['guest:web'])->group(function() {
-        Route::prefix('user/')->name('user.')->group(function() {
+    Route::middleware(['guest:web'])->group(function () {
+        Route::prefix('user/')->name('user.')->group(function () {
             Route::get('/register', 'Front\UserController@register')->name('register');
             Route::post('/create', 'Front\UserController@create')->name('create');
             Route::get('/login', 'Front\UserController@login')->name('login');
@@ -95,8 +95,8 @@ Route::name('front.')->group(function() {
     });
 
     // profile login & registration - guard
-    Route::middleware(['auth:web'])->group(function() {
-        Route::prefix('user/')->name('user.')->group(function() {
+    Route::middleware(['auth:web'])->group(function () {
+        Route::prefix('user/')->name('user.')->group(function () {
             Route::view('profile', 'front.profile.index')->name('profile');
             Route::view('manage', 'front.profile.edit')->name('manage');
             Route::post('manage/update', 'Front\UserController@updateProfile')->name('manage.update');
@@ -111,8 +111,8 @@ Route::name('front.')->group(function() {
     });
 
     // mail template test
-    Route::view('/mail/1', 'front.mail.register'); 
-    Route::view('/mail/2', 'front.mail.order-confirm'); 
+    Route::view('/mail/1', 'front.mail.register');
+    Route::view('/mail/2', 'front.mail.order-confirm');
 });
 
 Auth::routes();
@@ -120,28 +120,31 @@ Auth::routes();
 Route::get('login', 'Front\UserController@login')->name('login');
 
 // admin guard
-Route::prefix('admin')->name('admin.')->group(function() {
-    Route::middleware(['guest:admin'])->group(function() {
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(['guest:admin'])->group(function () {
         Route::view('/login', 'admin.auth.login')->name('login');
         Route::post('/check', 'Admin\AdminController@check')->name('login.check');
     });
 
-    Route::middleware(['auth:admin'])->group(function() {
+    Route::middleware(['auth:admin'])->group(function () {
         // dashboard
         Route::get('/home', 'Admin\AdminController@home')->name('home');
 
         // category
-        Route::prefix('category')->name('category.')->group(function() {
+        Route::prefix('category')->name('category.')->group(function () {
             Route::get('/', 'Admin\CategoryController@index')->name('index');
+            // Route::get('/active', 'Admin\CategoryController@activeCategory')->name('active');
+            // Route::get('/inactive', 'Admin\CategoryController@inactiveCategory')->name('inactive');
             Route::post('/store', 'Admin\CategoryController@store')->name('store');
             Route::get('/{id}/view', 'Admin\CategoryController@show')->name('view');
             Route::post('/{id}/update', 'Admin\CategoryController@update')->name('update');
             Route::get('/{id}/status', 'Admin\CategoryController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\CategoryController@destroy')->name('delete');
+            Route::get('/bulkDelete', 'Admin\CategoryController@bulkDestroy')->name('bulkDestroy');
         });
 
         // sub-category
-        Route::prefix('subcategory')->name('subcategory.')->group(function() {
+        Route::prefix('subcategory')->name('subcategory.')->group(function () {
             Route::get('/', 'Admin\SubCategoryController@index')->name('index');
             Route::post('/store', 'Admin\SubCategoryController@store')->name('store');
             Route::get('/{id}/view', 'Admin\SubCategoryController@show')->name('view');
@@ -151,7 +154,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
 
         // collection
-        Route::prefix('collection')->name('collection.')->group(function() {
+        Route::prefix('collection')->name('collection.')->group(function () {
             Route::get('/', 'Admin\CollectionController@index')->name('index');
             Route::post('/store', 'Admin\CollectionController@store')->name('store');
             Route::get('/{id}/view', 'Admin\CollectionController@show')->name('view');
@@ -161,7 +164,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
 
         // coupon
-        Route::prefix('coupon')->name('coupon.')->group(function() {
+        Route::prefix('coupon')->name('coupon.')->group(function () {
             Route::get('/', 'Admin\CouponController@index')->name('index');
             Route::post('/store', 'Admin\CouponController@store')->name('store');
             Route::get('/{id}/view', 'Admin\CouponController@show')->name('view');
@@ -171,7 +174,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
 
         // customer
-        Route::prefix('customer')->name('customer.')->group(function() {
+        Route::prefix('customer')->name('customer.')->group(function () {
             Route::get('/', 'Admin\UserController@index')->name('index');
             Route::post('/store', 'Admin\UserController@store')->name('store');
             Route::get('/{id}/view', 'Admin\UserController@show')->name('view');
@@ -181,7 +184,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
 
         // product
-        Route::prefix('product')->name('product.')->group(function() {
+        Route::prefix('product')->name('product.')->group(function () {
             Route::get('/list', 'Admin\ProductController@index')->name('index');
             Route::get('/create', 'Admin\ProductController@create')->name('create');
             Route::post('/store', 'Admin\ProductController@store')->name('store');
@@ -196,7 +199,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
 
         // address
-        Route::prefix('address')->name('address.')->group(function() {
+        Route::prefix('address')->name('address.')->group(function () {
             Route::get('/', 'Admin\AddressController@index')->name('index');
             Route::post('/store', 'Admin\AddressController@store')->name('store');
             Route::get('/{id}/view', 'Admin\AddressController@show')->name('view');
@@ -206,7 +209,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
 
         // faq
-        Route::prefix('faq')->name('faq.')->group(function() {
+        Route::prefix('faq')->name('faq.')->group(function () {
             Route::get('/', 'Admin\FaqController@index')->name('index');
             Route::post('/store', 'Admin\FaqController@store')->name('store');
             Route::get('/{id}/view', 'Admin\FaqController@show')->name('view');
@@ -216,7 +219,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
 
         // settings
-        Route::prefix('settings')->name('settings.')->group(function() {
+        Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/', 'Admin\SettingsController@index')->name('index');
             Route::post('/store', 'Admin\SettingsController@store')->name('store');
             Route::get('/{id}/view', 'Admin\SettingsController@show')->name('view');
@@ -226,7 +229,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
 
         // order
-        Route::prefix('order')->name('order.')->group(function() {
+        Route::prefix('order')->name('order.')->group(function () {
             Route::get('/', 'Admin\OrderController@index')->name('index');
             Route::post('/store', 'Admin\OrderController@store')->name('store');
             Route::get('/{id}/view', 'Admin\OrderController@show')->name('view');
@@ -235,13 +238,13 @@ Route::prefix('admin')->name('admin.')->group(function() {
         });
 
         // transaction
-        Route::prefix('transaction')->name('transaction.')->group(function() {
+        Route::prefix('transaction')->name('transaction.')->group(function () {
             Route::get('/', 'Admin\TransactionController@index')->name('index');
             Route::get('/{id}/view', 'Admin\TransactionController@show')->name('view');
         });
 
         // gallery
-        Route::prefix('gallery')->name('gallery.')->group(function() {
+        Route::prefix('gallery')->name('gallery.')->group(function () {
             Route::get('/', 'Admin\GalleryController@index')->name('index');
             Route::post('/store', 'Admin\GalleryController@store')->name('store');
             Route::get('/{id}/view', 'Admin\GalleryController@show')->name('view');

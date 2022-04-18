@@ -9,7 +9,7 @@ interface CategoryInterface
     /**
      * This method is to fetch list of all categories
      */
-    public function getAllCategories();
+    public function getAllCategories(string $status = null);
 
     /**
      * This method is to find searched data
@@ -17,7 +17,7 @@ interface CategoryInterface
      */
     public function getSearchCategories(string $term);
 
-    // public function getActiveCategories();
+    // public function deleteCategories(string $delete_ids);
 
     /**
      * This method is to fetch list of all sizes
