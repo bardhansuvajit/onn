@@ -57,7 +57,21 @@
                                     </div>
                                 </div>
                                 <div class="col-auto">
-                                    <p>{{$data->count()}} {{ ($data->count() > 1) ? 'Items' : 'Item' }}</p>
+                                    @php
+                                    if (!empty($_GET['status'])) {
+                                        if ($_GET['status'] == 'active') {
+                                            ($activeCount > 1) ? $itemShow = 'Items' : $itemShow = 'Item';
+                                            echo '<p>'.$activeCount.' '.$itemShow.'</p>';
+                                        } elseif ($_GET['status'] == 'inactive') {
+                                            ($inactiveCount > 1) ? $itemShow = 'Items' : $itemShow = 'Item';
+                                            echo '<p>'.$inactiveCount.' '.$itemShow.'</p>';
+                                        }
+                                    } else {
+                                        ($data->count() > 1) ? $itemShow = 'Items' : $itemShow = 'Item';
+                                        echo '<p>'.$data->count().' '.$itemShow.'</p>';
+                                    }
+                                    @endphp
+                                    {{-- <p>{{$data->count()}} {{ ($data->count() > 1) ? 'Items' : 'Item' }}</p> --}}
                                 </div>
                             </div>
                         </div>
@@ -86,13 +100,9 @@
                                 @php
                                 if (!empty($_GET['status'])) {
                                     if ($_GET['status'] == 'active') {
-                                        if ($item->status == 0) {
-                                            continue;
-                                        }
+                                        if ($item->status == 0) continue;
                                     } else {
-                                        if ($item->status == 1) {
-                                            continue;
-                                        }
+                                        if ($item->status == 1) continue;
                                     }
                                 }
                                 @endphp
