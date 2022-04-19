@@ -12,6 +12,11 @@ select:focus {
     outline: none;
     box-shadow: none;
 }
+.color_holder {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%
+}
 </style>
 
 <section class="listing-header">
@@ -97,7 +102,7 @@ select:focus {
                             <h4>Color</h4>
                             <ul class="product__filter__bar-list column-2">
                                 @foreach($colors as $colorKey => $colorValue)
-                                    <li><label><input type="checkbox" pro-filter="{{$colorValue->name}}"><i></i> {{ucwords($colorValue->name)}}</label></li>
+                                    <li><label> <input type="checkbox" pro-filter="{{$colorValue->name}}"><i></i> {{ucwords($colorValue->name)}}</label></li>
                                 @endforeach
                             </ul>
                         </div>

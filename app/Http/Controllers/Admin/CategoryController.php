@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 // use Illuminate\Support\Str;
 use App\Models\Category;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -22,9 +23,9 @@ class CategoryController extends Controller
     {
         if (!empty($request->term)) {
             $data = $this->categoryRepository->getSearchCategories($request->term);
-        } elseif (!empty($request->status)) {
+        } /* elseif (!empty($request->status)) {
             $data = $this->categoryRepository->getAllCategories($request->status);
-        } else {
+        } */ else {
             $data = $this->categoryRepository->getAllCategories();
         }
 
@@ -105,19 +106,31 @@ class CategoryController extends Controller
 
     public function bulkDestroy(Request $request)
     {
-        $request->validate([
+        // $request->validate([
+        //     'bulk_action' => 'required',
+        //     'delete_check' => 'required|array',
+        // ]);
+
+        $validator = Validator::make($request->all(), [
             'bulk_action' => 'required',
             'delete_check' => 'required|array',
+        ], [
+            'delete_check.*' => 'Please select at least one item'
         ]);
 
-        if ($request['bulk_action'] == 'delete') {
-            foreach ($request->delete_check as $index => $delete_id) {
-                Category::where('id', $delete_id)->delete();
+        if (!$validator->fails()) {
+            if ($request['bulk_action'] == 'delete') {
+                foreach ($request->delete_check as $index => $delete_id) {
+                    Category::where('id', $delete_id)->delete();
+                }
+    
+                return redirect()->route('admin.category.index')->with('success', 'Selected items deleted');
+            } else {
+                return redirect()->route('admin.category.index')->with('failure', 'Please select an action')->withInput($request->all());
             }
-
-            return redirect()->route('admin.category.index')->with('success', 'Selected items deleted');
         } else {
-            return redirect()->route('admin.category.index')->with('failure', 'Please select an action')->withInput($request->all());
+            return redirect()->route('admin.category.index')->with('failure', $validator->errors()->first())->withInput($request->all());
         }
+
     }
 }

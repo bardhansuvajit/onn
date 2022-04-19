@@ -9,7 +9,7 @@ interface CategoryInterface
     /**
      * This method is to fetch list of all categories
      */
-    public function getAllCategories(string $status = null);
+    public function getAllCategories();
 
     /**
      * This method is to find searched data

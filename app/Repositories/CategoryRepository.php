@@ -17,14 +17,9 @@ class CategoryRepository implements CategoryInterface
 {
     use UploadAble;
 
-    public function getAllCategories(string $status = null)
+    public function getAllCategories()
     {
-        if ($status == null) {
-            return Category::all();
-        } else {
-            $status == 'active' ? $stat_query = 1 : $stat_query = 0;
-            return Category::where('status', $stat_query)->get();
-        }
+        return Category::all();
     }
 
     public function getSearchCategories(string $term)
@@ -179,10 +174,9 @@ class CategoryRepository implements CategoryInterface
     public function productsByCategory(int $categoryId, array $filter = null)
     {
         try {
-            // sleep(5);
-            $productsQuery = Product::where('cat_id', $categoryId);
+            /* $productsQuery = Product::where('cat_id', $categoryId);
 
-            // handling collection
+            // collection handling
             if (isset($filter['collection'])) {
                 if (count($filter['collection']) == 1) {
                     $products = $productsQuery->where('collection_id', $filter['collection'][0]);
@@ -223,7 +217,7 @@ class CategoryRepository implements CategoryInterface
                 }
             }
 
-            // handling sort by
+            // order handling
             if (isset($filter['orderBy'])) {
                 $orderBy = "id";
                 $order = "desc";
@@ -245,7 +239,9 @@ class CategoryRepository implements CategoryInterface
                 $products = $productsQuery->orderBy($orderBy, $order);
             }
 
-            $products = $productsQuery->with('colorSize')->get();
+            $products = $productsQuery->with('colorSize')->get(); */
+
+            $products = DB::table('SELECT * FROM `products` where cat_id = 9');
 
             // dd($products);
 
@@ -289,7 +285,8 @@ class CategoryRepository implements CategoryInterface
 
             return $response;
         } catch (\Throwable $th) {
-            //throw $th;
+            // throw $th;
+            return $th;
         }
     }
 }

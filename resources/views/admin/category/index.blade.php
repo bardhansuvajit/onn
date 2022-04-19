@@ -82,6 +82,21 @@
                             </thead>
                             <tbody>
                                 @forelse ($data as $index => $item)
+
+                                @php
+                                if (!empty($_GET['status'])) {
+                                    if ($_GET['status'] == 'active') {
+                                        if ($item->status == 0) {
+                                            continue;
+                                        }
+                                    } else {
+                                        if ($item->status == 1) {
+                                            continue;
+                                        }
+                                    }
+                                }
+                                @endphp
+
                                 <tr>
                                     <td class="check-column">
                                         <input name="delete_check[]" class="tap-to-delete" type="checkbox" onclick="clickToRemove()" value="{{$item->id}}" 
