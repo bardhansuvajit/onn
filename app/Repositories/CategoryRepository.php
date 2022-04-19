@@ -166,21 +166,48 @@ class CategoryRepository implements CategoryInterface
     public function productsByCategory(int $categoryId, array $filter = null) {
         try {
             $productsQuery = Product::where('cat_id', $categoryId);
-            // $productsQuery = DB::statement('SELECT * FROM `products` WHERE cat_id = '.$categoryId);
 
             // handling collection
             if (isset($filter['collection'])) {
-                foreach ($filter['collection'] as $collectionKey => $collectionValue) {
-                    // if (count($filter['collection']) == 1) {
-                    //     $products = $productsQuery->where('collection_id', $collectionValue);
-                    // } else {
-                        // $rawQuery = "(collection_id = '.$collectionValue.' OR )";
-                        $products = $productsQuery->where(function($query) {
-                            $query->orWhere('collection_id', $collectionValue);
-                        });
-                    // }
+                if (count($filter['collection']) == 1) {
+                    $products = $productsQuery->where('collection_id', $filter['collection'][0]);
+                } else {
+
+                    // dd($filter['collection']);
+
+                    $products = $productsQuery->where(function ($query) {
+                        // foreach ($filter['collection'] as $collectionKey => $collectionValue) {
+                            $query->orWhere('collection_id', $filter['collection'][0]);
+                        // }
+                    });
+                    
+                    dd('here');
+
+                    // $data = Borrower::where([
+                    //     [function ($query) use ($request) {
+                    //         if ($term = $request->term) {
+                    //             $query
+                    //                 ->orWhere('name_prefix', 'LIKE', '%' . $term . '%')
+                    //                 ->orWhere('full_name', 'LIKE', '%' . $term . '%')
+                    //                 ->orWhere('email', 'LIKE', '%' . $term . '%')
+                    //                 ->orWhere('mobile', 'LIKE', '%' . $term . '%')
+                    //                 ->orWhere('pan_card_number', 'LIKE', '%' . $term . '%')
+                    //                 ->get();
+                    //         }
+                    //     }]
+                    // ])
+                    // ->with(['agreement', 'borrowerAgreementRfq'])
+                    // ->latest('id')
+                    // ->paginate(15)
+                    // ->appends(request()->query());
+
+
+
+                    // $rawQuery = "(collection_id = '.$collectionValue.' OR )";
+                    // $products = $productsQuery->where(function($query) {
+                    //     $query->orWhere('collection_id', $collectionValue);
+                    // });
                 }
-                // $products = $productsQuery->whereRaw("'".$rawQuery."'");
             }
 
             // handling sort by
@@ -201,6 +228,8 @@ class CategoryRepository implements CategoryInterface
             }
 
             $products = $productsQuery->with('colorSize')->get();
+
+            // dd($products);
 
             $response = [];
             foreach ($products as $productKey => $productValue) {

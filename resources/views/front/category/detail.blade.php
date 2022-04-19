@@ -37,12 +37,12 @@ select:focus {
     <div class="container">
         @if (count($data->ProductDetails) > 0)
         <div class="listing-block__meta">
-            {{-- <div class="filter">
+            <div class="filter">
                 <div class="filter__toggle">
                     Filter
                 </div>
                 <div class="filter__data"></div>
-            </div> --}}
+            </div>
             <div class="sorting">
                 Sort By:
                 <select name="orderBy" onclick="productsFetch()">
@@ -55,7 +55,7 @@ select:focus {
         </div>
 
         <div class="product__wrapper">
-            <div class="product__filter">
+            <div class="product__filter active">
                 <div class="product__filter__bar">
                     <div class="filter__close">
                         <i class="fal fa-times"></i>
@@ -102,7 +102,7 @@ select:focus {
                 </div>
             </div>
 
-            <div class="product__holder">
+            <div class="product__holder active">
                 <div class="row">
                     @forelse($data->ProductDetails as $categoryProductKey => $categoryProductValue)
                     <a href="{{ route('front.product.detail', $categoryProductValue->slug) }}" class="product__single" data-events data-cat="tshirt">
@@ -212,7 +212,7 @@ select:focus {
             },
             error: function(result) {
                 $loadingSwal.close()
-                console.log(result);
+                // console.log(result);
                 $errorSwal = Swal.fire({
                     // icon: 'error',
                     // title: 'We cound not find anything',
