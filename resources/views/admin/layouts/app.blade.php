@@ -177,18 +177,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     -->
     <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="{{ asset('admin/js/custom.js') }}"></script>
 
     <script>
-        // multiple checkbox click to activate remove button
-        // function clickToRemove() {
-        //     if ($('.tap-to-delete').is(':checked')) {
-        //         $('#delete-box button').removeClass('disabled');
-        //     } else {
-        //         $('#delete-box button').addClass('disabled');
-        //     }
-        // }
-
         // click to select all checkbox
         function headerCheckFunc() {
             if ($('#flexCheckDefault').is(':checked')) {
@@ -199,6 +191,24 @@
                 clickToRemove();
             }
         }
+
+        // sweetalert fires | type = success, error, warning, info, question
+        function toastFire(type = 'success', title, body = '') {
+            Swal.fire({
+                icon: type,
+                title: title,
+                text: body,
+                confirmButtonColor: '#c10909',
+                timer: 5000
+            })
+        }
+
+        // on session toast fires
+        @if (Session::get('success'))
+            toastFire('success', '{{ Session::get('success') }}');
+        @elseif (Session::get('failure'))
+            toastFire('danger', '{{ Session::get('failure') }}');
+        @endif
     </script>
 
     @yield('script')

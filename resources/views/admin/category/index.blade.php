@@ -24,13 +24,8 @@
                                     <li><a href="{{ route('admin.category.index', ['status' => 'active'])}}">Active <span class="count">({{$activeCount}})</span></a></li>
                                     <li><a href="{{ route('admin.category.index', ['status' => 'inactive'])}}">Inactive <span class="count">({{$inactiveCount}})</span></a></li>
                                 </ul>
-                               
                             </div>
-                            
-                               
-                            {{-- <div id="delete-box">
-                                <button type="submit" class="btn btn-sm btn-danger disabled">Remove</button>
-                            </div> --}}
+
                             <div class="col-auto">
                                 <form action="{{ route('admin.category.index') }}" method="GET">
                                     <div class="row g-3 align-items-center">
@@ -48,31 +43,22 @@
                     <form action="{{ route('admin.category.bulkDestroy') }}">
                         <div class="filter">
                             <div class="row align-items-center justify-content-between">
-                            <div class="col">
-                                {{-- <form action="{{ route('admin.category.delete') }}"> --}}
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-auto">
-                                    <select class="form-control">
-                                        <option>Bulk Action</option>
-                                        <option>Delete</option>
-                                    </select>
-                                    </div>
-                                    <div class="col-auto">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">Apply</button>
+                                <div class="col">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-auto">
+                                            <select name="bulk_action" class="form-control">
+                                                <option value=" hidden selected">Bulk Action</option>
+                                                <option value="delete">Delete</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">Apply</button>
+                                        </div>
                                     </div>
                                 </div>
-                                {{-- </form> --}}
-                            </div>
-                            <div class="col-auto">
-                                <p>{{$data->count()}} {{ ($data->count() > 1) ? 'Items' : 'Item' }}</p>
-
-
-                                {{-- @if($data->count() > 1)
-                                <p>{{$data->count()}} Items</p>
-                                @else
-                                <p>{{$data->count()}} Item</p>
-                                @endif --}}
-                            </div>
+                                <div class="col-auto">
+                                    <p>{{$data->count()}} {{ ($data->count() > 1) ? 'Items' : 'Item' }}</p>
+                                </div>
                             </div>
                         </div>
 
@@ -82,7 +68,7 @@
                                     <th class="check-column">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" id="flexCheckDefault" onclick="headerCheckFunc()">
-                                            <label class="form-check-label" for="flexCheckDefault" ></label>
+                                            <label class="form-check-label" for="flexCheckDefault"></label>
                                         </div>
                                     </th>
                                     <th class="text-center"><i class="fi fi-br-picture"></i> Icon</th>
@@ -98,10 +84,15 @@
                                 @forelse ($data as $index => $item)
                                 <tr>
                                     <td class="check-column">
-                                        
-                                        
-                                            <input name="delete_check[]" class="tap-to-delete" type="checkbox" onclick="clickToRemove()" value="{{$item->id}}">
-                                        </td>
+                                        <input name="delete_check[]" class="tap-to-delete" type="checkbox" onclick="clickToRemove()" value="{{$item->id}}" 
+                                        @php
+                                        if (old('delete_check')) {
+                                            if (in_array($item->id, old('delete_check'))) {
+                                                echo 'checked';
+                                            }
+                                        }
+                                        @endphp>
+                                    </td>
                                     <td class="text-center column-thumb">
                                         <img src="{{ asset($item->icon_path) }}">
                                     </td>
@@ -115,13 +106,13 @@
                                         <img src="{{ asset($item->banner_image) }}">
                                     </td>
                                     <td>
-                                    {{$item->name}}
-                                    <div class="row__action">
-                                        <a href="{{ route('admin.category.view', $item->id) }}">Edit</a>
-                                        <a href="{{ route('admin.category.view', $item->id) }}">View</a>
-                                        <a href="{{ route('admin.category.status', $item->id) }}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</a>
-                                        <a href="{{ route('admin.category.delete', $item->id) }}" class="text-danger">Delete</a>
-                                    </div>
+                                        {{$item->name}}
+                                        <div class="row__action">
+                                            <a href="{{ route('admin.category.view', $item->id) }}">Edit</a>
+                                            <a href="{{ route('admin.category.view', $item->id) }}">View</a>
+                                            <a href="{{ route('admin.category.status', $item->id) }}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</a>
+                                            <a href="{{ route('admin.category.delete', $item->id) }}" class="text-danger">Delete</a>
+                                        </div>
                                     </td>
                                     <td>Published<br/>{{date('d M Y', strtotime($item->created_at))}}</td>
                                     <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>

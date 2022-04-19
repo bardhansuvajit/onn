@@ -102,14 +102,22 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.category.index');
     }
+
     public function bulkDestroy(Request $request)
     {
-        // $this->categoryRepository->deleteCategories($request->delete_check);
+        $request->validate([
+            'bulk_action' => 'required',
+            'delete_check' => 'required|array',
+        ]);
 
-        $delete_ids = $request->delete_check;
-        foreach ($delete_ids as $index => $delete_id) {
-            Category::where('id', $delete_id)->delete();
+        if ($request['bulk_action'] == 'delete') {
+            foreach ($request->delete_check as $index => $delete_id) {
+                Category::where('id', $delete_id)->delete();
+            }
+
+            return redirect()->route('admin.category.index')->with('success', 'Selected items deleted');
+        } else {
+            return redirect()->route('admin.category.index')->with('failure', 'Please select an action')->withInput($request->all());
         }
-        return redirect()->route('admin.category.index');
     }
 }

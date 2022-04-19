@@ -43,6 +43,9 @@ select:focus {
                 </div>
                 <div class="filter__data"></div>
             </div>
+            <div class="products mr-3">
+                <h6><span id="prod_count">{{ $data->ProductDetails->count() }}</span> <span id="prod_text">{{ ($data->ProductDetails->count() > 1) ? 'products' : 'product' }}</span> found</h6>
+            </div>
             <div class="sorting">
                 Sort By:
                 <select name="orderBy" onclick="productsFetch()">
@@ -186,7 +189,10 @@ select:focus {
             },
             success: function(result) {
                 if (result.status == 200) {
-                    var content = '';
+                    var content = prodText = '';
+                    $('#prod_count').text(result.data.length);
+                    (result.data.length > 1) ? prodText = 'products' : prodText = 'product';
+                    $('#prod_text').text(prodText);
                     $.each(result.data, function(key, value) {
                         var url = '{{ route('front.product.detail', ":slug") }}';
                         url = url.replace(':slug', value.slug);
@@ -212,7 +218,7 @@ select:focus {
             },
             error: function(result) {
                 $loadingSwal.close()
-                // console.log(result);
+                console.log(result);
                 $errorSwal = Swal.fire({
                     // icon: 'error',
                     // title: 'We cound not find anything',

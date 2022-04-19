@@ -11,6 +11,7 @@ use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use DB;
+use Illuminate\Database\Eloquent\Model;
 
 class CategoryRepository implements CategoryInterface
 {
@@ -178,6 +179,7 @@ class CategoryRepository implements CategoryInterface
     public function productsByCategory(int $categoryId, array $filter = null)
     {
         try {
+            // sleep(5);
             $productsQuery = Product::where('cat_id', $categoryId);
 
             // handling collection
@@ -188,13 +190,11 @@ class CategoryRepository implements CategoryInterface
 
                     // dd($filter['collection']);
 
-                    $products = $productsQuery->where(function ($query) {
-                        // foreach ($filter['collection'] as $collectionKey => $collectionValue) {
-                            $query->orWhere('collection_id', $filter['collection'][0]);
-                        // }
-                    });
-                    
-                    dd('here');
+                    // $products = $productsQuery->where([function ($query) {
+                    //     foreach ($filter['collection'] as $collectionKey => $collectionValue) {
+                    //         $query->orWhere('collection_id', $collectionValue);
+                    //     }
+                    // }]);
 
                     // $data = Borrower::where([
                     //     [function ($query) use ($request) {
