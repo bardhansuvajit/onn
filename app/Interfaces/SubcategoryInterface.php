@@ -2,7 +2,7 @@
 
 namespace App\Interfaces;
 
-interface SubcategoryInterface 
+interface SubcategoryInterface
 {
     /**
      * This method is to fetch list of all subcategories
@@ -16,6 +16,7 @@ interface SubcategoryInterface
      */
     public function getSubcategoryById($subcategoryId);
 
+    public function getSearchSubcategories(string $term);
     /**
      * This method is to create subcategory
      * @param arr $categoryDetails

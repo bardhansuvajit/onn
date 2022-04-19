@@ -9,31 +9,40 @@ use App\Models\Category;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 
-class SubcategoryRepository implements SubcategoryInterface 
+class SubcategoryRepository implements SubcategoryInterface
 {
     use UploadAble;
 
-    public function getAllSubcategories() 
+    public function getAllSubcategories()
     {
-        return SubCategory::all();
+        // if ($status == null) {
+        //     return SubCategory::all();
+        // } else {
+        //     $status == 'active' ? $stat_query = 1 : $stat_query = 0;
+        return SubCategory::get();
+        // }
     }
 
-    public function getAllCategories() 
+    public function getAllCategories()
     {
         return Category::all();
     }
+    public function getSearchSubcategories(string $term)
+    {
+        return SubCategory::where([['name', 'LIKE', '%' . $term . '%']])->get();
+    }
 
-    public function getSubcategoryById($categoryId) 
+    public function getSubcategoryById($categoryId)
     {
         return SubCategory::findOrFail($categoryId);
     }
 
-    public function deleteSubcategory($categoryId) 
+    public function deleteSubcategory($categoryId)
     {
         SubCategory::destroy($categoryId);
     }
 
-    public function createSubcategory(array $categoryDetails) 
+    public function createSubcategory(array $categoryDetails)
     {
         $collection = collect($categoryDetails);
 
@@ -45,20 +54,20 @@ class SubcategoryRepository implements SubcategoryInterface
 
         $upload_path = "uploads/sub-category/";
         $image = $collection['image_path'];
-        $imageName = time().".".$image->getClientOriginalName();
+        $imageName = time() . "." . $image->getClientOriginalName();
         $image->move($upload_path, $imageName);
         $uploadedImage = $imageName;
-        $category->image_path = $upload_path.$uploadedImage;
+        $category->image_path = $upload_path . $uploadedImage;
 
         $category->save();
 
         return $category;
     }
 
-    public function updateSubcategory($categoryId, array $newDetails) 
+    public function updateSubcategory($categoryId, array $newDetails)
     {
         $category = SubCategory::findOrFail($categoryId);
-        $collection = collect($newDetails); 
+        $collection = collect($newDetails);
         // dd($newDetails);
 
         if (!empty($collection['cat_id'])) {
@@ -73,10 +82,10 @@ class SubcategoryRepository implements SubcategoryInterface
             // dd('here');
             $upload_path = "uploads/sub-category/";
             $image = $collection['image_path'];
-            $imageName = time().".".$image->getClientOriginalName();
+            $imageName = time() . "." . $image->getClientOriginalName();
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
-            $category->image_path = $upload_path.$uploadedImage;
+            $category->image_path = $upload_path . $uploadedImage;
         }
         // dd('outside');
 
@@ -85,10 +94,11 @@ class SubcategoryRepository implements SubcategoryInterface
         return $category;
     }
 
-    public function toggleStatus($id){
+    public function toggleStatus($id)
+    {
         $category = SubCategory::findOrFail($id);
 
-        $status = ( $category->status == 1 ) ? 0 : 1;
+        $status = ($category->status == 1) ? 0 : 1;
         $category->status = $status;
         $category->save();
 

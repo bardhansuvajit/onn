@@ -151,6 +151,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{id}/update', 'Admin\SubCategoryController@update')->name('update');
             Route::get('/{id}/status', 'Admin\SubCategoryController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\SubCategoryController@destroy')->name('delete');
+            Route::get('/bulkDelete', 'Admin\SubCategoryController@bulkDestroy')->name('bulkDestroy');
         });
 
         // collection
