@@ -2,12 +2,22 @@
 
 namespace App\Interfaces;
 
-interface CategoryInterface 
+use Illuminate\Http\Request;
+
+interface CategoryInterface
 {
     /**
      * This method is to fetch list of all categories
      */
-    public function getAllCategories();
+    public function getAllCategories(string $status = null);
+
+    /**
+     * This method is to find searched data
+     * @param str $term
+     */
+    public function getSearchCategories(string $term);
+
+    // public function deleteCategories(string $delete_ids);
 
     /**
      * This method is to fetch list of all sizes

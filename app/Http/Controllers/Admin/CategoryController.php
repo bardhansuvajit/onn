@@ -13,18 +13,25 @@ class CategoryController extends Controller
 {
     // private CategoryInterface $categoryRepository;
 
-    public function __construct(CategoryInterface $categoryRepository) 
+    public function __construct(CategoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-        $data = $this->categoryRepository->getAllCategories();
+        if (!empty($request->term)) {
+            $data = $this->categoryRepository->getSearchCategories($request->term);
+        } elseif (!empty($request->status)) {
+            $data = $this->categoryRepository->getAllCategories($request->status);
+        } else {
+            $data = $this->categoryRepository->getAllCategories();
+        }
+
         return view('admin.category.index', compact('data'));
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             "name" => "required|string|max:255",
@@ -89,10 +96,20 @@ class CategoryController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id) 
+    public function destroy($categoryId)
     {
-        $this->categoryRepository->deleteCategory($id);
+        $this->categoryRepository->deleteCategory($categoryId);
 
+        return redirect()->route('admin.category.index');
+    }
+    public function bulkDestroy(Request $request)
+    {
+        // $this->categoryRepository->deleteCategories($request->delete_check);
+
+        $delete_ids = $request->delete_check;
+        foreach ($delete_ids as $index => $delete_id) {
+            Category::where('id', $delete_id)->delete();
+        }
         return redirect()->route('admin.category.index');
     }
 }

@@ -285,6 +285,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script type="text/javascript" src="lib.js"></script>
 
     <script>
         // enable tooltips everywhere
