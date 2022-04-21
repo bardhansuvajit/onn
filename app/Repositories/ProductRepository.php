@@ -20,63 +20,72 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
-class ProductRepository implements ProductInterface 
+class ProductRepository implements ProductInterface
 {
     use UploadAble;
 
-    public function listAll() 
+    public function listAll()
     {
         return Product::all();
     }
 
-    public function categoryList() 
+    public function categoryList()
     {
         return Category::all();
     }
+    public function getSearchProducts(string $term)
+    {
+        return Product::where('name', 'LIKE', '%' . $term . '%')
+            ->orWhere('offer_price', 'LIKE', '%' . $term . '%')
+            ->orWhere('style_no', 'LIKE', '%' . $term . '%')
+            ->orWhere('price', 'LIKE', '%' . $term . '%')
+            ->get();
+    }
 
-    public function subCategoryList() 
+
+    public function subCategoryList()
     {
         return SubCategory::all();
     }
 
-    public function collectionList() 
+    public function collectionList()
     {
         return Collection::all();
     }
 
-    public function colorList() 
+    public function colorList()
     {
         return Color::all();
     }
 
-    public function sizeList() 
+    public function sizeList()
     {
         return Size::all();
     }
 
-    public function listById($id) 
+    public function listById($id)
     {
         return Product::findOrFail($id);
     }
 
-    public function listBySlug($slug) 
+    public function listBySlug($slug)
     {
         return Product::where('slug', $slug)->with('category', 'subCategory', 'collection', 'colorSize')->first();
     }
 
-    public function relatedProducts($id) 
+    public function relatedProducts($id)
     {
         $product = Product::findOrFail($id);
         $cat_id = $product->cat_id;
         return Product::where('cat_id', $cat_id)->where('id', '!=', $id)->with('category', 'subCategory', 'collection', 'colorSize')->get();
     }
 
-    public function listImagesById($id) 
+    public function listImagesById($id)
     {
         return ProductImage::where('product_id', $id)->latest('id')->get();
     }
 
-    public function create(array $data) 
+    public function create(array $data)
     {
         DB::beginTransaction();
 
@@ -99,37 +108,37 @@ class ProductRepository implements ProductInterface
             // slug generate
             $slug = \Str::slug($collectedData['name'], '-');
             $slugExistCount = Product::where('slug', $slug)->count();
-            if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+            if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
             $newEntry->slug = $slug;
 
             // main image handling
             $upload_path = "uploads/product/";
             $image = $collectedData['image'];
-            $imageName = time().".".$image->getClientOriginalName();
+            $imageName = time() . "." . $image->getClientOriginalName();
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
-            $newEntry->image = $upload_path.$uploadedImage;
+            $newEntry->image = $upload_path . $uploadedImage;
             $newEntry->save();
 
             // multiple image upload handling
             if (isset($data['product_images'])) {
                 $multipleImageData = [];
                 foreach ($data['product_images'] as $imagekey => $imagevalue) {
-                    $imageName = mt_rand().'-'.time().".".$image->getClientOriginalName();
+                    $imageName = mt_rand() . '-' . time() . "." . $image->getClientOriginalName();
                     $imagevalue->move($upload_path, $imageName);
-                    $image_path = $upload_path.$imageName;
+                    $image_path = $upload_path . $imageName;
                     $multipleImageData[] = [
                         'product_id' => $newEntry->id,
                         'image' => $image_path
                     ];
                 }
-                if(count($multipleImageData) > 0) ProductImage::insert($multipleImageData);
+                if (count($multipleImageData) > 0) ProductImage::insert($multipleImageData);
             }
 
             // check color & size
             // dd($data['color'], $data['size']);
 
-            if ( !empty($data['color']) && !empty($data['size']) ) {
+            if (!empty($data['color']) && !empty($data['size'])) {
                 $multipleColorData = [];
 
                 foreach ($data['color'] as $colorKey => $colorValue) {
@@ -146,7 +155,6 @@ class ProductRepository implements ProductInterface
                 // dd($multipleColorData);
 
                 ProductColorSize::insert($multipleColorData);
-
             }
 
             DB::commit();
@@ -157,7 +165,7 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function update($id, array $newDetails) 
+    public function update($id, array $newDetails)
     {
         // dd($newDetails);
 
@@ -167,7 +175,7 @@ class ProductRepository implements ProductInterface
             $upload_path = "uploads/product/";
             $updatedEntry = Product::findOrFail($id);
             // dd($updatedEntry);
-            $collectedData = collect($newDetails); 
+            $collectedData = collect($newDetails);
             if (!empty($collectedData['cat_id'])) $updatedEntry->cat_id = $collectedData['cat_id'];
             if (!empty($collectedData['sub_cat_id'])) $updatedEntry->sub_cat_id = $collectedData['sub_cat_id'];
             if (!empty($collectedData['collection_id'])) $updatedEntry->collection_id = $collectedData['collection_id'];
@@ -180,7 +188,7 @@ class ProductRepository implements ProductInterface
             // slug generate
             $slug = \Str::slug($collectedData['name'], '-');
             $slugExistCount = Product::where('slug', $slug)->count();
-            if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+            if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
 
             $updatedEntry->slug = $slug;
             $updatedEntry->meta_title = $collectedData['meta_title'];
@@ -193,10 +201,10 @@ class ProductRepository implements ProductInterface
                 if (Storage::exists($updatedEntry->image)) unlink($updatedEntry->image);
 
                 $image = $collectedData['image'];
-                $imageName = time().".".$image->getClientOriginalName();
+                $imageName = time() . "." . $image->getClientOriginalName();
                 $image->move($upload_path, $imageName);
                 $uploadedImage = $imageName;
-                $updatedEntry->image = $upload_path.$uploadedImage;
+                $updatedEntry->image = $upload_path . $uploadedImage;
             }
 
             $updatedEntry->save();
@@ -205,9 +213,9 @@ class ProductRepository implements ProductInterface
             if (isset($newDetails['product_images'])) {
                 $multipleImageData = [];
                 foreach ($newDetails['product_images'] as $imagekey => $imagevalue) {
-                    $imageName = mt_rand().'-'.time().".".$image->getClientOriginalName();
+                    $imageName = mt_rand() . '-' . time() . "." . $image->getClientOriginalName();
                     $imagevalue->move($upload_path, $imageName);
-                    $image_path = $upload_path.$imageName;
+                    $image_path = $upload_path . $imageName;
                     $multipleImageData[] = [
                         'product_id' => $id,
                         'image' => $image_path
@@ -216,7 +224,7 @@ class ProductRepository implements ProductInterface
 
                 // dd($multipleImageData);
 
-                if(count($multipleImageData) > 0) {
+                if (count($multipleImageData) > 0) {
                     ProductImage::insert($multipleImageData);
                 }
             }
@@ -230,17 +238,19 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function toggle($id){
+    public function toggle($id)
+    {
         $updatedEntry = Product::findOrFail($id);
 
-        $status = ( $updatedEntry->status == 1 ) ? 0 : 1;
+        $status = ($updatedEntry->status == 1) ? 0 : 1;
         $updatedEntry->status = $status;
         $updatedEntry->save();
 
         return $updatedEntry;
     }
 
-    public function sale($id){
+    public function sale($id)
+    {
         $saleExist = Sale::where('product_id', $id)->first();
 
         if ($saleExist) {
@@ -252,17 +262,17 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function delete($id) 
+    public function delete($id)
     {
         Product::destroy($id);
     }
 
-    public function deleteSingleImage($id) 
+    public function deleteSingleImage($id)
     {
         ProductImage::destroy($id);
     }
 
-    public function wishlistCheck($productId) 
+    public function wishlistCheck($productId)
     {
         $ip = $_SERVER['REMOTE_ADDR'];
         $data = Wishlist::where('product_id', $productId)->where('ip', $ip)->first();

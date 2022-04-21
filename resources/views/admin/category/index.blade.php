@@ -60,10 +60,10 @@
                                     @php
                                     if (!empty($_GET['status'])) {
                                         if ($_GET['status'] == 'active') {
-                                            ($activeCount > 1) ? $itemShow = 'Items' : $itemShow = 'Item';
+                                            ($activeCount>1) ? $itemShow = 'Items' : $itemShow = 'Item';
                                             echo '<p>'.$activeCount.' '.$itemShow.'</p>';
                                         } elseif ($_GET['status'] == 'inactive') {
-                                            ($inactiveCount > 1) ? $itemShow = 'Items' : $itemShow = 'Item';
+                                            ($inactiveCount>1) ? $itemShow = 'Items' : $itemShow = 'Item';
                                             echo '<p>'.$inactiveCount.' '.$itemShow.'</p>';
                                         }
                                     } else {

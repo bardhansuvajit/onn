@@ -9,24 +9,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
     // private ProductInterface $productRepository;
 
-    public function __construct(ProductInterface $productRepository) 
+    public function __construct(ProductInterface $productRepository)
     {
         $this->productRepository = $productRepository;
     }
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-        $data = $this->productRepository->listAll();
+        if (!empty($request->term)) {
+            $data = $this->productRepository->getSearchProducts($request->term);
+        } else {
+            $data = $this->productRepository->listAll();
+        }
         return view('admin.product.index', compact('data'));
     }
 
-    public function create(Request $request) 
+    public function create(Request $request)
     {
         $categories = $this->productRepository->categoryList();
         $sub_categories = $this->productRepository->subCategoryList();
@@ -36,7 +41,7 @@ class ProductController extends Controller
         return view('admin.product.create', compact('categories', 'sub_categories', 'collections', 'colors', 'sizes'));
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         // dd($request->all());
 
@@ -153,24 +158,52 @@ class ProductController extends Controller
         $storeData = $this->productRepository->sale($id);
 
         // if ($storeData) {
-            return redirect()->route('admin.product.index');
+        return redirect()->route('admin.product.index');
         // } else {
         //     return redirect()->route('admin.product.create')->withInput($request->all());
         // }
     }
 
-    public function destroy(Request $request, $id) 
+    public function destroy(Request $request, $id)
     {
         $this->productRepository->delete($id);
 
         return redirect()->route('admin.product.index');
     }
 
-    public function destroySingleImage(Request $request, $id) 
+    public function destroySingleImage(Request $request, $id)
     {
         $this->productRepository->deleteSingleImage($id);
         return redirect()->back();
 
         // return redirect()->route('admin.product.index');
+    }
+    public function bulkDestroy(Request $request)
+    {
+        // $request->validate([
+        //     'bulk_action' => 'required',
+        //     'delete_check' => 'required|array',
+        // ]);
+
+        $validator = Validator::make($request->all(), [
+            'bulk_action' => 'required',
+            'delete_check' => 'required|array',
+        ], [
+            'delete_check.*' => 'Please select at least one item'
+        ]);
+
+        if (!$validator->fails()) {
+            if ($request['bulk_action'] == 'delete') {
+                foreach ($request->delete_check as $index => $delete_id) {
+                    Product::where('id', $delete_id)->delete();
+                }
+
+                return redirect()->route('admin.product.index')->with('success', 'Selected items deleted');
+            } else {
+                return redirect()->route('admin.product.index')->with('failure', 'Please select an action')->withInput($request->all());
+            }
+        } else {
+            return redirect()->route('admin.product.index')->with('failure', $validator->errors()->first())->withInput($request->all());
+        }
     }
 }

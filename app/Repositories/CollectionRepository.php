@@ -11,41 +11,46 @@ use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
-class CollectionRepository implements CollectionInterface 
+class CollectionRepository implements CollectionInterface
 {
     use UploadAble;
 
-    public function getAllCollections() 
+    public function getAllCollections()
     {
         return Collection::all();
     }
 
-    public function getAllSizes() 
+    public function getSearchCollections(string $term)
+    {
+        return Collection::where([['name', 'LIKE', '%' . $term . '%']])->get();
+    }
+
+    public function getAllSizes()
     {
         return Size::all();
     }
 
-    public function getAllColors() 
+    public function getAllColors()
     {
         return Color::all();
     }
 
-    public function getCollectionById($collectionId) 
+    public function getCollectionById($collectionId)
     {
         return Collection::findOrFail($collectionId);
     }
 
-    public function getCollectionBySlug($slug, array $request = null) 
+    public function getCollectionBySlug($slug, array $request = null)
     {
         return Collection::where('slug', $slug)->with('ProductDetails')->first();
     }
 
-    public function deleteCollection($collectionId) 
+    public function deleteCollection($collectionId)
     {
         Collection::destroy($collectionId);
     }
 
-    public function createCollection(array $data) 
+    public function createCollection(array $data)
     {
         $upload_path = "uploads/collection/";
         $collection = collect($data);
@@ -57,47 +62,47 @@ class CollectionRepository implements CollectionInterface
         // generate slug
         $slug = Str::slug($collection['name'], '-');
         $slugExistCount = Collection::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+        if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
         $modelDetails->slug = $slug;
 
         // icon image
         $image = $collection['icon_path'];
-        $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+        $imageName = time() . "." . mt_rand() . "." . $image->getClientOriginalName();
         $image->move($upload_path, $imageName);
         $uploadedImage = $imageName;
-        $modelDetails->icon_path = $upload_path.$uploadedImage;
+        $modelDetails->icon_path = $upload_path . $uploadedImage;
 
         // sketch icon
         $image = $collection['sketch_icon'];
-        $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+        $imageName = time() . "." . mt_rand() . "." . $image->getClientOriginalName();
         $image->move($upload_path, $imageName);
         $uploadedImage = $imageName;
-        $modelDetails->sketch_icon = $upload_path.$uploadedImage;
+        $modelDetails->sketch_icon = $upload_path . $uploadedImage;
 
         // thumb image
         $image = $collection['image_path'];
-        $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+        $imageName = time() . "." . mt_rand() . "." . $image->getClientOriginalName();
         $image->move($upload_path, $imageName);
         $uploadedImage = $imageName;
-        $modelDetails->image_path = $upload_path.$uploadedImage;
+        $modelDetails->image_path = $upload_path . $uploadedImage;
 
         // banner image
         $bannerImage = $collection['banner_image'];
-        $bannerImageName = time().".".mt_rand().".".$bannerImage->getClientOriginalName();
+        $bannerImageName = time() . "." . mt_rand() . "." . $bannerImage->getClientOriginalName();
         $bannerImage->move($upload_path, $bannerImageName);
         $uploadedImage = $bannerImageName;
-        $modelDetails->banner_image = $upload_path.$uploadedImage;
+        $modelDetails->banner_image = $upload_path . $uploadedImage;
 
         $modelDetails->save();
 
         return $modelDetails;
     }
 
-    public function updateCollection($id, array $newDetails) 
+    public function updateCollection($id, array $newDetails)
     {
         $upload_path = "uploads/collection/";
         $modelDetails = Collection::findOrFail($id);
-        $collection = collect($newDetails); 
+        $collection = collect($newDetails);
         // dd($newDetails);
 
         $modelDetails->name = $collection['name'];
@@ -115,40 +120,40 @@ class CollectionRepository implements CollectionInterface
         // generate slug
         $slug = Str::slug($collection['name'], '-');
         $slugExistCount = Collection::where('slug', $slug)->count();
-        if ($slugExistCount > 0) $slug = $slug.'-'.($slugExistCount+1);
+        if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
         $modelDetails->slug = $slug;
 
         if (isset($newDetails['icon_path'])) {
             $image = $collection['icon_path'];
-            $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+            $imageName = time() . "." . mt_rand() . "." . $image->getClientOriginalName();
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
-            $modelDetails->icon_path = $upload_path.$uploadedImage;
+            $modelDetails->icon_path = $upload_path . $uploadedImage;
         }
 
         if (isset($newDetails['sketch_icon'])) {
             $image = $collection['sketch_icon'];
-            $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+            $imageName = time() . "." . mt_rand() . "." . $image->getClientOriginalName();
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
-            $modelDetails->sketch_icon = $upload_path.$uploadedImage;
+            $modelDetails->sketch_icon = $upload_path . $uploadedImage;
         }
 
         if (isset($newDetails['image_path'])) {
             $image = $collection['image_path'];
-            $imageName = time().".".mt_rand().".".$image->getClientOriginalName();
+            $imageName = time() . "." . mt_rand() . "." . $image->getClientOriginalName();
             $image->move($upload_path, $imageName);
             $uploadedImage = $imageName;
-            $modelDetails->image_path = $upload_path.$uploadedImage;
+            $modelDetails->image_path = $upload_path . $uploadedImage;
         }
 
         if (isset($newDetails['banner_image'])) {
             // dd('here');
             $bannerImage = $collection['banner_image'];
-            $bannerImageName = time().".".mt_rand().".".$bannerImage->getClientOriginalName();
+            $bannerImageName = time() . "." . mt_rand() . "." . $bannerImage->getClientOriginalName();
             $bannerImage->move($upload_path, $bannerImageName);
             $uploadedImage = $bannerImageName;
-            $modelDetails->banner_image = $upload_path.$uploadedImage;
+            $modelDetails->banner_image = $upload_path . $uploadedImage;
         }
 
         $modelDetails->save();
@@ -156,17 +161,19 @@ class CollectionRepository implements CollectionInterface
         return $modelDetails;
     }
 
-    public function toggleStatus($id){
+    public function toggleStatus($id)
+    {
         $collection = Collection::findOrFail($id);
 
-        $status = ( $collection->status == 1 ) ? 0 : 1;
+        $status = ($collection->status == 1) ? 0 : 1;
         $collection->status = $status;
         $collection->save();
 
         return $collection;
     }
 
-    public function productsByCollection(int $collectionId, array $filter = null) {
+    public function productsByCollection(int $collectionId, array $filter = null)
+    {
         try {
             $productsQuery = Product::where('collection_id', $collectionId);
             // $productsQuery = DB::statement('SELECT * FROM `products` WHERE collection_id = '.$collectionId);
@@ -177,10 +184,10 @@ class CollectionRepository implements CollectionInterface
                     // if (count($filter['collection']) == 1) {
                     //     $products = $productsQuery->where('collection_id', $collectionValue);
                     // } else {
-                        // $rawQuery = "(collection_id = '.$collectionValue.' OR )";
-                        $products = $productsQuery->where(function($query) {
-                            $query->orWhere('collection_id', $collectionValue);
-                        });
+                    // $rawQuery = "(collection_id = '.$collectionValue.' OR )";
+                    $products = $productsQuery->where(function ($query) {
+                        $query->orWhere('collection_id', $collectionValue);
+                    });
                     // }
                 }
                 // $products = $productsQuery->whereRaw("'".$rawQuery."'");
@@ -188,16 +195,21 @@ class CollectionRepository implements CollectionInterface
 
             // handling sort by
             if (isset($filter['orderBy'])) {
-                $orderBy = "id"; $order = "desc";
+                $orderBy = "id";
+                $order = "desc";
 
                 if ($filter['orderBy'] == "new_arr") {
-                    $orderBy = "id"; $order = "desc";
+                    $orderBy = "id";
+                    $order = "desc";
                 } elseif ($filter['orderBy'] == "mst_viw") {
-                    $orderBy = "view_count"; $order = "desc";
+                    $orderBy = "view_count";
+                    $order = "desc";
                 } elseif ($filter['orderBy'] == "prc_low") {
-                    $orderBy = "offer_price"; $order = "asc";
+                    $orderBy = "offer_price";
+                    $order = "asc";
                 } elseif ($filter['orderBy'] == "prc_hig") {
-                    $orderBy = "offer_price"; $order = "desc";
+                    $orderBy = "offer_price";
+                    $order = "desc";
                 }
 
                 $products = $productsQuery->orderBy($orderBy, $order);
@@ -209,7 +221,7 @@ class CollectionRepository implements CollectionInterface
             foreach ($products as $productKey => $productValue) {
                 if (count($productValue->colorSize) > 0) {
                     $varArray = [];
-                    foreach($productValue->colorSize as $productVariationKey => $productVariationValue) {
+                    foreach ($productValue->colorSize as $productVariationKey => $productVariationValue) {
                         $varArray[] = $productVariationValue->offer_price;
                     }
                     $bigger = $varArray[0];
@@ -226,7 +238,7 @@ class CollectionRepository implements CollectionInterface
                         }
                     }
 
-                    $displayPrice = $smaller.' - '.$bigger;
+                    $displayPrice = $smaller . ' - ' . $bigger;
 
                     if ($smaller == $bigger) $displayPrice = $smaller;
                     $show_price = $displayPrice;

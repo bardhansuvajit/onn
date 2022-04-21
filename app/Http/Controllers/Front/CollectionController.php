@@ -10,7 +10,7 @@ use App\Models\Collection;
 
 class CollectionController extends Controller
 {
-    public function __construct(CollectionInterface $collectionRepository) 
+    public function __construct(CollectionInterface $collectionRepository)
     {
         $this->collectionRepository = $collectionRepository;
     }

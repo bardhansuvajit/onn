@@ -8,24 +8,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class CollectionController extends Controller
 {
     // private CollectionInterface $collectionRepository;
 
-    public function __construct(CollectionInterface $collectionRepository) 
+    public function __construct(CollectionInterface $collectionRepository)
     {
         $this->collectionRepository = $collectionRepository;
     }
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-        $data = $this->collectionRepository->getAllCollections();
+        if (!empty($request->term)) {
+            $data = $this->collectionRepository->getSearchCollections($request->term);
+        } else {
+            $data = $this->collectionRepository->getAllCollections();
+        }
         return view('admin.collection.index', compact('data'));
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             "name" => "required|string|max:255",
@@ -86,10 +91,38 @@ class CollectionController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id) 
+    public function destroy(Request $request, $id)
     {
         $this->collectionRepository->deleteCollection($id);
 
         return redirect()->route('admin.collection.index');
+    }
+    public function bulkDestroy(Request $request)
+    {
+        // $request->validate([
+        //     'bulk_action' => 'required',
+        //     'delete_check' => 'required|array',
+        // ]);
+
+        $validator = Validator::make($request->all(), [
+            'bulk_action' => 'required',
+            'delete_check' => 'required|array',
+        ], [
+            'delete_check.*' => 'Please select at least one item'
+        ]);
+
+        if (!$validator->fails()) {
+            if ($request['bulk_action'] == 'delete') {
+                foreach ($request->delete_check as $index => $delete_id) {
+                    Collection::where('id', $delete_id)->delete();
+                }
+
+                return redirect()->route('admin.collection.index')->with('success', 'Selected items deleted');
+            } else {
+                return redirect()->route('admin.collection.index')->with('failure', 'Please select an action')->withInput($request->all());
+            }
+        } else {
+            return redirect()->route('admin.collection.index')->with('failure', $validator->errors()->first())->withInput($request->all());
+        }
     }
 }

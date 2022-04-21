@@ -10,26 +10,30 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
-class OrderRepository implements OrderInterface 
+class OrderRepository implements OrderInterface
 {
     use UploadAble;
 
-    public function listAll() 
+    public function listAll()
     {
         return Order::latest('id')->get();
     }
 
-    public function listById($id) 
+    public function listById($id)
     {
         return Order::findOrFail($id);
     }
 
-    public function listByStatus($status) 
+    public function listByStatus($status)
     {
         return Order::latest('id')->where('status', $status)->get();
     }
 
-    public function create(array $data) 
+    public function searchOrder(string $term)
+    {
+        return Order::where(['fname', 'LIKE', '%' . $term . '%'])->get();
+    }
+    public function create(array $data)
     {
         DB::beginTransaction();
 
@@ -76,7 +80,7 @@ class OrderRepository implements OrderInterface
         }
     }
 
-    public function update($id, array $newDetails) 
+    public function update($id, array $newDetails)
     {
         DB::beginTransaction();
 
@@ -122,7 +126,8 @@ class OrderRepository implements OrderInterface
         }
     }
 
-    public function toggle($id, $status){
+    public function toggle($id, $status)
+    {
         $updatedEntry = Order::findOrFail($id);
         $updatedEntry->status = $status;
         $updatedEntry->save();

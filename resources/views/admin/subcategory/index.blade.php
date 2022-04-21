@@ -79,10 +79,10 @@
                             <thead>
                                 <tr>
                                     <th class="check-column">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <label class="form-check-label" for="flexCheckDefault"></label>
-                                    </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" onclick="headerCheckFunc()">
+                                            <label class="form-check-label" for="flexCheckDefault"></label>
+                                        </div>
                                     </th>
                                     <th class="text-center"><i class="fi fi-br-picture"></i></th>
                                     <th>Name</th>

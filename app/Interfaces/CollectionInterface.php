@@ -2,13 +2,18 @@
 
 namespace App\Interfaces;
 
-interface CollectionInterface 
+interface CollectionInterface
 {
     /**
      * This method is to fetch list of all collections
      */
     public function getAllCollections();
 
+    /**
+     * This method is to fetch list of all search collections
+     * @param str $term
+     */
+    public function getSearchCollections(string $term);
     /**
      * This method is to fetch list of all sizes
      */

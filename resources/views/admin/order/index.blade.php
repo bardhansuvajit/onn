@@ -4,25 +4,27 @@
 
 @section('content')
 <section>
-    {{-- <div class="search__filter">
+    <div class="search__filter">
         <div class="row align-items-center justify-content-between">
         <div class="col">
-            <ul>
+            {{-- <ul>
             <li class="active"><a href="#">All <span class="count">({{$data->count()}})</span></a></li>
             <li><a href="#">Active <span class="count">(7)</span></a></li>
             <li><a href="#">Inactive <span class="count">(3)</span></a></li>
-            </ul>
+            </ul> --}}
         </div>
         <div class="col-auto">
-            <form>
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                <input type="search" name="" class="form-control" placeholder="Search here..">
+            <form action="{{ route('admin.order.index')}}" method="GET">
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                    <input type="search" name="term" id="term" class="form-control" placeholder="Search here.."
+                    value="{{app('request')->input('term')}}" 
+                    autocomplete="off">
+                    </div>
+                    <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Search</button>
+                    </div>
                 </div>
-                <div class="col-auto">
-                <button type="submit" class="btn btn-outline-danger btn-sm">Search</button>
-                </div>
-            </div>
             </form>
         </div>
         </div>
@@ -31,7 +33,7 @@
     <div class="filter">
         <div class="row align-items-center justify-content-between">
         <div class="col">
-            <form>
+            {{-- <form>
             <div class="row g-3 align-items-center">
                 <div class="col-auto">
                 <select class="form-control">
@@ -68,13 +70,13 @@
                 <button type="submit" class="btn btn-outline-danger btn-sm">Apply</button>
                 </div>
             </div>
-            </form>
+            </form> --}}
         </div>
         <div class="col-auto">
             <p>{{$data->count()}} Items</p>
         </div>
         </div>
-    </div> --}}
+    </div>
 
     <table class="table">
         <thead>

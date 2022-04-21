@@ -162,6 +162,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{id}/update', 'Admin\CollectionController@update')->name('update');
             Route::get('/{id}/status', 'Admin\CollectionController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\CollectionController@destroy')->name('delete');
+            Route::get('/bulkDelete', 'Admin\CollectionController@bulkDestroy')->name('bulkDestroy');
         });
 
         // coupon
@@ -197,6 +198,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/{id}/sale', 'Admin\ProductController@sale')->name('sale');
             Route::get('/{id}/delete', 'Admin\ProductController@destroy')->name('delete');
             Route::get('/{id}/image/delete', 'Admin\ProductController@destroySingleImage')->name('image.delete');
+            Route::get('/bulkDelete', 'Admin\ProductController@bulkDestroy')->name('bulkDestroy');
         });
 
         // address

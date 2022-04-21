@@ -13,15 +13,19 @@ class OrderController extends Controller
 {
     // private OrderInterface $orderRepository;
 
-    public function __construct(OrderInterface $orderRepository) 
+    public function __construct(OrderInterface $orderRepository)
     {
         $this->orderRepository = $orderRepository;
     }
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         if (!empty($request->status)) {
-            $data = $this->orderRepository->listByStatus($request->status);
+            if (!empty($request->term)) {
+                $data = $this->orderRepository->searchOrder($request->term);
+            } else {
+                $data = $this->orderRepository->listByStatus($request->status);
+            }
         } else {
             $data = $this->orderRepository->listAll();
         }
@@ -29,13 +33,13 @@ class OrderController extends Controller
         return view('admin.order.index', compact('data'));
     }
 
-    public function indexStatus(Request $request, $status) 
+    public function indexStatus(Request $request, $status)
     {
         $data = $this->orderRepository->listByStatus($status);
         return view('admin.order.index', compact('data'));
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             "name" => "required|string|max:255",

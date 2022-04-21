@@ -2,9 +2,10 @@
 
 namespace App\Interfaces;
 
-interface ProductInterface 
+interface ProductInterface
 {
     public function listAll();
+    public function getSearchProducts(string $term);
     public function categoryList();
     public function subCategoryList();
     public function collectionList();
