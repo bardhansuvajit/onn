@@ -8,24 +8,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
     // private UserInterface $userRepository;
 
-    public function __construct(UserInterface $userRepository) 
+    public function __construct(UserInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-        $data = $this->userRepository->listAll();
+        if (!empty($request->term)) {
+            $data = $this->userRepository->searchCustomer($request->term);
+        } else {
+            $data = $this->userRepository->listAll();
+        }
         return view('admin.customer.index', compact('data'));
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             "fname" => "required|string|max:255",
@@ -84,10 +89,38 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id) 
+    public function destroy(Request $request, $id)
     {
         $this->userRepository->delete($id);
 
         return redirect()->route('admin.customer.index');
+    }
+    public function bulkDestroy(Request $request)
+    {
+        // $request->validate([
+        //     'bulk_action' => 'required',
+        //     'delete_check' => 'required|array',
+        // ]);
+
+        $validator = Validator::make($request->all(), [
+            'bulk_action' => 'required',
+            'delete_check' => 'required|array',
+        ], [
+            'delete_check.*' => 'Please select at least one item'
+        ]);
+
+        if (!$validator->fails()) {
+            if ($request['bulk_action'] == 'delete') {
+                foreach ($request->delete_check as $index => $delete_id) {
+                    User::where('id', $delete_id)->delete();
+                }
+
+                return redirect()->route('admin.customer.index')->with('success', 'Selected items deleted');
+            } else {
+                return redirect()->route('admin.customer.index')->with('failure', 'Please select an action')->withInput($request->all());
+            }
+        } else {
+            return redirect()->route('admin.customer.index')->with('failure', $validator->errors()->first())->withInput($request->all());
+        }
     }
 }

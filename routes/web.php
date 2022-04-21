@@ -173,6 +173,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{id}/update', 'Admin\CouponController@update')->name('update');
             Route::get('/{id}/status', 'Admin\CouponController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\CouponController@destroy')->name('delete');
+            Route::get('/bulkDelete', 'Admin\CouponController@bulkDestroy')->name('bulkDestroy');
         });
 
         // customer
@@ -183,6 +184,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{id}/update', 'Admin\UserController@update')->name('update');
             Route::get('/{id}/status', 'Admin\UserController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\UserController@destroy')->name('delete');
+            Route::get('/bulkDelete', 'Admin\UserController@bulkDestroy')->name('bulkDestroy');
         });
 
         // product
@@ -209,6 +211,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{id}/update', 'Admin\AddressController@update')->name('update');
             Route::get('/{id}/status', 'Admin\AddressController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\AddressController@destroy')->name('delete');
+            Route::get('/bulkDelete', 'Admin\AddressController@bulkDestroy')->name('bulkDestroy');
         });
 
         // faq
@@ -229,6 +232,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/{id}/update', 'Admin\SettingsController@update')->name('update');
             Route::get('/{id}/status', 'Admin\SettingsController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\SettingsController@destroy')->name('delete');
+            Route::get('/bulkDelete', 'Admin\SettingsController@bulkDestroy')->name('bulkDestroy');
         });
 
         // order

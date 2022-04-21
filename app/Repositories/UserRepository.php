@@ -13,59 +13,71 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class UserRepository implements UserInterface 
+class UserRepository implements UserInterface
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->ip = $_SERVER['REMOTE_ADDR'];
     }
 
-    public function listAll() 
+    public function listAll()
     {
         return User::all();
     }
 
-    public function listById($id) 
+    public function listById($id)
     {
         return User::findOrFail($id);
     }
 
-    public function create(array $data) 
+    public function searchCustomer(string $term)
+    {
+        return User::where([['fname', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['lname', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['email', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['mobile', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['gender', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['name', 'LIKE', '%' . $term . '%']])
+            ->get();
+    }
+
+    public function create(array $data)
     {
         // DB::beginTransaction();
 
         // try {
-            $collectedData = collect($data);
+        $collectedData = collect($data);
 
-            $full_name = '';
-            if (isset($data['fname'])) {
-                $full_name = $collectedData['fname'].' '.$collectedData['lname'];
-            }
+        $full_name = '';
+        if (isset($data['fname'])) {
+            $full_name = $collectedData['fname'] . ' ' . $collectedData['lname'];
+        }
 
-            $newEntry = new User;
-            $newEntry->fname = $collectedData['fname'] ?? NULL;
-            $newEntry->lname = $collectedData['lname'] ?? NULL;
-            $newEntry->name = $full_name;
-            $newEntry->email = $collectedData['email'];
-            $newEntry->mobile = $collectedData['mobile'];
-            $newEntry->gender = $collectedData['gender'] ?? NULL;
-            $newEntry->password = Hash::make($collectedData['password']);
+        $newEntry = new User;
+        $newEntry->fname = $collectedData['fname'] ?? NULL;
+        $newEntry->lname = $collectedData['lname'] ?? NULL;
+        $newEntry->name = $full_name;
+        $newEntry->email = $collectedData['email'];
+        $newEntry->mobile = $collectedData['mobile'];
+        $newEntry->gender = $collectedData['gender'] ?? NULL;
+        $newEntry->password = Hash::make($collectedData['password']);
 
-            $newEntry->save();
+        $newEntry->save();
 
-            if ($newEntry) {
-                $email_data = [
-                    'name' => $full_name,
-                    'subject' => 'Onn - New registration',
-                    'email' => $collectedData['email'],
-                    'password' => $collectedData['password'],
-                    'blade_file' => 'front/mail/register',
-                ];
-                SendMail($email_data);
-            }
+        if ($newEntry) {
+            $email_data = [
+                'name' => $full_name,
+                'subject' => 'Onn - New registration',
+                'email' => $collectedData['email'],
+                'password' => $collectedData['password'],
+                'blade_file' => 'front/mail/register',
+            ];
+            SendMail($email_data);
+        }
 
-            DB::commit();
+        DB::commit();
 
-            return true;
+        return true;
         // } catch (\Throwable $th) {
         //     //throw $th;
 
@@ -74,7 +86,7 @@ class UserRepository implements UserInterface
         // }
     }
 
-    public function update($id, array $newDetails) 
+    public function update($id, array $newDetails)
     {
         $updatedEntry = User::findOrFail($id);
         $collectedData = collect($newDetails);
@@ -89,27 +101,28 @@ class UserRepository implements UserInterface
         return $updatedEntry;
     }
 
-    public function toggle($id){
+    public function toggle($id)
+    {
         $updatedEntry = User::findOrFail($id);
 
-        $status = ( $updatedEntry->status == 1 ) ? 0 : 1;
+        $status = ($updatedEntry->status == 1) ? 0 : 1;
         $updatedEntry->status = $status;
         $updatedEntry->save();
 
         return $updatedEntry;
     }
 
-    public function delete($id) 
+    public function delete($id)
     {
         User::destroy($id);
     }
 
-    public function addressById($id) 
+    public function addressById($id)
     {
         return Address::where('user_id', $id)->get();
     }
 
-    public function addressCreate(array $data) 
+    public function addressCreate(array $data)
     {
         $collectedData = collect($data);
         $newEntry = new Address;
@@ -128,19 +141,19 @@ class UserRepository implements UserInterface
         return $newEntry;
     }
 
-    public function updateProfile(array $data) 
+    public function updateProfile(array $data)
     {
         $collectedData = collect($data);
         $updateEntry = User::findOrFail(Auth::guard('web')->user()->id);
         $updateEntry->fname = $collectedData['fname'];
         $updateEntry->lname = $collectedData['lname'];
-        $updateEntry->name = $collectedData['fname'].' '.$collectedData['lname'];
+        $updateEntry->name = $collectedData['fname'] . ' ' . $collectedData['lname'];
         $updateEntry->save();
 
         return $updateEntry;
     }
 
-    public function updatePassword(array $data) 
+    public function updatePassword(array $data)
     {
         $collectedData = collect($data);
         $userExists = User::findOrFail(Auth::guard('web')->user()->id);
@@ -158,13 +171,13 @@ class UserRepository implements UserInterface
         }
     }
 
-    public function orderDetails() 
+    public function orderDetails()
     {
         $data = Order::where('email', Auth::guard('web')->user()->email)->latest('id')->get();
         return $data;
     }
 
-    public function recommendedProducts() 
+    public function recommendedProducts()
     {
         $data = Product::latest('is_best_seller', 'id')->get();
         return $data;

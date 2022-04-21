@@ -31,7 +31,7 @@ class OrderRepository implements OrderInterface
 
     public function searchOrder(string $term)
     {
-        return Order::where(['fname', 'LIKE', '%' . $term . '%'])->get();
+        return Order::where([['fname', 'LIKE', '%' . $term . '%']])->get();
     }
     public function create(array $data)
     {

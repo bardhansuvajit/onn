@@ -9,20 +9,28 @@
             <div class="card">    
                 <div class="card-body">
 
-                    {{-- <div class="search__filter">
+                    <div class="search__filter">
                         <div class="row align-items-center justify-content-between">
                             <div class="col">
                                 <ul>
-                                    <li class="active"><a href="#">All <span class="count">({{$data->count()}})</span></a></li>
-                                    <li><a href="#">Active <span class="count">(7)</span></a></li>
-                                    <li><a href="#">Inactive <span class="count">(3)</span></a></li>
+                                    <li class="active"><a href="{{route('admin.customer.index')}}">All <span class="count">({{$data->count()}})</span></a></li>
+                                    @php
+                                        $activeCount = $inactiveCount = 0;
+                                        foreach ($data as $key => $customerValue) {
+                                        if ($customerValue->status == 1)$activeCount++;
+                                        else $inactiveCount++;
+                                        }
+                                    @endphp
+                                    @endphp
+                                    <li><a href="{{route('admin.customer.index',['status' => 'active'])}}">Active <span class="count">{{$activeCount}}</span></a></li>
+                                    <li><a href="{{route('admin.customer.index',['status' => 'inactive'])}}">Inactive <span class="count">{{$inactiveCount}}</span></a></li>
                                 </ul>
                             </div>
                             <div class="col-auto">
-                                <form>
+                                <form action="{{ route('admin.customer.index')}}" method="GET">
                                     <div class="row g-3 align-items-center">
                                         <div class="col-auto">
-                                            <input type="search" name="" class="form-control" placeholder="Search here..">
+                                            <input type="search" name="term" class="form-control" placeholder="Search here.." id="term" value="{{app('request')->input('term')}}" autocomplete="off">
                                         </div>
                                         <div class="col-auto">
                                             <button type="submit" class="btn btn-outline-danger btn-sm">Search Product</button>
@@ -32,82 +40,108 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="filter">
-                        <div class="row align-items-center justify-content-between">
-                        <div class="col">
-                            <form>
-                            <div class="row g-3 align-items-center">
-                                <div class="col-auto">
-                                <select class="form-control">
-                                    <option>Bulk Action</option>
-                                    <option>Delect</option>
-                                </select>
-                                </div>
-                                <div class="col-auto">
-                                <button type="submit" class="btn btn-outline-danger btn-sm">Apply</button>
+                    <form action="{{ route('admin.customer.bulkDestroy') }}">
+                        <div class="filter">
+                            <div class="row align-items-center justify-content-between">
+                            <div class="col">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-auto">
+                                    <select class="form-control" name="bulk_action">
+                                        <option value=" hidden selected">Bulk Action</option>
+                                        <option value="delete">Delete</option>
+                                    </select>
+                                    </div>
+                                    <div class="col-auto">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Apply</button>
+                                    </div>
                                 </div>
                             </div>
-                            </form>
+                            <div class="col-auto">
+                                {{-- <p>{{$data->count()}} Items</p> --}}
+                                @php
+                                    if (!empty($_GET['status'])) {
+                                        if ($_GET['status'] == 'active') {
+                                            ($activeCount>1) ? $itemShow = 'Items' : $itemShow = 'Item';
+                                            echo '<p>'.$activeCount.' '.$itemShow.'</p>';
+                                        } elseif ($_GET['status'] == 'inactive') {
+                                            ($inactiveCount>1) ? $itemShow = 'Items' : $itemShow = 'Item';
+                                            echo '<p>'.$inactiveCount.' '.$itemShow.'</p>';
+                                        }
+                                    } else {
+                                        ($data->count() > 1) ? $itemShow = 'Items' : $itemShow = 'Item';
+                                        echo '<p>'.$data->count().' '.$itemShow.'</p>';
+                                    }
+                                @endphp
+                            </div>
+                            </div>
                         </div>
-                        <div class="col-auto">
-                            <p>{{$data->count()}} Items</p>
-                        </div>
-                        </div>
-                    </div> --}}
 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="check-column">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault"></label>
-                                </div>
-                                </th>
-                                <th class="text-center"><i class="fi fi-br-picture"></i></th>
-                                <th>Name</th>
-                                <th>Contact</th>
-                                <th>Gender</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($data as $index => $item)
-                            <tr>
-                                <td class="check-column">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="check-column">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault" onclick="headerCheckFunc()">
                                         <label class="form-check-label" for="flexCheckDefault"></label>
                                     </div>
-                                </td>
-                                <td class="text-center column-thumb">
-                                    {{-- <img src="{{ asset($item->image) }}"> --}}
-                                    @if($item->image)
-                                        <img src="{{asset($item->image)}}" alt="" style="height: 100px" class="mr-4">
-                                    @else
-                                        <img src="{{asset('admin/images/placeholder-image.jpg')}}" alt="" class="mr-4" style="width: 100px;height: 100px;border-radius: 50%;">
-                                    @endif
-                                </td>
-                                <td>
-                                {{$item->fname.' '.$item->lname}}
-                                <div class="row__action">
-                                    <a href="{{ route('admin.customer.view', $item->id) }}">Edit</a>
-                                    <a href="{{ route('admin.customer.view', $item->id) }}">View</a>
-                                    <a href="{{ route('admin.customer.status', $item->id) }}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</a>
-                                    <a href="{{ route('admin.customer.delete', $item->id) }}" class="text-danger">Delete</a>
-                                </div>
-                                </td>
-                                <td>{{ $item->email }} <br> {{ $item->mobile }}</td>
-                                <td>{{$item->gender}}</td>
-                                <td>Published<br/>{{date('d M Y', strtotime($item->created_at))}}</td>
-                                <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>
-                            </tr>
-                            @empty
-                            <tr><td colspan="100%" class="small text-muted">No data found</td></tr>
-                            @endforelse
-                        </tbody>
-                    </table>    
+                                    </th>
+                                    <th class="text-center"><i class="fi fi-br-picture"></i></th>
+                                    <th>Name</th>
+                                    <th>Contact</th>
+                                    <th>Gender</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($data as $index => $item)
+                                @php
+                                if (!empty($_GET['status'])) {
+                                    if ($_GET['status'] == 'active') {
+                                        if ($item->status == 0) continue;
+                                    } else {
+                                        if ($item->status == 1) continue;
+                                    }
+                                }
+                                @endphp
+                                <tr>
+                                    <td class="check-column">
+                                        <input name="delete_check[]" class="tap-to-delete" type="checkbox" onclick="clickToRemove()" value="{{$item->id}}" 
+                                        @php
+                                        if (old('delete_check')) {
+                                            if (in_array($item->id, old('delete_check'))) {
+                                                echo 'checked';
+                                            }
+                                        }
+                                        @endphp>
+                                    </td>
+                                    <td class="text-center column-thumb">
+                                        {{-- <img src="{{ asset($item->image) }}"> --}}
+                                        @if($item->image)
+                                            <img src="{{asset($item->image)}}" alt="" style="height: 100px" class="mr-4">
+                                        @else
+                                            <img src="{{asset('admin/images/placeholder-image.jpg')}}" alt="" class="mr-4" style="width: 100px;height: 100px;border-radius: 50%;">
+                                        @endif
+                                    </td>
+                                    <td>
+                                    {{$item->fname.' '.$item->lname}}
+                                    <div class="row__action">
+                                        <a href="{{ route('admin.customer.view', $item->id) }}">Edit</a>
+                                        <a href="{{ route('admin.customer.view', $item->id) }}">View</a>
+                                        <a href="{{ route('admin.customer.status', $item->id) }}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</a>
+                                        <a href="{{ route('admin.customer.delete', $item->id) }}" class="text-danger">Delete</a>
+                                    </div>
+                                    </td>
+                                    <td>{{ $item->email }} <br> {{ $item->mobile }}</td>
+                                    <td>{{$item->gender}}</td>
+                                    <td>Published<br/>{{date('d M Y', strtotime($item->created_at))}}</td>
+                                    <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>
+                                </tr>
+                                @empty
+                                <tr><td colspan="100%" class="small text-muted">No data found</td></tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </form>    
                 </div>
             </div>
         </div>

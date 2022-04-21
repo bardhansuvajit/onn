@@ -6,24 +6,34 @@ use App\Interfaces\AddressInterface;
 use App\Models\Address;
 use App\User;
 
-class AddressRepository implements AddressInterface 
+class AddressRepository implements AddressInterface
 {
-    public function listAll() 
+    public function listAll()
     {
         return Address::all();
     }
+    public function getSearchAddress(string $term)
+    {
+        return Address::where([['address', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['landmark	', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['lat', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['lng', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['state', 'LIKE', '%' . $term . '%']])
+            ->orWhere([['city', 'LIKE', '%' . $term . '%']])
+            ->get();
+    }
 
-    public function listUsers() 
+    public function listUsers()
     {
         return User::all();
     }
 
-    public function listById($id) 
+    public function listById($id)
     {
         return Address::findOrFail($id);
     }
 
-    public function create(array $data) 
+    public function create(array $data)
     {
         $collectedData = collect($data);
         $newEntry = new Address;
@@ -41,7 +51,7 @@ class AddressRepository implements AddressInterface
         return $newEntry;
     }
 
-    public function update($id, array $newDetails) 
+    public function update($id, array $newDetails)
     {
         $updatedEntry = Address::findOrFail($id);
         $collectedData = collect($newDetails);
@@ -59,17 +69,18 @@ class AddressRepository implements AddressInterface
         return $updatedEntry;
     }
 
-    public function toggle($id){
+    public function toggle($id)
+    {
         $updatedEntry = Address::findOrFail($id);
 
-        $status = ( $updatedEntry->status == 1 ) ? 0 : 1;
+        $status = ($updatedEntry->status == 1) ? 0 : 1;
         $updatedEntry->status = $status;
         $updatedEntry->save();
 
         return $updatedEntry;
     }
 
-    public function delete($id) 
+    public function delete($id)
     {
         Address::destroy($id);
     }

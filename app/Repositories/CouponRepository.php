@@ -6,24 +6,29 @@ use App\Interfaces\CouponInterface;
 use App\Models\Coupon;
 use App\Models\CouponUsage;
 
-class CouponRepository implements CouponInterface 
+class CouponRepository implements CouponInterface
 {
-    public function listAll() 
+    public function listAll()
     {
         return Coupon::all();
     }
 
-    public function listById($id) 
+    public function getSearchCoupons(string $term)
+    {
+        return Coupon::where([['name', 'LIKE', '%' . $term . '%']])->get();
+    }
+
+    public function listById($id)
     {
         return Coupon::findOrFail($id);
     }
 
-    public function usageById($id) 
+    public function usageById($id)
     {
         return CouponUsage::where('coupon_code_id', $id)->get();
     }
 
-    public function create(array $data) 
+    public function create(array $data)
     {
         $collectedData = collect($data);
 
@@ -51,10 +56,10 @@ class CouponRepository implements CouponInterface
         return $newEntry;
     }
 
-    public function update($id, array $newDetails) 
+    public function update($id, array $newDetails)
     {
         $updatedEntry = Coupon::findOrFail($id);
-        $collectedData = collect($newDetails); 
+        $collectedData = collect($newDetails);
         // dd($newDetails);
 
         $updatedEntry->name = $collectedData['name'];
@@ -73,17 +78,18 @@ class CouponRepository implements CouponInterface
         return $updatedEntry;
     }
 
-    public function toggle($id){
+    public function toggle($id)
+    {
         $updatedEntry = Coupon::findOrFail($id);
 
-        $status = ( $updatedEntry->status == 1 ) ? 0 : 1;
+        $status = ($updatedEntry->status == 1) ? 0 : 1;
         $updatedEntry->status = $status;
         $updatedEntry->save();
 
         return $updatedEntry;
     }
 
-    public function delete($id) 
+    public function delete($id)
     {
         Coupon::destroy($id);
     }

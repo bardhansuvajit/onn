@@ -22,6 +22,7 @@ class OrderController extends Controller
     {
         if (!empty($request->status)) {
             if (!empty($request->term)) {
+                $data = $this->orderRepository->listByStatus($request->status);
                 $data = $this->orderRepository->searchOrder($request->term);
             } else {
                 $data = $this->orderRepository->listByStatus($request->status);

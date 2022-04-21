@@ -2,10 +2,11 @@
 
 namespace App\Interfaces;
 
-interface UserInterface 
+interface UserInterface
 {
     public function listAll();
     public function listById($id);
+    public function searchCustomer(string $term);
     public function create(array $data);
     public function update($id, array $data);
     public function toggle($id);

@@ -33,7 +33,7 @@
                                             <input type="search" name="term" class="form-control" placeholder="Search here.." id="term" value="{{app('request')->input('term')}}" autocomplete="off">
                                         </div>
                                         <div class="col-auto">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm">Search Product</button>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">Search Category</button>
                                         </div>
                                     </div>
                                 </form>

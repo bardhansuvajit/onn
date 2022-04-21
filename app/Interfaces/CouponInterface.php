@@ -2,9 +2,10 @@
 
 namespace App\Interfaces;
 
-interface CouponInterface 
+interface CouponInterface
 {
     public function listAll();
+    public function getSearchCoupons(string $term);
     public function listById($id);
     public function usageById($id);
     public function create(array $data);

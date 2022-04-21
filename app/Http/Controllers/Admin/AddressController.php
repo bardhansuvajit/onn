@@ -7,24 +7,29 @@ use App\Models\Address;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class AddressController extends Controller
 {
     // private AddressInterface $addressRepository;
 
-    public function __construct(AddressInterface $addressRepository) 
+    public function __construct(AddressInterface $addressRepository)
     {
         $this->addressRepository = $addressRepository;
     }
 
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-        $data = $this->addressRepository->listAll();
+        if (!empty($request->term)) {
+            $data = $this->addressRepository->getSearchAddress($request->term);
+        } else {
+            $data = $this->addressRepository->listAll();
+        }
         $users = $this->addressRepository->listUsers();
         return view('admin.address.index', compact('data', 'users'));
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         $request->validate([
             "user_id" => "required|integer",
@@ -94,10 +99,38 @@ class AddressController extends Controller
         }
     }
 
-    public function destroy(Request $request, $id) 
+    public function destroy(Request $request, $id)
     {
         $this->addressRepository->delete($id);
 
         return redirect()->route('admin.address.index');
+    }
+    public function bulkDestroy(Request $request)
+    {
+        // $request->validate([
+        //     'bulk_action' => 'required',
+        //     'delete_check' => 'required|array',
+        // ]);
+
+        $validator = Validator::make($request->all(), [
+            'bulk_action' => 'required',
+            'delete_check' => 'required|array',
+        ], [
+            'delete_check.*' => 'Please select at least one item'
+        ]);
+
+        if (!$validator->fails()) {
+            if ($request['bulk_action'] == 'delete') {
+                foreach ($request->delete_check as $index => $delete_id) {
+                    Address::where('id', $delete_id)->delete();
+                }
+
+                return redirect()->route('admin.address.index')->with('success', 'Selected items deleted');
+            } else {
+                return redirect()->route('admin.address.index')->with('failure', 'Please select an action')->withInput($request->all());
+            }
+        } else {
+            return redirect()->route('admin.address.index')->with('failure', $validator->errors()->first())->withInput($request->all());
+        }
     }
 }
