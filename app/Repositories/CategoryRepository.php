@@ -174,7 +174,7 @@ class CategoryRepository implements CategoryInterface
     public function productsByCategory(int $categoryId, array $filter = null)
     {
         try {
-            /* $productsQuery = Product::where('cat_id', $categoryId);
+            $productsQuery = Product::where('cat_id', $categoryId);
 
             // collection handling
             if (isset($filter['collection'])) {
@@ -239,11 +239,7 @@ class CategoryRepository implements CategoryInterface
                 $products = $productsQuery->orderBy($orderBy, $order);
             }
 
-            $products = $productsQuery->with('colorSize')->get(); */
-
-            $products = DB::table('SELECT * FROM `products` where cat_id = 9');
-
-            // dd($products);
+            $products = $productsQuery->with('colorSize')->get();
 
             $response = [];
             foreach ($products as $productKey => $productValue) {

@@ -42,12 +42,12 @@ select:focus {
     <div class="container">
         @if (count($data->ProductDetails) > 0)
         <div class="listing-block__meta">
-            <div class="filter">
+            {{-- <div class="filter">
                 <div class="filter__toggle">
                     Filter
                 </div>
                 <div class="filter__data"></div>
-            </div>
+            </div> --}}
             <div class="products mr-3">
                 <h6><span id="prod_count">{{ $data->ProductDetails->count() }}</span> <span id="prod_text">{{ ($data->ProductDetails->count() > 1) ? 'products' : 'product' }}</span> found</h6>
             </div>
@@ -63,7 +63,7 @@ select:focus {
         </div>
 
         <div class="product__wrapper">
-            <div class="product__filter active">
+            <div class="product__filter">
                 <div class="product__filter__bar">
                     <div class="filter__close">
                         <i class="fal fa-times"></i>
@@ -110,7 +110,7 @@ select:focus {
                 </div>
             </div>
 
-            <div class="product__holder active">
+            <div class="product__holder">
                 <div class="row">
                     @forelse($data->ProductDetails as $categoryProductKey => $categoryProductValue)
                     <a href="{{ route('front.product.detail', $categoryProductValue->slug) }}" class="product__single" data-events data-cat="tshirt">

@@ -56,12 +56,17 @@ class ProductController extends Controller
 
         $respImage = [];
 
-        if ($dataImage) {
+        if ($dataImage->count() > 0) {
             foreach ($dataImage as $dataKey => $dataValue) {
                 $respImage[] = [
                     'image' => asset($dataValue->image),
                 ];
             }
+        } else {
+            $mainImage = Product::select('image')->where('id', $productId)->first();
+            $respImage[] = [
+                'image' => asset($mainImage->image)
+            ];
         }
 
         return response()->json(['error' => false, 'data' => $resp, 'images' => $respImage]);
