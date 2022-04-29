@@ -121,7 +121,9 @@
                                         </div>
                                     </td>
                                     <td>
+                                        @if($item->user)
                                         {{$item->user->fname.' '.$item->user->lname}}
+                                        @endif
                                     </td>
                                     <td>
                                     {{$item->address}}
