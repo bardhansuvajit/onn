@@ -201,6 +201,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/{id}/delete', 'Admin\ProductController@destroy')->name('delete');
             Route::get('/{id}/image/delete', 'Admin\ProductController@destroySingleImage')->name('image.delete');
             Route::get('/bulkDelete', 'Admin\ProductController@bulkDestroy')->name('bulkDestroy');
+
+
+            // variation
+            Route::post('/variation/color/add', 'Admin\ProductController@variationColorAdd')->name('variation.color.add');
+            Route::get('/variation/{productId}/color/{colorId}/delete', 'Admin\ProductController@variationColorDestroy')->name('variation.color.delete');
+            Route::post('/variation/size/add', 'Admin\ProductController@variationSizeUpload')->name('variation.size.add');
+            Route::get('/variation/{id}/size/remove', 'Admin\ProductController@variationSizeDestroy')->name('variation.size.delete');
+            Route::post('/variation/image/add', 'Admin\ProductController@variationImageUpload')->name('variation.image.add');
+            Route::get('/variation/{id}/image/remove', 'Admin\ProductController@variationImageDestroy')->name('variation.image.delete');
         });
 
         // address

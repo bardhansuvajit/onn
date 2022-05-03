@@ -10,6 +10,7 @@ interface ProductInterface
     public function subCategoryList();
     public function collectionList();
     public function colorList();
+    public function colorListByName();
     public function sizeList();
     public function listById($id);
     public function listBySlug($slug);

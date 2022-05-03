@@ -58,6 +58,11 @@ class ProductRepository implements ProductInterface
         return Color::all();
     }
 
+    public function colorListByName()
+    {
+        return Color::orderBy('name', 'asc')->get();
+    }
+
     public function sizeList()
     {
         return Size::all();

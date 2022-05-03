@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Interfaces\ProductInterface;
 use App\Models\Product;
 use App\Models\ProductColorSize;
+use App\Models\ProductImage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -107,8 +108,15 @@ class ProductController extends Controller
         $sub_categories = $this->productRepository->subCategoryList();
         $collections = $this->productRepository->collectionList();
         $data = $this->productRepository->listById($id);
+        $colors = $this->productRepository->colorListByName();
+        $sizes = $this->productRepository->sizeList();
         $images = $this->productRepository->listImagesById($id);
-        return view('admin.product.edit', compact('data', 'categories', 'sub_categories', 'collections', 'images'));
+
+        $productColorGroup = ProductColorSize::select('color')->where('product_id', $id)->groupBy('color')->get();
+
+        // dd($productColorGroup);
+
+        return view('admin.product.edit', compact('id', 'data', 'categories', 'sub_categories', 'collections', 'images', 'colors', 'sizes', 'productColorGroup'));
     }
 
     public function update(Request $request, $id)
@@ -205,5 +213,107 @@ class ProductController extends Controller
         } else {
             return redirect()->route('admin.product.index')->with('failure', $validator->errors()->first())->withInput($request->all());
         }
+    }
+
+    public function variationSizeDestroy(Request $request, $id)
+    {
+        // dd($id);
+        ProductColorSize::destroy($id);
+        return redirect()->back();
+    }
+
+    public function variationImageDestroy(Request $request, $id)
+    {
+        // dd($id);
+        ProductImage::destroy($id);
+        return redirect()->back();
+    }
+
+    public function variationImageUpload(Request $request)
+    {
+        // dd($request->all());
+
+        $request->validate([
+            'product_id' => 'required',
+            'color_id' => 'required',
+            'image' => 'required|array',
+        ]);
+
+        $product_id = $request->product_id;
+        $color_id = $request->color_id;
+
+        // dd($request->image);
+
+        foreach($request->image as $imageKey => $imageValue) {
+            $newName = str_replace(' ', '-', $imageValue->getClientOriginalName());
+            $imageValue->move('uploads/product/product_images/', $newName);
+
+            $productImage = new ProductImage();
+            $productImage->product_id = $product_id;
+            $productImage->color_id = $color_id;
+            $productImage->image = 'uploads/product/product_images/'.$newName;
+            $productImage->save();
+        }
+
+        return redirect()->back();
+    }
+
+    public function variationSizeUpload(Request $request)
+    {
+        // dd($request->all());
+
+        $request->validate([
+            'product_id' => 'required',
+            'color_id' => 'required',
+            'size' => 'required',
+            'price' => 'required',
+            'offer_price' => 'required',
+        ]);
+
+        $productImage = new ProductColorSize();
+        $productImage->product_id = $request->product_id;
+        $productImage->color = $request->color_id;
+        $productImage->size = $request->size;
+        $productImage->assorted_flag = $request->assorted_flag ? $request->assorted_flag : 0;
+        $productImage->price = $request->price;
+        $productImage->offer_price = $request->offer_price;
+        $productImage->stock = $request->stock ? $request->stock : 0;
+        $productImage->code = $request->code ? $request->code : 0;
+        $productImage->save();
+
+        return redirect()->back();
+    }
+
+    public function variationColorDestroy(Request $request, $productId, $colorId)
+    {
+        // dd($productId, $colorId);
+        ProductColorSize::where('product_id', $productId)->where('color', $colorId)->delete();
+        return redirect()->back();
+    }
+
+    public function variationColorAdd(Request $request)
+    {
+        // dd($request->all());
+
+        $request->validate([
+            'product_id' => 'required',
+            'color' => 'required',
+            'size' => 'required',
+            'price' => 'required',
+            'offer_price' => 'required',
+        ]);
+
+        $productImage = new ProductColorSize();
+        $productImage->product_id = $request->product_id;
+        $productImage->color = $request->color;
+        $productImage->size = $request->size;
+        $productImage->assorted_flag = $request->assorted_flag ? $request->assorted_flag : 0;
+        $productImage->price = $request->price;
+        $productImage->offer_price = $request->offer_price;
+        $productImage->stock = $request->stock ? $request->stock : 0;
+        $productImage->code = $request->code ? $request->code : 0;
+        $productImage->save();
+
+        return redirect()->back();
     }
 }
