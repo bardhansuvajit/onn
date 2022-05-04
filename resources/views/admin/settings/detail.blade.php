@@ -14,7 +14,7 @@
                             <p class="text-dark small">{{strtoupper($data->page_heading)}}</p>
 
                             <p class="text-muted small mb-1">Content</p>
-                            <p class="text-dark small">{{$data->content}}</p>
+                            <p class="text-dark small">{!!$data->content!!}</p>
                         </div>
                     </div>
                 </div>

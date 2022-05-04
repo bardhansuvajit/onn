@@ -174,7 +174,7 @@ class CategoryRepository implements CategoryInterface
     public function productsByCategory(int $categoryId, array $filter = null)
     {
         try {
-            $productsQuery = Product::where('cat_id', $categoryId);
+            $productsQuery = Product::where('cat_id', $categoryId)->where('status', 1);
 
             // collection handling
             if (isset($filter['collection'])) {

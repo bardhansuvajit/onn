@@ -21,7 +21,7 @@
 
 <body>
     <main>
-        <section class="register-wrapper">
+        <!-- <section class="register-wrapper">
             <div class="register-left">
                 <div class="register-header">
                     <h4>Recommended Product</h4>
@@ -84,6 +84,46 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </section> -->
+		
+		
+		
+		<section class="register-wrapper">
+            <div class="register-right">
+                 <div class="register-logo">
+                    <a href="{{route('front.home')}}"><img src="{{asset('img/footer-logo.png')}}"></a>
+                </div>
+                <div class="container">
+                    <div class="row m-0 justify-content-center">
+                        <div class="col-12 col-lg-5 p-0">
+                             <form method="POST" class="register-block" action="{{route('front.user.check')}}">@csrf
+                                <h3>Login</h3>
+                                <h4>Welcome to ONN</h4>
+            
+                                <div class="register-card">
+                                    <div class="register-group">
+                                        <input type="email" class="register-box" name="email" placeholder="Email id" value="{{old('email')}}" autofocus>
+                                        <label class="floating-label">Email id</label>
+                                        @error('email') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                                    </div>
+                                    <div class="register-group">
+                                        <input type="password" class="register-box" name="password" placeholder="Password">
+                                        <label class="floating-label">Password</label>
+                                        @error('password') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                                    </div>
+                                </div>
+            
+                                <div class="row align-items-center justify-content-center text-center">
+                                    <div class="col-12">
+                                        <button type="submit">Login</button>
+                                        <a href="{{route('front.user.register')}}">New user ?</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>

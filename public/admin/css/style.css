@@ -274,21 +274,21 @@ footer {
 	font-weight: 500;
 	border: none;
 	vertical-align: bottom;
-	padding: 12px 20px;
+	padding: 12px 10px;
 }
 .table td {
 	font-size: 14px;
 	font-weight: 400;
 	color: #8691aa;
 	border: none;
-	padding: 12px 20px;
+	padding: 12px 10px;
 }
 .table>:not(:first-child) {
 	border:  none;
 }
 .table th.check-column,
 .table td.check-column {
-	width: 40px;
+	max-width: 40px;
 }
 .table thead tr th {
 	background: #fff;
@@ -499,4 +499,24 @@ footer {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.customer-table td::-webkit-scrollbar{
+	width: 1px;
+}
+
+@media only screen and (max-width:991px){
+	.table th {
+		padding: 12px 5px;
+	}
+	.table td {
+		padding: 12px 5px;
+	}	
+}
+@media only screen and (max-width:1366px) {
+	.customer-table tr td:nth-child(4n){
+		max-width: 150px;
+		overflow-x: scroll;
+		white-space: nowrap;
+	}
 }

@@ -44,7 +44,7 @@ select:focus {
                 <div class="filter__data"></div>
             </div> --}}
             <div class="products mr-3">
-                <h6><span id="prod_count">{{ $data->ProductDetails->count() }}</span> <span id="prod_text">{{ ($data->ProductDetails->count() > 1) ? 'products' : 'product' }}</span> found</h6>
+                {{-- <h6><span id="prod_count">{{ $data->ProductDetails->count() }}</span> <span id="prod_text">{{ ($data->ProductDetails->count() > 1) ? 'products' : 'product' }}</span> found</h6> --}}
             </div>
             <div class="sorting">
                 Sort By:
@@ -58,7 +58,7 @@ select:focus {
         </div>
 
         <div class="product__wrapper">
-            <div class="product__filter">
+            <div class="product__filter d-none">
                 <div class="product__filter__bar">
                     <div class="filter__close">
                         <i class="fal fa-times"></i>
@@ -120,6 +120,7 @@ select:focus {
             <div class="product__holder">
                 <div class="row">
                     @forelse($data->ProductDetails as $collectionProductKey => $collectionProductValue)
+                    @php if($collectionProductValue->status == 0) {continue;} @endphp
                     <a href="{{ route('front.product.detail', $collectionProductValue->slug) }}" class="product__single" data-events data-cat="tshirt">
                         <figure>
                             <img src="{{asset($collectionProductValue->image)}}" />

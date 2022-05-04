@@ -5,22 +5,16 @@
 @section('content')
 
 <style type="text/css">
-	.cms_context h1, .cms_context h2, .cms_context h3, .cms_context h4, .cms_context h5, .cms_context h6 {
-		margin-bottom: 25px;
-	}
-	.cms_context p {
-		margin-bottom: 30px;
-	}
-	.cms_context ul {
-		list-style-type: disc;
-		padding-left: 30px;
-		margin-bottom: 30px;
-	}
-	.cms_context ul li {
-		margin-bottom: 10px;
-	}
+    .cms_context h1, .cms_context h2, .cms_context h3, .cms_context h4, .cms_context h5, .cms_context h6 {
+        margin: 0 0 25px;
+    }
+    .cms_context p {
+        margin-bottom: 30px;
+    }
+    .cms_context ul {
+        list-style-type: disc;
+    }
 </style>
-
 <section class="cart-header mb-3 mb-sm-5 mt-5">
     <div class="container">
         <div class="row">

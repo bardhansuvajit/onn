@@ -5,7 +5,7 @@
 @section('content')
 <section>
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-6 col-lg-3">
             <div class="card home__card bg-gradient-danger">
                 <div class="card-body">
                     <h4>No of Customer <i class="fi fi-br-box-alt"></i></h4>
@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-6 col-lg-3">
             <div class="card home__card bg-gradient-info">
                 <div class="card-body">
                     <h4>Category <i class="fi fi-br-chart-histogram"></i></h4>
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-6 col-lg-3">
             <div class="card home__card bg-gradient-success">
                 <div class="card-body">
                     <h4>Subcategory <i class="fi fi-br-user"></i></h4>
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-6 col-lg-3">
             <div class="card home__card bg-gradient-secondary">
                 <div class="card-body">
                     <h4>No of Product <i class="fi fi-br-cube"></i></h4>
@@ -44,7 +44,7 @@
 </section>
 <section>
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-xl-6">
             <h5>Products List</h5>
             <table class="table">
                 <thead>
@@ -77,7 +77,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-sm-6">
+        <div class="col-xl-6">
             <h5>Recent orders</h5>
             <table class="table">
                 <thead>

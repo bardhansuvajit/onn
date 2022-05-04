@@ -147,7 +147,12 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 foreach($uniqueColors as $colorCodeKey => $colorCode) {
                     $activeCLass = '';
                     // ($colorCodeKey == 0) ? $activeCLass = 'active' : $activeCLass = '';
-                    echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="'.$activeCLass.'" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+			
+					if ($colorCode['id'] == 61) {
+						echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+					} else {
+                    	echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="'.$activeCLass.'" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+					}
                 }
                 echo '</ul>';
                 @endphp
@@ -159,7 +164,11 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 <p id="colorSelectAlert" style="{{$primaryColorSizes ? 'display:none;' : 'display:block;' }}">Please select a colour first</p>
                 <ul class="product__sizes" id="sizeContainer">
                     @foreach ($primaryColorSizes as $primaryColorSizesKey => $primaryColorSizesValue)
+						@if($primaryColorSizesValue->sizeDetails->id == 23)
+                        <li style="width: 100px;" data-price="{{$primaryColorSizesValue->offer_price}}" data-id="{{$primaryColorSizesValue->id}}">{{$primaryColorSizesValue->sizeDetails->name}}</li>
+						@else
                         <li data-price="{{$primaryColorSizesValue->offer_price}}" data-id="{{$primaryColorSizesValue->id}}">{{$primaryColorSizesValue->sizeDetails->name}}</li>
+						@endif
                     @endforeach
                 </ul>
             @endif
@@ -252,6 +261,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
         <h3>Related Product</h3>
         <div class="row">
             @forelse($relatedProducts as $relatedProductKey => $relatedProductValue)
+            @php if($relatedProductValue->status == 0) {continue;} @endphp
             <a href="{{ route('front.product.detail', $relatedProductValue->slug) }}" class="home-gallary__single" data-events data-cat="tshirt">
                 <figure>
                     <img src="{{asset($relatedProductValue->image)}}" />

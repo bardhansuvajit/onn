@@ -67,7 +67,12 @@ class AppServiceProvider extends ServiceProvider
             // cart count
             $cartExists = Schema::hasTable('carts');
             if ($cartExists) {
-                $cartCount = Cart::where('ip', $ip)->count();
+                $cartCount = Cart::where('ip', $ip)->get();
+                
+                $totalCartProducts = 0;
+                foreach($cartCount as $cartKey => $cartVal) {
+                    $totalCartProducts += $cartVal->qty;
+                }
             }
 
             // wishlist count
@@ -80,7 +85,7 @@ class AppServiceProvider extends ServiceProvider
             view()->share('categoryNavList', $categoryNavList);
             view()->share('collections', $collections);
             view()->share('settings', $settings);
-            view()->share('cartCount', $cartCount);
+            view()->share('cartCount', $totalCartProducts);
             view()->share('wishlistCount', $wishlistCount);
         });
     }

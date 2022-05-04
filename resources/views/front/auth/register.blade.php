@@ -21,7 +21,7 @@
 
 <body>
     <main>
-        <section class="register-wrapper">
+        <!-- <section class="register-wrapper">
             <div class="register-left">
                 <div class="register-header">
                     <h4>Recommended Product</h4>
@@ -102,6 +102,67 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </section> -->
+		
+		
+		<section class="register-wrapper">
+            <div class="register-right">
+                 <div class="register-logo">
+                    <a href="{{route('front.home')}}"><img src="{{asset('img/footer-logo.png')}}"></a>
+                </div>
+                <div class="container">
+                    <div class="row m-0 justify-content-center">
+                        <div class="col-12 col-lg-5 p-0">
+                             <form method="POST"  class="register-block full" action="{{route('front.user.create')}}">@csrf
+                                <!--<div class="register-logo">
+                                    <a href="{{route('front.home')}}"><img src="{{asset('img/logo.png')}}"></a>
+                                </div>-->
+            
+                                <h3>Sign Up</h3>
+                                <h4>Welcome to ONN</h4>
+            
+                                {{-- @if (Session::get('success'))<div class="alert alert-success">{{Session::get('success')}}</div>@endif
+                                @if (Session::get('failure'))<div class="alert alert-danger">{{Session::get('failure')}}</div>@endif --}}
+            
+                                <div class="register-card newuser">
+                                    <div class="register-group">
+                                        <input type="text" class="register-box" name="fname" placeholder="First Name" value="{{old('fname')}}" autofocus>
+                                        <label class="floating-label">First Name</label>
+                                        @error('fname') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                                    </div>
+                                    <div class="register-group">
+                                        <input type="text" class="register-box" name="lname" placeholder="Last Name" value="{{old('lname')}}">
+                                        <label class="floating-label">Last Name</label>
+                                        @error('lname') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                                    </div>
+                                    <div class="register-group">
+                                        <input type="email" class="register-box" name="email" placeholder="Email id" value="{{old('email')}}">
+                                        <label class="floating-label">Email id</label>
+                                        @error('email') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                                    </div>
+                                    <div class="register-group">
+                                        <input type="tel" class="register-box" name="mobile" placeholder="Mobile no" value="{{old('mobile')}}">
+                                        <label class="floating-label">Mobile no</label>
+                                        @error('mobile') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                                    </div>
+                                    <div class="register-group full">
+                                        <input type="password" class="register-box" name="password" placeholder="Password">
+                                        <label class="floating-label">Password</label>
+                                        @error('password') <p class="small text-danger mb-0">{{$message}}</p> @enderror
+                                    </div>
+                                </div>
+            
+                                 <div class="row align-items-center justify-content-center text-center">
+                                    <div class="col-12">
+                                         <button type="submit">Sign Up</button>
+                                        <a href="{{route('front.user.login')}}">Back to Login</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>

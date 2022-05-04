@@ -201,8 +201,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/{id}/delete', 'Admin\ProductController@destroy')->name('delete');
             Route::get('/{id}/image/delete', 'Admin\ProductController@destroySingleImage')->name('image.delete');
             Route::get('/bulkDelete', 'Admin\ProductController@bulkDestroy')->name('bulkDestroy');
-
-
+            
             // variation
             Route::post('/variation/color/add', 'Admin\ProductController@variationColorAdd')->name('variation.color.add');
             Route::get('/variation/{productId}/color/{colorId}/delete', 'Admin\ProductController@variationColorDestroy')->name('variation.color.delete');

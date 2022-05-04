@@ -405,7 +405,9 @@
     <script>
         // razorpay payment options
         var paymentOptions = {
-            "key": "rzp_test_jIwVtRPfWGhVHO",
+            // "key": "rzp_test_jIwVtRPfWGhVHO",
+            "key": "rzp_test_FUwg5zjKBrNRVm",
+            // "key": "rzp_live_057mrk4Rrmh8f2",
             // "key": "{{env('RAZORPAY_KEY')}}",
             "amount": '{{intval($grandTotal*100)}}',
             // "amount": parseInt(document.querySelector('[name="grandTotal"]').value) * 100,
@@ -415,6 +417,11 @@
             "description": "Test Transaction",
             "image": "{{asset('img/logo-square.png')}}",
             // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "customer": {
+                // "name": document.getElementById('checkoutEmail').value,
+                "contact": document.getElementById('checkoutMobile').value,
+                "email": document.getElementById('checkoutEmail').value
+            },
             "handler": function (response){
                 //console.log(response.request.content.amount);
 
@@ -432,8 +439,10 @@
             // "callback_url": "{{route('front.checkout.store')}}",
             "prefill": {
                 "name": $('#checkoutFname').val()+' '+$('#checkoutLname').val(),
-                "email": $('#checkoutEmail').val(),
-                "contact": $('#checkoutMobile').val()
+                // "email": $('#checkoutEmail').val(),
+                // "contact": $('#checkoutMobile').val(),
+                "email": document.getElementById('checkoutEmail').value,
+                "contact": document.getElementById('checkoutMobile').value,
                 /* "name": document.querySelector('[name="fname"]').value+' '+document.querySelector('[name="lname"]').value,
                 "email": document.querySelector('[name="email"]').value,
                 "contact": document.querySelector('[name="mobile"]').value */

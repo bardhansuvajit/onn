@@ -5,7 +5,7 @@
 @section('content')
 <section>
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-xl-8">
             <div class="card">    
                 <div class="card-body">
 
@@ -76,7 +76,7 @@
                             </div>
                         </div>
 
-                        <table class="table">
+                        <table class="table customer-table">
                             <thead>
                                 <tr>
                                     <th class="check-column">
@@ -146,7 +146,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-xl-4">
             <div class="card">
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.customer.store') }}" enctype="multipart/form-data">

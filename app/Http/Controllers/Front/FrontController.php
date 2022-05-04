@@ -17,7 +17,8 @@ class FrontController extends Controller
     {
         $category = Category::latest('id')->get();
         $collections = Collection::latest('id')->get();
-        $products = Product::latest('is_trending', 'id')->get();
+        // $products = Product::latest('is_trending', 'id')->get();
+        $products = Product::latest('view_count', 'id')->limit(16)->get();
         $galleries = Gallery::latest('id')->get();
         return view('front.welcome', compact('category', 'collections', 'products', 'galleries'));
     }

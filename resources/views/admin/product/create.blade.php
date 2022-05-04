@@ -6,7 +6,7 @@
 <section>
     <form method="post" action="{{ route('admin.product.store') }}" enctype="multipart/form-data">@csrf
         <div class="row">
-        <div class="col-sm-9">
+        <div class="col-lg-9">
 
             <div class="row mb-3">
                 <div class="col-sm-4">
@@ -220,7 +220,7 @@
             </div>
 
         </div>
-        <div class="col-sm-3">
+        <div class="col-lg-3">
             <div class="card shadow-sm">
             <div class="card-header">
                 Publish
@@ -255,7 +255,7 @@
                     More product images
                 </div>
                 <div class="card-body">
-                    <input type="file" accept="image/*" name="product_images[]" multiple>
+                    <input class="mw-100" type="file" accept="image/*" name="product_images[]" multiple>
                     @error('product_images') <p class="small text-danger">{{ $message }}</p> @enderror
                 </div>
             </div>

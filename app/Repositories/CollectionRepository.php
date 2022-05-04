@@ -175,7 +175,7 @@ class CollectionRepository implements CollectionInterface
     public function productsByCollection(int $collectionId, array $filter = null)
     {
         try {
-            $productsQuery = Product::where('collection_id', $collectionId);
+            $productsQuery = Product::where('collection_id', $collectionId)->where('status', 1);
             // $productsQuery = DB::statement('SELECT * FROM `products` WHERE collection_id = '.$collectionId);
 
             // handling collection
