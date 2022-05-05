@@ -82,6 +82,7 @@
                 <th class="text-center"><i class="fi fi-br-picture"></i></th>
                 <th>Name</th>
                 <th>Style No.</th>
+                <th>Collection</th>
                 <th>Category</th>
                 <th>Price</th>
                 <th>Sale</th>
@@ -102,7 +103,7 @@
                 @endphp
                 <tr>
                     <td class="check-column">
-                        <input name="delete_check[]" class="tap-to-delete" type="checkbox" onclick="clickToRemove()" value="{{$item->id}}" 
+                        <input name="delete_check[]" class="tap-to-delete" type="checkbox" onclick="clickToRemove()" value="{{$item->id}}"
                         @php
                         if (old('delete_check')) {
                             if (in_array($item->id, old('delete_check'))) {
@@ -124,7 +125,14 @@
                         </div>
                     </td>
                     <td>{{$item->style_no}}</td>
-                    <td>{{$item->category ? $item->category->name : ''}} > {{$item->subCategory ? $item->subCategory->name : 'NA'}} <br> {{$item->collection ? $item->collection->name : ''}}</td>
+                    <td>
+                        <a href="{{ route('admin.collection.view', $item->collection->id) }}">{{$item->collection ? $item->collection->name : ''}}</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('admin.category.view', $item->category->id) }}">{{$item->category ? $item->category->name : ''}}</a>
+                        {{-- > --}}
+                        {{-- {{$item->subCategory ? $item->subCategory->name : 'NA'}} --}}
+                    </td>
                     <td>
                         <small> <del>{{$item->price}}</del> </small> Rs. {{$item->offer_price}}
                     </td>
@@ -141,9 +149,10 @@
                     <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>
                 </tr>
                 @empty
-                <tr><td colspan="100%" class="small text-muted">No data found</td></tr>
+                <tr><td colspan="100%" class="small text-muted text-center">No data found</td></tr>
                 @endforelse
             </tbody>
         </table>
+    </form>
 </section>
 @endsection

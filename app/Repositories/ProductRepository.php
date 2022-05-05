@@ -177,8 +177,9 @@ class ProductRepository implements ProductInterface
         DB::beginTransaction();
 
         try {
-            $upload_path = "uploads/product/";
             $updatedEntry = Product::findOrFail($id);
+            $styleNoSlug = Str::slug($updatedEntry->style_no, '-');
+            $upload_path = "uploads/product/updated-images/".$styleNoSlug.'/';
             // dd($updatedEntry);
             $collectedData = collect($newDetails);
             if (!empty($collectedData['cat_id'])) $updatedEntry->cat_id = $collectedData['cat_id'];
@@ -206,19 +207,19 @@ class ProductRepository implements ProductInterface
                 if (Storage::exists($updatedEntry->image)) unlink($updatedEntry->image);
 
                 $image = $collectedData['image'];
-                $imageName = time() . "." . $image->getClientOriginalName();
+                $imageName = $styleNoSlug.'-'.mt_rand().'-'.time().".".$image->getClientOriginalExtension();
                 $image->move($upload_path, $imageName);
                 $uploadedImage = $imageName;
-                $updatedEntry->image = $upload_path . $uploadedImage;
+                $updatedEntry->image = $upload_path.$uploadedImage;
             }
 
             $updatedEntry->save();
 
             // multiple image upload handling
-            if (isset($newDetails['product_images'])) {
+            /* if (isset($newDetails['product_images'])) {
                 $multipleImageData = [];
                 foreach ($newDetails['product_images'] as $imagekey => $imagevalue) {
-                    $imageName = mt_rand() . '-' . time() . "." . $image->getClientOriginalName();
+                    $imageName = mt_rand() . '-' . time() . "." . $image->getClientOriginalExtension();
                     $imagevalue->move($upload_path, $imageName);
                     $image_path = $upload_path . $imageName;
                     $multipleImageData[] = [
@@ -232,13 +233,13 @@ class ProductRepository implements ProductInterface
                 if (count($multipleImageData) > 0) {
                     ProductImage::insert($multipleImageData);
                 }
-            }
+            } */
             // dd('out');
 
             DB::commit();
             return $updatedEntry;
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
             DB::rollback();
         }
     }

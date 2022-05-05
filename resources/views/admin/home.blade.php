@@ -57,7 +57,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data->products as $product)
+                    @foreach ($data->products as $productKey => $product)
+                        @php if($productKey == 5) break;  @endphp
                         <tr>
                             <td class="text-center column-thumb">
                                 <img src="{{asset($product->image)}}">

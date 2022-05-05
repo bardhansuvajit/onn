@@ -19,7 +19,7 @@ class CategoryRepository implements CategoryInterface
 
     public function getAllCategories()
     {
-        return Category::all();
+        return Category::orderBy('position', 'asc')->get();
     }
 
     public function getSearchCategories(string $term)

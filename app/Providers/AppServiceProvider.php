@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Category;
+use App\Models\CategoryParent;
 use App\Models\Collection;
 use App\Models\Settings;
 use App\Models\Cart;
@@ -36,21 +37,30 @@ class AppServiceProvider extends ServiceProvider
             // categories
             $categoryExists = Schema::hasTable('categories');
             if ($categoryExists) {
-                $categories = Category::orderBy('position', 'asc')->orderBy('id', 'desc')->where('status', 1)->get();
+                // $parentCategories = CategoryParent::orderBy('position', 'asc')->orderBy('id', 'desc')->where('status', 1)->get();
+                // dd($parentCategories);
+                $categories = Category::with('parentCatDetails')->orderBy('parent', 'asc')->orderBy('position', 'desc')->where('status', 1)->get();
 
                 $categoryNavList = [];
 
                 foreach ($categories as $catKey => $catValue) {
-                    if (in_array_r($catValue->parent, $categoryNavList)) continue;
+                    // if (in_array_r($catValue->parent, $categoryNavList)) continue;
+                    if (in_array_r($catValue->parentCatDetails->name, $categoryNavList)) continue;
 
                     $childCategories = Category::select('slug', 'name', 'sketch_icon')->where('parent', $catValue->parent)->get()->toArray();
 
+                    // $categoryParent = CategoryParent::where('id', $catValue->parent)->first();
+
                     $categoryNavList[] = [
-                        'parent' => $catValue->parent,
+                        'parent' => $catValue->parentCatDetails->name,
+                        // 'parent' => $catValue->parent,
+                        // 'parent' => $categoryParent->name,
                         'child' => $childCategories
                     ];
                 }
             }
+
+            // dd($categoryNavList);
 
             // collections
             $collectionExists = Schema::hasTable('collections');
@@ -68,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
             $cartExists = Schema::hasTable('carts');
             if ($cartExists) {
                 $cartCount = Cart::where('ip', $ip)->get();
-                
+
                 $totalCartProducts = 0;
                 foreach($cartCount as $cartKey => $cartVal) {
                     $totalCartProducts += $cartVal->qty;

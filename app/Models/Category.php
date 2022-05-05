@@ -14,4 +14,8 @@ class Category extends Model
     public function ProductDetails(string $orderBy = 'id', string $order = 'desc') {
         return $this->hasMany('App\Models\Product', 'cat_id', 'id')->orderBy($orderBy, $order);
     }
+
+    public function parentCatDetails() {
+        return $this->belongsTo('App\Models\CategoryParent', 'parent', 'id');
+    }
 }

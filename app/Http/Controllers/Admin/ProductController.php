@@ -119,11 +119,12 @@ class ProductController extends Controller
         return view('admin.product.edit', compact('id', 'data', 'categories', 'sub_categories', 'collections', 'images', 'colors', 'sizes', 'productColorGroup'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         // dd($request->all());
 
         $request->validate([
+            "product_id" => "required|integer",
             "cat_id" => "nullable|integer",
             "sub_cat_id" => "nullable|integer",
             "collection_id" => "nullable|integer",
@@ -132,21 +133,21 @@ class ProductController extends Controller
             "desc" => "required",
             "price" => "required|integer",
             "offer_price" => "required|integer",
-            // "meta_title" => "required",
-            // "meta_desc" => "required",
-            // "meta_keyword" => "required",
+            "meta_title" => "nullable|string",
+            "meta_desc" => "nullable|string",
+            "meta_keyword" => "nullable|string",
             "style_no" => "required",
             "image" => "nullable",
             "product_images" => "nullable|array",
         ]);
 
         $params = $request->except('_token');
-        $storeData = $this->productRepository->update($id, $params);
+        $storeData = $this->productRepository->update($request->product_id, $params);
 
         if ($storeData) {
-            return redirect()->route('admin.product.index');
+            return redirect()->route('admin.product.index')->with('success', 'Product updated successfully');
         } else {
-            return redirect()->route('admin.product.update', $id)->withInput($request->all());
+            return redirect()->route('admin.product.update', $request->product_id)->withInput($request->all());
         }
     }
 

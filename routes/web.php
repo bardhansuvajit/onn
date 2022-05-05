@@ -195,13 +195,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/{id}/view', 'Admin\ProductController@show')->name('view');
             Route::post('/size', 'Admin\ProductController@size')->name('size');
             Route::get('/{id}/edit', 'Admin\ProductController@edit')->name('edit');
-            Route::post('/{id}/update', 'Admin\ProductController@update')->name('update');
+            Route::post('/update', 'Admin\ProductController@update')->name('update');
             Route::get('/{id}/status', 'Admin\ProductController@status')->name('status');
             Route::get('/{id}/sale', 'Admin\ProductController@sale')->name('sale');
             Route::get('/{id}/delete', 'Admin\ProductController@destroy')->name('delete');
             Route::get('/{id}/image/delete', 'Admin\ProductController@destroySingleImage')->name('image.delete');
             Route::get('/bulkDelete', 'Admin\ProductController@bulkDestroy')->name('bulkDestroy');
-            
+
             // variation
             Route::post('/variation/color/add', 'Admin\ProductController@variationColorAdd')->name('variation.color.add');
             Route::get('/variation/{productId}/color/{colorId}/delete', 'Admin\ProductController@variationColorDestroy')->name('variation.color.delete');

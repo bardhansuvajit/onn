@@ -4,9 +4,8 @@
 
 @section('content')
 <section>
-    <form method="POST" action="{{ route('admin.product.update', $data->id) }}" enctype="multipart/form-data">
-    @csrf
-    {{-- @method('PATCH') --}}
+    <form method="POST" action="{{ route('admin.product.update') }}" enctype="multipart/form-data">
+        @csrf
         <div class="row">
             <div class="col-sm-9">
 
@@ -181,6 +180,7 @@
                         Publish
                     </div>
                     <div class="card-body text-end">
+                        <input type="hidden" name="product_id" value="{{$data->id}}">
                         <button type="submit" class="btn btn-sm btn-danger">Publish </button>
                     </div>
                 </div>

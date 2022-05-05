@@ -6,7 +6,7 @@
 <section>
     <div class="row">
         <div class="col-xl-8">
-            <div class="card">    
+            <div class="card">
                 <div class="card-body">
 
                     <div class="search__filter">
@@ -20,7 +20,7 @@
                                             if($collValue->status == 1) $activeCount++;
                                             else $inactiveCount++;
                                         }
-                                        
+
                                     @endphp
                                     <li><a href="{{ route('admin.collection.index', ['status' => 'active'])}}">Active <span class="count">{{$activeCount}}</span></a></li>
                                     <li><a href="{{ route('admin.collection.index', ['status' => 'inactive'])}}">Inactive <span class="count">{{$inactiveCount}}</span></a></li>
@@ -89,6 +89,7 @@
                                     <th class="text-center"><i class="fi fi-br-picture"></i> Thumb</th>
                                     <th class="text-center"><i class="fi fi-br-picture"></i> Banner</th>
                                     <th>Name</th>
+                                    <th>Products</th>
                                     <th>Date</th>
                                     <th>Status</th>
                                 </tr>
@@ -107,7 +108,7 @@
 
                                 <tr>
                                     <td class="check-column">
-                                            <input name="delete_check[]" class="tap-to-delete" type="checkbox" onclick="clickToRemove()" value="{{$item->id}}" 
+                                            <input name="delete_check[]" class="tap-to-delete" type="checkbox" onclick="clickToRemove()" value="{{$item->id}}"
                                             @php
                                             if (old('delete_check')) {
                                                 if (in_array($item->id, old('delete_check'))) {
@@ -129,13 +130,16 @@
                                         <img src="{{ asset($item->banner_image) }}">
                                     </td>
                                     <td>
-                                    {{$item->name}}
-                                    <div class="row__action">
-                                        <a href="{{ route('admin.collection.view', $item->id) }}">Edit</a>
-                                        <a href="{{ route('admin.collection.view', $item->id) }}">View</a>
-                                        <a href="{{ route('admin.collection.status', $item->id) }}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</a>
-                                        <a href="{{ route('admin.collection.delete', $item->id) }}" class="text-danger">Delete</a>
-                                    </div>
+                                        <h3 class="text-dark">{{$item->name}}</h3>
+                                        <div class="row__action">
+                                            <a href="{{ route('admin.collection.view', $item->id) }}">Edit</a>
+                                            <a href="{{ route('admin.collection.view', $item->id) }}">View</a>
+                                            <a href="{{ route('admin.collection.status', $item->id) }}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</a>
+                                            <a href="{{ route('admin.collection.delete', $item->id) }}" class="text-danger">Delete</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.collection.view', $item->id) }}">{{$item->ProductDetails->count()}} products</a>
                                     </td>
                                     <td>Published<br/>{{date('d M Y', strtotime($item->created_at))}}</td>
                                     <td>
@@ -146,8 +150,8 @@
                                 <tr><td colspan="100%" class="small text-muted">No data found</td></tr>
                                 @endforelse
                             </tbody>
-                        </table>  
-                    </form>  
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>

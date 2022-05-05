@@ -90,6 +90,7 @@
                                     <th class="text-center"><i class="fi fi-br-picture"></i> Thumb</th>
                                     <th class="text-center"><i class="fi fi-br-picture"></i> Banner</th>
                                     <th>Name</th>
+                                    <th>Products</th>
                                     <th>Date</th>
                                     <th>Status</th>
                                 </tr>
@@ -128,13 +129,17 @@
                                         <img src="{{ asset($item->banner_image) }}">
                                     </td>
                                     <td>
-                                        {{$item->name}}
+                                        <h3 class="text-dark">{{$item->name}}</h3>
+                                        <p>{{$item->parentCatDetails->name}}</p>
                                         <div class="row__action">
                                             <a href="{{ route('admin.category.view', $item->id) }}">Edit</a>
                                             <a href="{{ route('admin.category.view', $item->id) }}">View</a>
                                             <a href="{{ route('admin.category.status', $item->id) }}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</a>
                                             <a href="{{ route('admin.category.delete', $item->id) }}" class="text-danger">Delete</a>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.category.view', $item->id) }}">{{$item->ProductDetails->count()}} products</a>
                                     </td>
                                     <td>Published<br />{{date('d M Y', strtotime($item->created_at))}}</td>
                                     <td><span class="badge bg-{{($item->status == 1) ? 'success' : 'danger'}}">{{($item->status == 1) ? 'Active' : 'Inactive'}}</span></td>
