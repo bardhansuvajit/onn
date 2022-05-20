@@ -126,15 +126,18 @@ class UserController extends Controller
         $request->validate([
             "fname" => "required|string|max:255",
             "lname" => "required|string|max:255",
+            "mobile" => "required|integer|digits:10",
+        ], [
+            "mobile.*" => "Please enter a valid 10 digit mobile number"
         ]);
 
         $params = $request->except('_token');
         $storeData = $this->userRepository->updateProfile($params);
 
         if ($storeData) {
-            return redirect()->route('front.user.manage');
+            return redirect()->route('front.user.manage')->with('success', 'Profile updated successfully');
         } else {
-            return redirect()->route('front.user.manage')->withInput($request->all());
+            return redirect()->route('front.user.manage')->withInput($request->all())->with('failure', 'Something happened. Try again');
         }
     }
 

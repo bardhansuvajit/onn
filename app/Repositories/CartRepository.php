@@ -72,9 +72,9 @@ class CartRepository implements CartInterface
         }
 
         if ($cartExists) {
-            $cartExists->qty = $cartExists->qty + 1;
+            $cartExists->qty = $cartExists->qty + $collectedData['qty'];
             $cartExists->save();
-            return $cartExists;
+            // return $cartExists;
         } else {
             $newEntry = new Cart;
             $newEntry->product_id = $collectedData['product_id'];
@@ -97,8 +97,12 @@ class CartRepository implements CartInterface
             $newEntry->ip = $this->ip;
 
             $newEntry->save();
-            return $newEntry;
+
+			/* $cartData = Cart::where('ip', $this->ip)->sum('qty');
+            return $cartData; */
         }
+		$cartData = Cart::where('ip', $this->ip)->sum('qty');
+		return $cartData;
     }
 
     public function viewByIp()

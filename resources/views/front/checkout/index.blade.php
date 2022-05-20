@@ -9,10 +9,10 @@
 }
 </style>
 
-<section class="cart-header mt-5 mb-3 mb-sm-5">
+<section class="cart-header mb-3 mb-sm-5">
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-6">
                 <h4>Shopping Checkout</h4>
             </div>
             {{-- <div class="col-sm-9">
@@ -31,7 +31,7 @@
     <div class="container">
         <form class="checkout-form" method="POST" action="{{route('front.checkout.store')}}">@csrf
             <div class="row justify-content-between flex-sm-row-reverse">
-                <div class="col-sm-4 mb-3 mb-sm-0">
+                <div class="col-md-5 col-lg-4 mb-3 mb-sm-0">
                     <h4 class="cart-heading">Cart Summary</h4>
                     <ul class="cart-summary">
                         @php
@@ -198,7 +198,7 @@
                         </div> --}}
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-md-7 col-lg-6">
                     <h4 class="cart-heading">Contact Information</h4>
                     <div class="row mb-5">
                         <div class="col-sm-6">

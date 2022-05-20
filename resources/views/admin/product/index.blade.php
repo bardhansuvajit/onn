@@ -85,7 +85,7 @@
                 <th>Collection</th>
                 <th>Category</th>
                 <th>Price</th>
-                <th>Sale</th>
+                <th>Action</th>
                 <th>Date</th>
                 <th>Status</th>
             </tr>
@@ -139,9 +139,17 @@
                     <td>
                         <a href="{{ route('admin.product.sale', $item->id) }}" class="text-decoration-none">
                             @if ($item->saleDetails)
-                                <span class="text-success fw-bold"> <i class="fi-br-check"></i> SALE</span>
+                                <span class="text-success fw-bold"> <i class="fi-br-check"></i> Sale</span>
                             @else
-                                <span class="text-danger fw-bold single-line"> <i class="fi-br-plus"></i> SALE</span>
+                                <span class="text-danger fw-bold single-line"> <i class="fi-br-plus"></i> Sale</span>
+                            @endif
+                        </a>
+                        <br>
+                        <a href="{{ route('admin.product.trending', $item->id) }}" class="text-decoration-none">
+                            @if ($item->is_trending == 1)
+                                <span class="text-success fw-bold"> <i class="fi-br-check"></i> Trending</span>
+                            @else
+                                <span class="text-danger fw-bold single-line"> <i class="fi-br-plus"></i> Trending</span>
                             @endif
                         </a>
                     </td>

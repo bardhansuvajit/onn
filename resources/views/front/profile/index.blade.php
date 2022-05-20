@@ -1,9 +1,9 @@
 @extends('front.profile.layouts.app')
 
 @section('profile-content')
-<div class="col-sm-7">
+<div class="col-sm-7 col-lg-7">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12 col-lg-6">
             <a href="{{route('front.user.manage')}}" class="account-card">
                 <figure>
                     <span>
@@ -16,7 +16,7 @@
                 </figcaption>
             </a>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12 col-lg-6">
             <a href="{{route('front.user.order')}}" class="account-card">
                 <figure>
                     <span>
@@ -29,7 +29,7 @@
                 </figcaption>
             </a>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12 col-lg-6">
             <a href="{{route('front.user.wishlist')}}" class="account-card">
                 <figure>
                     <span>
@@ -42,7 +42,7 @@
                 </figcaption>
             </a>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12 col-lg-6">
             <a href="{{route('front.user.address')}}" class="account-card">
                 <figure>
                     <span>
@@ -55,7 +55,7 @@
                 </figcaption>
             </a>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12 col-lg-6">
             <a href="{{route('front.user.coupon')}}" class="account-card">
                 <figure>
                     <span>

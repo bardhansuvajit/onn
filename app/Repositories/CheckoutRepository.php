@@ -362,7 +362,7 @@ class CheckoutRepository implements CheckoutInterface
             $headers.= "Content-type: text/html; charset=utf-8 \r\n";
             $headers.= "From: contact@demo91.co.in" . "\r\n";
 
-            $mail_send = mail($to,"Order Confirmation ", $mail_format, $headers);
+            $mail_send = mail($to, "ONN - Order Confirmation", $mail_format, $headers);
             // send mail ends
 
             $this->shiprocket($newEntry,$cartData);

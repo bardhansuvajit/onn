@@ -12,24 +12,178 @@ select:focus {
     outline: none;
     box-shadow: none;
 }
+.color_holder {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%
+}
+.product__color {
+	display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+	padding: 0 20px 20px;
+}
+.color-holder {
+	width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex: 0 0 20px;
+	margin-right: 7px;
+	box-shadow: 0px 5px 10px rgb(0 0 0 / 10%);
+}
+.customCats.active {
+    display: block;
+    border: 2px solid #c1080a;
+}
+@media(max-width: 575px) {
+    .color-holder {
+        width: 15px;
+        height: 15px;
+        flex: 0 0 15px;
+    }
+    .product__color {
+        justify-content: center;
+    }
+}
 </style>
 
 <section class="listing-header">
     <div class="container">
-        <div class="row flex-sm-row-reverse align-items-center">
-            <div class="col-sm-3 d-none d-sm-block">
+        <div class="row align-items-center">
+            <!-- <div class="col-sm-3 d-none d-sm-block">
                 <img src="{{ asset($data->banner_image) }}" class="img-fluid">
+            </div> -->
+
+            <div class="col-sm-6">
+                <h1>{{ $data->name }}</h1>
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-6">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('front.home') }}">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{$data->name}}</li>
                     </ol>
                 </nav>
-                <h1>{{ $data->name }}</h1>
             </div>
         </div>
+    </div>
+</section>
+
+<section class="filter_by_cat">
+    <div class="container">
+        <h3>Filter By Category</h3>
+
+        <ul class="filter_cat_list">
+            @php
+                if(count($data->ProductDetails) > 0) {
+                    $customCats = [];
+                    foreach ($data->ProductDetails as $ProductDetailsKey => $ProductDetailsValue) {
+                        if($ProductDetailsValue->status == 1) {
+                            if(in_array_r($ProductDetailsValue->cat_id, $customCats)) continue;
+
+                            $customCats[] = [
+                                'id' => $ProductDetailsValue->cat_id,
+                                'name' => $ProductDetailsValue->category->name,
+                                'icon' => $ProductDetailsValue->category->icon_path
+                            ];
+                        }
+                    }
+                }
+            @endphp
+            {{-- {{ dd($categories) }} --}}
+            @foreach ($customCats as $categoryKey => $categoryValue)
+            <li class="position-relative">
+                <a href="javascript: void(0)" class="customCats" id="customCat_{{$categoryValue['id']}}" data-id="{{$categoryValue['id']}}">
+                    <figure>
+                        <img src="{{ asset($categoryValue['icon']) }}">
+                    </figure>
+                    <figcaption>
+                        {{ $categoryValue['name'] }}
+                    </figcaption>
+                </a>
+            </li>
+            @endforeach
+            {{-- <li>
+                <a href="#">
+                    <figure>
+                        <img src="https://eager-elgamal.43-225-53-183.plesk.page/uploads/category/catago_1.png">
+                    </figure>
+                    <figcaption>
+                        Hoodie
+                    </figcaption>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <figure>
+                        <img src="https://eager-elgamal.43-225-53-183.plesk.page/uploads/category/catago_2.png">
+                    </figure>
+                    <figcaption>
+                        Boxer
+                    </figcaption>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <figure>
+                        <img src="https://eager-elgamal.43-225-53-183.plesk.page/uploads/category/catago_3.png">
+                    </figure>
+                    <figcaption>
+                        Vest
+                    </figcaption>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <figure>
+                        <img src="https://eager-elgamal.43-225-53-183.plesk.page/uploads/category/catago_4.png">
+                    </figure>
+                    <figcaption>
+                        Brief
+                    </figcaption>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <figure>
+                        <img src="https://eager-elgamal.43-225-53-183.plesk.page/uploads/category/catago_5.png">
+                    </figure>
+                    <figcaption>
+                        T-Shirt
+                    </figcaption>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <figure>
+                        <img src="https://eager-elgamal.43-225-53-183.plesk.page/uploads/category/catago_6.png">
+                    </figure>
+                    <figcaption>
+                        Thermal
+                    </figcaption>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <figure>
+                        <img src="https://eager-elgamal.43-225-53-183.plesk.page/uploads/category/catago_7.png">
+                    </figure>
+                    <figcaption>
+                        Joggers
+                    </figcaption>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <figure>
+                        <img src="https://eager-elgamal.43-225-53-183.plesk.page/uploads/category/catago_8.png">
+                    </figure>
+                    <figcaption>
+                        Socks
+                    </figcaption>
+                </a>
+            </li> --}}
+        </ul>
     </div>
 </section>
 
@@ -149,22 +303,59 @@ select:focus {
                                         }
                                     }
 
-                                    $displayPrice = $smaller.' - '.$bigger;
+                                    /* $displayPrice = $smaller.' - '.$bigger;
 
-                                    if ($smaller == $bigger) $displayPrice = $smaller;
+                                    if ($smaller == $bigger) $displayPrice = $smaller; */
                                 @endphp
-                                &#8377;{{$displayPrice}}
+                                {{-- &#8377;{{$displayPrice}} --}}
+								@if($smaller == $bigger)
+									&#8377;{{$bigger}}
+								@else
+									&#8377;{{$smaller}} - &#8377;{{$bigger}}
+								@endif
                             @else
                                 &#8377;{{$collectionProductValue->offer_price}}
                             @endif
                             </h5>
                             {{-- <h5>
-                            &#8377;{{$collectionProductValue->offer_price}} 
+                            &#8377;{{$collectionProductValue->offer_price}}
                             </h5> --}}
                         </figcaption>
+                        <div class="color">
+							@if (count($collectionProductValue->colorSize) > 0)
+							@php
+							$uniqueColors = [];
+
+							foreach ($collectionProductValue->colorSize as $variantKey => $variantValue) {
+								if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+
+								$uniqueColors[] = [
+									'id' => $variantValue->colorDetails->id,
+									'code' => $variantValue->colorDetails->code,
+									'name' => $variantValue->colorDetails->name,
+								];
+							}
+
+							echo '<ul class="product__color">';
+							// echo count($uniqueColors);
+							foreach($uniqueColors as $colorCodeKey => $colorCode) {
+								if ($colorCodeKey == 5) {break;}
+								// if ($colorCodeKey < 5) {
+									if ($colorCode['id'] == 61) {
+										echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+									} else {
+										echo '<li onclick="sizeCheck('.$collectionProductValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+									}
+								// }
+							}
+							if (count($uniqueColors) > 5) {echo '<li>+ more</li>';}
+							echo '</ul>';
+							@endphp
+						@endif
+						</div>
                     </a>
                     @empty
-                    
+
                     @endforelse
                 </div>
             </div>
@@ -173,17 +364,27 @@ select:focus {
         <p class="mt-5">Sorry, No products found under {{$data->name}} </p>
         @endif
     </div>
-</section> 
+</section>
 @endsection
 
 @section('script')
 <script>
+    $(".customCats").click(function () {
+        $(".customCats").removeClass("active");
+        $(this).addClass("active");
+        productsFetch();
+    });
+
     function productsFetch() {
         // collection values
         var collectionArr = [];
         $('input[name="collection[]"]:checked').each(function(i){
           collectionArr[i] = $(this).val();
         });
+
+        // var catId = $(this).attr('data-id');
+        var catId = $('.customCats.active').attr('data-id');
+        console.log(catId);
 
         $.ajax({
             url: '{{route("front.collection.filter")}}',
@@ -193,15 +394,16 @@ select:focus {
                 'collectionId' : '{{$data->id}}',
                 'orderBy' : $('select[name="orderBy"]').val(),
                 'collection' : collectionArr,
+                'category' : catId,
             },
             beforeSend: function() {
-                $loadingSwal = Swal.fire({
+                /* $loadingSwal = Swal.fire({
                     title: 'Please wait...',
                     text: 'We are adjusting the products as per your need!',
                     showConfirmButton: false,
                     allowOutsideClick: false
                     // timer: 1500
-                })
+                }) */
             },
             success: function(result) {
                 if (result.status == 200) {
@@ -209,6 +411,8 @@ select:focus {
                     $('#prod_count').text(result.data.length);
                     (result.data.length > 1) ? prodText = 'products' : prodText = 'product';
                     $('#prod_text').text(prodText);
+                    // $('.customCats').removeClass('active');
+                    // $('#customCat_'+catId).addClass('active');
                     $.each(result.data, function(key, value) {
                         var url = '{{ route('front.product.detail', ":slug") }}';
                         url = url.replace(':slug', value.slug);
@@ -221,19 +425,20 @@ select:focus {
                             </figure>
                             <figcaption>
                                 <h4>${value.name}</h4>
-                                <h5>&#8377;${value.displayPrice}</h5>
+                                <h5>${value.displayPrice}</h5>
                             </figcaption>
+                            <div class="color">${value.colorVariation}</div>
                         </a>
                         `;
                     });
 
                     $('.product__holder .row').html(content);
-                    $loadingSwal.close();
+                    // $loadingSwal.close();
                 }
                 // console.log(result);
             },
             error: function(result) {
-                $loadingSwal.close()
+                // $loadingSwal.close()
                 console.log(result);
                 $errorSwal = Swal.fire({
                     // icon: 'error',

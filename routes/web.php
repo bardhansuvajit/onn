@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+Route::get('/dev-clear', function()
+{
+    \Artisan::call('optimize:clear');
+    echo 'cache cleared';
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 // website
@@ -40,6 +46,7 @@ Route::name('front.')->group(function () {
     Route::prefix('wishlist')->name('wishlist.')->group(function () {
         // Route::get('/', 'Front\WishlistController@viewByIp')->name('index');
         Route::post('/add', 'Front\WishlistController@add')->name('add');
+        Route::post('/remove', 'Front\WishlistController@remove')->name('remove');
         Route::get('/delete/{id}', 'Front\WishlistController@delete')->name('delete');
     });
 
@@ -64,6 +71,11 @@ Route::name('front.')->group(function () {
     // faq
     Route::prefix('faq')->name('faq.')->group(function () {
         Route::get('/', 'Front\FaqController@index')->name('index');
+    });
+
+    // offer
+    Route::prefix('offer')->name('offer.')->group(function () {
+        Route::get('/', 'Front\OfferController@index')->name('index');
     });
 
     // search
@@ -198,6 +210,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('/update', 'Admin\ProductController@update')->name('update');
             Route::get('/{id}/status', 'Admin\ProductController@status')->name('status');
             Route::get('/{id}/sale', 'Admin\ProductController@sale')->name('sale');
+            Route::get('/{id}/trending', 'Admin\ProductController@trending')->name('trending');
             Route::get('/{id}/delete', 'Admin\ProductController@destroy')->name('delete');
             Route::get('/{id}/image/delete', 'Admin\ProductController@destroySingleImage')->name('image.delete');
             Route::get('/bulkDelete', 'Admin\ProductController@bulkDestroy')->name('bulkDestroy');

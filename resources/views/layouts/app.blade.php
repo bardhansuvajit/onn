@@ -11,13 +11,15 @@
     <link rel="stylesheet" href="{{ asset('css/plugin.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/swiper@8.0.7/swiper-bundle.min.css">
     <link rel="stylesheet" href="{{ asset('node_modules/select2/dist/css/select2.min.css') }}">
-    <link rel='stylesheet' href='{{ asset('node_modules/lightbox2/dist/css/lightbox.min.css?ver=5.8.2') }}'>
+    <link rel='stylesheet' href="{{ asset('node_modules/lightbox2/dist/css/lightbox.min.css?ver=5.8.2') }}">
     <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     <link rel="stylesheet" href="{{ asset('scss/css/preload.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </head>
 
 <body>
@@ -80,9 +82,9 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="{{route('front.sale.index')}}">Sale</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </nav>
                 </div>
@@ -144,10 +146,27 @@
 
     <div class="overlay">
         <div class="overlay__close">
-            <i class="fal fa-times"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#c10909" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </div>
-        <div class="menu__row">
-            @foreach ($collections as $collectionKey => $collectionValue)
+
+        <div class="overlay_wrapper">
+            <div class="overlay_block">
+                <ul class="overlay_menu">
+                    @foreach ($categoryNavList as $categoryNavKey => $categoryNavValue)
+                    <li>
+                        <a href="javascript: void(0)">{{$categoryNavValue['parent']}}</a>
+                        <ul class="overlay_submenu">
+                            @foreach ($categoryNavValue['child'] as $childCatKey => $childCatValue)
+                                <li><a href="{{ route('front.category.detail', $childCatValue['slug']) }}"><img src="{{asset($childCatValue['sketch_icon'])}}"> {{$childCatValue['name']}}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <!-- <div class="menu__row"> -->
+            <!-- @foreach ($collections as $collectionKey => $collectionValue)
             @php if($collectionKey == 0 || $collectionKey == 1 || $collectionKey == 2) continue; @endphp
             <div class="menu__block">
                 <div class="menu__text">{{$collectionValue->name}}</div>
@@ -165,8 +184,46 @@
                     <img src="{{asset($collectionValue->icon_path)}}">
                 </div>
             </div>
+            @endforeach -->
+
+<!--
+            @foreach ($categoryNavList as $categoryNavKey => $categoryNavValue)
+            <div class="menu__block">
+                <div class="menu__text">{{$categoryNavValue['parent']}}</div>
+                <div class="menu__links">
+                    <ul class="mega-drop-menu">
+                        @foreach ($categoryNavValue['child'] as $childCatKey => $childCatValue)
+                            <li><a href="{{ route('front.category.detail', $childCatValue['slug']) }}"><img src="{{asset($childCatValue['sketch_icon'])}}"> {{$childCatValue['name']}}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="menu__image">
+                @php
+                    if($categoryNavValue['parent'] == "Innerwear") {
+                    @endphp
+                        <img src="{{ asset('uploads/collection/range3.png') }}">
+                    @php
+                    }
+                    elseif($categoryNavValue['parent'] == "Outerwear") {
+                    @endphp
+                        <img src="{{ asset('uploads/collection/range5.png') }}">
+                    @php
+                    }
+                    elseif($categoryNavValue['parent'] == "Winter wear") {
+                    @endphp
+                        <img src="{{ asset('uploads/collection/range1.png') }}">
+                    @php
+                    } else {
+                    @endphp
+                        <img src="{{ asset('uploads/collection/range4.png') }}">
+                    @php
+                    }
+                @endphp
+                </div>
+            </div>
             @endforeach
-        </div>
+
+        </div> -->
     </div>
 
     <main>@yield('content')</main>
@@ -225,7 +282,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-7">
-                                <div class="footer-block">
+                                <div class="footer-block mb-2 mb-sm-5">
                                     <div class="footer-heading">Customer Services</div>
                                     <ul class="footer-block-menu">
                                         <li><a href="{{route('front.faq.index')}}">FAQ</a></li>
@@ -235,6 +292,12 @@
                                         <li><a href="{{route('front.content.return')}}">Returns Policy</a></li>
                                         <li><a href="{{route('front.content.refund')}}">Refund & Cancellation Policy</a></li>
                                         <li><a href="{{route('front.content.service')}}">Service & Contact</a></li>
+                                    </ul>
+                                </div>
+                                <div class="footer-block">
+                                    <div class="footer-heading">Customer Support</div>
+                                    <ul class="footer-block-menu">
+                                        <li><a href="mailto:support@onninternational.com"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> support@onninternational.com</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -266,11 +329,10 @@
 
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
 
-    <script src="{{ asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/plugin.js') }}"></script>
     <script src="{{ asset('node_modules/bootstrap/dist/js/bootstrap.js') }}"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
     <script src="{{ asset('node_modules/gsap/dist/gsap.min.js') }}"></script>
     <script src="{{ asset('node_modules/gsap/dist/ScrollTrigger.min.js') }}"></script>
     <script src="{{ asset('node_modules/waypoints/lib/jquery.waypoints.min.js') }}"></script>
@@ -295,13 +357,30 @@
 
         // sweetalert fires | type = success, error, warning, info, question
         function toastFire(type = 'success', title, body = '') {
-            Swal.fire({
+            /* Swal.fire({
                 icon: type,
                 title: title,
                 text: body,
                 confirmButtonColor: '#c10909',
                 timer: 5000
-            })
+            }) */
+
+			const Toast = Swal.mixin({
+				toast: true,
+				position: 'top-end',
+				showConfirmButton: false,
+				timer: 3000,
+				timerProgressBar: true,
+				didOpen: (toast) => {
+					toast.addEventListener('mouseenter', Swal.stopTimer)
+					toast.addEventListener('mouseleave', Swal.resumeTimer)
+				}
+			});
+
+			Toast.fire({
+				icon: type,
+				title: title
+			});
         }
 
         // on session toast fires
@@ -328,7 +407,7 @@
                 },
                 success : function(result) {
                     result.resp == 200 ? $icon = '<i class="fas fa-check"></i> ' : $icon = '<i class="fas fa-info-circle"></i> ';
-                    $('#joinUsMailResp').html($icon+result.message);
+                    $('#joinUsMailResp').html('<span class="success_message">'+ $icon+result.message + '</span>');
                     $('button').attr('disabled', false);
                 }
             });

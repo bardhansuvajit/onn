@@ -5,8 +5,8 @@
 @section('content')
 <style>
 .cart-item.item-qty .qty-box a {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     border: none;
     background: #101010;
     -webkit-box-align: center;
@@ -19,6 +19,10 @@
 }
 .cart-item.item-qty .qty-box a:hover {
     background: #c10909;
+}
+.cart-item.item-qty .qty-box a svg {
+    width: 14px;
+    height: 14px;
 }
 </style>
 
@@ -55,7 +59,7 @@
                 <div class="cart-item item-thumb">Image</div>
                 <div class="cart-item item-title">Name and Style</div>
                 <div class="cart-item item-attr">Size</div>
-                <div class="cart-item item-attr">Color</div>
+                <div class="cart-item item-color">Color</div>
                 <div class="cart-item item-price">Price</div>
                 <div class="cart-item item-qty">Quantity</div>
                 <div class="cart-item item-price">Amount</div>
@@ -84,7 +88,7 @@
                     </div>
                 @endif
                 @if ($cartValue->cartVariationDetails)
-                <div class="cart-item item-attr">
+                <div class="cart-item item-color">
                     <div class="cart-text">Colour</div>
                     <h4>{{ucwords($cartValue->cartVariationDetails->colorDetails->name)}}</h4>
                 </div>
@@ -110,7 +114,7 @@
                     <h4>&#8377;{{$cartValue->offer_price * $cartValue->qty}}</h4>
                 </div>
                 <div class="cart-item item-remove">
-                    <a href="{{route('front.cart.delete', $cartValue->id)}}"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg><span>Remove</span></a>
+                    <a href="{{route('front.cart.delete', $cartValue->id)}}"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg><!--<span>Remove</span>--></a>
                 </div>
             </div>
 
@@ -134,7 +138,7 @@
     <div class="container mt-3 mt-sm-5">
         <div class="cart-summary">
             <div class="row justify-content-between flex-sm-row-reverse">
-                <div class="col-sm-5">
+                <div class="col-md-6 col-lg-5">
                     <div class="w-100">
                         <div class="cart-total">
                             <div class="cart-total-label">
@@ -181,7 +185,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-md-6 col-lg-5">
                     <ul class="cart-summary-list">
                         <li>
                             <img src="img/delivery-truck.png" />
@@ -200,7 +204,9 @@
                                 {{-- $('#applyCouponBtn').text('APPLIED').css('background', '#c1080a').attr('disabled', true); --}}
                             </div>
                             @error('lname')<p class="small text-danger mb-0 mt-2">{{$message}}</p>@enderror
-                            <a href="{{route('front.user.coupon')}}" class="d-inline-block mt-2">Get latest coupon from here</a>
+                            <div class="w-100">
+                                <a href="{{route('front.user.coupon')}}" class="d-inline-block mt-2">Get latest coupon from here</a>
+                            </div>
                         </li>
                     </ul>
                 </div>

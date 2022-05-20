@@ -48,9 +48,11 @@ class CartController extends Controller
         $cartStore = $this->cartRepository->addToCart($params);
 
         if ($cartStore) {
-            return redirect()->back()->with('success', 'Product added to cart');
+            return response()->json(['status' => 200, 'message' => 'Product added to cart', 'response' => $cartStore]);
+            // return redirect()->back()->with('success', 'Product added to cart');
         } else {
-            return redirect()->back()->with('failure', 'Something happened');
+            return response()->json(['status' => 400, 'message' => 'Something happened']);
+            // return redirect()->back()->with('failure', 'Something happened');
         }
     }
 

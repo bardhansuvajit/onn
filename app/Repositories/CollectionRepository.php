@@ -193,6 +193,13 @@ class CollectionRepository implements CollectionInterface
                 // $products = $productsQuery->whereRaw("'".$rawQuery."'");
             }
 
+            // category filter
+            if (isset($filter['category'])) {
+                $products = $productsQuery->where('cat_id', $filter['category'])->get();
+                // return $products;
+                // return $collectionId;
+            }
+
             // handling sort by
             if (isset($filter['orderBy'])) {
                 $orderBy = "id";
@@ -219,6 +226,7 @@ class CollectionRepository implements CollectionInterface
 
             $response = [];
             foreach ($products as $productKey => $productValue) {
+                // price check
                 if (count($productValue->colorSize) > 0) {
                     $varArray = [];
                     foreach ($productValue->colorSize as $productVariationKey => $productVariationValue) {
@@ -238,12 +246,44 @@ class CollectionRepository implements CollectionInterface
                         }
                     }
 
-                    $displayPrice = $smaller . ' - ' . $bigger;
+                    $displayPrice = '&#8377;'.$smaller . ' - &#8377;' . $bigger;
 
-                    if ($smaller == $bigger) $displayPrice = $smaller;
+                    if ($smaller == $bigger) $displayPrice = '&#8377;'.$smaller;
                     $show_price = $displayPrice;
                 } else {
-                    $show_price = $productValue['offer_price'];
+                    $show_price = '&#8377;'.$productValue['offer_price'];
+                }
+
+                // color check
+                if (count($productValue->colorSize) > 0) {
+                    $uniqueColors = [];
+
+                    foreach ($productValue->colorSize as $variantKey => $variantValue) {
+                        if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+
+                        $uniqueColors[] = [
+                            'id' => $variantValue->colorDetails->id,
+                            'code' => $variantValue->colorDetails->code,
+                            'name' => $variantValue->colorDetails->name,
+                        ];
+                    }
+
+                    $colorVar = '<ul class="product__color">';
+                    // echo count($uniqueColors);
+                    foreach($uniqueColors as $colorCodeKey => $colorCode) {
+                        if ($colorCodeKey == 5) break;
+                        if ($colorCode['id'] == 61) {
+                            $colorVar .= '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+                        } else {
+                            $colorVar .= '<li onclick="sizeCheck('.$productValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+                        }
+                    }
+                    if (count($uniqueColors) > 5) $colorVar .= '<li>+ more</li>';
+                    $colorVar .= '</ul>';
+
+                    $colorVariation = $colorVar;
+                } else {
+                    $colorVariation = '';
                 }
 
                 $response[] = [
@@ -252,13 +292,14 @@ class CollectionRepository implements CollectionInterface
                     'image' => $productValue['image'],
                     'styleNo' => $productValue['style_no'],
                     'displayPrice' => $show_price,
+                    'colorVariation' => $colorVariation
                 ];
             }
 
             return $response;
         } catch (\Throwable $th) {
             throw $th;
-            // return $th;
+            return $th;
         }
     }
 }

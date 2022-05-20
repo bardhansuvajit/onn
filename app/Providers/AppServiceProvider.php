@@ -37,9 +37,7 @@ class AppServiceProvider extends ServiceProvider
             // categories
             $categoryExists = Schema::hasTable('categories');
             if ($categoryExists) {
-                // $parentCategories = CategoryParent::orderBy('position', 'asc')->orderBy('id', 'desc')->where('status', 1)->get();
-                // dd($parentCategories);
-                $categories = Category::with('parentCatDetails')->orderBy('parent', 'asc')->orderBy('position', 'desc')->where('status', 1)->get();
+                $categories = Category::with('parentCatDetails')->orderBy('parent', 'asc')->orderBy('position', 'asc')->where('status', 1)->get();
 
                 $categoryNavList = [];
 
@@ -47,9 +45,7 @@ class AppServiceProvider extends ServiceProvider
                     // if (in_array_r($catValue->parent, $categoryNavList)) continue;
                     if (in_array_r($catValue->parentCatDetails->name, $categoryNavList)) continue;
 
-                    $childCategories = Category::select('slug', 'name', 'sketch_icon')->where('parent', $catValue->parent)->get()->toArray();
-
-                    // $categoryParent = CategoryParent::where('id', $catValue->parent)->first();
+                    $childCategories = Category::select('slug', 'name', 'sketch_icon', 'image_path')->where('parent', $catValue->parent)->orderBy('position', 'asc')->get()->toArray();
 
                     $categoryNavList[] = [
                         'parent' => $catValue->parentCatDetails->name,

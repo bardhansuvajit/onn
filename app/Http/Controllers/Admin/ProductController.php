@@ -173,6 +173,20 @@ class ProductController extends Controller
         // }
     }
 
+    public function trending(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        if ($product->is_trending == 1) {
+            $product->is_trending = 0;
+        } else {
+            $product->is_trending = 1;
+        }
+        $product->save();
+
+        return redirect()->route('admin.product.index');
+    }
+
     public function destroy(Request $request, $id)
     {
         $this->productRepository->delete($id);

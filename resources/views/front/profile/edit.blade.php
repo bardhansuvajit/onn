@@ -14,29 +14,30 @@
         <form method="POST" action="{{route('front.user.manage.update')}}">@csrf
             <h3>Edit Profile</h3>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="First Name" name="fname" value="{{Auth::guard('web')->user()->fname}}">
                         <label class="floating-label">First Name</label>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Last Name" name="lname" value="{{Auth::guard('web')->user()->lname}}">
                         <label class="floating-label">Last Name</label>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
                         <input type="tel" class="form-control" placeholder="Email Address" value="{{Auth::guard('web')->user()->email}}" readonly disabled>
                         <label class="floating-label">Email Address</label>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
-                        <input type="tel" class="form-control" placeholder="Mobile No" value="{{Auth::guard('web')->user()->mobile}}" readonly disabled>
+                        <input type="tel" class="form-control" placeholder="Mobile No" name="mobile" value="{{Auth::guard('web')->user()->mobile}}">
                         <label class="floating-label">Mobile No</label>
                     </div>
+					@error('mobile') <p class="small text-danger">{{$message}}</p> @enderror
                 </div>
             </div>
 
@@ -50,7 +51,7 @@
         <form method="POST" action="{{route('front.user.password.update')}}">@csrf
             <h3>Change Password</h3>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
                         <input type="password" class="form-control" name="old_password" placeholder="Old Password">
                         <label class="floating-label">Old Password</label>
@@ -59,14 +60,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
                         <input type="password" class="form-control" name="new_password" placeholder="New Password">
                         <label class="floating-label">New Password</label>
                     </div>
                     @error('new_password')<p class="small text-danger mb-0">{{$message}}</p>@enderror
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12 col-lg-6">
                     <div class="form-group">
                         <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password">
                         <label class="floating-label">Confirm Password</label>

@@ -41,7 +41,7 @@
 
                 <div class="order-product-card">
                     <figure>
-                        <img src="{{$productValue->product_image}}" />
+                        <img src="{{asset($productValue->product_image)}}" />
                     </figure>
                     <figcaption>
                         {{-- <h6>Style # OF {{$productValue->product_style_no}}</h6> --}}

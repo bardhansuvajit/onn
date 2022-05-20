@@ -17,9 +17,37 @@ select:focus {
     width: 20px;
     border-radius: 50%
 }
+.product__color {
+	display: flex;
+    flex-wrap: wrap;
+	padding: 0 20px 20px;
+    align-items: center;
+}
+.color-holder {
+	width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex: 0 0 20px;
+	margin-right: 7px;
+	box-shadow: 0px 5px 10px rgb(0 0 0 / 10%);
+}
+.customCats.active {
+    display: block;
+    border: 2px solid #c1080a;
+}
+@media(max-width: 575px) {
+    .color-holder {
+        width: 15px;
+        height: 15px;
+        flex: 0 0 15px;
+    }
+    .product__color {
+        justify-content: center;
+    }
+}
 </style>
 
-<section class="listing-header">
+<!-- <section class="listing-header">
     <div class="container">
         <div class="row flex-sm-row-reverse align-items-center">
             <div class="col-sm-3 d-none d-sm-block">
@@ -35,6 +63,66 @@ select:focus {
                 <h1>{{ $data->name }}</h1>
             </div>
         </div>
+    </div>
+</section> -->
+
+<section class="listing-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- <div class="col-sm-3 d-none d-sm-block">
+                <img src="{{ asset($data->banner_image) }}" class="img-fluid">
+            </div> -->
+            <div class="col-sm-6">
+                <h1>{{ $data->name }}</h1>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('front.home') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{$data->name}}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="filter_by_cat">
+    <div class="container">
+        <h3>{{ $data->parentCatDetails->name }}</h3>
+
+        <ul class="filter_cat_list">
+            @php
+                if(count($data->ProductDetails) > 0) {
+                    $customCats = [];
+                    foreach ($data->ProductDetails as $ProductDetailsKey => $ProductDetailsValue) {
+                        if($ProductDetailsValue->status == 1) {
+                            if(in_array_r($ProductDetailsValue->cat_id, $customCats)) continue;
+
+                            $customCats[] = [
+                                'id' => $ProductDetailsValue->cat_id,
+                                'name' => $ProductDetailsValue->category->name,
+                                'icon' => $ProductDetailsValue->category->icon_path
+                            ];
+                        }
+                    }
+                }
+            @endphp
+            @foreach ($categories as $categoryKey => $categoryValue)
+                @if($categoryValue->parent == $data->parent)
+                    <li class="position-relative">
+                        <a href="{{ route('front.category.detail', $categoryValue->slug) }}" class="customCats {{ ($categoryValue->id == $data->id) ? 'active' : '' }}" id="customCat_{{$categoryValue['id']}}" data-id="{{$categoryValue['id']}}">
+                            <figure>
+                                <img src="{{ asset($categoryValue['icon_path']) }}">
+                            </figure>
+                            <figcaption>
+                                {{ $categoryValue['name'] }}
+                            </figcaption>
+                        </a>
+                    </li>
+                @endif
+            @endforeach
+        </ul>
     </div>
 </section>
 
@@ -142,16 +230,53 @@ select:focus {
                                         }
                                     }
 
-                                    $displayPrice = $smaller.' - '.$bigger;
+                                    /* $displayPrice = $smaller.' - '.$bigger;
 
-                                    if ($smaller == $bigger) $displayPrice = $smaller;
+                                    if ($smaller == $bigger) $displayPrice = $smaller; */
                                 @endphp
-                                &#8377;{{$displayPrice}}
+                                {{-- &#8377;{{$displayPrice}} --}}
+								@if($smaller == $bigger)
+									&#8377;{{$bigger}}
+								@else
+									&#8377;{{$smaller}} - &#8377;{{$bigger}}
+								@endif
                             @else
                                 &#8377;{{$categoryProductValue->offer_price}}
                             @endif
                             </h5>
                         </figcaption>
+						<div class="color">
+							@if (count($categoryProductValue->colorSize) > 0)
+							@php
+							$uniqueColors = [];
+
+							foreach ($categoryProductValue->colorSize as $variantKey => $variantValue) {
+								if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+
+								$uniqueColors[] = [
+									'id' => $variantValue->colorDetails->id,
+									'code' => $variantValue->colorDetails->code,
+									'name' => $variantValue->colorDetails->name,
+								];
+							}
+
+							echo '<ul class="product__color">';
+							// echo count($uniqueColors);
+							foreach($uniqueColors as $colorCodeKey => $colorCode) {
+								if ($colorCodeKey == 5) {break;}
+								// if ($colorCodeKey < 5) {
+									if ($colorCode['id'] == 61) {
+										echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+									} else {
+										echo '<li onclick="sizeCheck('.$categoryProductValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+									}
+								// }
+							}
+							if (count($uniqueColors) > 5) {echo '<li>+ more</li>';}
+							echo '</ul>';
+							@endphp
+						@endif
+						</div>
                     </a>
                     @empty
 
@@ -163,7 +288,7 @@ select:focus {
             <p>Sorry, No products found under {{$data->name}} </p>
         @endif
     </div>
-</section> 
+</section>
 @endsection
 
 @section('script')
@@ -185,13 +310,13 @@ select:focus {
                 'collection' : collectionArr,
             },
             beforeSend: function() {
-                $loadingSwal = Swal.fire({
+                /* $loadingSwal = Swal.fire({
                     title: 'Please wait...',
                     text: 'We are adjusting the products as per your need!',
                     showConfirmButton: false,
                     allowOutsideClick: false
                     // timer: 1500
-                })
+                }) */
             },
             success: function(result) {
                 if (result.status == 200) {
@@ -211,19 +336,20 @@ select:focus {
                             </figure>
                             <figcaption>
                                 <h4>${value.name}</h4>
-                                <h5>&#8377;${value.displayPrice}</h5>
+                                <h5>${value.displayPrice}</h5>
                             </figcaption>
+                            <div class="color">${value.colorVariation}</div>
                         </a>
                         `;
                     });
 
                     $('.product__holder .row').html(content);
-                    $loadingSwal.close();
+                    // $loadingSwal.close();
                 }
                 // console.log(result);
             },
             error: function(result) {
-                $loadingSwal.close()
+                // $loadingSwal.close()
                 console.log(result);
                 $errorSwal = Swal.fire({
                     // icon: 'error',

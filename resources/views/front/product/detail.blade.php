@@ -66,6 +66,35 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
     left: 0;
     z-index: 9;
 }
+.color_holder {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%
+}
+.product__color {
+	display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+	padding: 0 20px 20px;
+}
+.color-holder {
+	width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex: 0 0 20px;
+	margin-right: 7px;
+	box-shadow: 0px 5px 10px rgb(0 0 0 / 10%);
+}
+@media(max-width: 575px) {
+    .color-holder {
+        width: 15px;
+        height: 15px;
+        flex: 0 0 15px;
+    }
+    .product__color {
+        justify-content: center;
+    }
+}
 </style>
 
 <section id="specifications" class="product-details">
@@ -84,15 +113,27 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up"><polyline points="18 15 12 9 6 15"></polyline></svg>
                     </button>
                     <div class="slider swiper-wrapper">
-                        <div class="product-details__gallery__thumb-single swiper-slide">
+                        {{-- <div class="product-details__gallery__thumb-single swiper-slide">
+                            <img src="{{ asset($data->image) }}" />
+                        </div> --}}
+						
+						@php
+							$color = \App\Models\ProductColorSize::where('product_id', $data->id)->first();
+							$lazyImages = \App\Models\ProductImage::where('product_id', $data->id)->where('color_id', $color->color)->get();
+						@endphp
+						
+						@if(count($lazyImages) == 0)
+						<div class="product-details__gallery__thumb-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
                         </div>
-
-                        @foreach($images as $singleImage)
+						@else
+						@foreach($lazyImages as $singleImage)
                             <div class="product-details__gallery__thumb-single swiper-slide">
                                 <img src="{{ asset($singleImage->image) }}" />
                             </div>
                         @endforeach
+						@endif
+
                     </div>
                     <button type="button" class="thumb_button buttom_button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -100,11 +141,23 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 </div>
                 <div class="product-details__gallery__slider swiper-container">
                     <div class="slider swiper-wrapper">
-                        <div class="product-details__gallery__slider-single swiper-slide">
+                        {{-- <div class="product-details__gallery__slider-single swiper-slide">
+                            <img src="{{ asset($data->image) }}" />
+                        </div> --}}
+						
+						@if(count($lazyImages) == 0)
+						<div class="product-details__gallery__slider-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
                         </div>
+						@else
+						@foreach($lazyImages as $singleImage)
+                            <div class="product-details__gallery__slider-single swiper-slide">
+                                <img src="{{ asset($singleImage->image) }}" />
+                            </div>
+                        @endforeach
+						@endif
                         
-                        @foreach($images as $singleImage)
+                        @foreach($lazyImages as $singleImage)
                             <div class="product-details__gallery__slider-single swiper-slide">
                                 <img src="{{ asset($singleImage->image) }}" />
                             </div>
@@ -126,58 +179,9 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
 
             <span class="n_code"># {{$data->style_no}}</span>
             {{-- <img src="{{ asset('img/logo_outerwear.png') }}" class="brand__logo"> --}}
+			<!-- <p>{{$data->category->name}}</p>
+			<p>{{$data->only_for}}</p> -->
             <h2>{{$data->name}}</h2>
-            <p>{!! $data->short_desc !!}</p>
-
-            @if (count($data->colorSize) > 0)
-                @php
-                $uniqueColors = [];
-
-                foreach ($data->colorSize as $variantKey => $variantValue) {
-                    if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
-
-                    $uniqueColors[] = [
-                        'id' => $variantValue->colorDetails->id,
-                        'code' => $variantValue->colorDetails->code,
-                        'name' => $variantValue->colorDetails->name,
-                    ];
-                }
-
-                echo '<h6>Available Colour</h6><ul class="product__color">';
-                foreach($uniqueColors as $colorCodeKey => $colorCode) {
-                    $activeCLass = '';
-                    // ($colorCodeKey == 0) ? $activeCLass = 'active' : $activeCLass = '';
-			
-					if ($colorCode['id'] == 61) {
-						echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
-					} else {
-                    	echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="'.$activeCLass.'" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
-					}
-                }
-                echo '</ul>';
-                @endphp
-
-                <div class="d-flex justify-content-between">
-                    <h6 id="sizeHead" style="{{$primaryColorSizes ? 'display:block;' : 'display:none;' }}">Available Size</h6>
-                    <a href="javascript: void(0)" data-bs-target="#sizeChartModal" data-bs-toggle="modal">Size chart</a>
-                </div>
-                <p id="colorSelectAlert" style="{{$primaryColorSizes ? 'display:none;' : 'display:block;' }}">Please select a colour first</p>
-                <ul class="product__sizes" id="sizeContainer">
-                    @foreach ($primaryColorSizes as $primaryColorSizesKey => $primaryColorSizesValue)
-						@if($primaryColorSizesValue->sizeDetails->id == 23)
-                        <li style="width: 100px;" data-price="{{$primaryColorSizesValue->offer_price}}" data-id="{{$primaryColorSizesValue->id}}">{{$primaryColorSizesValue->sizeDetails->name}}</li>
-						@else
-                        <li data-price="{{$primaryColorSizesValue->offer_price}}" data-id="{{$primaryColorSizesValue->id}}">{{$primaryColorSizesValue->sizeDetails->name}}</li>
-						@endif
-                    @endforeach
-                </ul>
-            @endif
-
-            {{-- <h6>Available Packs</h6>
-            <ul class="product__packs">
-                <li class="active">Packs of 2</li>
-                <li>Packs of 3</li>
-            </ul> --}}
 
             <div class="product__pricing">
                 <img src="{{ asset('img/wallet.png') }}">
@@ -213,8 +217,76 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 </h3>
             </div>
 
+            <div class="filter_wrapper">
+                <button type="button" class="filter_cat_button left_button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c10909" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <div class="filter_category swiper-container">
+                    <div class="slider swiper-wrapper">
+                        @foreach ($categories as $childCatKey => $childCatValue)
+                            <div class="swiper-slide"><a href="{{ route('front.category.detail', $childCatValue['slug']) }}"><img src="{{asset($childCatValue['sketch_icon'])}}"> {{$childCatValue['name']}}</a></div>
+                        @endforeach
+                    </div>
+                </div>
+                <button type="button" class="filter_cat_button right_button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c10909" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+
+            @if (count($data->colorSize) > 0)
+                @php
+                $uniqueColors = [];
+
+                foreach ($data->colorSize as $variantKey => $variantValue) {
+                    if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+
+                    $uniqueColors[] = [
+                        'id' => $variantValue->colorDetails->id,
+                        'code' => $variantValue->colorDetails->code,
+                        'name' => $variantValue->colorDetails->name,
+                    ];
+                }
+
+                echo '<h6>Available Colour</h6><ul class="product__color">';
+                foreach($uniqueColors as $colorCodeKey => $colorCode) {
+                    $activeCLass = '';
+                    ($colorCodeKey == 0) ? $activeCLass = 'active' : $activeCLass = '';
+			
+					if ($colorCode['id'] == 61) {
+						echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+					} else {
+                    	echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="'.$activeCLass.'" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+					}
+                }
+                echo '</ul>';
+                @endphp
+
+                <div class="d-flex justify-content-between">
+                    <h6 id="sizeHead" style="{{$primaryColorSizes ? 'display:block;' : 'display:none;' }}">Available Size</h6>
+                    <a href="javascript: void(0)" data-bs-target="#sizeChartModal" data-bs-toggle="modal">Size chart</a>
+                </div>
+                <p id="colorSelectAlert" style="{{$primaryColorSizes ? 'display:none;' : 'display:block;' }}">Please select a colour first</p>
+                <ul class="product__sizes" id="sizeContainer">
+                    @foreach ($primaryColorSizes as $primaryColorSizesKey => $primaryColorSizesValue)
+						@if($primaryColorSizesValue->sizeDetails->id == 23)
+                        <li style="width: 100px;" data-price="{{$primaryColorSizesValue->offer_price}}" data-id="{{$primaryColorSizesValue->id}}">{{$primaryColorSizesValue->sizeDetails->name}}</li>
+						@else
+                        <li data-price="{{$primaryColorSizesValue->offer_price}}" data-id="{{$primaryColorSizesValue->id}}">{{$primaryColorSizesValue->sizeDetails->name}}</li>
+						@endif
+                    @endforeach
+                </ul>
+            @endif
+
+            {{-- <h6>Available Packs</h6>
+            <ul class="product__packs">
+                <li class="active">Packs of 2</li>
+                <li>Packs of 3</li>
+            </ul> --}}
+
+            
+
             <div class="product__enquire d-flex">
-                <form method="POST" action="{{route('front.cart.add')}}" class="d-flex">@csrf
+                <form method="POST" action="{{route('front.cart.add')}}" class="d-flex" id="addToCartForm">@csrf
                     <div class="item-qty mr-1">
                         <!-- <div class="cart-text">Quantity</div> -->
                         <div class="qty-box">
@@ -238,20 +310,22 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                     <button type="submit" id="addToCart__btn" class="mr-1 @if(count($data->colorSize) > 0) missingVariationSelection @endif"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> <span>Add to Cart</span></button>
                 </form>
 
-                <form method="POST" action="{{route('front.wishlist.add')}}">@csrf
+                <form method="POST" action="{{route('front.wishlist.add')}}" id="toggleWishlistForm">@csrf
                     <input type="hidden" name="product_id" value="{{$data->id}}">
-                    <button type="submit" class="wishlist_btn" style="width: 60px;{{ ($wishlistCheck) ? 'background: #c1080a;' : '' }}">
+                    <button type="submit" class="wishlist_btn {{ ($wishlistCheck) ? 'active' : '' }}" st yle="width: 60px;{{ ($wishlistCheck) ? 'background: #c1080a;' : '' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                     </button>
                 </form>
             </div>
 
-            <h6>Details & Specifications</h6>
+            <p>{!! $data->short_desc !!}</p>
+
+            <!-- <h6>Details & Specifications</h6>
             <div class="specification">
                 {!! $data->desc !!}
                 {{-- {!! substr($data->desc, 0, 100) !!} --}}
                 {{-- <h6><a href="javascript: void(0)" data-bs-target="#productDescModal" data-bs-toggle="modal">Read more</a></h6> --}}
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
@@ -300,6 +374,39 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                     @endif
                     {{-- &#8377;{{$relatedProductValue->offer_price}}  --}}
                     </h5>
+						
+						<div class="color">
+							@if (count($relatedProductValue->colorSize) > 0)
+							@php
+							$uniqueColors = [];
+
+							foreach ($relatedProductValue->colorSize as $variantKey => $variantValue) {
+								if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+
+								$uniqueColors[] = [
+									'id' => $variantValue->colorDetails->id,
+									'code' => $variantValue->colorDetails->code,
+									'name' => $variantValue->colorDetails->name,
+								];
+							}
+
+							echo '<ul class="product__color">';
+							// echo count($uniqueColors);
+							foreach($uniqueColors as $colorCodeKey => $colorCode) {
+								if ($colorCodeKey == 4) {break;}
+								// if ($colorCodeKey < 4) {
+									if ($colorCode['id'] == 61) {
+										echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+									} else {
+										echo '<li onclick="sizeCheck('.$relatedProductValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+									}
+								// }
+							}
+							if (count($uniqueColors) > 4) {echo '<li>+ more</li>';}
+							echo '</ul>';
+							@endphp
+						@endif
+						</div>
                 </figcaption>
             </a>
             @empty
@@ -327,11 +434,312 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h6>SIZE CHART</h6>
+                <h6>Size Chart For {{$data->category->name}}</h6>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body">
-            {!! $data->size_chart !!}
+            <!-- {!! $data->size_chart !!} -->
+            
+
+            @php
+                if($data->category->name == "T-Shirt") {
+                    if($data->only_for == 'all') {
+            @endphp
+                <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+                <table class="size_table">
+                    <tr>
+                        <th>XS</th>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                        <th>3XL</th>
+                        <th>4XL</th>
+                    </tr>
+                    <tr>
+                        <td>70-75</td>
+                        <td>80-85</td>
+                        <td>90-95</td>
+                        <td>100-105</td>
+                        <td>110-115</td>
+                        <td>120-125</td>
+                        <td>130-135</td>
+                        <td>140-145</td>
+                    </tr>
+                </table>
+                @php 
+                    } elseif($data->only_for == 'Women') {
+                @endphp
+                <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+                <table class="size_table">
+                    <tr>
+                        <th>S</th>
+                        <th>M</th>
+                        <th>L</th>
+                        <th>XL</th>
+                        <th>XXL</th>
+                    </tr>
+                    <tr>
+                        <td>75-80</td>
+                        <td>85-90</td>
+                        <td>95-100</td>
+                        <td>105-110</td>
+                        <td>115-120</td>
+                    </tr>
+                </table>
+                @php 
+                    } else {
+                @endphp
+                <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+                <table class="size_table">
+                    <tr>
+                        <th>3-4</th>
+                        <th>5-6</th>
+                        <th>7-8</th>
+                        <th>9-10</th>
+                        <th>11-12</th>
+                        <th>13-14</th>
+                    </tr>
+                    <tr>
+                        <td>50cms</td>
+                        <td>55cms</td>
+                        <td>60cms</td>
+                        <td>65cms</td>
+                        <td>70cms</td>
+                        <td>75cms</td>
+                    </tr>
+                </table>
+                @php 
+                    }
+                @endphp
+            @php
+                } elseif($data->category->name == "Vest") {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>XS</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>2XL</th>
+                </tr>
+                <tr>
+                    <td>70</td>
+                    <td>80</td>
+                    <td>85</td>
+                    <td>90</td>
+                    <td>95</td>
+                    <td>100</td>
+                </tr>
+            </table>
+            @php
+                } elseif($data->category->name == "Brief") {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>2XL</th>
+                </tr>
+                <tr>
+                    <td>80</td>
+                    <td>85</td>
+                    <td>90</td>
+                    <td>95</td>
+                    <td>100</td>
+                </tr>
+            </table>
+            @php
+                } elseif($data->category->name == "Trunk") {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>XS</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>2XL</th>
+                </tr>
+                <tr>
+                    <td>70</td>
+                    <td>80</td>
+                    <td>85</td>
+                    <td>90</td>
+                    <td>95</td>
+                    <td>100</td>
+                </tr>
+            </table>
+            @php
+                } elseif($data->category->name == "Boxer") {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>2XL</th>
+                </tr>
+                <tr>
+                    <td>80</td>
+                    <td>85</td>
+                    <td>90</td>
+                    <td>95</td>
+                    <td>100</td>
+                </tr>
+            </table>clear-dev
+            @php
+                } elseif($data->category->name == "Track Pants") {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>XXL</th>
+                </tr>
+                <tr>
+                    <td>70-75</td>
+                    <td>80-85</td>
+                    <td>90-95</td>
+                    <td>100-105</td>
+                    <td>110-115</td>
+                </tr>
+            </table>
+            @php
+                } elseif($data->category->name == "Half Pants") {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>XXL</th>
+                </tr>
+                <tr>
+                    <td>70-75</td>
+                    <td>80-85</td>
+                    <td>90-95</td>
+                    <td>100-105</td>
+                    <td>110-115</td>
+                </tr>
+            </table>
+            @php
+                } elseif($data->category->name == "Thermal") {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>XS</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>XXL</th>
+                    <th>3XL</th>
+                </tr>
+                <tr>
+                    <td>75cm</td>
+                    <td>80cm</td>
+                    <td>85cm</td>
+                    <td>90cm</td>
+                    <td>95cm</td>
+                    <td>1.0mtr</td>
+                    <td>1.05mtr</td>
+                </tr>
+            </table>
+            @php
+                } elseif($data->category->name == "Sweatshirt") {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>XXL</th>
+                </tr>
+                <tr>
+                    <td>70-75</td>
+                    <td>80-85</td>
+                    <td>90-95</td>
+                    <td>100-105</td>
+                    <td>110-115</td>
+                </tr>
+            </table>
+            @php
+                } elseif($data->category->name == "Jackets") {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                    <th>XXL</th>
+                </tr>
+                <tr>
+                    <td>70-75</td>
+                    <td>80-85</td>
+                    <td>90-95</td>
+                    <td>100-105</td>
+                    <td>110-115</td>
+                </tr>
+            </table>
+            @php
+                } else {
+            @endphp
+            <figure>
+                    <img src="{{asset($data->category->image_path)}}" class="img-fluid">
+                </figure>
+            <table class="size_table">
+                <tr>
+                    <th>Free Size</th>
+                </tr>
+            </table>
+            @php
+                }
+            @endphp
+            
             </div>
         </div>
     </div>
@@ -348,17 +756,17 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
             method : 'POST',
             data : {'_token' : '{{csrf_token()}}', productId : productId, colorId : colorId},
             beforeSend: function() {
-                $loadingSwal = Swal.fire({
+                /* $loadingSwal = Swal.fire({
                     title: 'Please wait...',
                     text: 'We are fetching your details!',
                     showConfirmButton: false,
                     // allowOutsideClick: false
                     // timer: 1500
-                })
+                }) */
             },
             success : function(result) {
                 if (result.error === false) {
-                    $loadingSwal.close();
+                    // $loadingSwal.close();
                     $('#sizeHead').show();
                     $('#colorSelectAlert').hide();
 
@@ -379,9 +787,36 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                     });
                     $('.product-details__gallery__thumb .swiper-wrapper').html(imgContentThumb);
                     $('.product-details__gallery__slider .swiper-wrapper').html(imgContentSlider);
-                    gallery__thumb.reload();
+                    
+                    var gallery__thumb = new Swiper(".product-details__gallery__thumb", {
+                        direction: "vertical",
+                        loop: false,
+                        spaceBetween: 10,
+                        slidesPerView: 4,
+                        freeMode: true,
+                        lazy: true,
+                        observer: true,
+                        runCallbacksOnInit: true,
+                        watchSlidesProgress: true,
+                        slideToClickedSlide: true,
+                    });
+                    var gallery__slider = new Swiper(".product-details__gallery__slider", {
+                        loop: false,
+                        lazy: true,
+                        observer: true,
+                        spaceBetween: 0,
+                        centeredSlides: true,
+                        runCallbacksOnInit: true,
+                        navigation: {
+                            nextEl: ".buttom_button",
+                            prevEl: ".top_button",
+                        },
+                        thumbs: {
+                            swiper: gallery__thumb,
+                        },
+                    });
                 } else {
-                    $loadingSwal.close();
+                    // $loadingSwal.close();
 
                     Swal.fire({
                         title: 'OOPS',
@@ -415,5 +850,102 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
     /* $(document).on('click', '.missingVariationSelection', function(){
         alert('here');
     }); */
+
+	// add to cart ajax
+	$('#addToCartForm').on('submit', function(e) {
+		e.preventDefault();
+		var data = $(this).serialize();
+		$.ajax({
+			url: $(this).attr('action'),
+			method: $(this).attr('method'),
+			data: data,
+			beforeSend: function() {
+				$('#addToCart__btn').addClass('missingVariationSelection').text('Adding to Cart');
+			},
+			success: function(result) {
+				const Toast = Swal.mixin({
+					toast: true,
+					position: 'top-end',
+					showConfirmButton: false,
+					timer: 3000,
+					timerProgressBar: true,
+					didOpen: (toast) => {
+						toast.addEventListener('mouseenter', Swal.stopTimer)
+						toast.addEventListener('mouseleave', Swal.resumeTimer)
+					}
+				})
+				if (result.status == 200) {
+					Toast.fire({
+					  icon: 'success',
+					  title: result.message
+					})
+					$('#cart-count').text(result.response);
+				} else {
+					Toast.fire({
+					  icon: 'error',
+					  title: result.message
+					})
+				}
+				$('#addToCart__btn').attr('disabled', false).removeClass('missingVariationSelection').text('Add to Cart');
+				$('.wishlist_btn').attr('disabled', false);
+			},
+		});
+	});
+
+	// wishlist ajax
+	$('#toggleWishlistForm').on('submit', function(e) {
+		e.preventDefault();
+		var data = $(this).serialize();
+		$.ajax({
+			url: $(this).attr('action'),
+			method: $(this).attr('method'),
+			data: data,
+			beforeSend: function() {
+				// $('#addToCart__btn').addClass('missingVariationSelection').text('Adding to Cart');
+			},
+			success: function(result) {
+				const Toast = Swal.mixin({
+					toast: true,
+					position: 'top-end',
+					showConfirmButton: false,
+					timer: 3000,
+					timerProgressBar: true,
+					didOpen: (toast) => {
+						toast.addEventListener('mouseenter', Swal.stopTimer)
+						toast.addEventListener('mouseleave', Swal.resumeTimer)
+					}
+				})
+				if (result.status == 200) {
+					Toast.fire({
+					  icon: 'success',
+					  title: result.message
+					});
+
+					if (result.message == "wishlisted") {
+						Toast.fire({
+						  icon: 'success',
+						  title: 'Product addded to Wishlist'
+						});
+						$('.wishlist_btn').addClass('active');
+					} else {
+						Toast.fire({
+						  icon: 'success',
+						  title: 'Product removed from Wishlist'
+						});
+						$('.wishlist_btn').removeClass('active');
+					}
+					
+					$('#wishlist-count').text(result.count);
+				} else {
+					Toast.fire({
+					  icon: 'error',
+					  title: result.message
+					})
+				}
+				$('#addToCart__btn').attr('disabled', false);
+				$('.wishlist_btn').attr('disabled', false);
+			},
+		});
+	});
 </script>
 @endsection

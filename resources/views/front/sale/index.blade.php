@@ -23,7 +23,7 @@
 </section> --}}
 
 @if (count($data) > 0)
-<section class="listing-block mt-5">
+<section class="listing-block mt-5 pt-5">
     <div class="container">
         <div class="listing-block__meta">
             <p>Sale</p>

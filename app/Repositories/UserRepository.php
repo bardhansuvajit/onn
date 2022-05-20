@@ -148,6 +148,7 @@ class UserRepository implements UserInterface
         $updateEntry->fname = $collectedData['fname'];
         $updateEntry->lname = $collectedData['lname'];
         $updateEntry->name = $collectedData['fname'] . ' ' . $collectedData['lname'];
+        $updateEntry->mobile = $collectedData['mobile'];
         $updateEntry->save();
 
         return $updateEntry;

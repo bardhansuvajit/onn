@@ -20,7 +20,7 @@
             <div class="alert alert-danger"> {{Session::get('failure')}} </div>
         @endif --}}
 
-        @foreach ($data as $wishlistKey => $wishlistValue)
+        @forelse ($data as $wishlistKey => $wishlistValue)
         <div class="order-card">
             <div class="order-card-body">
                 <div class="order-product-card">
@@ -57,7 +57,7 @@
                         {{-- <button class="cart_btn">Add to Cart</button> --}}
                     </div>
                     <div class="col-sm-6 text-sm-right">
-                        <form method="POST" action="{{route('front.wishlist.add')}}">@csrf
+                        <form method="POST" action="{{route('front.wishlist.remove')}}">@csrf
                             <input type="hidden" name="product_id" value="{{$wishlistValue->product_id}}">
                             <button type="submit" class="remove_btn">Remove from List</button>
                         </form>
@@ -65,128 +65,23 @@
                 </div>
             </div>
         </div>
-        @endforeach
+		@empty
+		<section class="cart-wrapper">
+			<div class="container">
+				<div class="complele-box">
+					<figure>
+						<img src="{{ asset('img/close.svg') }}" height="100">
+					</figure>
+					<figcaption>
+						<h2>You have not wishlisted any products yet</h2>
+						<p>You can stay here or get back to home.</p>
+						<a href="{{ URL::to('/') }}">Back to Home</a>
+					</figcaption>
+				</div>
+			</div>
+		</section>
+        @endforelse
 
-        {{-- <div class="order-card">
-            <div class="order-card-body">
-                <div class="order-product-card">
-                    <figure>
-                        <img src="img/v_neck_tshirt.png" />
-                    </figure>
-                    <figcaption>
-                        <h6>Style # OF NC423</h6>
-                        <h4>V Neck T-shirt</h4>
-                        <h5>Price: <span>&#8377;450</span> | Size: <span>XXL</span> | Color: <span>Red</span> | Qty: <span>1</span></h5>
-                    </figcaption>
-                </div>
-            </div>
-            <div class="order-card-footer">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button class="cart_btn">Add to Cart</button>
-                    </div>
-                    <div class="col-sm-6 text-sm-right">
-                        <a href="#" class="remove_btn">Remove from List</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="order-card">
-            <div class="order-card-body">
-                <div class="order-product-card">
-                    <figure>
-                        <img src="img/v_neck_tshirt.png" />
-                    </figure>
-                    <figcaption>
-                        <h6>Style # OF NC423</h6>
-                        <h4>V Neck T-shirt</h4>
-                        <h5>Price: <span>&#8377;450</span> | Size: <span>XXL</span> | Color: <span>Red</span> | Qty: <span>1</span></h5>
-                    </figcaption>
-                </div>
-            </div>
-            <div class="order-card-footer">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button class="cart_btn">Add to Cart</button>
-                    </div>
-                    <div class="col-sm-6 text-sm-right">
-                        <a href="#" class="remove_btn">Remove from List</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="order-card">
-            <div class="order-card-body">
-                <div class="order-product-card">
-                    <figure>
-                        <img src="img/v_neck_tshirt.png" />
-                    </figure>
-                    <figcaption>
-                        <h6>Style # OF NC423</h6>
-                        <h4>V Neck T-shirt</h4>
-                        <h5>Price: <span>&#8377;450</span> | Size: <span>XXL</span> | Color: <span>Red</span> | Qty: <span>1</span></h5>
-                    </figcaption>
-                </div>
-            </div>
-            <div class="order-card-footer">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button class="cart_btn">Add to Cart</button>
-                    </div>
-                    <div class="col-sm-6 text-sm-right">
-                        <a href="#" class="remove_btn">Remove from List</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="order-card">
-            <div class="order-card-body">
-                <div class="order-product-card">
-                    <figure>
-                        <img src="img/v_neck_tshirt.png" />
-                    </figure>
-                    <figcaption>
-                        <h6>Style # OF NC423</h6>
-                        <h4>V Neck T-shirt</h4>
-                        <h5>Price: <span>&#8377;450</span> | Size: <span>XXL</span> | Color: <span>Red</span> | Qty: <span>1</span></h5>
-                    </figcaption>
-                </div>
-            </div>
-            <div class="order-card-footer">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button class="cart_btn">Add to Cart</button>
-                    </div>
-                    <div class="col-sm-6 text-sm-right">
-                        <a href="#" class="remove_btn">Remove from List</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="order-card">
-            <div class="order-card-body">
-                <div class="order-product-card">
-                    <figure>
-                        <img src="img/v_neck_tshirt.png" />
-                    </figure>
-                    <figcaption>
-                        <h6>Style # OF NC423</h6>
-                        <h4>V Neck T-shirt</h4>
-                        <h5>Price: <span>&#8377;450</span> | Size: <span>XXL</span> | Color: <span>Red</span> | Qty: <span>1</span></h5>
-                    </figcaption>
-                </div>
-            </div>
-            <div class="order-card-footer">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button class="cart_btn">Add to Cart</button>
-                    </div>
-                    <div class="col-sm-6 text-sm-right">
-                        <a href="#" class="remove_btn">Remove from List</a>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
 </div>
 @endsection
