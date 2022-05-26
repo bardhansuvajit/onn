@@ -64,8 +64,8 @@
         </div>
     </div>
 </section>
-{{--
-<section id="sale" class="home-offers">
+
+{{-- <section id="sale" class="home-offers">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-sm-4 mb-3 mb-sm-0">
@@ -78,17 +78,17 @@
             </div>
         </div>
     </div>
-</section>
---}}
+</section> --}}
+
 <section id="category" class="home-category">
     <!-- <div class="home-category__text">Total Comfort</div> -->
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-sm-12 mb-0 mb-md-5">
                 <h2><span>Featured <strong>Categories</strong></span></h2>
             </div>
             @foreach ($categories as $categoryKey => $categoryValue)
-            <div class="col-4 col-sm-3 col-lg-2">
+            <div class="col-4 col-sm-3 col-lg">
                 <a href="{{ route('front.category.detail', $categoryValue->slug) }}" class="home-category-single">
                     <figure>
                         <img src="{{asset($categoryValue->icon_path)}}">
@@ -98,6 +98,7 @@
                     </figcaption>
                 </a>
             </div>
+            @if($categoryKey == 4) <div class="d-none d-lg-block col-12"></div> @endif
             @endforeach
         </div>
     </div>
