@@ -12054,7 +12054,7 @@ button:hover {
 }
 
 @media (max-width: 799.98px) {
-
+  
   .container-fluid,
   .container-sm,
   .container-md,
@@ -20418,7 +20418,7 @@ header .main-nav ul li .sub-menu.mega-menu ul li ul {
   display: flex;
 }
 
-/* header .main-nav ul li:nth-child(2) .sub-menu.mega-menu ul li:nth-child(1) ul li:nth-child(2) {
+header .main-nav ul li:nth-child(2) .sub-menu.mega-menu ul li:nth-child(1) ul li:nth-child(2) {
   order: 1;
 }
 header .main-nav ul li:nth-child(2) .sub-menu.mega-menu ul li:nth-child(1) ul li:nth-child(1) {
@@ -20452,7 +20452,7 @@ header .main-nav ul li:nth-child(2) .sub-menu.mega-menu ul li:nth-child(3) ul li
 }
 header .main-nav ul li:nth-child(2) .sub-menu.mega-menu ul li:nth-child(3) ul li:nth-child(3) {
   order: 2;
-} */
+}
 
 header .main-nav ul li .sub-menu.mega-menu ul li ul.mega-drop-menu li {
   border-bottom: 1px solid #ddd;
@@ -22472,7 +22472,7 @@ header .nav-toggle span:after {
 
 .video__wrapper {
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(80vh - 80px);
   position: relative;
 }
 
@@ -23537,7 +23537,7 @@ header .nav-toggle span:after {
   }
 }
 
-/* .home-category .row .col-4:nth-child(12) {
+.home-category .row .col-4:nth-child(12) {
   order: 1;
 }
 .home-category .row .col-4:nth-child(11) {
@@ -23572,7 +23572,7 @@ header .nav-toggle span:after {
 }
 .home-category .row .col-4:nth-child(3) {
   order: 12;
-} */
+}
 
 .home-category-single {
   display: -webkit-box;
@@ -27075,7 +27075,7 @@ header .nav-toggle span:after {
     right: -78px;
     opacity: 0.025;
     background-size: 40%;
-
+    
 }
 .register-block{
     display: block;
@@ -27188,8 +27188,7 @@ header .nav-toggle span:after {
 }
 .filter_cat_list li {
   display: inline-block;
-  flex: 0 0 130px;
-  max-width: 130px;
+  flex: 1 0 0%;
   padding: 0 15px;
 }
 .filter_cat_list li figure {
@@ -27200,14 +27199,9 @@ header .nav-toggle span:after {
   text-align: center;
   font-size: 13px;
   font-weight: 400;
-  color: #6c757d;
 }
 .filter_cat_list li figure img {
   max-width: 70px;
-}
-.filter_cat_list li a.active figcaption {
-  font-weight: 600;
-  color: #141b4b;
 }
 .filter_by_cat + .listing-block {
   padding-top: 0;

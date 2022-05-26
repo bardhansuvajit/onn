@@ -217,7 +217,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 </h3>
             </div>
 
-            <div class="filter_wrapper">
+            {{--<div class="filter_wrapper">
                 <button type="button" class="filter_cat_button left_button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c10909" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 </button>
@@ -231,7 +231,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 <button type="button" class="filter_cat_button right_button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c10909" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </button>
-            </div>
+            </div>--}}
 
             @if (count($data->colorSize) > 0)
                 @php

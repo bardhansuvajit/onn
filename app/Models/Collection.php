@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Collection extends Model
 {
-    protected $fillable = ['name', 'description', 'image_path', 'slug'];
+    protected $fillable = ['name', 'description', 'image_path', 'slug', 'status'];
 
     public function ProductDetails() {
         return $this->hasMany('App\Models\Product', 'collection_id', 'id');

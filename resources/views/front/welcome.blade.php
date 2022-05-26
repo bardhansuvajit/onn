@@ -64,7 +64,7 @@
         </div>
     </div>
 </section>
-
+{{--
 <section id="sale" class="home-offers">
     <div class="container">
         <div class="row align-items-center justify-content-center">
@@ -79,7 +79,7 @@
         </div>
     </div>
 </section>
-
+--}}
 <section id="category" class="home-category">
     <!-- <div class="home-category__text">Total Comfort</div> -->
     <div class="container">
@@ -87,7 +87,7 @@
             <div class="col-sm-12 mb-0 mb-md-5">
                 <h2><span>Featured <strong>Categories</strong></span></h2>
             </div>
-            @foreach ($category as $categoryKey => $categoryValue)
+            @foreach ($categories as $categoryKey => $categoryValue)
             <div class="col-4 col-sm-3 col-lg-2">
                 <a href="{{ route('front.category.detail', $categoryValue->slug) }}" class="home-category-single">
                     <figure>
@@ -166,7 +166,7 @@
             <!-- <div class="home-product__holder__left">
                 <h2 class="home-product__holder__title">Trending <strong>Products</strong></h2>
             </div> -->
-    
+
             <div class="home-product__holder__right">
                 <div class="home-product__slider swiper-container">
                     <div class="slider swiper-wrapper">
@@ -257,7 +257,7 @@
 </section>
 
 @foreach ($categoryNavList as $categoryNavKey => $categoryNavValue)
-@php 
+@php
     if($categoryNavValue['parent'] == 'Innerwear') {
 @endphp
 <section class="home-shop">
@@ -265,7 +265,7 @@
         <h2>Shop <strong>{{$categoryNavValue['parent']}}</strong></h2>
         <div class="row">
             @foreach ($categoryNavValue['child'] as $childCatKey => $childCatValue)
-            <div class="col-12 col-sm-6 col-md-3 mb-3 mb-sm-0"> 
+            <div class="col-12 col-sm-6 col-md-4 mb-3 mb-sm-0">
                 <a href="{{ route('front.category.detail', $childCatValue['slug']) }}" class="home-shop_thumb">
                     <figure>
                         <img src="{{ asset($childCatValue['image_path']) }}" class="img-fluid">
@@ -277,7 +277,7 @@
         </div>
     </div>
 </section>
-@php 
+@php
     } elseif($categoryNavValue['parent'] == 'Outerwear') {
 @endphp
 <section class="home-shop">
@@ -285,7 +285,7 @@
         <h2>Shop <strong>{{$categoryNavValue['parent']}}</strong></h2>
         <div class="row">
             @foreach ($categoryNavValue['child'] as $childCatKey => $childCatValue)
-            <div class="col-12 col-sm-6 col-md-3 mb-3 mb-sm-0"> 
+            <div class="col-12 col-sm-6 col-md-4 mb-3 mb-sm-0">
                 <a href="{{ route('front.category.detail', $childCatValue['slug']) }}" class="home-shop_thumb">
                     <figure>
                         <img src="{{ asset($childCatValue['image_path']) }}" class="img-fluid">
@@ -297,17 +297,18 @@
         </div>
     </div>
 </section>
-@php 
-    } elseif($categoryNavValue['parent'] == 'Winter wear') {
+@php
+    } elseif($categoryNavValue['parent'] == 'Footkins') {
 @endphp
     <section class="home-shop">
         <div class="container">
             <div class="row">
-                <div class="col-sm-9">
+
+                <div class="col-sm-3">
                     <h2>Shop <strong>{{$categoryNavValue['parent']}}</strong></h2>
                     <div class="row">
                         @foreach ($categoryNavValue['child'] as $childCatKey => $childCatValue)
-                        <div class="col-12 col-sm-4 mb-3 mb-sm-0"> 
+                        <div class="col-12 mb-3 mb-sm-0">
                             <a href="{{ route('front.category.detail', $childCatValue['slug']) }}" class="home-shop_thumb">
                                 <figure>
                                     <img src="{{ asset($childCatValue['image_path']) }}" class="img-fluid">
@@ -320,12 +321,12 @@
                 </div>
 @php
     } else {
-@endphp 
-                <div class="col-sm-3">
+@endphp
+<div class="col-sm-9">
                     <h2>Shop <strong>{{$categoryNavValue['parent']}}</strong></h2>
                     <div class="row">
                         @foreach ($categoryNavValue['child'] as $childCatKey => $childCatValue)
-                        <div class="col-12 mb-3 mb-sm-0"> 
+                        <div class="col-12 col-sm-4 mb-3 mb-sm-0">
                             <a href="{{ route('front.category.detail', $childCatValue['slug']) }}" class="home-shop_thumb">
                                 <figure>
                                     <img src="{{ asset($childCatValue['image_path']) }}" class="img-fluid">
@@ -341,7 +342,7 @@
     </section>
 @php
     }
-@endphp 
+@endphp
 
 @endforeach
 

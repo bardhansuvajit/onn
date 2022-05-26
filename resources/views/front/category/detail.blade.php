@@ -31,10 +31,10 @@ select:focus {
 	margin-right: 7px;
 	box-shadow: 0px 5px 10px rgb(0 0 0 / 10%);
 }
-.customCats.active {
+/*.customCats.active {
     display: block;
     border: 2px solid #c1080a;
-}
+}*/
 @media(max-width: 575px) {
     .color-holder {
         width: 15px;
@@ -93,7 +93,7 @@ select:focus {
 
         <ul class="filter_cat_list">
             @php
-                if(count($data->ProductDetails) > 0) {
+                /* if(count($data->ProductDetails) > 0) {
                     $customCats = [];
                     foreach ($data->ProductDetails as $ProductDetailsKey => $ProductDetailsValue) {
                         if($ProductDetailsValue->status == 1) {
@@ -106,7 +106,7 @@ select:focus {
                             ];
                         }
                     }
-                }
+                } */
             @endphp
             @foreach ($categories as $categoryKey => $categoryValue)
                 @if($categoryValue->parent == $data->parent)

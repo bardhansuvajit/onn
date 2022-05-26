@@ -15,12 +15,12 @@ class FrontController extends Controller
 {
     public function index(Request $request)
     {
-        $category = Category::latest('id')->get();
+        // $category = Category::latest('id')->get();
         $collections = Collection::latest('id')->get();
         $products = Product::where('is_trending', 1)->latest('view_count', 'id')->get();
         // $products = Product::latest('view_count', 'id')->limit(16)->get();
         $galleries = Gallery::latest('id')->get();
-        return view('front.welcome', compact('category', 'collections', 'products', 'galleries'));
+        return view('front.welcome', compact('collections', 'products', 'galleries'));
     }
 
     public function mailSubscribe(Request $request)

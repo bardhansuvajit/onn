@@ -31,10 +31,10 @@ select:focus {
 	margin-right: 7px;
 	box-shadow: 0px 5px 10px rgb(0 0 0 / 10%);
 }
-.customCats.active {
+/*.customCats.active {
     display: block;
     border: 2px solid #c1080a;
-}
+}*/
 @media(max-width: 575px) {
     .color-holder {
         width: 15px;
@@ -81,13 +81,17 @@ select:focus {
                         if($ProductDetailsValue->status == 1) {
                             if(in_array_r($ProductDetailsValue->cat_id, $customCats)) continue;
 
-                            $customCats[] = [
-                                'id' => $ProductDetailsValue->cat_id,
-                                'name' => $ProductDetailsValue->category->name,
-                                'icon' => $ProductDetailsValue->category->icon_path
-                            ];
+                            if ($ProductDetailsValue->category->status == 1) {
+                                $customCats[] = [
+                                    'id' => $ProductDetailsValue->cat_id,
+                                    'name' => $ProductDetailsValue->category->name,
+                                    'icon' => $ProductDetailsValue->category->icon_path,
+                                ];
+                            }
                         }
                     }
+
+                    // dd($customCats);
                 }
             @endphp
             {{-- {{ dd($categories) }} --}}
