@@ -261,6 +261,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', 'Admin\OrderController@index')->name('index');
             Route::post('/store', 'Admin\OrderController@store')->name('store');
             Route::get('/{id}/view', 'Admin\OrderController@show')->name('view');
+            Route::get('/{id}/invoice', 'Admin\OrderController@invoice')->name('invoice');
             Route::post('/{id}/update', 'Admin\OrderController@update')->name('update');
             Route::get('/{id}/status/{status}', 'Admin\OrderController@status')->name('status');
         });

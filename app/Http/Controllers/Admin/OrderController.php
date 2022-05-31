@@ -101,7 +101,13 @@ class OrderController extends Controller
         }
     }
 
-    // public function destroy(Request $request, $id) 
+    public function invoice(Request $request, $id)
+    {
+        $data = $this->orderRepository->listById($id);
+        return view('admin.order.invoice', compact('data'));
+    }
+
+    // public function destroy(Request $request, $id)
     // {
     //     $this->orderRepository->delete($id);
 

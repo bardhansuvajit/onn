@@ -18,7 +18,7 @@
                 <div class="row g-3 align-items-center">
                     <div class="col-auto">
                     <input type="search" name="term" id="term" class="form-control" placeholder="Search here.."
-                    value="{{app('request')->input('term')}}" 
+                    value="{{app('request')->input('term')}}"
                     autocomplete="off">
                     </div>
                     <div class="col-auto">
@@ -89,6 +89,7 @@
             </th>
             <th>Name</th>
             <th>Amount</th>
+            <th>Invoice</th>
             <th>Order time</th>
             <th>Status</th>
         </tr>
@@ -97,10 +98,10 @@
             @forelse ($data as $index => $item)
             <tr>
                 <td class="check-column">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault"></label>
-                </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault"></label>
+                    </div>
                 <td>
                     <p class="small text-dark mb-1">#{{$item->order_no}}</p>
                     <p class="small text-dark mb-1">{{$item->fname.' '.$item->lname}}</p>
@@ -111,6 +112,9 @@
                 </td>
                 <td>
                     <p class="small text-muted mb-1">Rs {{$item->final_amount}}</p>
+                </td>
+                <td>
+                    <a href="{{ route('admin.order.invoice', $item->id) }}" class="btn btn-sm btn-primary">Invoice</a>
                 </td>
                 <td>
                     <p class="small">{{date('j M Y g:i A', strtotime($item->created_at))}}</p>

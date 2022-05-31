@@ -116,12 +116,12 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                         {{-- <div class="product-details__gallery__thumb-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
                         </div> --}}
-						
+
 						@php
 							$color = \App\Models\ProductColorSize::where('product_id', $data->id)->first();
 							$lazyImages = \App\Models\ProductImage::where('product_id', $data->id)->where('color_id', $color->color)->get();
 						@endphp
-						
+
 						@if(count($lazyImages) == 0)
 						<div class="product-details__gallery__thumb-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
@@ -144,7 +144,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                         {{-- <div class="product-details__gallery__slider-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
                         </div> --}}
-						
+
 						@if(count($lazyImages) == 0)
 						<div class="product-details__gallery__slider-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
@@ -156,7 +156,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                             </div>
                         @endforeach
 						@endif
-                        
+
                         @foreach($lazyImages as $singleImage)
                             <div class="product-details__gallery__slider-single swiper-slide">
                                 <img src="{{ asset($singleImage->image) }}" />
@@ -251,7 +251,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 foreach($uniqueColors as $colorCodeKey => $colorCode) {
                     $activeCLass = '';
                     ($colorCodeKey == 0) ? $activeCLass = 'active' : $activeCLass = '';
-			
+
 					if ($colorCode['id'] == 61) {
 						echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
 					} else {
@@ -283,7 +283,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 <li>Packs of 3</li>
             </ul> --}}
 
-            
+
 
             <div class="product__enquire d-flex">
                 <form method="POST" action="{{route('front.cart.add')}}" class="d-flex" id="addToCartForm">@csrf
@@ -374,7 +374,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                     @endif
                     {{-- &#8377;{{$relatedProductValue->offer_price}}  --}}
                     </h5>
-						
+
 						<div class="color">
 							@if (count($relatedProductValue->colorSize) > 0)
 							@php
@@ -439,7 +439,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
             </div>
             <div class="modal-body">
             <!-- {!! $data->size_chart !!} -->
-            
+
 
             @php
                 if($data->category->name == "T-Shirt") {
@@ -470,7 +470,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                         <td>140-145</td>
                     </tr>
                 </table>
-                @php 
+                @php
                     } elseif($data->only_for == 'Women') {
                 @endphp
                 <figure>
@@ -492,7 +492,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                         <td>115-120</td>
                     </tr>
                 </table>
-                @php 
+                @php
                     } else {
                 @endphp
                 <figure>
@@ -516,7 +516,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                         <td>75cms</td>
                     </tr>
                 </table>
-                @php 
+                @php
                     }
                 @endphp
             @php
@@ -739,7 +739,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
             @php
                 }
             @endphp
-            
+
             </div>
         </div>
     </div>
@@ -787,7 +787,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                     });
                     $('.product-details__gallery__thumb .swiper-wrapper').html(imgContentThumb);
                     $('.product-details__gallery__slider .swiper-wrapper').html(imgContentSlider);
-                    
+
                     var gallery__thumb = new Swiper(".product-details__gallery__thumb", {
                         direction: "vertical",
                         loop: false,
@@ -837,7 +837,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
             e.preventDefault();
             alert('Select color & size first');
         }
-    }); 
+    });
 
     // get variation id & load into product_variation_id
     $(document).on('click', '#sizeContainer li', function(){
@@ -867,8 +867,8 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
 					toast: true,
 					position: 'top-end',
 					showConfirmButton: false,
-					timer: 3000,
-					timerProgressBar: true,
+					timer: 2000,
+					// timerProgressBar: true,
 					didOpen: (toast) => {
 						toast.addEventListener('mouseenter', Swal.stopTimer)
 						toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -879,14 +879,15 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
 					  icon: 'success',
 					  title: result.message
 					})
-					$('#cart-count').text(result.response);
+					$('#cart-count').text(result.response).removeClass('d-none');
 				} else {
 					Toast.fire({
 					  icon: 'error',
 					  title: result.message
 					})
 				}
-				$('#addToCart__btn').attr('disabled', false).removeClass('missingVariationSelection').text('Add to Cart');
+				$('#addToCart__btn').attr('disabled', false).removeClass('missingVariationSelection').html(`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg> <span>Add to Cart</span>`);
+				// $('#addToCart__btn').attr('disabled', false).removeClass('missingVariationSelection').text('Add to Cart');
 				$('.wishlist_btn').attr('disabled', false);
 			},
 		});
@@ -908,8 +909,8 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
 					toast: true,
 					position: 'top-end',
 					showConfirmButton: false,
-					timer: 3000,
-					timerProgressBar: true,
+					timer: 2000,
+					// timerProgressBar: true,
 					didOpen: (toast) => {
 						toast.addEventListener('mouseenter', Swal.stopTimer)
 						toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -934,7 +935,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
 						});
 						$('.wishlist_btn').removeClass('active');
 					}
-					
+
 					$('#wishlist-count').text(result.count);
 				} else {
 					Toast.fire({
