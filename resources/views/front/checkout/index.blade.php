@@ -239,11 +239,11 @@
                         <li><div class="form-check">
                             <input class="form-check-input" type="radio" name="existing_billing_address" id="existing_billing_address.{{$addressValue->id}}" value="{{$addressValue->id}}"  billing_address="{{$addressValue->address}}" billing_country="{{$addressValue->country ? $addressValue->country.', ' : ''}}" billing_landmark="{{$addressValue->landmark ? $addressValue->landmark.', ' : ''}}" billing_city="{{$addressValue->city}}" billing_state="{{$addressValue->state}}" billing_pin="{{$addressValue->pin}}" {{$addressKey == 0 ? 'checked' : ''}}>
                             <label class="form-check-label" for="existing_billing_address.{{$addressValue->id}}">
-                                <span class="billing_address">{{$addressValue->address}}</span>, 
+                                <span class="billing_address">{{$addressValue->address}}</span>,
                                 <span class="billing_country">{{$addressValue->country ? $addressValue->country.', ' : ''}}</span>
-                                <span class="billing_landmark">{{$addressValue->landmark ? $addressValue->landmark.', ' : ''}}</span>, 
-                                <span class="billing_city">{{$addressValue->city}}</span>, 
-                                <span class="billing_state">{{$addressValue->state}}</span>, 
+                                <span class="billing_landmark">{{$addressValue->landmark ? $addressValue->landmark.', ' : ''}}</span>,
+                                <span class="billing_city">{{$addressValue->city}}</span>,
+                                <span class="billing_state">{{$addressValue->state}}</span>,
                                 <span class="billing_pin" >{{$addressValue->pin}}</span>
                             </label>
                         </div></li>
@@ -309,11 +309,11 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="existing_shipping_address" id="existing_shipping_address.{{$addressValue->id}}" value="{{$addressValue->id}}" {{$addressKey == 0 ? 'checked' : ''}}>
                             <label class="form-check-label" for="existing_shipping_address.{{$addressValue->id}}">
-                                <span class="billing_address">{{$addressValue->address}}</span>, 
+                                <span class="billing_address">{{$addressValue->address}}</span>,
                                 <span class="billing_country">{{$addressValue->country ? $addressValue->country.', ' : ''}}</span>
-                                <span class="billing_landmark">{{$addressValue->landmark ? $addressValue->landmark.', ' : ''}}</span>, 
-                                <span class="billing_city">{{$addressValue->city}}</span>, 
-                                <span class="billing_state">{{$addressValue->state}}</span>, 
+                                <span class="billing_landmark">{{$addressValue->landmark ? $addressValue->landmark.', ' : ''}}</span>,
+                                <span class="billing_city">{{$addressValue->city}}</span>,
+                                <span class="billing_state">{{$addressValue->state}}</span>,
                                 <span class="billing_pin">{{$addressValue->pin}}</span>
                             </label>
                         </div>
@@ -324,9 +324,9 @@
                         <div class="col-sm-12">
                             <div class="form-group mb-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" name="shippingSameAsBilling" type="checkbox" value="1" id="shippingaddress" {{ (old('shippingSameAsBilling') ? '' : 'checked') }}>
+                                    <input class="form-check-input" name="shippingSameAsBilling" type="checkbox" value="1" id="shippingaddress" {{ (old('shippingSameAsBilling') == 1) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="shippingaddress" >
-                                        Same as Billing Address {{old('shippingSameAsBilling')}}
+                                        Same as Billing Address
                                     </label>
                                 </div>
                             </div>

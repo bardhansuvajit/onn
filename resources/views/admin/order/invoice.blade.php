@@ -177,10 +177,7 @@
                                             class="" cellpadding="10" cellspacing="0">
                                             <tr>
                                                 <td valign="top">
-                                                    <p style="margin: 0;">Amount Chargeable (in words)<br /><strong>INR
-                                                        {{ amountInWords($data->final_amount) }}
-                                                            Three Hundred and Ninety Three Rupees and Zero Paise
-                                                            Only Tax is payable on reverse charge basis: No</strong></p>
+                                                    <p style="margin: 0;">Amount Chargeable (in words)<br /><strong>INR {{ amountInWords($data->final_amount) }} Only Tax is payable on reverse charge basis: No</strong></p>
                                                 </td>
                                                 <td align="right" valign="top">
                                                     <h4 style="margin: 0; font-size: 14px;">E. & O.E</h4>
