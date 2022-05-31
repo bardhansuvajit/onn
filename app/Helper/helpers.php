@@ -9,7 +9,7 @@ function SendMail($data)
 {
     // mail log
     $newMail = new \App\Models\MailLog();
-    $newMail->from = 'onenesstechsolution@gmail.com';
+    $newMail->from = 'support@onninternational.com';
     $newMail->to = $data['email'];
     $newMail->subject = $data['subject'];
     $newMail->blade_file = $data['blade_file'];
@@ -18,7 +18,7 @@ function SendMail($data)
 
     // send mail
     Mail::send($data['blade_file'], $data, function ($message) use ($data) {
-        $message->to($data['email'], $data['name'])->subject($data['subject'])->from('onenesstechsolution@gmail.com', env('APP_NAME'));
+        $message->to($data['email'], $data['name'])->subject($data['subject'])->from('support@onninternational.com', env('APP_NAME'));
     });
 }
 

@@ -23,8 +23,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <div class="d-flex justify-content-end">
-                            <a href="javascript: void(0)" type="button" class="btn btn-primary btn-sm"
-                                onclick="printInvoice()">Print</a>
+                            <a href="javascript: void(0)" type="button" class="btn btn-primary btn-sm" onclick="printInvoice()">Print</a>
                         </div>
                     </div>
                 </div>

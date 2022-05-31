@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\UserInterface;
+use App\Interfaces\OrderInterface;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function __construct(UserInterface $userRepository) 
+    public function __construct(UserInterface $userRepository, OrderInterface $orderRepository)
     {
         $this->userRepository = $userRepository;
+        $this->orderRepository = $orderRepository;
     }
 
     public function login(Request $request)
@@ -41,13 +43,13 @@ class UserController extends Controller
 
         if ($storeData) {
             // $credentials = $request->only('email', 'password');
- 
+
             // if (Auth::attempt($credentials)) {
             //     // return redirect()->intended('home');
             //     return redirect()->url('home');
             // }
 
-            return redirect()->route('front.user.register')->with('success', 'Account created successfully');
+            return redirect()->route('front.user.login')->with('success', 'Account created successfully');
         } else {
             return redirect()->route('front.user.register')->withInput($request->all())->with('failure', 'Something happened');
         }
@@ -92,7 +94,7 @@ class UserController extends Controller
         }
     }
 
-    public function addressCreate(Request $request) 
+    public function addressCreate(Request $request)
     {
         $request->validate([
             "user_id" => "required|integer",
@@ -121,7 +123,7 @@ class UserController extends Controller
         }
     }
 
-    public function updateProfile(Request $request) 
+    public function updateProfile(Request $request)
     {
         $request->validate([
             "fname" => "required|string|max:255",
@@ -141,7 +143,7 @@ class UserController extends Controller
         }
     }
 
-    public function updatePassword(Request $request) 
+    public function updatePassword(Request $request)
     {
         $request->validate([
             "old_password" => "required|string|max:255",
@@ -159,7 +161,7 @@ class UserController extends Controller
         }
     }
 
-    public function wishlist(Request $request) 
+    public function wishlist(Request $request)
     {
         $data = $this->userRepository->wishlist();
         if ($data) {
@@ -167,5 +169,11 @@ class UserController extends Controller
         } else {
             return view('front.404');
         }
+    }
+
+    public function invoice(Request $request, $id)
+    {
+        $data = $this->orderRepository->listById($id);
+        return view('front.profile.invoice', compact('data'));
     }
 }

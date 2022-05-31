@@ -27,9 +27,9 @@
                     <li class="{{request()->is('user/profile*') ? 'active' : '' }}">
                         <a href="{{route('front.user.profile')}}">Overview</a>
                     </li>
-                    <li class="{{request()->is('user/order*') ? 'active' : '' }}">
+                    <li>
                         <span>Orders</span>
-                        <ul class="account-item"><li><a href="{{route('front.user.order')}}">Orders & Returns</a></li></ul>
+                        <ul class="account-item"><li class="{{(request()->is('user/order*')) ? 'active' : '' }}"><a href="{{route('front.user.order')}}">Orders & Returns</a></li></ul>
                     </li>
                     <li>
                         <span>Credits</span>

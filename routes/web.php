@@ -114,6 +114,7 @@ Route::name('front.')->group(function () {
             Route::post('manage/update', 'Front\UserController@updateProfile')->name('manage.update');
             Route::post('password/update', 'Front\UserController@updatePassword')->name('password.update');
             Route::get('order', 'Front\UserController@order')->name('order');
+            Route::get('order/{id}/invoice', 'Front\UserController@invoice')->name('invoice');
             Route::get('coupon', 'Front\UserController@coupon')->name('coupon');
             Route::get('address', 'Front\UserController@address')->name('address');
             Route::view('address/add', 'front.profile.address-add')->name('address.add');

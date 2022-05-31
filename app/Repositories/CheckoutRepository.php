@@ -183,7 +183,7 @@ class CheckoutRepository implements CheckoutInterface
 
             // send mail starts
             $settings = Settings::all();
-            $collections = Collection::where('status', 1)->get();
+            $collections = Collection::orderBy('position')->where('status', 1)->get();
             $bookingProductsBody = '';
             $bookingProductsBody .= '<table width="550" border="0" cellspacing="0" cellpadding="0" class="amttable">
                 <thead>
@@ -207,42 +207,6 @@ class CheckoutRepository implements CheckoutInterface
                     </tbody>';
                 $i++;
             }
-
-            /* $bookingProductsBody .= '<tr>
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; padding:4px; font-weight:400" width="50" colspan="3">Basic Amount</td>
-
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">'.$booking->amount.'</td>
-            </tr>
-            <tr>
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px;  padding:4px; font-weight:400" width="50" colspan="3">GST</td>
-
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">'.$booking->tax_amount.'</td>
-            </tr>
-            <tr>
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px;  padding:4px; font-weight:400" width="50" colspan="3">Discount</td>
-
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">'.$booking->discount_amount.'</td>
-            </tr>
-            <tr>
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; padding:4px; font-weight:400" width="50" colspan="3">Express Delivery Charge</td>
-
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">'.$booking->express_charge.'</td>
-            </tr>
-            <tr>
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px;  padding:4px; font-weight:400" width="50" colspan="3">COD Charge</td>
-
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">'.$booking->cod_charge.'</td>
-            </tr>
-            <tr>
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; padding:4px; font-weight:400" width="50" colspan="3">Shipping Charge</td>
-
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">'.$booking->shipping_charge.'</td>
-            </tr>
-            <tr>
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px;  padding:4px; font-weight:400" width="50" colspan="3">Total Amount</td>
-
-                <td style="color:#000; font-family:Arial, sans-serif; font-size:14px; line-height:20px; text-align:center; padding:4px; font-weight:400">'.($booking->total_amount + $booking->tax_amount).'</td>
-            </tr>'; */
 
             $bookingProductsBody .='</tbody></table>';
             $to = $email_data['email'];
@@ -360,10 +324,24 @@ class CheckoutRepository implements CheckoutInterface
             $headers = '';
             $headers.= "MIME-Version: 1.0\r\n";
             $headers.= "Content-type: text/html; charset=utf-8 \r\n";
-            $headers.= "From: contact@demo91.co.in" . "\r\n";
+            $headers.= "From: support@onninternational.com" . "\r\n";
 
             $mail_send = mail($to, "ONN - Order Confirmation", $mail_format, $headers);
             // send mail ends
+
+
+            // send invoice mail
+            /* $email_data = [
+                'name' => $collectedData['fname'].' '.$collectedData['lname'],
+                'subject' => 'Onn - Order Invoice',
+                'email' => $collectedData['email'],
+                'orderNo' => $order_no,
+                'blade_file' => 'front/mail/invoice',
+            ];
+            SendMail($email_data); */
+            // send invoice mail
+
+
 
             $this->shiprocket($newEntry,$cartData);
 

@@ -28,6 +28,7 @@
                     <h5 class="{{ ($orderSTatus == "Cancelled" ? 'text-danger' : 'text-success') }}">Status : {{$orderSTatus}}</h5>
                     <p>Ordered On {{date('D, j M Y', strtotime($orderValue->created_at))}}</p>
                 </figcaption>
+                <a href="{{ route('front.user.invoice', $orderValue->id) }}" class="text-primary" style="font-weight: bold">Invoice</a>
             </div>
             <div class="order-card-body">
                 @foreach($orderValue->orderProducts as $productKey => $productValue)
