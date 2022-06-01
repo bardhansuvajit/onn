@@ -292,6 +292,17 @@
                                         <li><a href="{{route('front.content.return')}}">Returns Policy</a></li>
                                         <li><a href="{{route('front.content.refund')}}">Refund & Cancellation Policy</a></li>
                                         <li><a href="{{route('front.content.service')}}">Service & Contact</a></li>
+
+                                        <li><a href="{{route('front.content.blog')}}">Blog</a></li>
+                                        <li><a href="{{route('front.content.blog.detail')}}">Blog Detail</a></li>
+                                        <li><a href="{{route('front.content.about')}}">About</a></li>
+                                        <li><a href="{{route('front.content.contact')}}">Contact</a></li>
+                                        <li><a href="{{route('front.content.corporate')}}">Corporate</a></li>
+                                        <li><a href="{{route('front.content.news')}}">News</a></li>
+                                        <li><a href="{{route('front.content.news.detail')}}">News detail</a></li>
+                                        <li><a href="{{route('front.content.career')}}">Career</a></li>
+                                        <li><a href="{{route('front.content.global')}}">Global</a></li>
+
                                     </ul>
                                 </div>
                                 <div class="footer-block">

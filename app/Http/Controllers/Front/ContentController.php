@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 
 class ContentController extends Controller
 {
-    public function __construct(ContentInterface $contentRepository) 
+    public function __construct(ContentInterface $contentRepository)
     {
         $this->contentRepository = $contentRepository;
     }
@@ -120,5 +120,50 @@ class ContentController extends Controller
         } else {
             return view('front.404');
         }
+    }
+
+    public function blog(Request $request)
+    {
+        return view('front.blog.index');
+    }
+
+    public function blogDetail(Request $request)
+    {
+        return view('front.blog.detail');
+    }
+
+    public function news(Request $request)
+    {
+        return view('front.news.index');
+    }
+
+    public function newsDetail(Request $request)
+    {
+        return view('front.news.detail');
+    }
+
+    public function about(Request $request)
+    {
+        return view('front.content.about');
+    }
+
+    public function contact(Request $request)
+    {
+        return view('front.content.contact');
+    }
+
+    public function corporate(Request $request)
+    {
+        return view('front.content.corporate');
+    }
+
+    public function career(Request $request)
+    {
+        return view('front.content.career');
+    }
+
+    public function global(Request $request)
+    {
+        return view('front.content.global');
     }
 }

@@ -94,6 +94,17 @@ Route::name('front.')->group(function () {
         Route::get('/return-policy', 'Front\ContentController@returnDetails')->name('return');
         Route::get('/refund-policy', 'Front\ContentController@refundDetails')->name('refund');
         Route::get('/service-and-contact', 'Front\ContentController@serviceDetails')->name('service');
+
+        Route::get('/blog', 'Front\ContentController@blog')->name('blog');
+        Route::get('/blog/detail', 'Front\ContentController@blogDetail')->name('blog.detail');
+        Route::get('/about', 'Front\ContentController@about')->name('about');
+        Route::get('/contact', 'Front\ContentController@contact')->name('contact');
+
+        Route::get('/corporate', 'Front\ContentController@corporate')->name('corporate');
+        Route::get('/news', 'Front\ContentController@news')->name('news');
+        Route::get('/news/detail', 'Front\ContentController@newsDetail')->name('news.detail');
+        Route::get('/career', 'Front\ContentController@career')->name('career');
+        Route::get('/global', 'Front\ContentController@global')->name('global');
     });
 
     // user login & registration - guard
