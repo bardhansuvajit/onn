@@ -15,7 +15,7 @@ function SendMail($data)
     $newMail->blade_file = $data['blade_file'];
     $newMail->payload = json_encode($data);
     $newMail->save();
-
+	
     // send mail
     Mail::send($data['blade_file'], $data, function ($message) use ($data) {
         $message->to($data['email'], $data['name'])->subject($data['subject'])->from('support@onninternational.com', env('APP_NAME'));

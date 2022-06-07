@@ -249,7 +249,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5 col-lg-5 mb-3 mb-md-0">
+                    <div class="col-md-4 col-lg-4 mb-3 mb-md-0">
                         <div class="newsletter-form">
                             <form method="POST" action="{{route('front.subscription')}}" id="joinUsForm">@csrf
                                 <p>Join us for more updates</p>
@@ -269,9 +269,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-7 col-lg-6 offset-lg-1">
+                    <div class="col-md-8 col-lg-7 offset-lg-1">
                         <div class="row">
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <div class="footer-block">
                                     <div class="footer-heading">Quick Links</div>
                                     <ul class="footer-block-menu">
@@ -281,7 +281,23 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-sm-7">
+                            <div class="col-sm-4">
+                                <div class="footer-block mb-2 mb-sm-5">
+                                    <div class="footer-heading">Explore More</div>
+                                    <ul class="footer-block-menu">
+                                        <li><a href="{{route('front.content.blog')}}">Blog</a></li>
+                                        {{-- <li><a href="{{route('front.content.blog.detail')}}">Blog Detail</a></li> --}}
+                                        <li><a href="{{route('front.content.about')}}">About</a></li>
+                                        <li><a href="{{route('front.content.contact')}}">Contact</a></li>
+                                        <li><a href="{{route('front.content.corporate')}}">Corporate</a></li>
+                                        <li><a href="{{route('front.content.news')}}">News</a></li>
+                                        {{-- <li><a href="{{route('front.content.news.detail')}}">News detail</a></li> --}}
+                                        <li><a href="{{route('front.content.career')}}">Career</a></li>
+                                        <li><a href="{{route('front.content.global')}}">Global</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
                                 <div class="footer-block mb-2 mb-sm-5">
                                     <div class="footer-heading">Customer Services</div>
                                     <ul class="footer-block-menu">
@@ -292,19 +308,9 @@
                                         <li><a href="{{route('front.content.return')}}">Returns Policy</a></li>
                                         <li><a href="{{route('front.content.refund')}}">Refund & Cancellation Policy</a></li>
                                         <li><a href="{{route('front.content.service')}}">Service & Contact</a></li>
-
-                                        <li><a href="{{route('front.content.blog')}}">Blog</a></li>
-                                        <li><a href="{{route('front.content.blog.detail')}}">Blog Detail</a></li>
-                                        <li><a href="{{route('front.content.about')}}">About</a></li>
-                                        <li><a href="{{route('front.content.contact')}}">Contact</a></li>
-                                        <li><a href="{{route('front.content.corporate')}}">Corporate</a></li>
-                                        <li><a href="{{route('front.content.news')}}">News</a></li>
-                                        <li><a href="{{route('front.content.news.detail')}}">News detail</a></li>
-                                        <li><a href="{{route('front.content.career')}}">Career</a></li>
-                                        <li><a href="{{route('front.content.global')}}">Global</a></li>
-
                                     </ul>
                                 </div>
+
                                 <div class="footer-block">
                                     <div class="footer-heading">Customer Support</div>
                                     <ul class="footer-block-menu">
@@ -312,6 +318,9 @@
                                     </ul>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                        	
                         </div>
                     </div>
                 </div>

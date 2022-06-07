@@ -137,9 +137,10 @@ class ContentController extends Controller
         return view('front.news.index');
     }
 
-    public function newsDetail(Request $request)
+    public function newsDetail(Request $request, $slug)
     {
-        return view('front.news.detail');
+        $data = \DB::table('news')->where('slug', $slug)->first();
+        return view('front.news.detail', compact('data'));
     }
 
     public function about(Request $request)

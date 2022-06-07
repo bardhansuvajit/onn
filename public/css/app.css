@@ -12054,7 +12054,7 @@ button:hover {
 }
 
 @media (max-width: 799.98px) {
-
+  
   .container-fluid,
   .container-sm,
   .container-md,
@@ -27075,7 +27075,7 @@ header .nav-toggle span:after {
     right: -78px;
     opacity: 0.025;
     background-size: 40%;
-
+    
 }
 .register-block{
     display: block;
@@ -27267,6 +27267,7 @@ header .nav-toggle span:after {
   font-family: "Montserrat";
   font-weight: 300;
   position: relative;
+  font-size: 30px;
 }
 
 .home-shop h2 strong {
@@ -27281,13 +27282,13 @@ header .nav-toggle span:after {
 }
 
 .home-shop h2:after {
-  width: calc(100% - 500px);
+  width: calc(100% - 300px);
   height: 2px;
   /* background: rgba(20, 27, 75, 0.2); */
   background: #c10909;
   position: absolute;
   top: 50%;
-  left: 500px;
+  left: 300px;
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);

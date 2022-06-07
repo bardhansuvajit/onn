@@ -102,7 +102,7 @@ Route::name('front.')->group(function () {
 
         Route::get('/corporate', 'Front\ContentController@corporate')->name('corporate');
         Route::get('/news', 'Front\ContentController@news')->name('news');
-        Route::get('/news/detail', 'Front\ContentController@newsDetail')->name('news.detail');
+        Route::get('/news/{slug}', 'Front\ContentController@newsDetail')->name('news.detail');
         Route::get('/career', 'Front\ContentController@career')->name('career');
         Route::get('/global', 'Front\ContentController@global')->name('global');
     });
