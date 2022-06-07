@@ -119,19 +119,27 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
 
 						@php
 							$color = \App\Models\ProductColorSize::where('product_id', $data->id)->first();
-							$lazyImages = \App\Models\ProductImage::where('product_id', $data->id)->where('color_id', $color->color)->get();
+                            if ($color) {
+                                $lazyImages = \App\Models\ProductImage::where('product_id', $data->id)->where('color_id', $color->color)->get();
+                            }
 						@endphp
 
-						@if(count($lazyImages) == 0)
-						<div class="product-details__gallery__thumb-single swiper-slide">
+						@if($color)
+                            @if(count($lazyImages) == 0)
+                                <div class="product-details__gallery__thumb-single swiper-slide">
+                                    <img src="{{ asset($data->image) }}" />
+                                </div>
+                            @else
+                                @foreach($lazyImages as $singleImage)
+                                    <div class="product-details__gallery__thumb-single swiper-slide">
+                                        <img src="{{ asset($singleImage->image) }}" />
+                                    </div>
+                                @endforeach
+                            @endif
+                        @else
+                        <div class="product-details__gallery__thumb-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
                         </div>
-						@else
-						@foreach($lazyImages as $singleImage)
-                            <div class="product-details__gallery__thumb-single swiper-slide">
-                                <img src="{{ asset($singleImage->image) }}" />
-                            </div>
-                        @endforeach
 						@endif
 
                     </div>
@@ -145,23 +153,31 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                             <img src="{{ asset($data->image) }}" />
                         </div> --}}
 
-						@if(count($lazyImages) == 0)
-						<div class="product-details__gallery__slider-single swiper-slide">
+                        @if($color)
+                            @if(count($lazyImages) == 0)
+                                <div class="product-details__gallery__slider-single swiper-slide">
+                                    <img src="{{ asset($data->image) }}" />
+                                </div>
+                            @else
+                                @foreach($lazyImages as $singleImage)
+                                    <div class="product-details__gallery__slider-single swiper-slide">
+                                        <img src="{{ asset($singleImage->image) }}" />
+                                    </div>
+                                @endforeach
+                            @endif
+                        @else
+                        <div class="product-details__gallery__slider-single swiper-slide">
                             <img src="{{ asset($data->image) }}" />
                         </div>
-						@else
-						@foreach($lazyImages as $singleImage)
-                            <div class="product-details__gallery__slider-single swiper-slide">
-                                <img src="{{ asset($singleImage->image) }}" />
-                            </div>
-                        @endforeach
 						@endif
 
-                        @foreach($lazyImages as $singleImage)
-                            <div class="product-details__gallery__slider-single swiper-slide">
-                                <img src="{{ asset($singleImage->image) }}" />
-                            </div>
-                        @endforeach
+                        @if($color)
+                            @foreach($lazyImages as $singleImage)
+                                <div class="product-details__gallery__slider-single swiper-slide">
+                                    <img src="{{ asset($singleImage->image) }}" />
+                                </div>
+                            @endforeach
+						@endif
                     </div>
                 </div>
             </div>
