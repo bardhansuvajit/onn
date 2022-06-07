@@ -234,6 +234,7 @@
             <div class="row">
                 <div class="col-12">
                     <h3>Product variation</h3>
+                    <p class="small text-muted">Add color | size | multiple images from here</p>
                     <a href="#addColorModal" data-bs-toggle="modal" class="btn btn-sm btn-success">Add color</a>
                 </div>
                 <div class="col-12">
@@ -368,7 +369,7 @@
         <div class="modal-body">
             <form action="{{route('admin.product.variation.color.add')}}" method="post">@csrf
                 <input type="hidden" name="product_id" value="{{$id}}">
-                <input type="hidden" name="color" value="{{$productColorGroupVal->color}}">
+                {{-- <input type="hidden" name="color" value="{{$productColorGroupVal->color}}"> --}}
 
                 <select name="color" id="">
                     <option value="" selected>Select color...</option>
@@ -401,10 +402,10 @@
                 <button type="submit" class="btn btn-sm btn-success">+ Add size</button>
             </form>
         </div>
-        <div class="modal-footer">
+        {{-- <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+        </div> --}}
       </div>
     </div>
   </div>

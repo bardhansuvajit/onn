@@ -192,11 +192,13 @@ class ProductRepository implements ProductInterface
             $updatedEntry->offer_price = $collectedData['offer_price'];
 
             // slug generate
-            $slug = \Str::slug($collectedData['name'], '-');
-            $slugExistCount = Product::where('slug', $slug)->count();
-            if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
+            if ($updatedEntry->name != $collectedData['name']) {
+                $slug = \Str::slug($collectedData['name'], '-');
+                $slugExistCount = Product::where('slug', $slug)->count();
+                if ($slugExistCount > 0) $slug = $slug . '-' . ($slugExistCount + 1);
+                $updatedEntry->slug = $slug;
+            }
 
-            $updatedEntry->slug = $slug;
             $updatedEntry->meta_title = $collectedData['meta_title'];
             $updatedEntry->meta_desc = $collectedData['meta_desc'];
             $updatedEntry->meta_keyword = $collectedData['meta_keyword'];

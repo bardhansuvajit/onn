@@ -13,7 +13,7 @@
                     <select class="form-control" name="cat_id">
                         <option hidden selected>Select category...</option>
                         @foreach ($categories as $index => $item)
-                            <option value="{{$item->id}}" {{ old('cat_id') ?? (old('cat_id') == $item->id) ? 'selected' : ''}}>{{ $item->name }}</option>
+                            <option value="{{$item->id}}" {{ (old('cat_id') == $item->id) ? 'selected' : ''}}>{{ $item->name }} </option>
                         @endforeach
                     </select>
                     @error('cat_id') <p class="small text-danger">{{ $message }}</p> @enderror
@@ -23,7 +23,7 @@
                     <select class="form-control" name="sub_cat_id">
                         <option hidden selected>Select sub-category...</option>
                         @foreach ($sub_categories as $index => $item)
-                            <option value="{{$item->id}}" {{ (old('sub_cat_id')) ?? (old('sub_cat_id') == $item->id) ? 'selected' : ''  }}>{{ $item->name }}</option>
+                            <option value="{{$item->id}}" {{ (old('sub_cat_id') == $item->id) ? 'selected' : ''  }}>{{ $item->name }}</option>
                         @endforeach
                     </select>
                     @error('sub_cat_id') <p class="small text-danger">{{ $message }}</p> @enderror
@@ -33,7 +33,7 @@
                     <select class="form-control" name="collection_id">
                         <option hidden selected>Select collection...</option>
                         @foreach ($collections as $index => $item)
-                            <option value="{{$item->id}}" {{ (old('collection_id')) ?? (old('collection_id') == $item->id) ? 'selected' : ''  }}>{{ $item->name }}</option>
+                            <option value="{{$item->id}}" {{ (old('collection_id') == $item->id) ? 'selected' : ''  }}>{{ $item->name }}</option>
                         @endforeach
                     </select>
                     @error('collection_id') <p class="small text-danger">{{ $message }}</p> @enderror
@@ -213,7 +213,7 @@
                                 </tbody>
                             </table>
                             @error('time')<p class="text-danger">{{$message}}</p>@enderror
-                            @error('price')<p class="text-danger">{{$message}}</p>@enderror
+                            {{-- @error('price')<p class="text-danger">{{$message}}</p>@enderror --}}
                         </div>
                     </div>
                 </div>
