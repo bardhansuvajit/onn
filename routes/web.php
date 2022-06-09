@@ -83,6 +83,11 @@ Route::name('front.')->group(function () {
         Route::get('/', 'Front\SearchController@index')->name('index');
     });
 
+	// franchise
+	Route::prefix('franchise')->name('franchise.')->group(function () {
+        Route::get('/', 'Front\FranchiseController@index')->name('index');
+    });
+
     // settings contents
     Route::name('content.')->group(function () {
         Route::get('/terms-and-conditions', 'Front\ContentController@termDetails')->name('terms');
@@ -96,7 +101,7 @@ Route::name('front.')->group(function () {
         Route::get('/service-and-contact', 'Front\ContentController@serviceDetails')->name('service');
 
         Route::get('/blog', 'Front\ContentController@blog')->name('blog');
-        Route::get('/blog/detail', 'Front\ContentController@blogDetail')->name('blog.detail');
+        Route::get('/blog/{slug}', 'Front\ContentController@blogDetail')->name('blog.detail');
         Route::get('/about', 'Front\ContentController@about')->name('about');
         Route::get('/contact', 'Front\ContentController@contact')->name('contact');
 

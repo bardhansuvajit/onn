@@ -294,6 +294,7 @@
                                         {{-- <li><a href="{{route('front.content.news.detail')}}">News detail</a></li> --}}
                                         <li><a href="{{route('front.content.career')}}">Career</a></li>
                                         <li><a href="{{route('front.content.global')}}">Global</a></li>
+                                        <li><a href="{{route('front.franchise.index')}}">Franchise</a></li>
                                     </ul>
                                 </div>
                             </div>

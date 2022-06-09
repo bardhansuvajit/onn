@@ -84,13 +84,13 @@
                     <li>
                         <span><strong>Quick Links</strong></span>
                         <ul>
-                            <li><a href="https://onninternational.com/about">About</a></li>
-                            <li><a href="https://onninternational.com/corporate">Corporate</a></li>
-                            <li><a href="https://onninternational.com/news">News</a></li>
-                            <li><a href="https://onninternational.com/blog">Blogs</a></li>
-                            <li><a href="https://onninternational.com/global">Global</a></li>
-                            <li><a href="https://onninternational.com/contact">Contact</a></li>
-                            <li><a href="https://onninternational.com/career">Career</a></li>
+                            <li><a href="{{route('front.content.about')}}">About</a></li>
+                            <li><a href="{{route('front.content.corporate')}}">Corporate</a></li>
+                            <li><a href="{{route('front.content.news')}}">News</a></li>
+                            <li><a href="{{route('front.content.blog')}}">Blogs</a></li>
+                            <li><a href="{{route('front.content.global')}}">Global</a></li>
+                            <li><a href="{{route('front.content.contact')}}">Contact</a></li>
+                            <li><a href="{{route('front.content.career')}}">Career</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -99,7 +99,30 @@
             <div class="col-sm-9 col-lg-9">
                 <div class="row">
                     <ul class="news_list">
+                        @php
+                            $blogs = \DB::table('blogs')->orderBy('position', 'asc')->orderBy('id', 'asc')->get();
+                        @endphp
+
+                        @foreach ($blogs as $singleBlog)
                         <li>
+                            @if($singleBlog->image)
+                            <a href="{{route('front.content.blog.detail', $singleBlog->slug)}}">
+                                <figure>
+                                    <img src="{{asset($singleBlog->image)}}">
+                                </figure>
+                            </a>
+                            @endif
+                            <figcaption>
+                                <div class="news_meta">
+                                    <div class="news_date">{{date('d F Y', strtotime($singleBlog->created_at))}}</div><div class="news_magazine">STAY ONN</div>
+                                </div>
+                                <h4><a href="{{route('front.content.blog.detail', $singleBlog->slug)}}">{{$singleBlog->title}}</a></h4>
+                                <div class="news_comments">0 Comments</div>
+                            </figcaption>
+                        </li>
+                        @endforeach
+
+                        {{-- <li>
                             <a href="https://onninternational.com/blog/detail">
                                 <figure>
                                     <img src="{{asset('/img/blog1-1-850x370.jpg')}}">
@@ -109,7 +132,7 @@
                                 <div class="news_meta">
                                     <div class="news_date">30 March 2017</div><div class="news_magazine">STAY ONN</div>
                                 </div>
-                                <h4><a href="https://onninternational.com/blog/detail">BE CASUAL, BE YOU – CASUALZ ONN PREMIUM WEAR IN INDIA</a></h4>
+                                <h4><a href="https://onninternational.com/blog/detail">BE CASUAL, BE YOU - CASUALZ ONN PREMIUM WEAR IN INDIA</a></h4>
                                 <div class="news_comments">0 Comments</div>
                             </figcaption>
                         </li>
@@ -135,8 +158,8 @@
                                 <h4><a href="https://onninternational.com/blog/detail">HOW THREE KOLKATA INNERWEAR MAKERS ARE TRYING TO MOVE UP THE VALUE CHAIN</a></h4>
                                 <div class="news_comments">0 Comments</div>
                             </figcaption>
-                        </li>
-                    </ul>    
+                        </li> --}}
+                    </ul>
                 </div>
             </div>
 

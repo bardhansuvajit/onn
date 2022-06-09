@@ -51,13 +51,13 @@
                     <li>
                         <span><strong>Quick Links</strong></span>
                         <ul>
-                            <li><a href="https://onninternational.com/about">About</a></li>
-                            <li><a href="https://onninternational.com/corporate">Corporate</a></li>
-                            <li><a href="https://onninternational.com/news">News</a></li>
-                            <li><a href="https://onninternational.com/blog">Blogs</a></li>
-                            <li><a href="https://onninternational.com/global">Global</a></li>
-                            <li><a href="https://onninternational.com/contact">Contact</a></li>
-                            <li><a href="https://onninternational.com/career">Career</a></li>
+                            <li><a href="{{route('front.content.about')}}">About</a></li>
+                            <li><a href="{{route('front.content.corporate')}}">Corporate</a></li>
+                            <li><a href="{{route('front.content.news')}}">News</a></li>
+                            <li><a href="{{route('front.content.blog')}}">Blogs</a></li>
+                            <li><a href="{{route('front.content.global')}}">Global</a></li>
+                            <li><a href="{{route('front.content.contact')}}">Contact</a></li>
+                            <li><a href="{{route('front.content.career')}}">Career</a></li>
                         </ul>
                     </li>
                 </ul>

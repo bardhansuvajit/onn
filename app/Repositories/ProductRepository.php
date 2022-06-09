@@ -117,7 +117,7 @@ class ProductRepository implements ProductInterface
             $newEntry->slug = $slug;
 
             // main image handling
-            $upload_path = "uploads/product/";
+            $upload_path = "public/uploads/product/";
             $image = $collectedData['image'];
             $imageName = time() . "." . $image->getClientOriginalName();
             $image->move($upload_path, $imageName);
@@ -179,7 +179,7 @@ class ProductRepository implements ProductInterface
         try {
             $updatedEntry = Product::findOrFail($id);
             $styleNoSlug = Str::slug($updatedEntry->style_no, '-');
-            $upload_path = "uploads/product/updated-images/".$styleNoSlug.'/';
+            $upload_path = "public/uploads/product/updated-images/".$styleNoSlug.'/';
             // dd($updatedEntry);
             $collectedData = collect($newDetails);
             if (!empty($collectedData['cat_id'])) $updatedEntry->cat_id = $collectedData['cat_id'];

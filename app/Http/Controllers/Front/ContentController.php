@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\ContentInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\Blog;
 
 class ContentController extends Controller
 {
@@ -127,9 +128,10 @@ class ContentController extends Controller
         return view('front.blog.index');
     }
 
-    public function blogDetail(Request $request)
+    public function blogDetail(Request $request, $slug)
     {
-        return view('front.blog.detail');
+        $data = Blog::where('slug', $slug)->first();
+        return view('front.blog.detail', compact('data'));
     }
 
     public function news(Request $request)

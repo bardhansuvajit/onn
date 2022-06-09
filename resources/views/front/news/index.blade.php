@@ -74,13 +74,13 @@
                     <li>
                         <span><strong>Quick Links</strong></span>
                         <ul>
-                            <li><a href="https://onninternational.com/about">About</a></li>
-                            <li><a href="https://onninternational.com/corporate">Corporate</a></li>
-                            <li><a href="https://onninternational.com/news">News</a></li>
-                            <li><a href="https://onninternational.com/blog">Blogs</a></li>
-                            <li><a href="https://onninternational.com/global">Global</a></li>
-                            <li><a href="https://onninternational.com/contact">Contact</a></li>
-                            <li><a href="https://onninternational.com/career">Career</a></li>
+                            <li><a href="{{route('front.content.about')}}">About</a></li>
+                            <li><a href="{{route('front.content.corporate')}}">Corporate</a></li>
+                            <li><a href="{{route('front.content.news')}}">News</a></li>
+                            <li><a href="{{route('front.content.blog')}}">Blogs</a></li>
+                            <li><a href="{{route('front.content.global')}}">Global</a></li>
+                            <li><a href="{{route('front.content.contact')}}">Contact</a></li>
+                            <li><a href="{{route('front.content.career')}}">Career</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -105,33 +105,6 @@
                             </figcaption>
                         </li>
                         @endforeach
-                        {{-- <li>
-                            <figcaption>
-                                <div class="news_meta">
-                                    <div class="news_date">30 March 2017</div><div class="news_magazine">Fashion Network</div>
-                                </div>
-                                <h4><a href="https://onninternational.com/news/detail">LUX TO FORAY INTO CASUAL, ACTIVE WEAR, EYES RS 2000 CRORE SALES BY 2020</a></h4>
-                                <div class="news_comments">0 Comments</div>
-                            </figcaption>
-                        </li>
-                        <li>
-                            <figcaption>
-                                <div class="news_meta">
-                                    <div class="news_date">17 October 2017</div><div class="news_magazine">Economic Times Date</div>
-                                </div>
-                                <h4><a href="https://onninternational.com/news/detail">HOW THREE KOLKATA INNERWEAR MAKERS ARE TRYING TO MOVE UP THE VALUE CHAIN</a></h4>
-                                <div class="news_comments">0 Comments</div>
-                            </figcaption>
-                        </li>
-                        <li>
-                            <figcaption>
-                                <div class="news_meta">
-                                    <div class="news_date">13 January 2018</div><div class="news_magazine">Economic Times Date</div>
-                                </div>
-                                <h4><a href="https://onninternational.com/news/detail">HOW THREE KOLKATA INNERWEAR MAKERS ARE TRYING TO MOVE UP THE VALUE CHAIN</a></h4>
-                                <div class="news_comments">0 Comments</div>
-                            </figcaption>
-                        </li> --}}
                     </ul>
                 </div>
             </div>

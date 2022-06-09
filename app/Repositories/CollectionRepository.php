@@ -52,7 +52,7 @@ class CollectionRepository implements CollectionInterface
 
     public function createCollection(array $data)
     {
-        $upload_path = "uploads/collection/";
+        $upload_path = "public/uploads/collection/";
         $collection = collect($data);
 
         $modelDetails = new Collection;
@@ -100,7 +100,7 @@ class CollectionRepository implements CollectionInterface
 
     public function updateCollection($id, array $newDetails)
     {
-        $upload_path = "uploads/collection/";
+        $upload_path = "public/uploads/collection/";
         $modelDetails = Collection::findOrFail($id);
         $collection = collect($newDetails);
         // dd($newDetails);

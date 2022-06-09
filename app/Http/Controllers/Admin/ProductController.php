@@ -261,12 +261,12 @@ class ProductController extends Controller
 
         foreach($request->image as $imageKey => $imageValue) {
             $newName = str_replace(' ', '-', $imageValue->getClientOriginalName());
-            $imageValue->move('uploads/product/product_images/', $newName);
+            $imageValue->move('public/uploads/product/product_images/', $newName);
 
             $productImage = new ProductImage();
             $productImage->product_id = $product_id;
             $productImage->color_id = $color_id;
-            $productImage->image = 'uploads/product/product_images/'.$newName;
+            $productImage->image = 'public/uploads/product/product_images/'.$newName;
             $productImage->save();
         }
 

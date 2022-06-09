@@ -55,7 +55,7 @@ class CategoryRepository implements CategoryInterface
 
     public function createCategory(array $categoryDetails)
     {
-        $upload_path = "uploads/category/";
+        $upload_path = "public/uploads/category/";
         $collection = collect($categoryDetails);
 
         $category = new Category;
@@ -104,7 +104,7 @@ class CategoryRepository implements CategoryInterface
 
     public function updateCategory($categoryId, array $newDetails)
     {
-        $upload_path = "uploads/category/";
+        $upload_path = "public/uploads/category/";
         $category = Category::findOrFail($categoryId);
         $collection = collect($newDetails);
 
