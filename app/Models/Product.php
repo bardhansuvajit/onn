@@ -21,7 +21,8 @@ class Product extends Model
     }
 
     public function colorSize() {
-        return $this->hasMany('App\Models\ProductColorSize', 'product_id', 'id')->where('status', 1);
+        \DB::statement("SET SQL_MODE=''");
+        return $this->hasMany('App\Models\ProductColorSize', 'product_id', 'id')->groupBy('color')->orderBy('position')->orderBy('id');
     }
 
     public function saleDetails() {

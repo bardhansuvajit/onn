@@ -63,3 +63,35 @@ function amountInWords(float $number)
     $paise = ($decimal > 0) ? "." . ($words[$decimal / 10] . " " . $words[$decimal % 10]) . ' Paise' : '';
     return ($Rupees ? $Rupees . 'Rupees ' : '') . $paise;
 }
+
+// variation colors fetch
+function variationColors(int $productId, int $maxColorsToShow) {
+    $relatedProductsVariationRAW = \DB::select('SELECT pc.id, pc.position, pc.color AS color_id, c.name as color_name, c.code as color_code, pc.status FROM product_color_sizes pc JOIN colors c ON pc.color = c.id WHERE pc.product_id = '.$productId.' GROUP BY pc.color ORDER BY pc.position ASC');
+
+    $resp = '';
+
+    if (count($relatedProductsVariationRAW) > 0) {
+        $resp .= '<div class="color"><ul class="product__color">';
+
+        $usedColros = $activeColros = 1;
+        foreach($relatedProductsVariationRAW as $relatedProsVarKey => $relatedProsVarVal) {
+            if($relatedProsVarVal->status == 1) {
+                if($usedColros < $maxColorsToShow + 1) {
+                    if ($relatedProsVarVal->color_id == 61) {
+                        $resp .= '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%);" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+                    } else {
+                        $resp .= '<li style="background-color: '.$relatedProsVarVal->color_code.'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$relatedProsVarVal->color_name.'"></li>';
+                    }
+                    $usedColros++;
+                }
+                $activeColros++;
+            }
+        }
+
+        if ($activeColros > $maxColorsToShow && $usedColros == $maxColorsToShow + 1) $resp .= '<li>+ more</li>';
+
+        $resp .= '</ul></div>';
+
+        return $resp;
+    }
+}

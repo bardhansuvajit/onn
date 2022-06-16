@@ -198,8 +198,9 @@
                 icon: type,
                 title: title,
                 text: body,
-                confirmButtonColor: '#c10909',
-                timer: 5000
+                // confirmButtonColor: '#c10909',
+                showConfirmButton: false,
+                timer: 1000
             })
         }
 

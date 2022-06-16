@@ -86,6 +86,8 @@ Route::name('front.')->group(function () {
 	// franchise
 	Route::prefix('franchise')->name('franchise.')->group(function () {
         Route::get('/', 'Front\FranchiseController@index')->name('index');
+        Route::post('/mail', 'Front\FranchiseController@mail')->name('mail');
+        Route::post('/partner', 'Front\FranchiseController@partner')->name('partner');
     });
 
     // settings contents
@@ -158,6 +160,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth:admin'])->group(function () {
         // dashboard
         Route::get('/home', 'Admin\AdminController@home')->name('home');
+        Route::post('/logout', 'Admin\AdminController@logout')->name('logout');
 
         // category
         Route::prefix('category')->name('category.')->group(function () {
@@ -235,10 +238,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             // variation
             Route::post('/variation/color/add', 'Admin\ProductController@variationColorAdd')->name('variation.color.add');
             Route::get('/variation/{productId}/color/{colorId}/delete', 'Admin\ProductController@variationColorDestroy')->name('variation.color.delete');
+            Route::post('/variation/color/position', 'Admin\ProductController@variationColorPosition')->name('variation.color.position');
+            Route::post('/variation/color/status/toggle', 'Admin\ProductController@variationStatusToggle')->name('variation.color.status.toggle');
             Route::post('/variation/size/add', 'Admin\ProductController@variationSizeUpload')->name('variation.size.add');
             Route::get('/variation/{id}/size/remove', 'Admin\ProductController@variationSizeDestroy')->name('variation.size.delete');
             Route::post('/variation/image/add', 'Admin\ProductController@variationImageUpload')->name('variation.image.add');
-            Route::get('/variation/{id}/image/remove', 'Admin\ProductController@variationImageDestroy')->name('variation.image.delete');
+            Route::post('/variation/image/remove', 'Admin\ProductController@variationImageDestroy')->name('variation.image.delete');
+            // Route::get('/variation/{id}/image/remove', 'Admin\ProductController@variationImageDestroy')->name('variation.image.delete');
         });
 
         // address

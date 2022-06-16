@@ -95,6 +95,13 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
         justify-content: center;
     }
 }
+.product-details__content__holder .n_code {
+    display: -webkit-inline-box;
+    margin-bottom: 30px;
+}
+.home-gallary__single h6 {
+    display: block;
+}
 </style>
 
 <section id="specifications" class="product-details">
@@ -249,29 +256,45 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 </button>
             </div>--}}
 
+            @php
+                // $RAWcolorsFetch = \DB::select('SELECT pc.id, pc.position, pc.color, c.name, pc.status as color_id FROM product_color_sizes AS pc JOIN colors AS c ON pc.color = c.id WHERE pc.product_id = '.$data->id.' GROUP BY pc.color ORDER BY pc.position ASC');
+
+                // dd($RAWcolorsFetch);
+
+                // foreach ($RAWcolorsFetch as $rawColorsKey => $rawColorsVal) {
+
+                // }
+            @endphp
+
             @if (count($data->colorSize) > 0)
                 @php
                 $uniqueColors = [];
 
                 foreach ($data->colorSize as $variantKey => $variantValue) {
-                    if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+                    // if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
 
                     $uniqueColors[] = [
                         'id' => $variantValue->colorDetails->id,
+                        'position' => $variantValue->position,
                         'code' => $variantValue->colorDetails->code,
                         'name' => $variantValue->colorDetails->name,
+                        'status' => $variantValue->status,
                     ];
                 }
 
+                // dd($uniqueColors);
+
                 echo '<h6>Available Colour</h6><ul class="product__color">';
                 foreach($uniqueColors as $colorCodeKey => $colorCode) {
-                    $activeCLass = '';
-                    ($colorCodeKey == 0) ? $activeCLass = 'active' : $activeCLass = '';
+                    if ($colorCode['status'] == 1) {
+                        $activeCLass = '';
+                        ($colorCodeKey == 0) ? $activeCLass = 'active' : $activeCLass = '';
 
-					if ($colorCode['id'] == 61) {
-						echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
-					} else {
-                    	echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="'.$activeCLass.'" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+                        if ($colorCode['id'] == 61) {
+                            echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+                        } else {
+                            echo '<li onclick="sizeCheck('.$data->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="'.$activeCLass.'" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+                        }
 					}
                 }
                 echo '</ul>';
@@ -351,6 +374,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
         <h3>Related Product</h3>
         <div class="row">
             @forelse($relatedProducts as $relatedProductKey => $relatedProductValue)
+
             @php if($relatedProductValue->status == 0) {continue;} @endphp
             <a href="{{ route('front.product.detail', $relatedProductValue->slug) }}" class="home-gallary__single" data-events data-cat="tshirt">
                 <figure>
@@ -388,41 +412,73 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                     @else
                         &#8377;{{$relatedProductValue->offer_price}}
                     @endif
-                    {{-- &#8377;{{$relatedProductValue->offer_price}}  --}}
                     </h5>
 
-						<div class="color">
-							@if (count($relatedProductValue->colorSize) > 0)
-							@php
-							$uniqueColors = [];
+                    {!! variationColors($relatedProductValue->id, 4) !!}
 
-							foreach ($relatedProductValue->colorSize as $variantKey => $variantValue) {
-								if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+                    {{-- @php
+                        $relatedProductsVariationRAW = \DB::select('SELECT pc.id, pc.position, pc.color AS color_id, c.name as color_name, c.code as color_code, pc.status FROM product_color_sizes pc JOIN colors c ON pc.color = c.id WHERE pc.product_id = '.$relatedProductValue->id.' GROUP BY pc.color ORDER BY pc.position ASC');
 
-								$uniqueColors[] = [
-									'id' => $variantValue->colorDetails->id,
-									'code' => $variantValue->colorDetails->code,
-									'name' => $variantValue->colorDetails->name,
-								];
-							}
+                        if (count($relatedProductsVariationRAW) > 0) {
+                            echo '<div class="color"><ul class="product__color">';
 
-							echo '<ul class="product__color">';
-							// echo count($uniqueColors);
-							foreach($uniqueColors as $colorCodeKey => $colorCode) {
-								if ($colorCodeKey == 4) {break;}
-								// if ($colorCodeKey < 4) {
-									if ($colorCode['id'] == 61) {
-										echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
-									} else {
-										echo '<li onclick="sizeCheck('.$relatedProductValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
-									}
-								// }
-							}
-							if (count($uniqueColors) > 4) {echo '<li>+ more</li>';}
-							echo '</ul>';
-							@endphp
-						@endif
-						</div>
+                            $usedColros = $activeColros = 1;
+                            foreach($relatedProductsVariationRAW as $relatedProsVarKey => $relatedProsVarVal) {
+                                if($relatedProsVarVal->status == 1) {
+                                    if($usedColros < 5) {
+                                        echo '<li style="background-color: '.$relatedProsVarVal->color_code.'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$relatedProsVarVal->color_name.'"></li>';
+                                        $usedColros++;
+                                    }
+                                    $activeColros++;
+                                }
+                            }
+
+                            if ($activeColros > 4 && $usedColros == 5) echo '<li>+ more</li>';
+
+                            echo '</ul></div>';
+                        }
+                    @endphp --}}
+
+                    {{-- <div class="color">
+                        @if (count($relatedProductValue->colorSize) > 0)
+                        @php
+                        $relaredProUniqueColors = [];
+
+                        foreach ($relatedProductValue->colorSize as $relatedProductsVariantKey => $relatedProductsVariantValue) {
+                            // if (in_array_r($relatedProductsVariantValue->colorDetails->code, $relaredProUniqueColors)) continue;
+                            if ($relatedProductsVariantValue->status == 1) {
+                                $relaredProUniqueColors[] = [
+                                    'id' => $relatedProductsVariantValue->colorDetails->id,
+                                    'code' => $relatedProductsVariantValue->colorDetails->code,
+                                    'name' => $relatedProductsVariantValue->colorDetails->name,
+                                    // 'status' => $relatedProductsVariantValue->status,
+                                ];
+                            }
+                        }
+
+                        if ($relatedProductsVariantKey == 5) {
+                            dd($relaredProUniqueColors);
+                        }
+
+                        echo '<ul class="product__color">';
+                        // echo count($relaredProUniqueColors);
+                        foreach($relaredProUniqueColors as $colorCodeKey => $colorCode) {
+                            // if ($colorCode['status'] == 1) {
+                                if ($colorCodeKey == 4) {break;}
+                                // if ($colorCodeKey < 4) {
+                                    if ($colorCode['id'] == 61) {
+                                        echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+                                    } else {
+                                        echo '<li onclick="sizeCheck('.$relatedProductValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+                                    }
+                                // }
+                            // }
+                        }
+                        if (count($relaredProUniqueColors) > 4) {echo '<li>+ more</li>';}
+                        echo '</ul>';
+                        @endphp
+                        @endif
+                    </div> --}}
                 </figcaption>
             </a>
             @empty

@@ -46,7 +46,7 @@
             <div class="home-banner__slider-single swiper-slide">
                 <div class="video__wrapper">
                     <video id="onn-video" width="320" height="240" muted loop>
-                        <source src="video/videoplayback2.mp4" type="video/mp4">
+                        <source src="video/banner.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
@@ -64,22 +64,22 @@
         </div>
     </div>
 </section>
-{{--
+
 <section id="sale" class="home-offers">
     <div class="container">
         <div class="row align-items-center justify-content-center">
-            <div class="col-sm-4 mb-3 mb-sm-0">
-                <h4>Offer 2022</h4>
-                <h2>Sale upto <span>30% off</span></h2>
-                <p>Offer valid upto 15th may</p>
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <h4>Become <span>franchise</span> of</h4>
+                <h2><span>ONN</span> exclusive store</h2>
+                <!-- <p>Offer valid upto 15th may</p> -->
             </div>
             <div class="col-sm-5 offset-sm-1 text-sm-right">
-                <a href="{{route('front.offer.index')}}" class="offer-button">Shop Now</a>
+                <a href="{{route('front.franchise.index')}}" class="offer-button">Learn More</a>
             </div>
         </div>
     </div>
 </section>
---}}
+
 <section id="category" class="home-category">
     <!-- <div class="home-category__text">Total Comfort</div> -->
     <div class="container">
@@ -211,43 +211,45 @@
 									&#8377;{{$smaller}} - &#8377;{{$bigger}}
 								@endif
                             @else
-                                &#8377;{{$collectionProductValue->offer_price}}
+                                &#8377;{{$productValue->offer_price}}
                             @endif
                             </h5>
-                                </figcaption>
+                            </figcaption>
 
-                                <div class="color">
-							@if (count($productValue->colorSize) > 0)
-							@php
-							$uniqueColors = [];
+                            {!! variationColors($productValue->id, 5) !!}
 
-							foreach ($productValue->colorSize as $variantKey => $variantValue) {
-								if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+                            {{-- <div class="color">
+                                @if (count($productValue->colorSize) > 0)
+                                @php
+                                $uniqueColors = [];
 
-								$uniqueColors[] = [
-									'id' => $variantValue->colorDetails->id,
-									'code' => $variantValue->colorDetails->code,
-									'name' => $variantValue->colorDetails->name,
-								];
-							}
+                                foreach ($productValue->colorSize as $variantKey => $variantValue) {
+                                    if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
 
-							echo '<ul class="product__color">';
-							// echo count($uniqueColors);
-							foreach($uniqueColors as $colorCodeKey => $colorCode) {
-								if ($colorCodeKey == 5) {break;}
-								// if ($colorCodeKey < 5) {
-									if ($colorCode['id'] == 61) {
-										echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
-									} else {
-										echo '<li onclick="sizeCheck('.$productValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
-									}
-								// }
-							}
-							if (count($uniqueColors) > 5) {echo '<li>+ more</li>';}
-							echo '</ul>';
-							@endphp
-						@endif
-						</div>
+                                    $uniqueColors[] = [
+                                        'id' => $variantValue->colorDetails->id,
+                                        'code' => $variantValue->colorDetails->code,
+                                        'name' => $variantValue->colorDetails->name,
+                                    ];
+                                }
+
+                                echo '<ul class="product__color">';
+                                // echo count($uniqueColors);
+                                foreach($uniqueColors as $colorCodeKey => $colorCode) {
+                                    if ($colorCodeKey == 5) {break;}
+                                    // if ($colorCodeKey < 5) {
+                                        if ($colorCode['id'] == 61) {
+                                            echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+                                        } else {
+                                            echo '<li onclick="sizeCheck('.$productValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+                                        }
+                                    // }
+                                }
+                                if (count($uniqueColors) > 5) {echo '<li>+ more</li>';}
+                                echo '</ul>';
+                                @endphp
+                                @endif
+                            </div> --}}
                             </a>
                         @endforeach
                     </div>

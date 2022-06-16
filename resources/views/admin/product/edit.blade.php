@@ -3,6 +3,96 @@
 @section('page', 'Edit Product')
 
 @section('content')
+
+<style>
+    .color_holder {
+        display: flex;
+        border: 1px dashed #ddd;
+        border-radius: 6px;
+        padding: 5px;
+        background: #f0f0f0;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+    .color_holder_single {
+        margin: 5px;
+    }
+    .color_box {
+        display: flex;
+        padding: 6px 10px;
+        border-radius: 3px;
+        align-items: center;
+        margin: 0;
+        background: #fff;
+    }
+    .color_box p {
+        margin: 0;
+    }
+    .color_box span {
+        margin-right: 10px;
+    }
+    .sizeUpload {
+        margin-bottom: 10px;
+    }
+    .size_holder {
+        padding: 10px 0;
+        border-top: 1px solid #ddd;
+    }
+    .img_thumb {
+        width: 100%;
+        padding-bottom: calc((4/3)*100%);
+        position: relative;
+        border:  1px solid #ccc;
+        max-width: 80px;
+        min-width: 80px;
+    }
+    .img_thumb img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        object-fit: contain;
+    }
+    .remove_image {
+        display: inline-flex;
+        width: 30px;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .remove_image i {
+        line-height: 13px;
+    }
+    .image_upload {
+        display: inline-flex;
+        padding: 0 20px;
+        border:  1px solid #ccc;
+        background: #ddd;
+        padding: 5px 12px;
+        border-radius: 3px;
+        vertical-align: top;
+        cursor: pointer;
+    }
+    .status-toggle {
+        padding: 6px 10px;
+        border-radius: 3px;
+        align-items: center;
+        background: #fff;
+    }
+    .status-toggle a {
+        text-decoration: none;
+        color: #000
+    }
+</style>
+
 <section>
     <form method="POST" action="{{ route('admin.product.update') }}" enctype="multipart/form-data">
         @csrf
@@ -176,12 +266,12 @@
             </div>
             <div class="col-sm-3">
                 <div class="card shadow-sm">
-                    <div class="card-header">
-                        Publish
-                    </div>
+                    {{-- <div class="card-header">
+                        Update
+                    </div> --}}
                     <div class="card-body text-end">
                         <input type="hidden" name="product_id" value="{{$data->id}}">
-                        <button type="submit" class="btn btn-sm btn-danger">Publish </button>
+                        <button type="submit" class="btn btn-sm btn-danger">Update changes</button>
                     </div>
                 </div>
                 <div class="card shadow-sm">
@@ -194,6 +284,7 @@
                             @error('image') <p class="small text-danger">{{ $message }}</p> @enderror
                         </div>
                         <input type="file" id="thumbnail" accept="image/*" name="image" onchange="loadFile(event)" class="d-none">
+                        <small>Image Size: 870px X 1160px</small>
                         <script>
                             var loadFile = function(event) {
                                 var output = document.getElementById('output');
@@ -230,11 +321,174 @@
 
 
     <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="row">
+        <div class="card-header">
+            <h3>Product variation</h3>
+            <p class="small text-muted m-0">Add color | size | multiple images from here</p>
+        </div>
+        <div class="card-body pt-0">
+            <div class="admin__content">
+                <aside>
+                    <nav>Available colors</nav>
+                    <p class="small text-muted">Drag & drop colors to set position</p>
+                    <p class="small text-muted">Toggle color status</p>
+                </aside>
+                <content>
+                    @php
+                        $test = \DB::select('SELECT pc.id, pc.position, pc.color, c.name as color_id FROM product_color_sizes pc JOIN colors c ON pc.color = c.id WHERE pc.product_id = 13 GROUP BY pc.color ORDER BY pc.position ASC');
+
+                        // dd($test);
+                    @endphp
+
+                    <div class="color_holder row_position">
+                        @foreach ($productColorGroup as $productWiseColorsKey => $productWiseColorsVal)
+                        <div class="color_holder_single single-color-holder d-flex" id="{{$productWiseColorsVal->id}}">
+                            <div class="color_box shadow-sm" style="{!! ($productWiseColorsVal->status == 0) ? 'background: #c1080a59;' : '' !!}">
+                                <span style="display:inline-block;width:15px;height:15px;border-radius:50%;background-color:{{ $productWiseColorsVal->colorDetails->code }}"></span>
+                                <p class="small card-title">{{ ($productWiseColorsVal->colorDetails) ? $productWiseColorsVal->colorDetails->name : '' }}</p>
+                            </div>
+
+                            <div class="status-toggle shadow-sm">
+                                <a href="javascript: void(0)" onclick="colorStatusToggle({{$productWiseColorsVal->id}}, {{$data->id}}, {{$productWiseColorsVal->color}})"><i class="fi fi-br-cube"></i></a>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    <a href="#addColorModal" data-bs-toggle="modal" class="btn btn-sm btn-success">Add color</a>
+                </content>
+            </div>
+            @foreach ($productColorGroup as $productColorKey => $productColorGroupVal)
+            <div class="admin__content">
+                <content>
+                    <div class="row">
+                        <div class="col-sm-auto">
+                            <label for="inputPassword6" class="col-form-label">{{ $productColorKey + 1 }}</label>
+                        </div>
+                        <div class="col-sm-1">
+                            <label for="inputPassword6" class="col-form-label">Color</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="color_box">
+                                <span style="display:inline-block;width:15px;height:15px;border-radius:50%;background-color:{{ $productColorGroupVal->colorDetails->code }}"></span>
+								<p >{{ ($productColorGroupVal->colorDetails) ? $productColorGroupVal->colorDetails->name : '' }}</p>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <label for="inputPassword6" class="col-form-label">Size</label>
+                                </div>
+                                <div class="col-sm-11">
+                                    <form action="{{route('admin.product.variation.size.add')}}" class="sizeUpload row g-3" method="post">
+                                        @csrf
+                                        <div class="col-sm">
+                                            <select name="size" class="form-control">
+                                                <option value="" selected>Select...</option>
+                                                @php
+                                                    $sizes = \App\Models\Size::get();
+                                                    foreach ($sizes as $key => $value) {
+                                                        echo '<option value="'.$value->id.'">'.$value->name.'</option>';
+                                                    }
+                                                @endphp
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" name="price" placeholder="Price">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" name="offer_price" placeholder="Offer Price">
+                                        </div>
+                                        <input type="hidden" name="product_id" value="{{$id}}">
+                                        <input type="hidden" name="color_id" value="{{$productColorGroupVal->color}}">
+                                        {{-- <input type="hidden" name="_token" value="{{csrf_token()}}"> --}}
+                                        <div class="col-sm-auto">
+                                            <button type="submit" class="btn btn-sm btn-success">+ Add size</button>
+                                        </div>
+                                    </form>
+
+                                    @php
+                                        $productVariationColorSizes = \App\Models\ProductColorSize::where('product_id', $id)->where('color', $productColorGroupVal->color)->get();
+
+                                        $prodSizesDIsplay = '';
+                                        foreach($productVariationColorSizes as $productSizeKey => $productSizeVal) {
+                                            $sizeName = $productSizeVal->sizeDetails ? $productSizeVal->sizeDetails->name : '<span class="text-danger" title="Please delete this & add again">SIZE MISMATCH</span>';
+
+                                            $prodSizesDIsplay .= '<div class="size_holder"><div class="row align-items-center"><div class="col-sm">'.$sizeName.'</div><div class="col-sm-3">Price Rs '.$productSizeVal->price.'</div><div class="col-sm-3">Offer Rs '.$productSizeVal->offer_price.'</div><div class="col-sm-auto"><a href='.route('admin.product.variation.size.delete', $productSizeVal->id).' class="btn btn-sm btn-outline-danger">Delete size</a></div></div></div>';
+                                        }
+                                        $prodSizesDIsplay .= '';
+                                    @endphp
+                                    {!!$prodSizesDIsplay!!}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <label for="inputPassword6" class="col-form-label">Images</label>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <form action="{{route('admin.product.variation.image.add')}}" method="post" enctype="multipart/form-data">@csrf
+                                                <input type="file" name="image[]" id="prodVar{{$productColorKey}}" class="d-none" multiple>
+                                                <label class="image_upload" for="prodVar{{$productColorKey}}">Browse Image</label>
+
+                                                <input type="hidden" name="product_id" value="{{$id}}">
+                                                <input type="hidden" name="color_id" value="{{$productColorGroupVal->color}}">
+                                                <button type="submit" class="btn btn-sm btn-success">+</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                @php
+                                    $productVariationImages = \App\Models\ProductImage::where('product_id', $id)->where('color_id', $productColorGroupVal->color)->get();
+
+                                    $prodImagesDIsplay = '';
+                                    foreach($productVariationImages as $productImgKey => $productImgVal) {
+                                        $prodImagesDIsplay .= '<div class="col-sm-auto" id="img__holder_'.$productColorKey.'_'.$productImgKey.'"><figure class="img_thumb"><img src='.asset($productImgVal->image).'><a href="javascript: void(0)" class="remove_image" onclick="deleteImage('.$productImgVal->id.', '.$productColorKey.', '.$productImgKey.')"><i class="fi fi-br-trash"></i></a></figure></div>';
+
+                                        // $prodImagesDIsplay .= '<img src='.asset($productImgVal->image).' style="height:30px"> - <a href='.route('admin.product.variation.image.delete', $productImgVal->id).' class="text-danger">Delete image</a><br>';
+                                    }
+                                @endphp
+                                {!!$prodImagesDIsplay!!}
+                            </div>
+                        </div>
+                        <div class="col-sm-auto">
+                            <a href="{{ route('admin.product.variation.color.delete',['productId' => $id, 'colorId' => $productColorGroupVal->color]) }}" class="btn btn-sm btn-danger">Delete Color</a>
+                        </div>
+                    </div>
+
+                    
+                </content>
+            </div>
+            @endforeach
+
+
+            {{-- <div class="row">
                 <div class="col-12">
-                    <h3>Product variation</h3>
-                    <p class="small text-muted">Add color | size | multiple images from here</p>
+                    <h5>Available colors</h5>
+
+                    <div class="row card-holders row_position">
+                    @php
+                        // \DB::statement("SET SQL_MODE=''");
+
+                        // $productWiseColors = \App\Models\ProductColorSize::select('id', 'color')->where('product_id', $data->id)->groupBy('color')->orderBy('position')->get();
+                    @endphp
+
+                    @foreach ($productColorGroup as $productWiseColorsKey => $productWiseColorsVal)
+                    <div class="col-md-1 single-color-holder" id="{{$productWiseColorsVal->id}}">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <span style="display:inline-block;width:15px;height:15px;border-radius:50%;background-color:{{ $productWiseColorsVal->colorDetails->code }}"></span>
+                                <p class="small card-title">{{ ($productWiseColorsVal->colorDetails) ? $productWiseColorsVal->colorDetails->name : '' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                    </div>
+                    
                     <a href="#addColorModal" data-bs-toggle="modal" class="btn btn-sm btn-success">Add color</a>
                 </div>
                 <div class="col-12">
@@ -271,14 +525,17 @@
 
                                         $prodImagesDIsplay = '';
                                         foreach($productVariationImages as $productImgKey => $productImgVal) {
+                                            $prodImagesDIsplay .= '<span id="img__holder_'.$productColorKey.'_'.$productImgKey.'"><img src='.asset($productImgVal->image).' style="height:30px"> - <a href="javascript: void(0)" class="text-danger" onclick="deleteImage('.$productImgVal->id.', '.$productColorKey.', '.$productImgKey.')">Delete image</a></span><br>';
+
                                             $prodImagesDIsplay .= '<img src='.asset($productImgVal->image).' style="height:30px"> - <a href='.route('admin.product.variation.image.delete', $productImgVal->id).' class="text-danger">Delete image</a><br>';
                                         }
                                     @endphp
                                     {!!$prodImagesDIsplay!!}
                                 </td>
                                 <td>
-                                    <form action="{{route('admin.product.variation.size.add')}}" method="post">@csrf
-                                        <select name="size" id="">
+                                    <form action="{{route('admin.product.variation.size.add')}}" class="sizeUpload" method="post">
+                                        @csrf
+                                        <select name="size">
                                             <option value="" selected>Select...</option>
                                             @php
                                                 $sizes = \App\Models\Size::get();
@@ -287,8 +544,8 @@
                                                 }
                                             @endphp
                                         </select>
-                                        <input type="text" name="price" id="" placeholder="Price">
-                                        <input type="text" name="offer_price" id="" placeholder="Offer Price">
+                                        <input type="text" name="price" placeholder="Price">
+                                        <input type="text" name="offer_price" placeholder="Offer Price">
                                         <input type="hidden" name="product_id" value="{{$id}}">
                                         <input type="hidden" name="color_id" value="{{$productColorGroupVal->color}}">
                                         <button type="submit" class="btn btn-sm btn-success">+ Add size</button>
@@ -313,7 +570,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> --}}
 
             {{-- <div class="row">
                 <div class="col-12">
@@ -360,7 +617,7 @@
 </section>
 
 <div class="modal fade" tabindex="-1" id="addColorModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Add new color</h5>
@@ -370,8 +627,8 @@
             <form action="{{route('admin.product.variation.color.add')}}" method="post">@csrf
                 <input type="hidden" name="product_id" value="{{$id}}">
                 {{-- <input type="hidden" name="color" value="{{$productColorGroupVal->color}}"> --}}
-
-                <select name="color" id="">
+                <div class="form-group mb-3">
+                <select class="form-control" name="color" id="">
                     <option value="" selected>Select color...</option>
                     @php
                         $color = \App\Models\Color::orderBy('name', 'asc')->get();
@@ -380,8 +637,9 @@
                         }
                     @endphp
                 </select>
-
-                <select name="size" id="">
+                </div>
+                <div class="form-group mb-3">
+                <select class="form-control" name="size" id="">
                     <option value="" selected>Select size...</option>
                     @php
                         $sizes = \App\Models\Size::get();
@@ -390,22 +648,18 @@
                         }
                     @endphp
                 </select>
-
-                <br>
-                <br>
-
-                <input type="text" name="price" id="" placeholder="Price">
-                <input type="text" name="offer_price" id="" placeholder="Offer Price">
-
-                <br>
-                <br>
+                </div>
+                <div class="form-group mb-3">
+                <input class="form-control" type="text" name="price" id="" placeholder="Price">
+                </div>
+                <div class="form-group mb-3">
+                <input class="form-control" type="text" name="offer_price" id="" placeholder="Offer Price">
+                </div>
+                <div class="form-group">
                 <button type="submit" class="btn btn-sm btn-success">+ Add size</button>
+                </div>
             </form>
         </div>
-        {{-- <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div> --}}
       </div>
     </div>
   </div>
@@ -413,7 +667,10 @@
 @endsection
 
 @section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
+
         ClassicEditor
         .create( document.querySelector( '#product_des' ) )
         .catch( error => {
@@ -483,5 +740,105 @@
                 }
             });
         }
+
+        function deleteImage(imgId, id1, id2) {
+            $.ajax({
+                url : '{{route("admin.product.variation.image.delete")}}',
+                method : 'POST',
+                data : {'_token' : '{{csrf_token()}}', id : imgId},
+                beforeSend : function() {
+                    $('#img__holder_'+id1+'_'+id2+' a').text('Deleting...');
+                },
+                success : function(result) {
+                    $('#img__holder_'+id1+'_'+id2).hide();
+                    toastFire('success', result.message);
+                },
+                error: function(xhr, status, error) {
+                    // toastFire('danger', 'Something Went wrong');
+                }
+            });
+        }
+
+        $(".row_position").sortable({
+            delay: 150,
+            stop: function() {
+                var selectedData = new Array();
+                $('.row_position > .single-color-holder').each(function() {
+                    selectedData.push($(this).attr("id"));
+                });
+                updateOrder(selectedData);
+            }
+        });
+
+        function updateOrder(data) {
+            // $('.loading-data').show();
+            $.ajax({
+                url : "{{route('admin.product.variation.color.position')}}",
+                type : 'POST',
+                data: {
+                    _token : '{{csrf_token()}}',
+                    position : data
+                },
+                success:function(data) {
+                    // toastFire('success', 'Color position updated successfully');
+                    // $('.loading-data').hide();
+                    if (result.status == 200) {
+                        toastFire('success', result.message);
+                    } else {
+                        toastFire('error', result.message);
+                    }
+                }
+            });
+        }
+
+        // product color status change
+        function colorStatusToggle(id, productId, colorId) {
+            $.ajax({
+                url : '{{route("admin.product.variation.color.status.toggle")}}',
+                method : 'POST',
+                data : {
+                    _token : '{{csrf_token()}}',
+                    productId : productId,
+                    colorId : colorId,
+                },
+                success : function(result) {
+                    if (result.status == 200) {
+                        toastFire('success', result.message);
+
+                        if (result.type == 'active') {
+                            $('#'+id+' .color_box').css('background', '#fff');
+                        } else {
+                            $('#'+id+' .color_box').css('background', '#c1080a59');
+                        }
+                    } else {
+                        toastFire('error', result.message);
+                    }
+                }
+            });
+        }
+
+
+
+
+
+        /* $('.sizeUpload').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url : $(this).attr('action'),
+                method : $(this).attr('method'),
+                data : $(this).parent().serialize(),
+                // {
+                    // _token : '{{csrf_token()}}',
+                    // product_id : $('#sizeAddProduct_id').val(),
+                    // color_id : $('#sizeAddColor_id').val(),
+                    // size : $('#sizeAddsize').val(),
+                    // price : $('#sizeAddPrice').val(),
+                    // offer_price : $('#sizeAddOffer_price').val(),
+                // },
+                success : function(result) {
+                    console.log(result);
+                }
+            });
+        }); */
     </script>
 @endsection

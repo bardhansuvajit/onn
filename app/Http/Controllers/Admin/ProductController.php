@@ -112,9 +112,8 @@ class ProductController extends Controller
         $sizes = $this->productRepository->sizeList();
         $images = $this->productRepository->listImagesById($id);
 
-        $productColorGroup = ProductColorSize::select('color')->where('product_id', $id)->groupBy('color')->get();
-
-        // dd($productColorGroup);
+        \DB::statement("SET SQL_MODE=''");
+        $productColorGroup = ProductColorSize::select('id', 'color', 'status')->where('product_id', $id)->groupBy('color')->orderBy('position')->orderBy('id')->get();
 
         return view('admin.product.edit', compact('id', 'data', 'categories', 'sub_categories', 'collections', 'images', 'colors', 'sizes', 'productColorGroup'));
     }
@@ -237,11 +236,12 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function variationImageDestroy(Request $request, $id)
+    public function variationImageDestroy(Request $request)
     {
-        // dd($id);
-        ProductImage::destroy($id);
-        return redirect()->back();
+        // dd($request->all());
+        ProductImage::destroy($request->id);
+        return response()->json(['status' => 200, 'message' => 'Image deleted successfully']);
+        // return redirect()->back();
     }
 
     public function variationImageUpload(Request $request)
@@ -260,7 +260,8 @@ class ProductController extends Controller
         // dd($request->image);
 
         foreach($request->image as $imageKey => $imageValue) {
-            $newName = str_replace(' ', '-', $imageValue->getClientOriginalName());
+            // $newName = str_replace(' ', '-', $imageValue->getClientOriginalName());
+            $newName = mt_rand().'_'.time().'.'.$imageValue->getClientOriginalExtension();
             $imageValue->move('public/uploads/product/product_images/', $newName);
 
             $productImage = new ProductImage();
@@ -277,7 +278,36 @@ class ProductController extends Controller
     {
         // dd($request->all());
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'color_id' => 'required',
+            'size' => 'required',
+            'price' => 'required',
+            'offer_price' => 'required',
+        ]);
+
+        if (!$validator->fails()) {
+            $productImage = new ProductColorSize();
+            $productImage->product_id = $request->product_id;
+            $productImage->color = $request->color_id;
+            $productImage->size = $request->size;
+            $productImage->assorted_flag = $request->assorted_flag ? $request->assorted_flag : 0;
+            $productImage->price = $request->price;
+            $productImage->offer_price = $request->offer_price;
+            $productImage->stock = $request->stock ? $request->stock : 0;
+            $productImage->code = $request->code ? $request->code : 0;
+            $productImage->save();
+
+            // return response()->json(['status' => 200, 'message' => 'Size added successfully']);
+            return redirect()->back();
+        } else {
+            // return response()->json(['status' => 200, 'message' => $validator->errors()->first()]);
+            return redirect()->back()->with('failure', $validator->errors()->first())->withInput($request->all());
+
+            // return redirect()->route('admin.product.index')->with('failure', $validator->errors()->first())->withInput($request->all());
+        }
+
+        /* $request->validate([
             'product_id' => 'required',
             'color_id' => 'required',
             'size' => 'required',
@@ -296,7 +326,8 @@ class ProductController extends Controller
         $productImage->code = $request->code ? $request->code : 0;
         $productImage->save();
 
-        return redirect()->back();
+        // return redirect()->back();
+        return response()->json(['status' => 200, 'message' => 'Size added successfully']); */
     }
 
     public function variationColorDestroy(Request $request, $productId, $colorId)
@@ -330,5 +361,43 @@ class ProductController extends Controller
         $productImage->save();
 
         return redirect()->back();
+    }
+
+    public function variationColorPosition(Request $request)
+    {
+        // dd($request->all());
+        $position = $request->position;
+        $i = 1;
+        foreach ($position as $key => $value) {
+            $banner = ProductColorSize::findOrFail($value);
+            $banner->position = $i;
+            $banner->save();
+            $i++;
+        }
+        return response()->json(['status' => 200, 'message' => 'Position updated']);
+    }
+
+    public function variationStatusToggle(Request $request)
+    {
+        // dd($request->all());
+        $data = ProductColorSize::where('product_id', $request->productId)->where('color', $request->colorId)->first();
+
+        if ($data) {
+            if ($data->status == 1) {
+                $status = 0;
+                $statusType = 'inactive';
+                $statusMessage = 'Color is inactive';
+            } else {
+                $status = 1;
+                $statusType = 'active';
+                $statusMessage = 'Color is active';
+            }
+
+            $data->status = $status;
+            $data->save();
+            return response()->json(['status' => 200, 'type' => $statusType, 'message' => $statusMessage]);
+        } else {
+            return response()->json(['status' => 400, 'message' => 'Something happened']);
+        }
     }
 }

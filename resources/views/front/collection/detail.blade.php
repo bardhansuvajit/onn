@@ -35,6 +35,10 @@ select:focus {
     display: block;
     border: 2px solid #c1080a;
 }*/
+.listing-block .product__single figure h6 {
+	display: block;
+	background: #fff;
+}
 @media(max-width: 575px) {
     .color-holder {
         width: 15px;
@@ -325,7 +329,10 @@ select:focus {
                             &#8377;{{$collectionProductValue->offer_price}}
                             </h5> --}}
                         </figcaption>
-                        <div class="color">
+
+                        {!! variationColors($collectionProductValue->id, 5) !!}
+
+                        {{-- <div class="color">
 							@if (count($collectionProductValue->colorSize) > 0)
 							@php
 							$uniqueColors = [];
@@ -346,7 +353,7 @@ select:focus {
 								if ($colorCodeKey == 5) {break;}
 								// if ($colorCodeKey < 5) {
 									if ($colorCode['id'] == 61) {
-										echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+										echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%);" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
 									} else {
 										echo '<li onclick="sizeCheck('.$collectionProductValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
 									}
@@ -356,7 +363,7 @@ select:focus {
 							echo '</ul>';
 							@endphp
 						@endif
-						</div>
+						</div> --}}
                     </a>
                     @empty
 

@@ -35,6 +35,10 @@ select:focus {
     display: block;
     border: 2px solid #c1080a;
 }*/
+.listing-block .product__single figure h6 {
+    display: block;
+	background: #fff;
+}
 @media(max-width: 575px) {
     .color-holder {
         width: 15px;
@@ -200,6 +204,11 @@ select:focus {
 
             <div class="product__holder">
                 <div class="row">
+                    @php
+                        // $productsData = \App\Models\Product::where('cat_id', $data->id)->orderBy('style_no', 'asc')->get();
+                    @endphp
+
+                    {{-- @forelse($productsData as $categoryProductKey => $categoryProductValue) --}}
                     @forelse($data->ProductDetails as $categoryProductKey => $categoryProductValue)
                     @php if($categoryProductValue->status == 0) {continue;} @endphp
                     <a href="{{ route('front.product.detail', $categoryProductValue->slug) }}" class="product__single" data-events data-cat="tshirt">
@@ -245,7 +254,10 @@ select:focus {
                             @endif
                             </h5>
                         </figcaption>
-						<div class="color">
+
+                        {!! variationColors($categoryProductValue->id, 5) !!}
+
+						{{-- <div class="color">
 							@if (count($categoryProductValue->colorSize) > 0)
 							@php
 							$uniqueColors = [];
@@ -276,7 +288,7 @@ select:focus {
 							echo '</ul>';
 							@endphp
 						@endif
-						</div>
+						</div> --}}
                     </a>
                     @empty
 

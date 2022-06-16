@@ -141,7 +141,7 @@
                     <a href="{{ route('front.product.detail', $collectionProductValue->slug) }}" class="product__single" data-events data-cat="tshirt">
                         <figure>
                             <img src="{{asset($collectionProductValue->image)}}" />
-                            <h6>{{$collectionProductValue->style_no}}</h6>
+                            <h6 class="d-block">{{$collectionProductValue->style_no}}</h6>
                         </figure>
                         <figcaption>
                             <h4>{{$collectionProductValue->name}}</h4>
@@ -182,32 +182,39 @@
                             </h5>
                         </figcaption>
 							
-							<div class="color">
+                        <div class="color">
 							@if (count($collectionProductValue->colorSize) > 0)
 							@php
 							$uniqueColors = [];
 
 							foreach ($collectionProductValue->colorSize as $variantKey => $variantValue) {
-								if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
+								// if (in_array_r($variantValue->colorDetails->code, $uniqueColors)) continue;
 
-								$uniqueColors[] = [
-									'id' => $variantValue->colorDetails->id,
-									'code' => $variantValue->colorDetails->code,
-									'name' => $variantValue->colorDetails->name,
-								];
+                                if ($variantValue->status == 1) {
+                                    $uniqueColors[] = [
+                                        'id' => $variantValue->colorDetails->id,
+                                        'code' => $variantValue->colorDetails->code,
+                                        'name' => $variantValue->colorDetails->name,
+                                        'status' => $variantValue->status,
+                                    ];
+                                }
 							}
+
+                            // dd($uniqueColors);
 
 							echo '<ul class="product__color">';
 							// echo count($uniqueColors);
 							foreach($uniqueColors as $colorCodeKey => $colorCode) {
-								if ($colorCodeKey == 5) {break;}
-								// if ($colorCodeKey < 5) {
-									if ($colorCode['id'] == 61) {
-										echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
-									} else {
-										echo '<li onclick="sizeCheck('.$collectionProductValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
-									}
-								// }
+                                // if ($colorCode['status'] == 1) {
+                                    if ($colorCodeKey == 5) {break;}
+                                    // if ($colorCodeKey < 5) {
+                                        if ($colorCode['id'] == 61) {
+                                            echo '<li style="background: -webkit-linear-gradient(left,  rgba(219,2,2,1) 0%,rgba(219,2,2,1) 9%,rgba(219,2,2,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 10%,rgba(254,191,1,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 20%,rgba(1,52,170,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 30%,rgba(15,0,13,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 40%,rgba(239,77,2,1) 50%,rgba(254,191,1,1) 50%,rgba(137,137,137,1) 50%,rgba(137,137,137,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 60%,rgba(254,191,1,1) 70%,rgba(189,232,2,1) 70%,rgba(189,232,2,1) 80%,rgba(209,2,160,1) 80%,rgba(209,2,160,1) 90%,rgba(48,45,0,1) 90%); " class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="Assorted"></li>';
+                                        } else {
+                                            echo '<li onclick="sizeCheck('.$collectionProductValue->id.', '.$colorCode['id'].')" style="background-color: '.$colorCode['code'].'" class="color-holder" data-bs-toggle="tooltip" data-bs-placement="top" title="'.$colorCode['name'].'"></li>';
+                                        }
+                                    // }
+                                // }
 							}
 							if (count($uniqueColors) > 5) {echo '<li>+ more</li>';}
 							echo '</ul>';

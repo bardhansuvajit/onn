@@ -64,7 +64,7 @@
 
                 <div class="row">
                     <div class="col-sm-12 col-lg-6">
-                        <a href="{{route('front.content.corporate')}}" class="account-card">
+                        <div class="account-card">
                             <figure>
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-navigation"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
@@ -72,12 +72,12 @@
                             </figure>
                             <figcaption>
                                 <h4>Contact Information</h4>
-                                <h6>Feel free to call us on 033- 4040 2121<br/>(10 am to 7 PM on all working days.)<br/><strong>E-mail</strong> - info@keepitonn.com</h6>
+                                <h6>Feel free to call us on <a href="tel:033- 4040 2121">033- 4040 2121</a><br/>(10 am to 7 PM on all working days.)<br/><strong>E-mail</strong> - <a href="mailto:info@keepitonn.com">info@keepitonn.com</a></h6>
                             </figcaption>
-                        </a>
+                        </div>
                     </div>
                     <div class="col-sm-12 col-lg-6">
-                        <a href="{{route('front.content.news')}}" class="account-card">
+                        <div href="{{route('front.content.news')}}" class="account-card">
                             <figure>
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
@@ -87,11 +87,11 @@
                                 <h4>Corporate Address</h4>
                                 <h6>PS Srijan Tech-Park, 10th Floor,<br/>DN – 52, Sector – V, Salt Lake,<br/>Kolkata 700 091</h6>
                             </figcaption>
-                        </a>
+                        </div>
                     </div>
 
                     <div class="col-sm-12 col-lg-6">
-                        <a href="{{route('front.content.news')}}" class="account-card">
+                        <div href="{{route('front.content.news')}}" class="account-card">
                             <figure>
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
@@ -99,9 +99,9 @@
                             </figure>
                             <figcaption>
                                 <h4>Inquiries & Feedback</h4>
-                                <h6>For any kind of product related issues,<br/>suggestions or feedback you can mail here- info@keepitonn.com</h6>
+                                <h6>For any kind of product related issues,<br/>suggestions or feedback you can mail here- <a href="mailto:info@keepitonn.com">info@keepitonn.com</a></h6>
                             </figcaption>
-                        </a>
+                        </div>
                     </div>
                 </div>
 
