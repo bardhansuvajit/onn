@@ -304,5 +304,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/{id}/status', 'Admin\GalleryController@status')->name('status');
             Route::get('/{id}/delete', 'Admin\GalleryController@destroy')->name('delete');
         });
+
+        // mail
+        Route::prefix('mail')->name('mail.')->group(function () {
+            Route::get('/', 'Admin\MailController@index')->name('index');
+        });
+
+        // franchise
+        Route::prefix('franchise')->name('franchise.')->group(function () {
+            Route::get('/', 'Admin\FranchiseController@index')->name('index');
+        });
     });
 });
