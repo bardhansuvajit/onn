@@ -91,7 +91,7 @@
 
                         <li class="{{ ( request()->is('admin/gallery*') ) ? 'active' : '' }}"><a href="{{ route('admin.gallery.index') }}"><i class="fi fi-br-database"></i> <span>Gallery</span></a></li>
 
-                        <li class="{{ ( request()->is('admin/mail*') ) ? 'active' : '' }}"><a href="{{ route('admin.mail.index') }}"><i class="fi fi-br-database"></i> <span>Subscription Mail</span></a></li>
+                        <li class="{{ ( request()->is('admin/mail*') ) ? 'active' : '' }}"><a href="{{ route('admin.subscription.mail.index') }}"><i class="fi fi-br-database"></i> <span>Subscription Mail</span></a></li>
 
                         <li class="{{ ( request()->is('admin/mail*') ) ? 'active' : '' }}"><a href="{{ route('admin.franchise.index') }}"><i class="fi fi-br-database"></i> <span>Franchise request</span></a></li>
                     </ul>

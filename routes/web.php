@@ -306,8 +306,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
 
         // mail
-        Route::prefix('mail')->name('mail.')->group(function () {
-            Route::get('/', 'Admin\MailController@index')->name('index');
+        Route::prefix('subscription/mail')->name('subscription.mail.')->group(function () {
+            Route::get('/', 'Admin\SubscriptionMailController@index')->name('index');
         });
 
         // franchise

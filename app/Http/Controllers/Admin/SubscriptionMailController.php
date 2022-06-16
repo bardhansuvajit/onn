@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class MailController extends Controller
+class SubscriptionMailController extends Controller
 {
     public function index(Request $request) 
     {
