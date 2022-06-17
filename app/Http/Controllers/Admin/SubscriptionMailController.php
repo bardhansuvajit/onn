@@ -16,7 +16,6 @@ class SubscriptionMailController extends Controller
         return view('admin.mail.index', compact('data'));
     }
 
-
     public function comment(Request $request)
     {
         if ($request->comment != null) $type = "commentExists";

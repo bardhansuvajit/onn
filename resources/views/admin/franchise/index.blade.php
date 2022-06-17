@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('page', 'Mail')
+@section('page', 'Franchise partner')
 
 @section('content')
 <section>
@@ -18,7 +18,6 @@
                                 <th>Comment</th>
                                 <th>Remarks</th>
                                 <th>Action</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -37,12 +36,9 @@
                                         <a href="javascript: void(0)" onclick='addCommentFunc({{ $item->id }}, "{{ $item->remarks }}","{{ $item->email }}")' class="btn btn-sm btn-secondary"><i class="fi fi-br-edit"></i> Remarks </a>
                                     @endif
                                 </td>
-
                                 <td class="text-center">
                                     <div class="btn-group" role="group" aria-label="Second group">
-
-                                        <a href="{{ route('admin.franchise.details', $item->id) }}" class="btn btn-sm btn-primary edit-btn"><i class="fa fa-eye"></i></a>
-
+                                        <a href="{{ route('admin.franchise.details', $item->id) }}" class="btn btn-sm btn-primary edit-btn"><i class="fi fi-br-eye"></i> View</a>
                                     </div>
                                 </td>
                             </tr>
@@ -68,14 +64,11 @@
                 <form id="newComment" action="{{ route('admin.franchise.comment.add') }}" method="POST">
                     <input type="hidden" name="commentId" value="">
                     <div class="form-group">
-                        <textarea name="commentText" cols="30" rows="10" class="form-control" placeholder="Enter comment">
-
-                        </textarea>
+                        <textarea name="commentText" cols="30" rows="10" class="form-control" placeholder="Enter comment"></textarea>
                     </div>
-
                     <br>
                     <br>
-                    <button type="submit" class="btn btn-sm btn-primary">Add Comment</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Add Remark</button>
                 </form>
             </div>
         </div>
@@ -119,9 +112,9 @@
 
                     // button color
                     if (result.type == "remarksExists") {
-                        $('#commentDetail_'+id).parents("td").children("a").removeClass('btn-primary btn-secondary').addClass('btn-secondary').html('<i class="fi fi-br-edit"></i> Comment');
+                        $('#commentDetail_'+id).parents("td").children("a").removeClass('btn-primary btn-secondary').addClass('btn-secondary').html('<i class="fi fi-br-edit"></i> Remarks');
                     } else {
-                        $('#commentDetail_'+id).parents("td").children("a").removeClass('btn-primary btn-secondary').addClass('btn-primary').html('<i class="fi fi-br-plus"></i> Comment');
+                        $('#commentDetail_'+id).parents("td").children("a").removeClass('btn-primary btn-secondary').addClass('btn-primary').html('<i class="fi fi-br-plus"></i> Remarks');
                     }
                     // $('#commentDetail_'+id+' a').removeClass('btn-primary').removeClass('btn-secondary');
 

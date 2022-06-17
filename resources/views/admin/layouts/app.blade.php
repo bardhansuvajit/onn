@@ -82,7 +82,7 @@
 
                 <li class="{{ ( request()->is('admin/transaction*') ) ? 'active' : '' }}"><a href="{{ route('admin.transaction.index') }}"><i class="fi fi-br-database"></i> <span>Online Transactions</span></a></li>
 
-                <li class="@if(request()->is('admin/settings*') || request()->is('admin/faq*') || request()->is('admin/gallery*')) { {{'active'}} }  @endif">
+                <li class="@if(request()->is('admin/settings*') || request()->is('admin/faq*') || request()->is('admin/gallery*') || request()->is('admin/subscription*') || request()->is('admin/franchise*')) { {{'active'}} }  @endif">
                     <a href="javascript: void(0)"><i class="fi fi-br-cube"></i> <span>Settings</span></a>
                     <ul>
                         <li class="{{ ( request()->is('admin/settings*') ) ? 'active' : '' }}"><a href="{{ route('admin.settings.index') }}"><i class="fi fi-br-database"></i> <span>Site Settings</span></a></li>
