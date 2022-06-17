@@ -316,11 +316,11 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 </ul>
             @endif
 
-            <h6>Available Packs</h6>
+            {{-- <h6>Available Packs</h6>
             <ul class="product__packs">
-                <li class="active">{{ $data->pack }}</li>
-                {{-- <li>Packs of 3</li> --}}
-            </ul>
+                <li class="active">Packs of 2</li>
+                <li>Packs of 3</li>
+            </ul> --}}
 
 
 
@@ -418,7 +418,7 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                         $relatedProductsVariationRAW = \DB::select('SELECT pc.id, pc.position, pc.color AS color_id, c.name as color_name, c.code as color_code, pc.status FROM product_color_sizes pc JOIN colors c ON pc.color = c.id WHERE pc.product_id = '.$relatedProductValue->id.' GROUP BY pc.color ORDER BY pc.position ASC');
 
                         if (count($relatedProductsVariationRAW) > 0) {
-                            echo '<div class="color"><ul class="product__color">';
+                            echo '<ul class="product__color">';
 
                             $usedColros = $activeColros = 1;
                             foreach($relatedProductsVariationRAW as $relatedProsVarKey => $relatedProsVarVal) {
@@ -431,9 +431,11 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                                 }
                             }
 
+                            // dd($activeColros);
+
                             if ($activeColros > 4 && $usedColros == 5) echo '<li>+ more</li>';
 
-                            echo '</ul></div>';
+                            echo '</ul>';
                         }
                     @endphp
 

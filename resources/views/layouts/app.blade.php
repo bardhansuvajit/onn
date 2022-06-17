@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@8.0.7/swiper-bundle.min.css">
     <link rel="stylesheet" href="{{ asset('node_modules/select2/dist/css/select2.min.css') }}">
     <link rel='stylesheet' href="{{ asset('node_modules/lightbox2/dist/css/lightbox.min.css?ver=5.8.2') }}">
+    <link rel='stylesheet' href="{{ asset('node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ asset('scss/css/preload.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
@@ -287,12 +288,12 @@
                                     <ul class="footer-block-menu">
                                         <li><a href="{{route('front.content.blog')}}">Blog</a></li>
                                         {{-- <li><a href="{{route('front.content.blog.detail')}}">Blog Detail</a></li> --}}
-                                        <li><a href="{{route('front.content.about')}}">About</a></li>
+                                        {{-- <li><a href="{{route('front.content.about')}}">About</a></li> --}}
                                         <li><a href="{{route('front.content.contact')}}">Contact</a></li>
                                         <li><a href="{{route('front.content.corporate')}}">Corporate</a></li>
                                         <li><a href="{{route('front.content.news')}}">News</a></li>
                                         {{-- <li><a href="{{route('front.content.news.detail')}}">News detail</a></li> --}}
-                                        <li><a href="{{route('front.content.career')}}">Career</a></li>
+                                        {{-- <li><a href="{{route('front.content.career')}}">Career</a></li> --}}
                                         <li><a href="{{route('front.content.global')}}">Global</a></li>
                                         <li><a href="{{route('front.franchise.index')}}">Franchise</a></li>
                                     </ul>
@@ -359,6 +360,7 @@
     <script src="{{ asset('node_modules/waypoints/lib/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('node_modules/counterup/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('node_modules/lightbox2/dist/js/lightbox.min.js') }}"></script>
+    <script src="{{ asset('node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js') }}"></script>
     <script src="{{ asset('node_modules/select2/dist/js/select2.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.0/TweenMax.min.js"></script>
     <script src="{{ asset('node_modules/scrollmagic/scrollmagic/minified/ScrollMagic.min.js') }}"></script>

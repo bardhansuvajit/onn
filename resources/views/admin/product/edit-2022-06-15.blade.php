@@ -81,16 +81,6 @@
         vertical-align: top;
         cursor: pointer;
     }
-    .status-toggle {
-        padding: 6px 10px;
-        border-radius: 3px;
-        align-items: center;
-        background: #fff;
-    }
-    .status-toggle a {
-        text-decoration: none;
-        color: #000
-    }
 </style>
 
 <section>
@@ -330,25 +320,14 @@
                 <aside>
                     <nav>Available colors</nav>
                     <p class="small text-muted">Drag & drop colors to set position</p>
-                    <p class="small text-muted">Toggle color status</p>
                 </aside>
                 <content>
-                    @php
-                        $test = \DB::select('SELECT pc.id, pc.position, pc.color, c.name as color_id FROM product_color_sizes pc JOIN colors c ON pc.color = c.id WHERE pc.product_id = 13 GROUP BY pc.color ORDER BY pc.position ASC');
-
-                        // dd($test);
-                    @endphp
-
                     <div class="color_holder row_position">
                         @foreach ($productColorGroup as $productWiseColorsKey => $productWiseColorsVal)
-                        <div class="color_holder_single single-color-holder d-flex" id="{{$productWiseColorsVal->id}}">
-                            <div class="color_box shadow-sm" style="{!! ($productWiseColorsVal->status == 0) ? 'background: #c1080a59;' : '' !!}">
+                        <div class="color_holder_single single-color-holder" id="{{$productWiseColorsVal->id}}">
+                            <div class="color_box shadow-sm">
                                 <span style="display:inline-block;width:15px;height:15px;border-radius:50%;background-color:{{ $productWiseColorsVal->colorDetails->code }}"></span>
                                 <p class="small card-title">{{ ($productWiseColorsVal->colorDetails) ? $productWiseColorsVal->colorDetails->name : '' }}</p>
-                            </div>
-
-                            <div class="status-toggle shadow-sm">
-                                <a href="javascript: void(0)" onclick="colorStatusToggle({{$productWiseColorsVal->id}}, {{$data->id}}, {{$productWiseColorsVal->color}})"><i class="fi fi-br-cube"></i></a>
                             </div>
                         </div>
                         @endforeach
@@ -782,37 +761,6 @@
                 success:function(data) {
                     // toastFire('success', 'Color position updated successfully');
                     // $('.loading-data').hide();
-                    if (result.status == 200) {
-                        toastFire('success', result.message);
-                    } else {
-                        toastFire('error', result.message);
-                    }
-                }
-            });
-        }
-
-        // product color status change
-        function colorStatusToggle(id, productId, colorId) {
-            $.ajax({
-                url : '{{route("admin.product.variation.color.status.toggle")}}',
-                method : 'POST',
-                data : {
-                    _token : '{{csrf_token()}}',
-                    productId : productId,
-                    colorId : colorId,
-                },
-                success : function(result) {
-                    if (result.status == 200) {
-                        // toastFire('success', result.message);
-
-                        if (result.type == 'active') {
-                            $('#'+id+' .color_box').css('background', '#fff');
-                        } else {
-                            $('#'+id+' .color_box').css('background', '#c1080a59');
-                        }
-                    } else {
-                        toastFire('error', result.message);
-                    }
                 }
             });
         }
