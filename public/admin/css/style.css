@@ -189,7 +189,7 @@ body, html {
 	background: rgba(255, 255, 255, 0.3);
 }
 .main__nav ul ul li.active {
-	background: rgba(255, 255, 255, 0.3);	
+	background: rgba(255, 255, 255, 0.3);
 }
 .nav__footer {
 	display: block;
@@ -440,7 +440,7 @@ footer {
 	border-top: 1px solid #ddd;
 }
 .admin__content:last-child {
-	border-bottom: 1px solid #ddd;	
+	border-bottom: 1px solid #ddd;
 }
 .admin__content aside {
 	width: 240px;
@@ -511,7 +511,7 @@ footer {
 	}
 	.table td {
 		padding: 12px 5px;
-	}	
+	}
 }
 @media only screen and (max-width:1366px) {
 	.customer-table tr td:nth-child(4n){
@@ -519,4 +519,91 @@ footer {
 		overflow-x: scroll;
 		white-space: nowrap;
 	}
+
+
+
+
+    .user .user-tabs {
+        margin-top: 0;
+        padding: 0 30px;
+    }
+    .toogle-lg .button-togglr:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 1px;
+        height: 100%;
+        background: #d8d8d8;
+        z-index: 10;
+    }
+    .user .user-tabs .nav-link {
+      border-left: 3px solid transparent;
+      padding: 12px 15px;
+      border-bottom: 0;
+      font-size: 15px;
+      border-radius: 0;
+    }
+    li.treeview.is-expanded a {
+        border: none;
+    }
+    .user .user-tabs .nav-link.active {
+
+        border-bottom: 0;
+        color: #fff;
+        border-right: 0;
+        border-top: 0px;
+        background-color: #ff6153;
+    }
+
+    .user .user-tabs .nav-item:last-child
+    {
+      border-bottom: 0;
+    }
+    .user .user-tabs .nav-link
+    {
+      color: #333333;
+    }
+
+    .user .user-tabs .nav-link:hover, .user .user-tabs .nav-link:active {
+      background-color: #ff6153 !important;
+      border-bottom: 0;
+        color: #fff;
+    }
+    .nav-tabs .nav-item {
+        margin-bottom: -1px;
+      }
+
+      .nav-tabs .nav-link {
+        /*
+          border: 1px solid transparent;
+          border-top-left-radius: 0.25rem;
+          border-top-right-radius: 0.25rem;
+        */
+        }
+        .app-title-mg{
+            margin-bottom: 50px;
+        }
+        .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+          border-color: #e9ecef #e9ecef #dee2e6;
+        }
+
+        .nav-tabs .nav-link.disabled {
+          color: #6c757d;
+          background-color: transparent;
+          border-color: transparent;
+        }
+
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+          color: #495057;
+          background-color: #FFF;
+          border-color: #dee2e6 #dee2e6 #FFF;
+        }
+
+        .nav-tabs .dropdown-menu {
+          margin-top: -1px;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
 }

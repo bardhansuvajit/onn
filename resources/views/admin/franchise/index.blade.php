@@ -12,27 +12,39 @@
                         <thead>
                             <tr>
                                 <th>#SR</th>
+                                <th>Name</th>
+                                <th>Phone</th>
                                 <th>Email</th>
                                 <th>Comment</th>
-                                <th>Subscription Count</th>
-                                <th>Date</th>
+                                <th>Remarks</th>
+                                <th>Action</th>
+
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($data as $index => $item)
                             <tr>
                                 <td>{{$index + 1}}</td>
+                                <td>{{$item->name}}</td>
+                                <td>{{$item->phone}}</td>
                                 <td>{{$item->email}}</td>
+                                <td>{{$item->comment}}</td>
                                 <td>
-                                    <div id="commentDetail_{{ $item->id }}">{{$item->comment}}</div>
-                                    @if ($item->comment == null)
-                                        <a href="javascript: void(0)" onclick='addCommentFunc({{ $item->id }}, "{{ $item->comment }}","{{ $item->email }}")' class="btn btn-sm btn-primary"><i class="fi fi-br-plus"></i> Comment </a>
+                                    <div id="commentDetail_{{ $item->id }}">{{$item->remarks}}</div>
+                                    @if ($item->remarks == null)
+                                        <a href="javascript: void(0)" onclick='addCommentFunc({{ $item->id }}, "{{ $item->remarks }}","{{ $item->email }}")' class="btn btn-sm btn-primary"><i class="fi fi-br-plus"></i> Remarks </a>
                                     @else
-                                        <a href="javascript: void(0)" onclick='addCommentFunc({{ $item->id }}, "{{ $item->comment }}","{{ $item->email }}")' class="btn btn-sm btn-secondary"><i class="fi fi-br-edit"></i> Comment </a>
+                                        <a href="javascript: void(0)" onclick='addCommentFunc({{ $item->id }}, "{{ $item->remarks }}","{{ $item->email }}")' class="btn btn-sm btn-secondary"><i class="fi fi-br-edit"></i> Remarks </a>
                                     @endif
                                 </td>
-                                <td class="text-center">{{$item->count}}</td>
-                                <td>{{$item->created_at}}</td>
+
+                                <td class="text-center">
+                                    <div class="btn-group" role="group" aria-label="Second group">
+
+                                        <a href="{{ route('admin.franchise.details', $item->id) }}" class="btn btn-sm btn-primary edit-btn"><i class="fa fa-eye"></i></a>
+
+                                    </div>
+                                </td>
                             </tr>
                             @empty
                             <tr><td colspan="100%" class="small text-muted">No data found</td></tr>
@@ -49,14 +61,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="text-muted font-weight-normal">Add new Comment for <span id="emailShow"></span></h5>
+                <h5 class="text-muted font-weight-normal">Add new Remarks for <span id="emailShow"></span></h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="newComment" action="{{ route('admin.subscription.mail.comment.add') }}" method="POST">
+                <form id="newComment" action="{{ route('admin.franchise.comment.add') }}" method="POST">
                     <input type="hidden" name="commentId" value="">
                     <div class="form-group">
-                        <textarea name="commentText" cols="30" rows="10" class="form-control" placeholder="Enter comment"></textarea>
+                        <textarea name="commentText" cols="30" rows="10" class="form-control" placeholder="Enter comment">
+
+                        </textarea>
                     </div>
 
                     <br>
@@ -72,13 +86,11 @@
 @section('script')
     <script>
         // modal fire
-        function addCommentFunc(id, comment, email) {
+        function addCommentFunc(id, comment,email) {
             $('input[name="commentId"]').val(id);
             $('textarea[name="commentText"]').val(comment);
             $('#emailShow').text(' '+email);
             $('#addCommentModal').modal('show');
-           
-
         }
 
         // autofocus
@@ -94,7 +106,7 @@
             var id = $('input[name="commentId"]').val();
 
             $.ajax({
-                url: '{{ route("admin.subscription.mail.comment.add") }}',
+                url: '{{ route("admin.franchise.comment.add") }}',
                 method : 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -106,7 +118,7 @@
                     $('#commentDetail_'+id).text(comment);
 
                     // button color
-                    if (result.type == "commentExists") {
+                    if (result.type == "remarksExists") {
                         $('#commentDetail_'+id).parents("td").children("a").removeClass('btn-primary btn-secondary').addClass('btn-secondary').html('<i class="fi fi-br-edit"></i> Comment');
                     } else {
                         $('#commentDetail_'+id).parents("td").children("a").removeClass('btn-primary btn-secondary').addClass('btn-primary').html('<i class="fi fi-br-plus"></i> Comment');

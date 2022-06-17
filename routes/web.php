@@ -308,11 +308,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // mail
         Route::prefix('subscription/mail')->name('subscription.mail.')->group(function () {
             Route::get('/', 'Admin\SubscriptionMailController@index')->name('index');
+            Route::post('/comment/add', 'Admin\SubscriptionMailController@comment')->name('comment.add');
         });
 
         // franchise
         Route::prefix('franchise')->name('franchise.')->group(function () {
             Route::get('/', 'Admin\FranchiseController@index')->name('index');
+            Route::get('/{id}/details', 'Admin\FranchiseController@details')->name('details');
+            Route::post('/comment/add', 'Admin\FranchiseController@comment')->name('comment.add');
+
         });
     });
 });
