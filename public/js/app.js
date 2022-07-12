@@ -29,6 +29,14 @@ jQuery(window).scroll(function () {
     }
 });
 
+jQuery(window).scroll(function () {
+    if (jQuery(document).scrollTop() > 90) {
+        jQuery(".filter_cat_list").addClass("squeez");
+    } else {
+        jQuery(".filter_cat_list").removeClass("squeez");
+    }
+});
+
 
 /* Scroll up */
 
@@ -39,6 +47,8 @@ jQuery(window).scroll(function () {
         jQuery('.scroll-up').removeClass('scroll');
     }
 });
+
+
 
 
 /* Smooth Scroll */
@@ -1332,7 +1342,20 @@ jQuery('.overlay_menu li a').click(function() {
     jQuery('.overlay_submenu').not(jQuery(this).next()).slideUp();
 });
 
-// jQuery('.filter_cat_list li a').click(function(){
-//     var imageDataSource = $(this).attr('filter-data');
-//     alert(imageDataSource);
-// });
+jQuery('.career_list li a').click(function(){
+    if (!jQuery(this).hasClass('active')) {
+        jQuery('.career_list li a.active').removeClass('active');
+        jQuery(this).addClass('active');
+    } else {
+        jQuery(this).removeClass('active');
+    }
+    jQuery(this).parents('li').next().slideToggle();
+    jQuery('.cms_context').not(jQuery(this).parents('li').next()).slideUp();
+});
+
+
+jQuery('[data-fancybox="gallery"]').fancybox({
+    // Options will go here
+});
+
+

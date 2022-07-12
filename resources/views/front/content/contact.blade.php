@@ -72,7 +72,7 @@
                             </figure>
                             <figcaption>
                                 <h4>Contact Information</h4>
-                                <h6>Feel free to call us on <a href="tel:033- 4040 2121">033- 4040 2121</a><br/>(10 am to 7 PM on all working days.)<br/><strong>E-mail</strong> - <a href="mailto:info@keepitonn.com">info@keepitonn.com</a></h6>
+                                <h6>Feel free to call us on <a href="tel:033- 6830 6830">033- 6830 6830</a><br/>(10 am to 7 PM on all working days.)<br/><strong>E-mail</strong> - <a href="mailto:support@onninternational.com">support@onninternational.com</a></h6>
                             </figcaption>
                         </div>
                     </div>
@@ -84,8 +84,8 @@
                                 </span>
                             </figure>
                             <figcaption>
-                                <h4>Corporate Address</h4>
-                                <h6>PS Srijan Tech-Park, 10th Floor,<br/>DN – 52, Sector – V, Salt Lake,<br/>Kolkata 700 091</h6>
+                                <h4>Address</h4>
+                                <h6>Mollabar, JL NO.22,JANAI, NEAT COCO COLA FACTORY SERVICE TOAD, Durgapur Expy, Dankuni, West Bengal</h6>
                             </figcaption>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                             </figure>
                             <figcaption>
                                 <h4>Inquiries & Feedback</h4>
-                                <h6>For any kind of product related issues,<br/>suggestions or feedback you can mail here- <a href="mailto:info@keepitonn.com">info@keepitonn.com</a></h6>
+                                <h6>For any kind of product related issues,<br/>suggestions or feedback you can mail here- <a href="mailto:support@onninternational.com">support@onninternational.com</a></h6>
                             </figcaption>
                         </div>
                     </div>

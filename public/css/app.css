@@ -24417,6 +24417,9 @@ header .nav-toggle span:after {
   margin-bottom: 0;
   color: #000000;
 }
+.listing-block .product__single figcaption h4 span {
+  color: #888;
+}
 
 @media (max-width: 799.98px) {
   .listing-block .product__single figcaption h4 {
@@ -27195,8 +27198,11 @@ header .nav-toggle span:after {
 .filter_cat_list li figure {
   text-align: center;
   margin-bottom: 10px;
+  height: 90px;
+  transition: all ease-in-out 0.5s;
 }
 .filter_cat_list li figcaption {
+  transition: all ease-in-out 0.5s;
   text-align: center;
   font-size: 13px;
   font-weight: 400;
@@ -27204,6 +27210,15 @@ header .nav-toggle span:after {
 }
 .filter_cat_list li figure img {
   max-width: 70px;
+  transition: all ease-in-out 0.5s;
+}
+/*.filter_cat_list.squeez li figure img {
+  max-width: 0;
+}*/
+.filter_cat_list.squeez li figure {
+  margin: 0;
+  overflow: hidden;
+  height: 0;
 }
 .filter_cat_list li a.active figcaption {
   font-weight: 600;

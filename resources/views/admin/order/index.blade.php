@@ -111,7 +111,15 @@
                     </div>
                 </td>
                 <td>
-                    <p class="small text-muted mb-1">Rs {{$item->final_amount}}</p>
+                    @if (!empty($item->coupon_code_id))
+                    <div class="">
+						<p class="small text-muted mb-1">Total: {{$item->final_amount + $item->couponDetails->amount}}</p>
+                        <p class="small mb-0">Discount: {{$item->couponDetails->amount}}</p>
+                        <p class="small text-muted mb-1">Final: {{$item->final_amount}}</p>
+                    </div>
+					@else
+                    <p class="small text-muted mb-1">Final: {{$item->final_amount}}</p>
+                	@endif
                 </td>
                 <td>
                     <a href="{{ route('admin.order.invoice', $item->id) }}" class="btn btn-sm btn-primary">Invoice</a>

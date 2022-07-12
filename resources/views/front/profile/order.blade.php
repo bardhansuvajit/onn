@@ -32,12 +32,22 @@
             </div>
             <div class="order-card-body">
                 @foreach($orderValue->orderProducts as $productKey => $productValue)
-
                 @php
+                $subTotal = $grandTotal = $couponCodeDiscount = $shippingCharges = $taxPercent = 0;
+                @endphp
+                @php
+
                     $variation = '';
                     if($productValue->productVariationDetails) {
                         $variation = '| Color: <span>'.ucwords($productValue->productVariationDetails->colorDetails->name).'</span> | Size: <span>'.$productValue->productVariationDetails->sizeDetails->name.'</span>';
                     }
+                    if (!empty($data[0]->coupon_code_id)) {
+                    $couponCodeDiscount = (int) $data[0]->couponDetails->amount;
+                   }
+
+                // grand total calculation
+                $grandTotalWithoutCoupon = $subTotal;
+                $grandTotal = ($subTotal + $shippingCharges) - $couponCodeDiscount;
                 @endphp
 
                 <div class="order-product-card">
@@ -58,6 +68,15 @@
                         Order # {{$orderValue->order_no}}
                     </div>
                     <div class="col-sm-6 text-sm-right">
+                        {{-- {{ dd($data[0]->coupon_code_id) }} --}}
+                        @if (!empty($data[0]->coupon_code_id))
+                            <div class="">
+                                <div class="cart-total-label small mb-0">
+                                    COUPON APPLIED <strong>({{$data[0]->couponDetails->coupon_code}})</strong><br/>
+                                </div>
+                                <p class="small mb-0">Discount Amount: &#8377 {{$data[0]->couponDetails->amount}}</p>
+                            </div>
+                        @endif
                         Total Order Price: &#8377; {{$orderValue->final_amount}}
                     </div>
                 </div>

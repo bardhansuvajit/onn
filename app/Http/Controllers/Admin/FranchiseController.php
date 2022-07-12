@@ -34,4 +34,5 @@ class FranchiseController extends Controller
 
         return response()->json(['status' => 200, 'type' => $type, 'message' => 'remarks added successfully']);
     }
+
 }

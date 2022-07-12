@@ -88,8 +88,6 @@ Route::name('front.')->group(function () {
         Route::get('/', 'Front\FranchiseController@index')->name('index');
         Route::post('/mail', 'Front\FranchiseController@mail')->name('mail');
         Route::post('/partner', 'Front\FranchiseController@partner')->name('partner');
-        // Route::get('/thank-you', 'Front\FranchiseController@partner')->name('partner.success');
-        Route::view('/thank-you', 'front.franchise.success')->name('partner.success');
     });
 
     // settings contents
@@ -106,20 +104,12 @@ Route::name('front.')->group(function () {
 
         Route::get('/blog', 'Front\ContentController@blog')->name('blog');
         Route::get('/blog/{slug}', 'Front\ContentController@blogDetail')->name('blog.detail');
-
-		Route::get('/blog-demo', 'Front\ContentController@blog2')->name('blog.dummy');
-        Route::get('/blog-demo/{slug}', 'Front\ContentController@blogDetail2')->name('blog.detail.dummy');
-
         Route::get('/about', 'Front\ContentController@about')->name('about');
         Route::get('/contact', 'Front\ContentController@contact')->name('contact');
 
         Route::get('/corporate', 'Front\ContentController@corporate')->name('corporate');
         Route::get('/news', 'Front\ContentController@news')->name('news');
         Route::get('/news/{slug}', 'Front\ContentController@newsDetail')->name('news.detail');
-
-		Route::get('/news-demo', 'Front\ContentController@news2')->name('news.demo');
-        Route::get('/news-demo/{slug}', 'Front\ContentController@newsDetail2')->name('news.detail.demo');
-
         Route::get('/career', 'Front\ContentController@career')->name('career');
         Route::get('/global', 'Front\ContentController@global')->name('global');
     });

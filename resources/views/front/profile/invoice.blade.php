@@ -100,13 +100,18 @@
                                 $tax = 0;
                                 $gst = 5;
                                 $amount = 0;
+                                $couponCodeDiscount = $shippingCharges = $taxPercent = 0;
 
                                 $amount = $productVal->offer_price * $productVal->qty;
-                                $amountShow = sprintf("%.2f", $amount);
+                                if (!empty($data[0]->coupon_code_id)) {
+                                 $couponCodeDiscount = (int) $data[0]->couponDetails->amount;
+                                }
+                                $grandTotal = ($amount + $shippingCharges) - $couponCodeDiscount;
+                                $amountShow = sprintf("%.2f", $grandTotal);
 
                                 $gstShow = sprintf("%.3f", $gst);
-                                $taxInTotalAmount = ($gst / 100) * $amount;
-                                $withoutTaxAmount = $amount - $taxInTotalAmount;
+                                $taxInTotalAmount = ($gst / 100) * $grandTotal;
+                                $withoutTaxAmount = $grandTotal - $taxInTotalAmount;
                             @endphp
 
                             <tr>

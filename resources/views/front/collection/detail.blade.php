@@ -286,10 +286,11 @@ select:focus {
                     <a href="{{ route('front.product.detail', $collectionProductValue->slug) }}" class="product__single" data-events data-cat="tshirt">
                         <figure>
                             <img src="{{asset($collectionProductValue->image)}}" />
-                            <h6>{{$collectionProductValue->style_no}}</h6>
+                            {{--<h6>{{$collectionProductValue->style_no}}</h6>--}}
                         </figure>
                         <figcaption>
-                            <h4>{{$collectionProductValue->name}}</h4>
+                            {{--<h4>{{$collectionProductValue->name}}</h4>--}}
+                            <h4>{{$collectionProductValue->name}} <br/>Style No: <span>{{$collectionProductValue->style_no}}</span></h4>
                             <h5>
                             @if (count($collectionProductValue->colorSize) > 0)
                                 @php

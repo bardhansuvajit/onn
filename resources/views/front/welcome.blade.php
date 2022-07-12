@@ -133,8 +133,8 @@
         </div>
     </div>
     <div class="container pr-0">
-        <div class="row align-items-end">
-            <div class="col-sm-12 col-md-12">
+        <div class="row mr-0 align-items-end">
+            <div class="col-sm-12 col-md-12 pr-0">
                 <div class="home-collection__slider swiper-container">
                     <div class="slider swiper-wrapper">
                         @foreach($collections as $collectionKey => $collectionValue)

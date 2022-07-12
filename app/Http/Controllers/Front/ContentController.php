@@ -134,6 +134,17 @@ class ContentController extends Controller
         return view('front.blog.detail', compact('data'));
     }
 
+	public function blog2(Request $request)
+    {
+        return view('front.blog.index2');
+    }
+
+    public function blogDetail2(Request $request, $slug)
+    {
+        $data = Blog::where('slug', $slug)->first();
+        return view('front.blog.detail2', compact('data'));
+    }
+
     public function news(Request $request)
     {
         return view('front.news.index');
@@ -143,6 +154,17 @@ class ContentController extends Controller
     {
         $data = \DB::table('news')->where('slug', $slug)->first();
         return view('front.news.detail', compact('data'));
+    }
+
+	public function news2(Request $request)
+    {
+        return view('front.news.index2');
+    }
+
+    public function newsDetail2(Request $request, $slug)
+    {
+        $data = \DB::table('news')->where('slug', $slug)->first();
+        return view('front.news.detail2', compact('data'));
     }
 
     public function about(Request $request)

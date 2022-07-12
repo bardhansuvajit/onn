@@ -63,6 +63,8 @@ class CheckoutRepository implements CheckoutInterface
     {
         $collectedData = collect($data);
 
+        // dd('here');
+
         DB::beginTransaction();
 
         try {
@@ -122,14 +124,11 @@ class CheckoutRepository implements CheckoutInterface
             // $newEntry->coupon_code_id = 0;
             $total = (int) $subtotal;
             if (!empty($coupon_code_id) || $coupon_code_id != 0) {
-				$newEntry->discount_amount = $cartData[0]->couponDetails->amount;
-				$newEntry->final_amount = $total - (int) $cartData[0]->couponDetails->amount;
-				// $newEntry->final_amount = $total;
-				$newEntry->save();
-            } else {
-                $newEntry->discount_amount = 0;
-				$newEntry->final_amount = $total;
-				$newEntry->save();
+                $newEntry->discount_amount = $cartData[0]->couponDetails->amount;
+                $newEntry->final_amount = $total - (int) $cartData[0]->couponDetails->amount;
+                // $newEntry->final_amount = $total;
+
+                $newEntry->save();
             }
 
             // coupon code usage handler
@@ -188,7 +187,7 @@ class CheckoutRepository implements CheckoutInterface
                 'blade_file' => 'front/mail/order-confirm',
             ];
 
-            SendMail($email_data);
+            // SendMail($email_data);
 
             // send invoice mail starts
             $invoice_email_data = [
@@ -201,13 +200,11 @@ class CheckoutRepository implements CheckoutInterface
                 // 'orderProducts' => $orderProducts,
                 'blade_file' => 'front/mail/invoice',
             ];
-            SendMail($invoice_email_data);
+            // SendMail($invoice_email_data);
 
 
-			// Shiprocket
+
             $this->shiprocket($newEntry,$cartData);
-
-			// Unicommerce
 
             // 4 remove cart data
             $emptyCart = Cart::where('ip', $this->ip)->delete();
@@ -231,15 +228,15 @@ class CheckoutRepository implements CheckoutInterface
             DB::commit();
             return $order_no;
         } catch (\Throwable $th) {
-            throw $th;
-            dd($th);
+            // throw $th;
+            // dd($th);
             DB::rollback();
             return false;
         }
     }
 
-    public function shiprocket($booking,$items)
-    {
+    public function shiprocket($booking,$items){
+
         $logindetails = $this->shiprocketlogin();
         $logindetails = json_decode($logindetails);
 
@@ -342,8 +339,8 @@ class CheckoutRepository implements CheckoutInterface
             ->json(["jsondata"=>$jsondata]);*/
     }
 
-    public function shiprocketlogin()
-    {
+    public function shiprocketlogin(){
+
         $headers = array(
             'Content-Type: application/json'
         );
@@ -369,33 +366,7 @@ class CheckoutRepository implements CheckoutInterface
         return $result;
     }
 
-	public function unicommerceLogin()
-    {
-        $headers = array(
-            'Content-Type: application/json'
-        );
-
-        $username = "rohit@onenesstechs.in";
-        $password = "q%23393KHVqRBPDTE";
-
-        $url = "https://cozyworld.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=".$username."&password=".$password;
-
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-        //for debug only!
-        // curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-
-        $resp = curl_exec($curl);
-        curl_close($curl);
-        // var_dump($resp);
-        return $resp;
-    }
-
-    public function split_name($name)
-    {
+    public function split_name($name) {
 		$name = trim($name);
 		$last_name = (strpos($name, ' ') === false) ? '' : preg_replace('#.*\s([\w-]*)$#', '$1', $name);
 		$first_name = trim( preg_replace('#'.$last_name.'#', '', $name ) );

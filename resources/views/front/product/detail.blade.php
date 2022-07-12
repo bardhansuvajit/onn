@@ -34,9 +34,10 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
     color: #fff;
 }
 .product-details__content__holder .product__color li {
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
     padding: 2px 8px;
+    border-radius: 50%;
 }
 .product-details__content__holder .product__color li.active {
     border-width: 2px;
@@ -85,6 +86,31 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
 	margin-right: 7px;
 	box-shadow: 0px 5px 10px rgb(0 0 0 / 10%);
 }
+.product-details__content__holder .n_code {
+    display: -webkit-inline-box;
+    margin-bottom: 30px;
+}
+.home-gallary__single h6 {
+    display: block;
+}
+.product_meta {
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+.product_meta li {
+    display: inline-block;
+    font-weight: 400;
+    margin-bottom: 15px;
+    border-right: 1px solid #ddd;
+    padding-right: 15px;
+    margin-right: 15px;
+}
+.product_meta li:last-child {
+    margin-right: 0;
+    padding-right: 0;
+    border: none;
+}
 @media(max-width: 575px) {
     .color-holder {
         width: 15px;
@@ -94,13 +120,13 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
     .product__color {
         justify-content: center;
     }
-}
-.product-details__content__holder .n_code {
-    display: -webkit-inline-box;
-    margin-bottom: 30px;
-}
-.home-gallary__single h6 {
-    display: block;
+    /*.product_meta {
+        flex-wrap: wrap;
+    }*/
+    .product_meta li {
+        max-width: 50%;
+        flex: 0 0 50%;
+    }
 }
 </style>
 
@@ -205,6 +231,12 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
 			<!-- <p>{{$data->category->name}}</p>
 			<p>{{$data->only_for}}</p> -->
             <h2>{{$data->name}}</h2>
+
+            <ul class="product_meta">
+                <!-- <li><strong>Style No:</strong> # {{$data->style_no}}</li> -->
+                <li><strong>Collections: </strong> {{$data->collection->name}} </li>
+                <li><strong>Net Qty:</strong> {{ $data->pack }}</li>
+            </ul>
 
             <div class="product__pricing">
                 <img src="{{ asset('img/wallet.png') }}">
@@ -316,11 +348,11 @@ App\Models\Product::where('id', $data->id)->increment('view_count', 1, ['last_vi
                 </ul>
             @endif
 
-            <h6>Available Packs</h6>
+            {{-- <h6>Available Packs</h6>
             <ul class="product__packs">
                 <li class="active">{{ $data->pack }}</li>
-                {{-- <li>Packs of 3</li> --}}
-            </ul>
+                <li>Packs of 3</li>
+            </ul> --}}
 
 
 
